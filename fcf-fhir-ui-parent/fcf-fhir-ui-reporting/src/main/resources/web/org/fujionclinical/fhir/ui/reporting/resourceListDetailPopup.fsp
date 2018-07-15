@@ -1,0 +1,18 @@
+<window title="${title}" closable="true" sizable="true" style="min-width:200px">
+	<div name="printRoot" flex="1" style="padding:5px;border-bottom:1px solid lightgray">
+		<div width="100%" height="100%" style="overflow:auto">
+			<html content="${content}"/>
+		</div>
+	</div>
+	<toolbar alignment="end">
+		<button name="btnPrint" label="Print"
+			visible="${allowPrint}" class="flavor:btn-info"
+			hint="Print this page." />
+		<div width="20px" />
+		<button name="btnClose" label="Close"
+			forward="click=^.close" class="flavor:btn-danger"
+			hint="Close this dialog." />
+		<div width="10px" />
+	</toolbar>
+	<style src="web/hapi-narrative.css" />
+</window>

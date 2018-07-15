@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:fcf="http://www.fujionclinical.org/schema/spring"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.fujionclinical.org/schema/spring
+		http://www.fujionclinical.org/schema/spring/spring-extensions.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	
+	<beans profile="root">
+	
+		<!-- FHIR context and client -->
+		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.api.common.FhirContextConfigurator" />
+		
+		<bean id="fhirContext" class="org.fujionclinical.fhir.api.client.FhirContext">
+			<constructor-arg ref="fhirContextConfigurator" />
+		</bean>
+		
+		<bean id="fhirClientFactory" class="org.fujionclinical.fhir.api.client.FhirClientFactory">
+			<constructor-arg ref="fhirContext" />
+		</bean>
+		
+		<bean id="fhirClient" factory-bean="fhirClientFactory" factory-method="createClient">
+			<constructor-arg>
+				<bean class="org.fujionclinical.fhir.api.common.FhirClientConfigurator">
+					<constructor-arg value=""/>
+				</bean>
+			</constructor-arg>
+		</bean>
+		
+		<bean id="fhirAuthInterceptorRegistry" factory-method="getInstance"
+			class="org.fujionclinical.fhir.api.security.AuthInterceptorRegistry" />
+		
+		<bean id="fhirAuthInterceptor" abstract="true" 
+			class="org.springframework.beans.factory.config.MethodInvokingBean">
+			<property name="targetObject" ref="fhirAuthInterceptorRegistry"/>
+			<property name="targetMethod" value="register"/>
+		</bean>
+		
+		<bean parent="fhirAuthInterceptor">
+			<property name="arguments">
+				<map>
+					<entry key="Basic" value="org.fujionclinical.fhir.api.security.BasicAuthInterceptor" />
+				</map>
+			</property>
+		</bean>
+		
+		<bean id="fhirNarrativeService" class="org.fujionclinical.fhir.api.common.NarrativeService">
+			<constructor-arg ref="fhirContext" />
+		</bean>
+		
+		<bean id="fhirService" class="org.fujionclinical.fhir.api.common.BaseService">
+			<constructor-arg ref="fhirClient" />
+		</bean>
+		
+		<bean id="fhirPatientService" parent="fhirService"
+			class="org.fujionclinical.fhir.api.patient.PatientService" />
+		
+		<bean id="fhirConditionService" parent="fhirService"
+			class="org.fujionclinical.fhir.api.condition.ConditionService" />
+		
+		<bean id="fhirMedicationService" parent="fhirService"
+			class="org.fujionclinical.fhir.api.medication.MedicationService" />
+		
+		<bean id="fhirDocumentService" parent="fhirService"
+			class="org.fujionclinical.fhir.api.document.DocumentService" />
+		
+		<bean id="documentTypeEnumerator"
+			class="org.fujionclinical.fhir.api.document.DocumentTypeEnumerator">
+			<constructor-arg ref="fhirDocumentService" />
+		</bean>
+
+		<bean parent="fhirAuthInterceptor">
+			<property name="arguments">
+				<map>
+					<entry key="OAuth2" value="org.fujionclinical.fhir.api.security.OAuth2AuthInterceptor" />
+					<entry key="JWT" value="org.fujionclinical.fhir.api.security.JWTAuthInterceptor" />
+				</map>
+			</property>
+		</bean>
+		
+		<!-- Domain factory  -->
+		<bean class="org.fujionclinical.fhir.api.common.DomainFactory" factory-method="getInstance">
+			<property name="fhirClient" ref="fhirClient" />
+		</bean>
+		
+		<!-- Register a context serializer for names. -->
+		<bean class="org.fujionclinical.fhir.api.common.NameSerializer" />
+		
+		<!-- Patient search engine -->
+		<bean id="patientSearchEngine" class="org.fujionclinical.fhir.api.patient.PatientSearch">
+			<constructor-arg ref="fhirClient" />
+		</bean>
+		
+		<!-- Encounter search engine -->
+		<bean id="encounterSearchEngine" class="org.fujionclinical.fhir.api.encounter.EncounterSearch">
+			<constructor-arg ref="fhirClient" />
+		</bean>
+		
+		<!-- Practitioner search engine -->
+		<bean id="practitionerSearchEngine" class="org.fujionclinical.fhir.api.practitioner.PractitionerSearch">
+			<constructor-arg ref="fhirClient" />
+		</bean>
+		
+		<!-- Location search engine -->
+		<bean id="locationSearchEngine" class="org.fujionclinical.fhir.api.location.LocationSearch">
+			<constructor-arg ref="fhirClient" />
+		</bean>
+
+	</beans>
+	
+	<beans profile="child">
+		
+		<!-- Shared clinical contexts. -->
+		
+		<bean id="managedResourceContext" parent="managedContext" abstract="true">
+			<property name="fhirService" ref="fhirService" />
+		</bean>
+		
+		<bean id="patientContext" parent="managedResourceContext"
+			class="org.fujionclinical.fhir.api.patient.PatientContext">
+		</bean>
+		
+		<bean id="encounterContext" parent="managedResourceContext"
+			class="org.fujionclinical.fhir.api.encounter.EncounterContext">
+		</bean>
+		
+		<bean id="locationContext" parent="managedResourceContext"
+			class="org.fujionclinical.fhir.api.location.LocationContext" depends-on="userContext">
+		</bean>
+		
+		<bean id="encounterParticipantContext" parent="managedContext"
+			class="org.fujionclinical.fhir.api.encounter.EncounterParticipantContext">
+		</bean>
+		
+		<bean id="patientListRegistry" class="org.fujionclinical.fhir.api.patientlist.PatientListRegistry"
+			depends-on="userContext" />
+		
+		<bean id="patientList" abstract="true">
+		</bean>
+		
+		<bean id="patientListMRU" class="org.fujionclinical.fhir.api.patientlist.MRUPatientList" parent="patientList">
+			<constructor-arg type="java.lang.String" value="FCF.PATIENT.LIST.MRU" />
+		</bean>
+		
+		<bean id="patientListPersonal" class="org.fujionclinical.fhir.api.patientlist.PersonalPatientList" parent="patientList">
+			<constructor-arg type="java.lang.String" value="FCF.PATIENT.LIST.PERSONAL" />
+		</bean>
+		
+		<bean id="patientListFavorites" class="org.fujionclinical.fhir.api.patientlist.FavoritePatientList" parent="patientList">
+		</bean>
+
+	</beans>
+	
+</beans>

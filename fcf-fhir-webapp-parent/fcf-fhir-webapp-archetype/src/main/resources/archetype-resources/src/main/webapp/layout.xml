@@ -1,0 +1,69 @@
+<layout helpViewerMode="POPUP" icon="images/fhir_icon.png" name="FHIRWorks"
+	style="DEFAULT" title="${displayName}" version="3.0">
+	<_menubar>
+		<menuitem label="Actions">
+			<menuitem
+				action="groovy:org.fujionclinical.shell.ShellUtil.getShell().lock();"
+				hint="groovy:org.carewebframework.shell.ShellUtil.getShell().lock();"
+				label="Lock Application" />
+			<menuitem
+				action="groovy:org.fujionclinical.shell.ShellUtil.getShell().logout();"
+				hint="groovy:org.fujionclinical.shell.ShellUtil.getShell().logout();"
+				label="Logout Application" />
+			<menuitem
+				action="groovy:org.fujionclinical.api.event.EventManager.getInstance().fireLocalEvent(&quot;VIEW.REFRESH&quot;, null);"
+				hint="groovy:org.fujionclinical.api.event.EventManager.getInstance().fireLocalEvent(&quot;VIEW.REFRESH&quot;, null);"
+				label="Refresh" />
+			<menuitem
+				action="groovy:org.fujionclinical.fhir.ui.patientselection.PatientSelection.show();"
+				hint="groovy:org.fujionclinical.fhir.ui.patientselection.PatientSelection.show();"
+				label="Select a Patient" />
+			<menuitem
+				action="groovy:org.fujionclinical.plugin.chat.ChatService.getInstance().createSession();"
+				hint="groovy:org.fujionclinical.plugin.chat.ChatService.getInstance().createSession();"
+				label="Start a Chat Session" />
+		</menuitem>
+	</_menubar>
+	<_toolbar />
+	<splitterview orientation="vertical">
+		<splitterpane relative="false" size="47">
+			<splitterview orientation="horizontal">
+				<splitterpane relative="false" size="40">
+					<fcfPatientPhoto />
+				</splitterpane>
+				<splitterpane relative="true" size="50">
+					<fcfPatientHeader color="lightyellow" />
+				</splitterpane>
+				<splitterpane relative="true" size="46">
+					<fcfUserHeader color="lightblue" />
+				</splitterpane>
+			</splitterview>
+		</splitterpane>
+		<splitterpane relative="true" size="90">
+			<tabview orientation="top">
+				<tabpane label="Chart">
+					<treeview open="true" selectionStyle="PRIMARY">
+						<treepane label="Clinical Documents Display">
+							<fcfDocuments />
+						</treepane>
+						<treepane label="Family History">
+							<fcfFamilyHistory />
+						</treepane>
+						<treepane label="Patient Adverse Reactions">
+							<fcfAdverseReactions />
+						</treepane>
+						<treepane label="Patient Conditions">
+							<fcfConditions />
+						</treepane>
+						<treepane label="Patient Medication Orders">
+							<fcfMedicationOrders />
+						</treepane>
+					</treeview>
+				</tabpane>
+			</tabview>
+		</splitterpane>
+		<splitterpane relative="false" size="13">
+			<fcfStatusPanel />
+		</splitterpane>
+	</splitterview>
+</layout>

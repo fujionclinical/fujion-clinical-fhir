@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:fcp="http://www.fujionclinical.org/schema/plugin" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		 http://www.springframework.org/schema/beans/spring-beans.xsd
+		 http://www.fujionclinical.org/schema/plugin
+		 http://www.fujionclinical.org/schema/plugin/plugin-extensions.xsd">
+
+	<beans profile="root">
+
+		<fcp:plugin url="web/org/fujionclinical/fhir/plugin/patientphoto/patientPhoto.fsp"
+			id="fcfPatientPhoto" name="Current Patient Photo">
+		</fcp:plugin>
+
+	</beans>
+
+	<beans profile="child">
+
+		<bean id="fcfPatientPhotoController" class="org.fujionclinical.fhir.plugin.patientphoto.PatientPhoto"
+			scope="prototype" />
+
+	</beans>
+
+</beans>

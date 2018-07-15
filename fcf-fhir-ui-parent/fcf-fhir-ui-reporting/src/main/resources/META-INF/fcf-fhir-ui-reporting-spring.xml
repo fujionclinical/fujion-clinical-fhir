@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="root">
+
+		<bean class="org.fujionclinical.fhir.ui.reporting.headers.ReportHeaderRegistry"
+			factory-method="getInstance" />
+
+	</beans>
+		
+	<beans profile="child">
+			
+		<bean id="reportHeaderPatient" class="org.fujionclinical.fhir.ui.reporting.headers.GenericHeader"
+			scope="prototype">
+			<constructor-arg value="CONTEXT.CHANGED.Patient" />
+		</bean>
+
+		<bean id="reportHeaderUser" class="org.fujionclinical.fhir.ui.reporting.headers.GenericHeader"
+			scope="prototype">
+			<constructor-arg value="CONTEXT.CHANGED.User" />
+		</bean>
+
+		<bean id="reportListViewBase" abstract="true" parent="sharedFormListViewController"
+			scope="prototype">
+			<property name="fhirService" ref="fhirService" />
+			<property name="narrativeService" ref="fhirNarrativeService" />
+			<property name="resourceSubscriptionManager" ref="fhirSubManager" />
+		</bean>
+		
+	</beans>
+
+</beans>

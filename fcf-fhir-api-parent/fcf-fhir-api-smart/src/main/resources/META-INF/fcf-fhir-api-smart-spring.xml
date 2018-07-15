@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="root">
+
+		<bean id="smartContextService" factory-method="getInstance" init-method="init"
+			class="org.fujionclinical.fhir.api.smart.SmartContextService" />
+		
+	</beans>
+	
+	<beans profile="child">
+
+		<bean id="smartContextRegistry"
+			class="org.fujionclinical.fhir.api.smart.SmartContextRegistry" />
+		
+		<bean id="smartContextBase"
+			abstract="true" init-method="init" destroy-method="destroy">
+			<property name="eventManager" ref="eventManager" />
+		</bean>
+
+		<bean parent="smartContextBase" depends-on="userContext"
+			class="org.fujionclinical.fhir.api.smart.SmartContextUser" />
+
+		<bean parent="smartContextBase" depends-on="patientContext"
+			class="org.fujionclinical.fhir.api.smart.SmartContextPatient" />
+
+	</beans>
+</beans>

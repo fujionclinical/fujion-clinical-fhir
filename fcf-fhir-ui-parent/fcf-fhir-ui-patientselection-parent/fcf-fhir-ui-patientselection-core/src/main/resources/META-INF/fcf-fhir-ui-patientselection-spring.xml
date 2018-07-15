@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="root">
+
+		<!-- Patient Selector Registry -->
+		<bean id="patientSelectorRegistry" factory-method="getInstance" destroy-method="clear"
+			class="org.fujionclinical.fhir.ui.patientselection.PatientSelectorRegistry" />
+
+	</beans>
+
+	<beans profile="child">
+
+		<bean class="org.fujionclinical.fhir.ui.patientselection.Init" />
+		
+		<bean id="fcfPatientListController"
+			class="org.fujionclinical.fhir.ui.patientselection.PatientListController"
+			scope="prototype" />
+
+		<bean id="fcfPatientSelectionFeatures" class="org.fujionclinical.fhir.ui.patientselection.Features">
+			<constructor-arg value="PATIENT.SELECTION.SHOW." />
+		</bean>
+
+	</beans>
+
+</beans>
