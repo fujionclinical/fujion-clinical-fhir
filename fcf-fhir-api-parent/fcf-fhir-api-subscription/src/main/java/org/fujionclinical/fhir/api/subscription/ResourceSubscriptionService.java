@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -59,33 +59,33 @@ import ca.uhn.fhir.rest.gclient.ICriterion;
  * service also manages the lifecycle of the subscriptions, creating and revoking them as required.
  */
 public class ResourceSubscriptionService {
-    
+
     public enum PayloadType {
         NONE(null), XML("application/fhir+xml"), JSON("application/fhir+json");
-
-        private String mimeType;
         
+        private String mimeType;
+
         PayloadType(String mimeType) {
             this.mimeType = mimeType;
         }
     }
-
+    
     private final Log log = LogFactory.getLog(ResourceSubscriptionService.class);
-    
-    private final IGenericClient client;
-    
-    private final ProducerService producer;
-    
-    private final boolean disabled;
-    
-    private final String callbackUrl;
-    
-    private final Coding subscriptionTag;
 
+    private final IGenericClient client;
+
+    private final ProducerService producer;
+
+    private final boolean disabled;
+
+    private final String callbackUrl;
+
+    private final Coding subscriptionTag;
+    
     private final Map<String, SubscriptionWrapper> subscriptionsByParams = new HashMap<>();
-    
+
     private final Map<String, SubscriptionWrapper> subscriptionsById = new HashMap<>();
-    
+
     /**
      * Create the resource subscription service.
      *
@@ -105,7 +105,7 @@ public class ResourceSubscriptionService {
         destroy();
         log.info("FHIR Resource Subscription Service is " + (disabled ? "disabled." : "enabled."));
     }
-    
+
     /**
      * Delete any old subscriptions upon startup/shutdown.
      */
@@ -120,7 +120,7 @@ public class ResourceSubscriptionService {
             }
         }
     }
-    
+
     /**
      * Returns true if the service is disabled.
      *
@@ -129,7 +129,7 @@ public class ResourceSubscriptionService {
     public boolean isDisabled() {
         return disabled;
     }
-    
+
     /**
      * Associate a CWF event with a FHIR subscription (creating a new FHIR subscription as
      * necessary).
@@ -140,7 +140,7 @@ public class ResourceSubscriptionService {
     public synchronized SubscriptionWrapper subscribe(String criteria) {
         return subscribe(criteria, null);
     }
-    
+
     /**
      * Associate a CWF event with a FHIR subscription (creating a new FHIR subscription as
      * necessary).
@@ -152,7 +152,7 @@ public class ResourceSubscriptionService {
     public synchronized SubscriptionWrapper subscribe(String criteria, PayloadType payloadType) {
         return disabled ? null : getOrCreateSubscription(criteria, payloadType == null ? PayloadType.NONE : payloadType);
     }
-    
+
     /**
      * Unsubscribe from a FHIR subscription (revoking the FHIR subscription if there are no further
      * references).
@@ -164,10 +164,10 @@ public class ResourceSubscriptionService {
         if (wrapper != null && wrapper.decRefCount() == 0) {
             deleteSubscription(wrapper);
         }
-        
+
         return wrapper;
     }
-    
+
     /**
      * Unsubscribe from multiple FHIR subscriptions.
      *
@@ -180,7 +180,7 @@ public class ResourceSubscriptionService {
             }
         }
     }
-    
+
     /**
      * Notify all event subscribers of a subscription notification.
      *
@@ -191,17 +191,17 @@ public class ResourceSubscriptionService {
     protected synchronized boolean notifySubscribers(String id, String payload) {
         SubscriptionWrapper wrapper = subscriptionsById.get(id);
         boolean found = wrapper != null;
-        
+
         if (found) {
             IBaseResource resource = parseResource(payload);
             String eventName = wrapper.getEventName();
             Message message = new EventMessage(eventName, resource);
             producer.publish(EventUtil.getChannelName(eventName), message);
         }
-        
+
         return found;
     }
-    
+
     /**
      * Parses a resource from the raw payload.
      *
@@ -211,21 +211,21 @@ public class ResourceSubscriptionService {
     private IBaseResource parseResource(String payload) {
         IBaseResource resource = null;
         payload = StringUtils.trimToNull(payload);
-
+        
         if (payload != null) {
             IParser parser = payload.startsWith("{") ? client.getFhirContext().newJsonParser()
                     : client.getFhirContext().newXmlParser();
-
+            
             try {
                 resource = parser.parseResource(payload);
             } catch (Exception e) {
                 log.error("Unable to parse payload in subscription request", e);
             }
         }
-
+        
         return resource;
     }
-    
+
     /**
      * Returns a FHIR subscription wrapper from the list of active subscriptions, creating one if it
      * does not exist.
@@ -237,7 +237,7 @@ public class ResourceSubscriptionService {
     private SubscriptionWrapper getOrCreateSubscription(String criteria, PayloadType payloadType) {
         String paramIndex = payloadType + "|" + criteria;
         SubscriptionWrapper wrapper = subscriptionsByParams.get(paramIndex);
-        
+
         if (wrapper == null) {
             Subscription subscription = new Subscription();
             wrapper = new SubscriptionWrapper(paramIndex);
@@ -246,7 +246,7 @@ public class ResourceSubscriptionService {
             channel.setEndpoint(callbackUrl + wrapper.getSubscriptionId());
             channel.setPayload(payloadType.mimeType);
             subscription.setCriteria(criteria);
-            subscription.setReason("CareWeb Subscriber");
+            subscription.setReason("Fujion Subscriber");
             subscription.setChannel(channel);
             subscription.setStatus(SubscriptionStatus.REQUESTED);
             subscription.setTag(Collections.singletonList(subscriptionTag));
@@ -256,11 +256,11 @@ public class ResourceSubscriptionService {
             subscriptionsByParams.put(paramIndex, wrapper);
             subscriptionsById.put(wrapper.getSubscriptionId(), wrapper);
         }
-        
+
         wrapper.incRefCount();
         return wrapper;
     }
-    
+
     /**
      * Revokes a FHIR subscription.
      *
@@ -271,5 +271,5 @@ public class ResourceSubscriptionService {
         subscriptionsById.remove(wrapper.getSubscriptionId());
         client.delete().resource(wrapper.getSubscription()).execute();
     }
-
+    
 }

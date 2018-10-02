@@ -1,9 +1,9 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
-	<display-name>CareWeb Framework Test Harness</display-name>
+	<display-name>Fujion Clinical Framework Test Harness</display-name>
 	
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<servlet-class>org.fujion.servlet.FujionServlet</servlet-class>
 		<async-supported>true</async-supported>
 		<load-on-startup>1</load-on-startup>
 		

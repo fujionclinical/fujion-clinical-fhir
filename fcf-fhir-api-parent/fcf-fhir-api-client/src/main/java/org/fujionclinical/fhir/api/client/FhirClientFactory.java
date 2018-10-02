@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -28,39 +28,40 @@ package org.fujionclinical.fhir.api.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
 
 public class FhirClientFactory {
-    
-    private static FhirClientFactory instance;
-    
-    private final Map<String, IGenericClient> registry = new HashMap<>();
-    
-    private final FhirContext fhirContext;
 
+    private static FhirClientFactory instance;
+
+    private final Map<String, IGenericClient> registry = new HashMap<>();
+
+    private final FhirContext fhirContext;
+    
     public static FhirClientFactory getInstance() {
         return instance;
     }
-    
+
     public FhirClientFactory(FhirContext fhirContext) {
         if (instance != null) {
             throw new RuntimeException("Attempt to create a second instance of FhirClientFactory");
         }
-        
+
         instance = this;
         this.fhirContext = fhirContext;
     }
-
+    
     public IGenericClient getClient(String category) {
         return getClient(category, false);
     }
-
+    
     public IGenericClient getClient(String category, boolean acceptDefault) {
         IGenericClient client = registry.get(category);
         return acceptDefault && client == null ? registry.get("") : client;
     }
-
+    
     /**
      * Creates a generic client.
      *
@@ -69,28 +70,28 @@ public class FhirClientFactory {
      */
     public IGenericClient createClient(IFhirClientConfigurator config) {
         String category = config.getCategory();
-        
+
         if (registry.containsKey(category)) {
             throw new RuntimeException("A FHIR client category named '" + category + "' already exists");
         }
-        
-        IGenericClient client = fhirContext.newRestfulGenericClient(config.getServerBase());
 
+        IGenericClient client = fhirContext.newRestfulGenericClient(config.getServerBase());
+        
         if (client instanceof GenericClient) {
             ((GenericClient) client).setDontValidateConformance(!config.isValidateConformance());
         }
-
-        IAuthInterceptor authInterceptor = config.getAuthInterceptor();
         
+        IAuthInterceptor authInterceptor = config.getAuthInterceptor();
+
         if (authInterceptor != null) {
             client.registerInterceptor(authInterceptor);
         }
-
+        
         client.setPrettyPrint(config.isPrettyPrint());
         client.setEncoding(config.getEncoding());
         client.setSummary(config.getSummary());
         registry.put(category, client);
         return client;
     }
-    
+
 }

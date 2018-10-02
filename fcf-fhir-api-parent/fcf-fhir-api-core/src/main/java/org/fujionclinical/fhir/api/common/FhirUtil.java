@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -38,6 +38,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.fhir.api.terminology.Constants;
 import org.hl7.fhir.dstu3.model.Address;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
 import org.hl7.fhir.dstu3.model.Age;
@@ -67,40 +68,40 @@ import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
-import org.fujionclinical.fhir.api.terminology.Constants;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.util.UrlUtil;
 
 /**
  * Domain object utility methods.
  */
 public class FhirUtil {
-
+    
     public static class OperationOutcomeException extends RuntimeException {
-
+        
         private static final long serialVersionUID = 1L;
-
+        
         private final OperationOutcome operationOutcome;
-
+        
         private final IssueSeverity severity;
-
+        
         private OperationOutcomeException(String message, IssueSeverity severity, OperationOutcome operationOutcome) {
             super(message);
             this.severity = severity;
             this.operationOutcome = operationOutcome;
         }
-
+        
         public OperationOutcome getOperationOutcome() {
             return operationOutcome;
         }
-
+        
         public IssueSeverity getSeverity() {
             return severity;
         }
     }
-
+    
     public static IHumanNameParser defaultHumanNameParser = new HumanNameParser();
-
+    
     /**
      * Adds a tag to a resource if not already present.
      *
@@ -110,17 +111,17 @@ public class FhirUtil {
      */
     public static boolean addTag(IBaseCoding tag, IBaseResource resource) {
         boolean exists = resource.getMeta().getTag(tag.getSystem(), tag.getCode()) != null;
-
+        
         if (!exists) {
             IBaseCoding newTag = resource.getMeta().addTag();
             newTag.setCode(tag.getCode());
             newTag.setSystem(tag.getSystem());
             newTag.setDisplay(tag.getDisplay());
         }
-
+        
         return !exists;
     }
-
+    
     /**
      * Returns the first resource tag matching the specified system.
      *
@@ -134,10 +135,10 @@ public class FhirUtil {
                 return coding;
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Returns all resource tags belonging to the specified system.
      *
@@ -147,16 +148,16 @@ public class FhirUtil {
      */
     public static List<IBaseCoding> getTagsBySystem(IBaseResource resource, String system) {
         List<IBaseCoding> result = new ArrayList<>();
-
+        
         for (IBaseCoding coding : resource.getMeta().getTag()) {
             if (system.equals(coding.getSystem())) {
                 result.add(coding);
             }
         }
-
+        
         return result;
     }
-
+    
     /**
      * Performs an equality check on two resources using their id's.
      *
@@ -168,7 +169,7 @@ public class FhirUtil {
     public static <T extends IBaseResource> boolean areEqual(T res1, T res2) {
         return areEqual(res1, res2, false);
     }
-
+    
     /**
      * Performs an equality check on two resources using their id's.
      *
@@ -182,10 +183,10 @@ public class FhirUtil {
         if (res1 == null || res2 == null) {
             return false;
         }
-
+        
         return res1 == res2 || getIdAsString(res1, ignoreVersion).equals(getIdAsString(res2, ignoreVersion));
     }
-
+    
     /**
      * Performs an equality check on two references using their id's.
      *
@@ -197,7 +198,7 @@ public class FhirUtil {
     public static <T extends Reference> boolean areEqual(T ref1, T ref2) {
         return areEqual(ref1, ref2, false);
     }
-
+    
     /**
      * Performs an equality check on two resources using their id's.
      *
@@ -211,10 +212,10 @@ public class FhirUtil {
         if (ref1 == null || ref2 == null) {
             return false;
         }
-
+        
         return ref1 == ref2 || getIdAsString(ref1, ignoreVersion).equals(getIdAsString(ref2, ignoreVersion));
     }
-
+    
     /**
      * Performs an equality check between a resource and a reference using their id's.
      *
@@ -227,7 +228,7 @@ public class FhirUtil {
     public static <T extends IBaseResource, R extends Reference> boolean areEqual(T res, R ref) {
         return areEqual(res, ref, false);
     }
-
+    
     /**
      * Performs an equality check between a resource and a reference using their id's.
      *
@@ -242,16 +243,16 @@ public class FhirUtil {
         if (res == null || ref == null) {
             return false;
         }
-
+        
         IBaseResource res2 = ref.getResource();
-
+        
         if (res2 != null) {
             return areEqual(res, res2, ignoreVersion);
         }
-
+        
         return getIdAsString(ref, ignoreVersion).equals(getIdAsString(res, ignoreVersion));
     }
-
+    
     /**
      * Checks the response from a server request to determine if it is an OperationOutcome with a
      * severity of ERROR or FATAL. If so, it will throw a runtime exception with the diagnostics of
@@ -265,31 +266,31 @@ public class FhirUtil {
         if (resource instanceof OperationOutcome) {
             OperationOutcome outcome = (OperationOutcome) resource;
             IssueSeverity severity = IssueSeverity.NULL;
-
+            
             if (outcome.hasIssue()) {
                 StringBuilder sb = new StringBuilder();
-
+                
                 for (OperationOutcomeIssueComponent issue : outcome.getIssue()) {
                     IssueSeverity theSeverity = issue.getSeverity();
-
+                    
                     if (theSeverity == IssueSeverity.ERROR || theSeverity == IssueSeverity.FATAL) {
                         sb.append(issue.getDiagnostics()).append(" (").append(theSeverity.getDisplay()).append(")\n");
                         severity = theSeverity.ordinal() < severity.ordinal() ? theSeverity : severity;
                     }
                 }
-
+                
                 if (sb.length() != 0) {
                     throw new OperationOutcomeException(sb.toString(), severity, outcome);
                 }
-
+                
             }
-
+            
             return true;
         }
-
+        
         return false;
     }
-
+    
     /**
      * Returns true if the resource is assignment-compatible with one of the classes list.
      *
@@ -304,10 +305,10 @@ public class FhirUtil {
                 return true;
             }
         }
-
+        
         return false;
     }
-
+    
     /**
      * Concatenates a path fragment to a root path. Ensures that a single "/" character separates
      * the two parts.
@@ -320,14 +321,14 @@ public class FhirUtil {
         while (root.endsWith("/")) {
             root = root.substring(0, root.length() - 1);
         }
-
+        
         while (fragment.startsWith("/")) {
             fragment = fragment.substring(1);
         }
-
+        
         return root + "/" + fragment;
     }
-
+    
     /**
      * Convert a string-based time unit to the corresponding enum.
      *
@@ -341,7 +342,7 @@ public class FhirUtil {
             throw new IllegalArgumentException("Unknown time unit " + timeUnit);
         }
     }
-
+    
     /**
      * Convenience method that creates a CodeableConcept with a single coding.
      *
@@ -356,7 +357,7 @@ public class FhirUtil {
         codeableConcept.addCoding(coding);
         return codeableConcept;
     }
-
+    
     /**
      * Convenience method that creates an Identifier with the specified system and value.
      *
@@ -370,7 +371,7 @@ public class FhirUtil {
         identifier.setValue(value);
         return identifier;
     }
-
+    
     /**
      * Creates a period object from a start and end date.
      *
@@ -380,19 +381,19 @@ public class FhirUtil {
      */
     public static Period createPeriod(Date startDate, Date endDate) {
         Period period = null;
-
+        
         if (startDate != null) {
             period = new Period();
             period.setStart(startDate);
         }
-
+        
         if (endDate != null) {
             (period == null ? period = new Period() : period).setEnd(endDate);
         }
-
+        
         return period;
     }
-
+    
     /**
      * Method returns true if two quantities are equal. Compares two quantities by comparing their
      * values and their units. TODO Do a comparator instead
@@ -415,7 +416,7 @@ public class FhirUtil {
             return false;
         }
     }
-
+    
     /**
      * Formats a name using the active parser.
      *
@@ -425,7 +426,7 @@ public class FhirUtil {
     public static String formatName(HumanName name) {
         return name == null ? "" : defaultHumanNameParser.toString(name);
     }
-
+    
     /**
      * Format the "usual" name.
      *
@@ -435,7 +436,7 @@ public class FhirUtil {
     public static String formatName(List<HumanName> names) {
         return formatName(names, NameUse.USUAL, null);
     }
-
+    
     /**
      * Format a name of the specified use category.
      *
@@ -446,7 +447,7 @@ public class FhirUtil {
     public static String formatName(List<HumanName> names, NameUse... uses) {
         return formatName(getName(names, uses));
     }
-
+    
     /**
      * Returns an address of the desired use category from a list.
      *
@@ -463,10 +464,10 @@ public class FhirUtil {
                 }
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Returns a list of addresses from a resource if one exists.
      *
@@ -476,7 +477,7 @@ public class FhirUtil {
     public static List<Address> getAddresses(IBaseResource resource) {
         return getListProperty(resource, "address", Address.class);
     }
-
+    
     /**
      * Returns a coding of the desired system from a list.
      *
@@ -493,10 +494,10 @@ public class FhirUtil {
                 }
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Returns an contact of the desired type category from a list.
      *
@@ -506,20 +507,20 @@ public class FhirUtil {
      */
     public static ContactPoint getContact(List<ContactPoint> list, String type) {
         String[] pcs = type.split(":", 2);
-
+        
         for (ContactPoint contact : list) {
             if (pcs[0].equals(contact.getUse()) && pcs[1].equals(contact.getSystem())) {
                 return contact;
             }
         }
-
+        
         return null;
     }
-
+    
     public static String getDisplayValue(Annotation value) {
         return value.getText();
     }
-
+    
     /**
      * Returns a displayable value for a codeable concept.
      *
@@ -531,71 +532,71 @@ public class FhirUtil {
         String result = coding == null ? "" : coding.getDisplay();
         return result == null ? coding.getCode() : result;
     }
-
+    
     public static String getDisplayValue(DateTimeType value) {
         return DateUtil.formatDate(value.getValue());
     }
-
+    
     public static String getDisplayValue(DateType value) {
         return DateUtil.formatDate(value.getValue());
     }
-
+    
     public static String getDisplayValue(Period value) {
         Date start = value.getStart();
         Date end = value.getEnd();
         String result = "";
-
+        
         if (start != null) {
             result = DateUtil.formatDate(start);
-
+            
             if (start.equals(end)) {
                 end = null;
             }
         }
-
+        
         if (end != null) {
             result += (result.isEmpty() ? "" : " - ") + DateUtil.formatDate(end);
         }
-
+        
         return result;
     }
-
+    
     public static String getDisplayValue(Quantity value) {
         String val = value.hasValue() ? value.getValue().toString() : "";
         String units = val.isEmpty() || !value.hasUnit() ? "" : (" " + value.getUnit());
         return val + units;
     }
-
+    
     public static String getDisplayValue(Reference value) {
         return value.getDisplay();
     }
-
+    
     public static String getDisplayValue(SimpleQuantity value) {
         String unit = value.hasUnit() ? " " + value.getUnit() : "";
         return value.getValue().toPlainString() + unit;
     }
-
+    
     public static String getDisplayValue(Timing value) {
         StringBuilder sb = new StringBuilder(getDisplayValueForType(value.getCode())).append(" ");
         TimingRepeatComponent repeat = value.getRepeat();
-
+        
         if (!repeat.isEmpty()) {
             // TODO: finish
         }
-
+        
         if (!value.getEvent().isEmpty()) {
             sb.append(" at ").append(getDisplayValueForTypes(value.getEvent(), ", "));
         }
-
+        
         return sb.toString();
     }
-
+    
     public static String getDisplayValue(Age value) {
         String unit = value.hasUnit() ? " " + value.getUnit() : "";
         BigDecimal age = value.getValue();
         return age == null ? "" : age.toString() + unit;
     }
-
+    
     /**
      * Delegates to the getDisplayValue function for the runtime type of value, if available.
      * Otherwise, calls toString() on the value.
@@ -607,7 +608,7 @@ public class FhirUtil {
         if (value == null || value.isEmpty()) {
             return "";
         }
-
+        
         try {
             Method method = MethodUtils.getAccessibleMethod(FhirUtil.class, "getDisplayValue", value.getClass());
             return method == null ? value.toString() : (String) method.invoke(null, value);
@@ -615,7 +616,7 @@ public class FhirUtil {
             return "???";
         }
     }
-
+    
     /**
      * Invokes getDisplayValueForType on each list element, using the specified delimiter to
      * separate results.
@@ -626,18 +627,18 @@ public class FhirUtil {
      */
     public static String getDisplayValueForTypes(List<? extends IBaseDatatype> values, String delimiter) {
         StringBuilder sb = new StringBuilder();
-
+        
         for (IBaseDatatype value : values) {
             String result = getDisplayValueForType(value);
-
+            
             if (!result.isEmpty()) {
                 sb.append(sb.length() == 0 ? "" : delimiter).append(result);
             }
         }
-
+        
         return sb.toString();
     }
-
+    
     /**
      * Extracts resources of the specified class from a bundle.
      *
@@ -650,7 +651,7 @@ public class FhirUtil {
     public static <T extends IBaseResource> List<T> getEntries(Bundle bundle, Class<T> clazz) {
         return (List<T>) getEntries(bundle, Collections.singletonList(clazz), null);
     }
-
+    
     /**
      * Extracts resources from a bundle according to the inclusion and exclusion criteria.
      *
@@ -665,22 +666,22 @@ public class FhirUtil {
     public static <T extends IBaseResource> List<IBaseResource> getEntries(Bundle bundle, List<Class<T>> inclusions,
                                                                            List<Class<T>> exclusions) {
         List<IBaseResource> entries = new ArrayList<>();
-
+        
         if (bundle != null) {
             for (BundleEntryComponent entry : bundle.getEntry()) {
                 IBaseResource resource = entry.getResource();
                 boolean exclude = exclusions != null && classMatches(exclusions, resource);
                 boolean include = !exclude && (inclusions == null || classMatches(inclusions, resource));
-
+                
                 if (include) {
                     entries.add(resource);
                 }
             }
         }
-
+        
         return entries;
     }
-
+    
     /**
      * Returns the first element in a list, or null if there is none.
      *
@@ -691,7 +692,7 @@ public class FhirUtil {
     public static <T> T getFirst(List<T> list) {
         return list == null || list.isEmpty() ? null : list.get(0);
     }
-
+    
     /**
      * Returns the string representation of the id.
      *
@@ -703,7 +704,7 @@ public class FhirUtil {
         String result = id == null ? null : id.getValueAsString();
         return result == null ? "" : stripVersion && id.hasVersionIdPart() ? stripVersion(result) : result;
     }
-
+    
     /**
      * Returns the string representation of the resource's id.
      *
@@ -715,7 +716,7 @@ public class FhirUtil {
     public static <T extends IBaseResource> String getIdAsString(T resource, boolean stripVersion) {
         return getIdAsString(resource.getIdElement(), stripVersion);
     }
-
+    
     /**
      * Returns the string representation of the reference's resource id.
      *
@@ -725,14 +726,14 @@ public class FhirUtil {
      */
     public static String getIdAsString(Reference reference, boolean stripVersion) {
         IBaseResource res = reference == null ? null : reference.getResource();
-
+        
         if (res != null) {
             return getIdAsString(res, stripVersion);
         }
         String result = reference == null ? null : reference.getReference();
         return result == null ? "" : stripVersion ? stripVersion(result) : result;
     }
-
+    
     /**
      * Returns the first identifier from the list that matches one of the specified types. A search
      * is performed for each specified type, returning when a match is found.
@@ -751,10 +752,10 @@ public class FhirUtil {
                 }
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Returns identifiers for the given resource, if any.
      *
@@ -765,7 +766,7 @@ public class FhirUtil {
     public static List<Identifier> getIdentifiers(IBaseResource resource) {
         return getProperty(resource, "getIdentifier", List.class);
     }
-
+    
     /**
      * Returns the last element in a list, or null if there is none.
      *
@@ -776,7 +777,7 @@ public class FhirUtil {
     public static <T> T getLast(List<T> list) {
         return list == null || list.isEmpty() ? null : list.get(list.size() - 1);
     }
-
+    
     /**
      * Returns a patient's MRN. (What types should be explicitly considered?)
      *
@@ -786,7 +787,7 @@ public class FhirUtil {
     public static Identifier getMRN(Patient patient) {
         return patient == null ? null : getIdentifier(patient.getIdentifier(), Constants.CODING_MRN);
     }
-
+    
     /**
      * Returns a patient's MRN. (What labels should be explicitly considered?)
      *
@@ -797,7 +798,7 @@ public class FhirUtil {
         Identifier identifier = getMRN(patient);
         return identifier == null ? "" : identifier.getValue();
     }
-
+    
     /**
      * Returns a name of the desired use category from a list.
      *
@@ -814,10 +815,10 @@ public class FhirUtil {
                 }
             }
         }
-
+        
         return null;
     }
-
+    
     /**
      * Returns a list of names from a resource if one exists.
      *
@@ -827,7 +828,7 @@ public class FhirUtil {
     public static List<HumanName> getNames(IBaseResource resource) {
         return getListProperty(resource, "name", HumanName.class);
     }
-
+    
     /**
      * Returns the patient associated with a resource.
      *
@@ -840,7 +841,7 @@ public class FhirUtil {
         return ref == null || !ref.hasReference() ? null
                 : "Patient".equals(getResourceType(ref.getReferenceElement())) ? ref : null;
     }
-
+    
     /**
      * Returns the value of a property from a resource base.
      *
@@ -854,15 +855,15 @@ public class FhirUtil {
     @SuppressWarnings("unchecked")
     private static <T> T getProperty(IBaseResource resource, String getter, Class<T> expectedClass) {
         Object result = null;
-
+        
         try {
             result = MethodUtils.invokeMethod(resource, getter, (Object[]) null);
             result = result == null || expectedClass == null ? result : expectedClass.isInstance(result) ? result : null;
         } catch (Exception e) {}
-
+        
         return (T) result;
     }
-
+    
     /**
      * Returns the value of a property that returns a list from a resource base.
      *
@@ -881,7 +882,7 @@ public class FhirUtil {
             return null;
         }
     }
-
+    
     /**
      * Method sets the FHIR repeat for the given frequency code
      *
@@ -900,7 +901,7 @@ public class FhirUtil {
         }
         return repeat;
     }
-
+    
     /**
      * Returns the base 64-encoded equivalent of a resource.
      *
@@ -910,7 +911,7 @@ public class FhirUtil {
     public static byte[] getResourceAndConvertToBase64(String resourceName) {
         return Base64.encodeBase64(getResourceAsByteArray(resourceName));
     }
-
+    
     /**
      * Returns the resource as a byte array.
      *
@@ -924,7 +925,7 @@ public class FhirUtil {
             throw new RuntimeException("Error deserializing file " + resourceName, e);
         }
     }
-
+    
     /**
      * Returns the resource ID relative path.
      *
@@ -934,7 +935,7 @@ public class FhirUtil {
     public static String getResourceIdPath(IBaseResource resource) {
         return getResourceIdPath(resource, true);
     }
-
+    
     /**
      * Returns the resource ID relative path.
      *
@@ -946,7 +947,7 @@ public class FhirUtil {
         String id = resource.getIdElement().getResourceType() + "/" + resource.getIdElement().getIdPart();
         return stripVersion ? stripVersion(id) : id;
     }
-
+    
     /**
      * Returns the resource type from a resource.
      *
@@ -956,7 +957,7 @@ public class FhirUtil {
     public static String getResourceType(IBaseResource resource) {
         return resource == null ? null : getResourceType(resource.getIdElement());
     }
-
+    
     /**
      * Extracts a resource type from an id.
      *
@@ -966,7 +967,18 @@ public class FhirUtil {
     public static String getResourceType(IIdType id) {
         return id == null || id.isEmpty() ? null : id.getResourceType();
     }
-
+    
+    /**
+     * Returns the expected resource type to be returned by the specified URL.
+     *
+     * @param url The URL.
+     * @return The expected resource type.
+     */
+    public static String getResourceType(String url) {
+        url = url.startsWith("http") ? url : "http://dummy/" + url;
+        return url.contains("?") ? "Bundle" : UrlUtil.parseUrl(url).getResourceType();
+    }
+    
     /**
      * Casts an unspecified data type to a specific data type if possible.
      *
@@ -980,7 +992,7 @@ public class FhirUtil {
     public static <V, T extends V> T getTyped(V value, Class<T> clazz) {
         return clazz.isInstance(value) ? (T) value : null;
     }
-
+    
     /**
      * Parses a name using the active parser.
      *
@@ -990,7 +1002,7 @@ public class FhirUtil {
     public static HumanName parseName(String name) {
         return name == null ? null : defaultHumanNameParser.fromString(null, name);
     }
-
+    
     /**
      * Processes a MethodOutcome from a create or update request. If the request returns an updated
      * version of the resource, that resource is returned. If the request returns a logical id, that
@@ -1008,16 +1020,16 @@ public class FhirUtil {
         checkOutcome(outcome.getOperationOutcome());
         IIdType id = outcome.getId();
         IBaseResource newResource = outcome.getResource();
-
+        
         if (id != null) {
             resource.setId(id);
         } else if (newResource != null && newResource.getClass() == resource.getClass()) {
             resource = (T) newResource;
         }
-
+        
         return resource;
     }
-
+    
     /**
      * Removes a tag from a resource if present.
      *
@@ -1027,15 +1039,15 @@ public class FhirUtil {
      */
     public static boolean removeTag(IBaseCoding tag, IBaseResource resource) {
         IBaseCoding theTag = resource.getMeta().getTag(tag.getSystem(), tag.getCode());
-
+        
         if (theTag != null) {
             resource.getMeta().getTag().remove(theTag);
             return true;
         }
-
+        
         return false;
     }
-
+    
     /**
      * Strips the version qualifier from an id, if present.
      *
@@ -1046,7 +1058,7 @@ public class FhirUtil {
         int i = id.lastIndexOf("/_history");
         return i == -1 ? id : id.substring(0, i);
     }
-
+    
     /**
      * Strips the version qualifier from a resource, if present.
      *
@@ -1056,15 +1068,15 @@ public class FhirUtil {
      */
     public static <T extends IBaseResource> T stripVersion(T resource) {
         IIdType id = resource.getIdElement();
-
+        
         if (id.hasVersionIdPart()) {
             id.setValue(stripVersion(id.getValue()));
             resource.setId(id);
         }
-
+        
         return resource;
     }
-
+    
     /**
      * Converts a list of objects to a list of their string equivalents.
      *
@@ -1073,14 +1085,14 @@ public class FhirUtil {
      */
     public static List<String> toStringList(List<?> source) {
         List<String> dest = new ArrayList<>(source.size());
-
+        
         for (Object value : source) {
             dest.add(value.toString());
         }
-
+        
         return dest;
     }
-
+    
     /**
      * Enforce static class.
      */
