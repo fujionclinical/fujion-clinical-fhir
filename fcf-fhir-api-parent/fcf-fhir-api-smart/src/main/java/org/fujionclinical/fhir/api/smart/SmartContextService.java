@@ -88,7 +88,7 @@ public class SmartContextService {
         }
         
         if (qs.length() > 0) {
-            qs.append("fhirServiceUrl", serviceRoot);
+            qs.append("iss", serviceRoot);
         }
         
         return qs.toString();
