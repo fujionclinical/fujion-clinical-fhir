@@ -29,21 +29,23 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.fujionclinical.fhir.api.smart.SmartContextBase.ContextMap;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Default implementation for binding SMART context to launch id.
  */
-public class SmartContextLaunch implements ISmartContextLaunch {
-    
-    
-    private final IGenericClient fhirClient;
+public class SmartContextBinder implements ISmartContextBinder {
+
+    private final RestTemplate restTemplate = new RestTemplate();
     
     @Value("${smart.service.launch.binder.url:}")
     private String smartLaunchBinder;
     
-    public SmartContextLaunch(IGenericClient fhirClient) {
-        this.fhirClient = fhirClient;
+    public SmartContextBinder() {
     }
     
     /**
@@ -54,7 +56,17 @@ public class SmartContextLaunch implements ISmartContextLaunch {
      */
     @Override
     public String bindContext(ContextMap contextMap) {
-        return null;
+        if (smartLaunchBinder.isEmpty()) {
+            return null;
+        }
+
+        String launchId = UUID.randomUUID().toString();
+        ContextMap cloneMap = new ContextMap(contextMap);
+        cloneMap.put("launch_id", launchId);
+        Map<String, Object> body = new HashMap<>();
+        body.put("parameters", cloneMap);
+        restTemplate.postForObject(smartLaunchBinder, body, String.class);
+        return launchId;
     }
     
 }

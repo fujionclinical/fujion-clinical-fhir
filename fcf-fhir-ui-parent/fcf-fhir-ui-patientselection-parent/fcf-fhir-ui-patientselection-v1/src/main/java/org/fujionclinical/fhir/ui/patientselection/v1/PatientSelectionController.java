@@ -292,7 +292,7 @@ public class PatientSelectionController extends FrameworkController {
             }
         }
 
-        rgrpLists.getChild(Radiobutton.class).setChecked(true);
+        rgrpLists.getFirstChild(Radiobutton.class).setChecked(true);
         pendingListItem.add(new PatientListItem(null, txtWaitMessage));
     }
 
@@ -507,7 +507,7 @@ public class PatientSelectionController extends FrameworkController {
                     grdSearch.getRows().setSelectable(Selectable.SINGLE);
 
                     if (matches.size() == 1) {
-                        grdSearch.getRows().getChild(Row.class).setSelected(true);
+                        grdSearch.getRows().getFirstChild(Row.class).setSelected(true);
                         setActivePatient(matches.get(0));
                     }
                 }

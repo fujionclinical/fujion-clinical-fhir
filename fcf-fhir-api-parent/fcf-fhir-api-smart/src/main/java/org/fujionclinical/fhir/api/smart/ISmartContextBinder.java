@@ -30,7 +30,7 @@ import org.fujionclinical.fhir.api.smart.SmartContextBase.ContextMap;
 /**
  * Interface for binding SMART context to launch id.
  */
-public interface ISmartContextLaunch {
+public interface ISmartContextBinder {
     
     
     /**

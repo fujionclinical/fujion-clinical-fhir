@@ -8,7 +8,12 @@
 	<beans profile="root">
 
 		<bean id="smartContextService" factory-method="getInstance" init-method="init"
-			class="org.fujionclinical.fhir.api.smart.SmartContextService" />
+			class="org.fujionclinical.fhir.api.smart.SmartContextService">
+			<property name="smartContextBinder" ref="smartContextBinder" />
+		</bean>
+
+		<bean id="smartContextBinder"
+			  class="org.fujionclinical.fhir.api.smart.SmartContextBinder" />
 		
 	</beans>
 	
