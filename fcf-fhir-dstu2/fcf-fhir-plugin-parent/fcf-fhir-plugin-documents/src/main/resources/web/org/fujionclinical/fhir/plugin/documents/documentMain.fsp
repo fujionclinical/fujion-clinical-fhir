@@ -1,0 +1,28 @@
+<fsp>
+	<div controller="${@fcfDocumentsMainController}" height="100%" width="100%">
+		<import name="documentList" height="100%" width="100%"
+			src="web/org/fujionclinical/fhir/plugin/documents/documentList.fsp" />
+		<import name="documentDisplay" height="100%" width="100%" visible="false"
+			src="web/org/fujionclinical/fhir/plugin/documents/documentDisplay.fsp" />
+	</div>
+
+	<style>
+		.fcf-documents-oddRow {
+			background-color: #E4EBF8;
+		}
+
+		.fcf-documents * {
+			cursor: default !important;
+		}
+
+		.fcf-documents-sep {
+			background-color: gray;
+    			height: 3px;
+    			margin: 10px 0 10px 0;
+    		}
+
+    		.fujion_row:first-child .fcf-documents-sep {
+    			display: none;
+    		}
+	</style>
+</fsp>

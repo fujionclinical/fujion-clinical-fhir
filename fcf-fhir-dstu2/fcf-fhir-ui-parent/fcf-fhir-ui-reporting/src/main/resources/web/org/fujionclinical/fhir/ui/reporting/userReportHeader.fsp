@@ -1,0 +1,24 @@
+<div name="reportHeaderRoot" class="fcf-reporting-header" height="40px"
+	controller="${@reportHeaderUser}">
+	<grid style="border:none;border-bottom:1px solid black">
+		<columns>
+			<column style="text-align:left" width="50%"/>
+			<column style="text-align:right" width="50%"/>
+		</columns>
+		<rows width="100%">
+			<row style="border:none">
+				<div>
+					User: 
+					<label name="lblUserInfo"/>
+				</div>
+				<div style="text-align:right">
+					Printed:
+					<label name="lblTimestamp"/>
+				</div>
+			</row>
+		</rows>
+	</grid>
+	<div class="fcf-reporting-header-title">
+		<label name="lblTitle" />
+	</div>	
+</div>
