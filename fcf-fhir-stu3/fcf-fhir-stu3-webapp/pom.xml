@@ -6,7 +6,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<name>Web App Aggregator</name>
+	<name>Web App Aggregator (STU3)</name>
 	<artifactId>fcf-fhir-stu3-webapp</artifactId>
 	<packaging>pom</packaging>
 

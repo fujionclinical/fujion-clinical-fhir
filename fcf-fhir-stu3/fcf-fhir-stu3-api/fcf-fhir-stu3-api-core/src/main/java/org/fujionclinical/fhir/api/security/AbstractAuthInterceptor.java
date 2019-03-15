@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.security;
 import java.io.IOException;
 
 import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.fhir.api.client.IAuthInterceptor;
+import org.fujionclinical.fhir.common.client.IAuthInterceptor;
 
 import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.client.api.IHttpRequest;

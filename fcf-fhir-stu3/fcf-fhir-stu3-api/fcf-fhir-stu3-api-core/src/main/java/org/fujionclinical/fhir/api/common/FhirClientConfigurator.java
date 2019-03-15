@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.common;
 
 import org.apache.commons.lang.StringUtils;
 import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.fhir.api.client.IAuthInterceptor;
-import org.fujionclinical.fhir.api.client.IFhirClientConfigurator;
+import org.fujionclinical.fhir.common.client.IAuthInterceptor;
+import org.fujionclinical.fhir.common.client.IFhirClientConfigurator;
 import org.fujionclinical.fhir.api.security.AuthInterceptorRegistry;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

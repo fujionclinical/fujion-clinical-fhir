@@ -7,7 +7,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
-	<name>Web App Test Harness</name>
+	<name>Web App Test Harness (STU3)</name>
 	<artifactId>fcf-fhir-stu3-webapp-testharness</artifactId>
 	<packaging>war</packaging>
 	
@@ -50,7 +50,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-plugin-familyhistory</artifactId>
+			<artifactId>fcf-fhir-stu3-plugin-familyhistory</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

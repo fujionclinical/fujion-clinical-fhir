@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-api-core</artifactId>
+			<artifactId>fcf-fhir-stu3-api-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

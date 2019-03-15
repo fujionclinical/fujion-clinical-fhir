@@ -8,7 +8,7 @@
 	</parent>
 	
 	<artifactId>fcf-fhir-stu3-api-core</artifactId>
-	<name>FHIR Core Library</name>
+	<name>FHIR Core Library (STU3)</name>
 
 	<dependencies>
 		<dependency>
@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-api-client</artifactId>
+			<artifactId>fcf-fhir-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

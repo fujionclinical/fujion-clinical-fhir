@@ -11,7 +11,7 @@
 
 	<artifactId>fcf-fhir-stu3-api</artifactId>
 	<packaging>pom</packaging>
-	<name>FHIR STU3 API Aggregator</name>
+	<name>FHIR API Aggregator (STU3)</name>
 
 	<modules>
 		<module>fcf-fhir-stu3-api-core</module>

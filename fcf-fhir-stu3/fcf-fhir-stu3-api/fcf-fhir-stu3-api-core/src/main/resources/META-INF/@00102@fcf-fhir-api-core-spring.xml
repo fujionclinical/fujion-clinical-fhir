@@ -16,11 +16,11 @@
 		<!-- FHIR context and client -->
 		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.api.common.FhirContextConfigurator" />
 		
-		<bean id="fhirContext" class="org.fujionclinical.fhir.api.client.FhirContext">
+		<bean id="fhirContext" class="org.fujionclinical.fhir.common.client.FhirContext">
 			<constructor-arg ref="fhirContextConfigurator" />
 		</bean>
 		
-		<bean id="fhirClientFactory" class="org.fujionclinical.fhir.api.client.FhirClientFactory">
+		<bean id="fhirClientFactory" class="org.fujionclinical.fhir.common.client.FhirClientFactory">
 			<constructor-arg ref="fhirContext" />
 		</bean>
 		

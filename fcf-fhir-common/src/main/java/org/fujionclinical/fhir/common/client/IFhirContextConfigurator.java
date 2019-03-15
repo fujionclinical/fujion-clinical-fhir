@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.client;
+package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;

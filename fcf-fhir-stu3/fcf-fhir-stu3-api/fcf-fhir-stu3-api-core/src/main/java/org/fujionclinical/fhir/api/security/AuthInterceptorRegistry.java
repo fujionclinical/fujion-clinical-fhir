@@ -33,7 +33,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.fhir.api.client.IAuthInterceptor;
+import org.fujionclinical.fhir.common.client.IAuthInterceptor;
 
 /**
  * Registry of factories for creating authentication interceptors.

@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.client;
+package org.fujionclinical.fhir.common.client;
 
 import java.util.HashMap;
 import java.util.Map;

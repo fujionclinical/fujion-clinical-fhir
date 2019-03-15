@@ -12,7 +12,7 @@
 	<artifactId>fcf-fhir-stu3</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>FHIR STU3 Modules</name>
+	<name>FHIR Module Aggregator (STU3)</name>
 
 	<modules>
 		<module>fcf-fhir-stu3-api</module>
