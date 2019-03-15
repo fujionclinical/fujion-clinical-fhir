@@ -11,12 +11,12 @@
 
 	<artifactId>fcf-fhir-stu3-ui</artifactId>
 	<packaging>pom</packaging>
-	<name>FHIR UI Library</name>
+	<name>FHIR UI Library Aggregator (STU3)</name>
 
 	<modules>
-		<module>fcf-fhir-ui-core</module>
-		<module>fcf-fhir-ui-patientselection-parent</module>
-		<module>fcf-fhir-ui-reporting</module>
-		<module>fcf-fhir-ui-smart</module>
+		<module>fcf-fhir-stu3-ui-core</module>
+		<module>fcf-fhir-stu3-ui-patientselection</module>
+		<module>fcf-fhir-stu3-ui-reporting</module>
+		<module>fcf-fhir-stu3-ui-smart</module>
 	</modules>
 </project>

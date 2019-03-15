@@ -11,12 +11,12 @@
 
 	<artifactId>fcf-fhir-stu3-api</artifactId>
 	<packaging>pom</packaging>
-	<name>FHIR API Library</name>
+	<name>FHIR STU3 API Aggregator</name>
 
 	<modules>
-		<module>fcf-fhir-api-core</module>
-		<module>fcf-fhir-api-subscription</module>
-		<module>fcf-fhir-api-smart</module>
-		<module>fcf-fhir-api-scenario</module>
+		<module>fcf-fhir-stu3-api-core</module>
+		<module>fcf-fhir-stu3-api-subscription</module>
+		<module>fcf-fhir-stu3-api-smart</module>
+		<module>fcf-fhir-stu3-api-scenario</module>
 	</modules>
 </project>
