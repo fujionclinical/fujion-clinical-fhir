@@ -8,14 +8,14 @@
 
 		<!-- v1 Patient Selector Factory -->
 		<bean id="patientSelectorFactoryV1"
-			class="org.fujionclinical.fhir.ui.patientselection.v1.PatientSelectorFactory" />
+			class="org.fujionclinical.fhir.stu3.ui.patientselection.v1.PatientSelectorFactory" />
 
 	</beans>
 
 	<beans profile="child">
 
 		<bean id="patientSelectionController"
-			class="org.fujionclinical.fhir.ui.patientselection.v1.PatientSelectionController"
+			class="org.fujionclinical.fhir.stu3.ui.patientselection.v1.PatientSelectionController"
 			scope="prototype" init-method="init">
 			<property name="PatientListRegistry" ref="patientListRegistry" />
 			<property name="FavoritesList" ref="patientListFavorites" />

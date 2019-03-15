@@ -50,7 +50,7 @@
 	<beans profile="child">
 
 		<bean id="fcfConditionsController" parent="reportListViewBase"
-			class="org.fujionclinical.fhir.plugin.conditions.MainController" scope="prototype" />
+			  class="org.fujionclinical.fhir.stu3.plugin.conditions.MainController" scope="prototype" />
 
 	</beans>
 

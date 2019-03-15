@@ -25,7 +25,7 @@
 	
 	<beans profile="child">
 		
-		<bean id="fcfPatientHeaderController" class="org.fujionclinical.fhir.plugin.patientheader.PatientHeader"
+		<bean id="fcfPatientHeaderController" class="org.fujionclinical.fhir.stu3.plugin.patientheader.PatientHeader"
 			scope="prototype" />
 
 	</beans>

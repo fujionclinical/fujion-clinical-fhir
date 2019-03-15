@@ -50,7 +50,7 @@
 	<beans profile="child">
 
 		<bean id="fcfMedicationOrdersController" parent="reportListViewBase" scope="prototype"
-			class="org.fujionclinical.fhir.plugin.medicationorders.MainController">
+			class="org.fujionclinical.fhir.stu3.plugin.medicationorders.MainController">
 			<constructor-arg ref="fhirMedicationService" />
 		</bean>
 

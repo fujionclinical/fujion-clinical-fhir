@@ -1,6 +1,6 @@
 	<window width="1000px" sizable="true"
 		title="Patient Matches (${self.resultCount} Found)" 
-		controller="org.fujionclinical.fhir.ui.patientselection.PatientMatchesController">
+		controller="PatientMatchesController">
 
 		<style>
 			.fcf-patientselection-matchitem, .fcf-patientselection-matchitem * {

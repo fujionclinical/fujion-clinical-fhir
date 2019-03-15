@@ -17,7 +17,7 @@
 
 	<beans profile="child">
 
-		<bean id="fcfPatientPhotoController" class="org.fujionclinical.fhir.plugin.patientphoto.PatientPhoto"
+		<bean id="fcfPatientPhotoController" class="org.fujionclinical.fhir.stu3.plugin.patientphoto.PatientPhoto"
 			scope="prototype" />
 
 	</beans>

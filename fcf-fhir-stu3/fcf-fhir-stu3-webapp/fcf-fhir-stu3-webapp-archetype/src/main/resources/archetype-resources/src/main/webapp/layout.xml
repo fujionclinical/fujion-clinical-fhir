@@ -15,8 +15,8 @@
 				hint="groovy:org.fujionclinical.api.event.EventManager.getInstance().fireLocalEvent(&quot;VIEW.REFRESH&quot;, null);"
 				label="Refresh" />
 			<menuitem
-				action="groovy:org.fujionclinical.fhir.ui.patientselection.PatientSelection.show();"
-				hint="groovy:org.fujionclinical.fhir.ui.patientselection.PatientSelection.show();"
+				action="groovy:PatientSelection.show();"
+				hint="groovy:PatientSelection.show();"
 				label="Select a Patient" />
 			<menuitem
 				action="groovy:org.fujionclinical.plugin.chat.ChatService.getInstance().createSession();"

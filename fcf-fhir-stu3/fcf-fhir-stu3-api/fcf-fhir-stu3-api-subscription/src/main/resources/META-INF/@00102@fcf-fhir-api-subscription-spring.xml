@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:fcf="http://www.fujionclinical.org/schema/spring"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.fujionclinical.org/schema/spring
-		http://www.fujionclinical.org/schema/spring/spring-extensions.xsd
+
+
 		http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	
@@ -16,14 +14,14 @@
 		<mvc:annotation-driven/>
 		
 		<bean id="fhirSubService" destroy-method="destroy"
-			class="org.fujionclinical.fhir.api.subscription.ResourceSubscriptionService">
+			class="org.fujionclinical.fhir.dstu3.api.subscription.ResourceSubscriptionService">
 			<constructor-arg ref="fhirClient" />
 			<constructor-arg ref="messageProducerService" />
 			<constructor-arg value="${fhir.service.subscription.callback.url:}" />
 		</bean>
 		
 		<bean id="fhirSubEndpoint"
-			class="org.fujionclinical.fhir.api.subscription.ResourceSubscriptionEndpoint">
+			class="org.fujionclinical.fhir.dstu3.api.subscription.ResourceSubscriptionEndpoint">
 			<constructor-arg ref="fhirSubService" />
 		</bean>		
 
@@ -32,7 +30,7 @@
 	<beans profile="child">
 		
 		<bean id="fhirSubManager"
-			class="org.fujionclinical.fhir.api.subscription.ResourceSubscriptionManager">
+			class="org.fujionclinical.fhir.dstu3.api.subscription.ResourceSubscriptionManager">
 			<constructor-arg ref="eventManager" />
 			<constructor-arg ref="fhirSubService" />
 		</bean>

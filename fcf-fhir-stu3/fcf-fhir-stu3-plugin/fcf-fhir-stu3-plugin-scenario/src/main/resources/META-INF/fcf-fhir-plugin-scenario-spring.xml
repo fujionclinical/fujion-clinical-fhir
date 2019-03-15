@@ -15,7 +15,7 @@
 			<fcp:resource>
 				<fcp:action-resource id="fcfScenarioShow"
 					label="${@msg.fcf.scenario.action.label}"
-					script="groovy:org.fujionclinical.fhir.plugin.scenario.ScenarioManagerController.show();" /> 
+					script="groovy:org.fujionclinical.fhir.stu3.plugin.scenario.ScenarioManagerController.show();" />
 			</fcp:resource>
 		</fcp:plugin>
 		
@@ -24,12 +24,12 @@
 	<beans profile="child">
 	
 		<bean id="fcfScenarioManagerController" scope="prototype"
-			class="org.fujionclinical.fhir.plugin.scenario.ScenarioManagerController">
+			class="org.fujionclinical.fhir.stu3.plugin.scenario.ScenarioManagerController">
 			<constructor-arg ref="fcfScenarioRegistry" />
 		</bean>	
 			
 		<bean id="fcfScenarioViewResourcesController" scope="prototype"
-			class="org.fujionclinical.fhir.plugin.scenario.ViewResourcesController">
+			class="org.fujionclinical.fhir.stu3.plugin.scenario.ViewResourcesController">
 			<constructor-arg ref="fhirService" />
 		</bean>	
 			

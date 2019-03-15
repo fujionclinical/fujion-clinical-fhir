@@ -1,3 +1,0 @@
-<template src="web/org/fujionclinical/ui/sharedforms/listViewForm.fsp">
-	<snippet anchor="detailPane" src="web/org/fujionclinical/ui/reporting/resourceListView1.fsp" />
-</template>

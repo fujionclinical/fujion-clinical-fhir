@@ -17,6 +17,5 @@
 		<module>fcf-fhir-stu3-ui-core</module>
 		<module>fcf-fhir-stu3-ui-patientselection</module>
 		<module>fcf-fhir-stu3-ui-reporting</module>
-		<module>fcf-fhir-stu3-ui-smart</module>
 	</modules>
 </project>

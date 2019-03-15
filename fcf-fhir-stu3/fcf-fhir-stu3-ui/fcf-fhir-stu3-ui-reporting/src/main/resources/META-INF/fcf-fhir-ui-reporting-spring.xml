@@ -6,19 +6,19 @@
 
 	<beans profile="root">
 
-		<bean class="org.fujionclinical.fhir.ui.reporting.headers.ReportHeaderRegistry"
+		<bean class="org.fujionclinical.fhir.stu3.ui.reporting.headers.ReportHeaderRegistry"
 			factory-method="getInstance" />
 
 	</beans>
 		
 	<beans profile="child">
 			
-		<bean id="reportHeaderPatient" class="org.fujionclinical.fhir.ui.reporting.headers.GenericHeader"
+		<bean id="reportHeaderPatient" class="org.fujionclinical.fhir.stu3.ui.reporting.headers.GenericHeader"
 			scope="prototype">
 			<constructor-arg value="CONTEXT.CHANGED.Patient" />
 		</bean>
 
-		<bean id="reportHeaderUser" class="org.fujionclinical.fhir.ui.reporting.headers.GenericHeader"
+		<bean id="reportHeaderUser" class="org.fujionclinical.fhir.stu3.ui.reporting.headers.GenericHeader"
 			scope="prototype">
 			<constructor-arg value="CONTEXT.CHANGED.User" />
 		</bean>

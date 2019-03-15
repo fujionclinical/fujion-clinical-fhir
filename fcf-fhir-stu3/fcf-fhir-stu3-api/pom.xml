@@ -16,7 +16,6 @@
 	<modules>
 		<module>fcf-fhir-stu3-api-core</module>
 		<module>fcf-fhir-stu3-api-subscription</module>
-		<module>fcf-fhir-stu3-api-smart</module>
 		<module>fcf-fhir-stu3-api-scenario</module>
 	</modules>
 </project>

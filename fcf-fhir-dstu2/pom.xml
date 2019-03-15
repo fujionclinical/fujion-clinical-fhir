@@ -14,11 +14,20 @@
 	<packaging>pom</packaging>
 	<name>FHIR Module Aggregator (DSTU2)</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-structures-dstu2</artifactId>
+			<version>${hapi.fhir.version}</version>
+		</dependency>
+	</dependencies>
+
 	<modules>
 		<!--
 		<module>fcf-fhir-dstu2-api</module>
 		<module>fcf-fhir-dstu2-ui</module>
 		<module>fcf-fhir-dstu2-plugin</module>
+		<module>fcf-fhir-dstu2-smart</module>
 		<module>fcf-fhir-dstu2-webapp</module>
 		-->
 	</modules>

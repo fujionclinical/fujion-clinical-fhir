@@ -8,31 +8,11 @@
 	</parent>
 	
 	<artifactId>fcf-fhir-common</artifactId>
-	<name>FHIR Common Utilities</name>
+	<name>FHIR Common Module Aggregator</name>
+	<packaging>pom</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-base</artifactId>
-			<version>${hapi.fhir.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-client</artifactId>
-			<version>${hapi.fhir.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-	</dependencies>
-
+	<modules>
+		<module>fcf-fhir-common-core</module>
+		<module>fcf-fhir-common-smart</module>
+	</modules>
 </project>

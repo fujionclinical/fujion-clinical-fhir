@@ -14,10 +14,19 @@
 	<packaging>pom</packaging>
 	<name>FHIR Module Aggregator (STU3)</name>
 
+	<dependencies>
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-structures-dstu3</artifactId>
+			<version>${hapi.fhir.version}</version>
+		</dependency>
+	</dependencies>
+
 	<modules>
 		<module>fcf-fhir-stu3-api</module>
 		<module>fcf-fhir-stu3-ui</module>
 		<module>fcf-fhir-stu3-plugin</module>
+		<module>fcf-fhir-stu3-smart</module>
 		<module>fcf-fhir-stu3-webapp</module>
 	</modules>
 </project>

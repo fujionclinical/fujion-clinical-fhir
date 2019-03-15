@@ -50,7 +50,7 @@
 	<beans profile="child">
 
 		<bean id="fcfAdverseReactionsController" parent="reportListViewBase"
-			class="org.fujionclinical.fhir.plugin.adversereactions.MainController" scope="prototype" />
+			  class="org.fujionclinical.fhir.stu3.plugin.adversereactions.MainController" scope="prototype" />
 
 	</beans>
 
