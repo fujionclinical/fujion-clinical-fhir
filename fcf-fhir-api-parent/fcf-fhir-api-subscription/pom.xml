@@ -12,6 +12,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-structures-dstu3</artifactId>
+			<version>${hapi.fhir.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-api-core</artifactId>
 			<version>${fcf.core.version}</version>

@@ -26,13 +26,14 @@
 package org.fujionclinical.fhir.api.common;
 
 import ca.uhn.fhir.model.primitive.IdDt;
+import org.hl7.fhir.dstu3.model.IdType;
 
 /**
  * Abstract base class for domain objects.
  */
 public abstract class DomainObject implements IReferenceable {
     
-    private final IdDt id = new IdDt();
+    private final IdType id = new IdType();
     
     public DomainObject() {
         super();
@@ -44,7 +45,7 @@ public abstract class DomainObject implements IReferenceable {
     }
     
     @Override
-    public IdDt getId() {
+    public IdType getId() {
         return id;
     }
     

@@ -25,10 +25,12 @@
  */
 package org.fujionclinical.fhir.api.smart;
 
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.fujionclinical.fhir.api.smart.SmartContextBase.ContextMap;
 
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -40,12 +42,15 @@ import java.util.UUID;
  */
 public class SmartContextBinder implements ISmartContextBinder {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     
     @Value("${smart.service.launch.binder.url:}")
     private String smartLaunchBinder;
     
     public SmartContextBinder() {
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
+                HttpClientBuilder.create().build());
+        restTemplate = new RestTemplate(clientHttpRequestFactory);
     }
     
     /**

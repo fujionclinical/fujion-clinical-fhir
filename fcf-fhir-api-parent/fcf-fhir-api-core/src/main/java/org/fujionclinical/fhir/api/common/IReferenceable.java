@@ -25,13 +25,13 @@
  */
 package org.fujionclinical.fhir.api.common;
 
-import ca.uhn.fhir.model.primitive.IdDt;
+import org.hl7.fhir.dstu3.model.IdType;
 
 /**
  * Interface for referenceable objects.
  */
 public interface IReferenceable {
     
-    public IdDt getId();
+    public IdType getId();
     
 }
