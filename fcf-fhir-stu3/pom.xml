@@ -12,14 +12,12 @@
 	<artifactId>fcf-fhir-stu3</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>FHIR Common Modules</name>
+	<name>FHIR STU3 Modules</name>
 
 	<modules>
-		<!--
-		<module>fcf-fhir-api-parent</module>
-		<module>fcf-fhir-ui-parent</module>
-		<module>fcf-fhir-plugin-parent</module>
-		<module>fcf-fhir-webapp-parent</module>
-		-->
+		<module>fcf-fhir-stu3-api</module>
+		<module>fcf-fhir-stu3-ui</module>
+		<module>fcf-fhir-stu3-plugin</module>
+		<module>fcf-fhir-stu3-webapp</module>
 	</modules>
 </project>

@@ -5,11 +5,11 @@
 
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-dstu2</artifactId>
+		<artifactId>fcf-fhir-stu3</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fcf-fhir-plugin-parent</artifactId>
+	<artifactId>fcf-fhir-stu3-plugin</artifactId>
 	<packaging>pom</packaging>
 	<name>FHIR Plugins</name>
 

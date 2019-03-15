@@ -16,10 +16,10 @@
 
 	<modules>
 		<!--
-		<module>fcf-fhir-api-parent</module>
-		<module>fcf-fhir-ui-parent</module>
-		<module>fcf-fhir-plugin-parent</module>
-		<module>fcf-fhir-webapp-parent</module>
+		<module>fcf-fhir-r4-api</module>
+		<module>fcf-fhir-r4-ui</module>
+		<module>fcf-fhir-r4-plugin</module>
+		<module>fcf-fhir-r4-webapp</module>
 		-->
 	</modules>
 </project>

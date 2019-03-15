@@ -2,12 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-dstu2</artifactId>
+		<artifactId>fcf-fhir-stu3</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<name>Web App Aggregator</name>
-	<artifactId>fcf-fhir-webapp-parent</artifactId>
+	<artifactId>fcf-fhir-stu3-webapp</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
