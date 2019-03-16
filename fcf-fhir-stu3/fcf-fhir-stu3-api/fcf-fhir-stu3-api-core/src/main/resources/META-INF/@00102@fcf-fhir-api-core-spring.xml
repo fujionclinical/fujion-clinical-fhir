@@ -19,7 +19,7 @@
 		
 		<bean id="fhirClient" factory-bean="fhirClientFactory" factory-method="createClient">
 			<constructor-arg>
-				<bean class="org.fujionclinical.fhir.dstu3.api.common.FhirClientConfigurator">
+				<bean class="org.fujionclinical.fhir.common.client.FhirClientConfigurator">
 					<constructor-arg value=""/>
 				</bean>
 			</constructor-arg>

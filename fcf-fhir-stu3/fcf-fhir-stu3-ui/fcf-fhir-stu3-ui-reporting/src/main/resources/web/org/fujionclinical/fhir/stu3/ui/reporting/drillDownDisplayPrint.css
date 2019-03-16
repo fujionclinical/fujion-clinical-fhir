@@ -1,0 +1,7 @@
+/* CSS for printing of drilldown display. */
+	
+div * {
+	height: auto !important;
+	overflow: visible !important;
+}
+

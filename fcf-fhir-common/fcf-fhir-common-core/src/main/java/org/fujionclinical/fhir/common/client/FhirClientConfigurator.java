@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu3.api.common;
+package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.SummaryEnum;
