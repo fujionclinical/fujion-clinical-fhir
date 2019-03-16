@@ -74,8 +74,6 @@ public class ReportConstants {
 
     public static final String LABEL_ID_PAGE_OFF = "%.plugin.btn.paging.label.off";
 
-    public static final String LABEL_ID_NO_PATIENT = "%.plugin.patient.selection.required";
-
     public static final String LABEL_ID_MISSING_PARAMETER = "%.plugin.missing.parameter";
 
     public static final String LABEL_ID_NO_DATA = "%.plugin.no.data.found";

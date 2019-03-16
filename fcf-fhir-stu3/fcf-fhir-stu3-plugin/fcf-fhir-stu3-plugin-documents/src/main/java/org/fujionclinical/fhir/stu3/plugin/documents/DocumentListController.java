@@ -39,6 +39,7 @@ import org.fujionclinical.fhir.dstu3.api.document.Document;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentListDataService;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentService;
 import org.fujionclinical.fhir.stu3.ui.reporting.controller.AbstractGridController;
+import org.fujionclinical.fhir.stu3.ui.reporting.controller.PatientQueryParameter;
 
 import java.util.*;
 
@@ -93,7 +94,7 @@ public class DocumentListController extends AbstractGridController<Document, Doc
     private final Collection<String> allTypes;
 
     public DocumentListController(DocumentService service) {
-        super(new DocumentListDataService(service), "fcfdocuments", "DOCUMENT", "documentsPrint.css");
+        super(new DocumentListDataService(service), "fcfdocuments", "DOCUMENT", "documentsPrint.css", "patient", new PatientQueryParameter());
         registerQueryFilter(new DocumentTypeFilter());
         allTypes = service.getTypes();
     }

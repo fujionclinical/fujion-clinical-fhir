@@ -38,7 +38,7 @@ import org.fujionclinical.fhir.dstu3.api.document.Document;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentDisplayDataService;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentService;
 import org.fujionclinical.fhir.stu3.ui.reporting.controller.AbstractGridController;
-import org.hl7.fhir.dstu3.model.Patient;
+import org.fujionclinical.fhir.stu3.ui.reporting.controller.PatientQueryParameter;
 
 import java.util.Date;
 import java.util.List;
@@ -59,7 +59,7 @@ public class DocumentDisplayController extends AbstractGridController<Document, 
     private final DocumentDisplayComboRenderer comboRenderer = new DocumentDisplayComboRenderer();
     
     public DocumentDisplayController(DocumentService service) {
-        super(new DocumentDisplayDataService(service), "fcfdocuments", "DOCUMENT", "documentsPrint.css");
+        super(new DocumentDisplayDataService(service), "fcfdocuments", "DOCUMENT", "documentsPrint.css", "patient", new PatientQueryParameter());
     }
     
     @Override
@@ -78,9 +78,8 @@ public class DocumentDisplayController extends AbstractGridController<Document, 
      * This view should be closed when the patient context changes.
      */
     @Override
-    protected void onPatientChanged(Patient patient) {
+    protected void onParameterChanged(SupplementalQueryParam<?> param) {
         closeView();
-        super.onPatientChanged(patient);
     }
     
     /**

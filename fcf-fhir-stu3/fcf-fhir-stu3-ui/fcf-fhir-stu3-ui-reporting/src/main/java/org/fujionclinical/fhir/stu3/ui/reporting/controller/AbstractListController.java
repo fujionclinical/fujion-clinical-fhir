@@ -47,13 +47,8 @@ public abstract class AbstractListController<T, M> extends AbstractBaseControlle
     protected Listbox listbox;
 
     public AbstractListController(IQueryService<T> service, String labelPrefix, String propertyPrefix,
-        String printStyleSheet) {
-        super(service, labelPrefix, propertyPrefix, printStyleSheet);
-    }
-
-    public AbstractListController(IQueryService<T> service, String labelPrefix, String propertyPrefix,
-        String printStyleSheet, boolean patientAware) {
-        super(service, labelPrefix, propertyPrefix, printStyleSheet, patientAware);
+        String printStyleSheet, String reportHeader, SupplementalQueryParam<?> ...params) {
+        super(service, labelPrefix, propertyPrefix, printStyleSheet, reportHeader, params);
     }
 
     /**

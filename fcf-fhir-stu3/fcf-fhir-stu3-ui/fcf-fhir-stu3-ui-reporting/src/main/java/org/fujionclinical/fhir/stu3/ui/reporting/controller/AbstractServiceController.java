@@ -37,23 +37,21 @@ import org.fujion.component.Label;
 import org.fujion.component.Style;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
-import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.api.query.*;
 import org.fujionclinical.api.thread.IAbortable;
-import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
-import org.fujionclinical.fhir.dstu3.api.patient.PatientContext.IPatientContextEvent;
 import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.shell.plugins.PluginController;
 import org.fujionclinical.ui.util.FCFUtil;
-import org.hl7.fhir.dstu3.model.Patient;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * This is a stateful controller that supports plugins that perform background data retrieval using
- * an IDataService-compliant service.
+ * an IQueryService-compliant service.
  *
  * @param <T> Query result class
  * @param <M> Model result class
@@ -61,7 +59,124 @@ import java.util.List;
 public abstract class AbstractServiceController<T, M> extends PluginController {
     
     private static final Log log = LogFactory.getLog(AbstractServiceController.class);
-    
+
+    /**
+     * A supplemental query parameter that will be added to the query prior to execution.  This is used
+     * for parameters that may change their value due to external events, requiring a refresh of the display.
+     *
+     * @param <P> The datatype of the parameter value.
+     */
+    protected abstract static class SupplementalQueryParam<P> {
+
+        private final String paramName;
+
+        private P paramValue;
+
+        private Consumer<SupplementalQueryParam<?>> callback;
+
+        protected SupplementalQueryParam(String paramName, P initialValue) {
+            this.paramName = paramName;
+            this.paramValue = initialValue;
+        }
+
+        /**
+         * Returns the current parameter value.
+         *
+         * @return The current parameter value.
+         */
+        protected P getValue() {
+            return paramValue;
+        }
+
+        /**
+         * Sets the parameter value, triggering a value changed event.
+         *
+         * @param value The new parameter value.
+         */
+        protected void setValue(P value) {
+            paramValue = value;
+            valueChanged();
+        }
+
+        /**
+         * Destroys the object.  The default implementation just sets the parameter's value to null.
+         */
+        protected void destroy() {
+            paramValue = null;
+        }
+
+        /**
+         * Returns the id of a label value to be displayed in the event that the parameter lacks a required value.
+         *
+         * @return Label id if a required value is not present; otherwise null.
+         */
+        protected abstract String hasRequired();
+
+        /**
+         * Initialize the query context with this parameter's value.
+         *
+         * @param context The query context to initialize.
+         */
+        protected void initContext(IQueryContext context) {
+            context.setParam(paramName, paramValue);
+        }
+
+        /**
+         * Called when the parameter's value has changed, notifying the subscriber via the callback.
+         */
+        private void valueChanged() {
+            if (callback != null) {
+                callback.accept(this);
+            }
+        }
+
+        /**
+         * Sets the callback to be invoked when the parameter value changes.
+         *
+         * @param callback The callback.
+         */
+        private void setCallback(Consumer<SupplementalQueryParam<?>> callback) {
+            this.callback = callback;
+        }
+
+    }
+
+    /**
+     * Manages all registered supplemental query parameters.
+     */
+    private class SupplementalQueryParams {
+
+        private final List<SupplementalQueryParam<?>> params = new ArrayList<>();
+
+        void register(SupplementalQueryParam<?> ...params) {
+            for (SupplementalQueryParam<?> param: params) {
+                this.params.add(param);
+                param.setCallback(prm -> AbstractServiceController.this.onParameterChanged(param));
+            }
+        }
+
+        String hasRequired() {
+            for (SupplementalQueryParam<?> param: params) {
+                String labelId = param.hasRequired();
+
+                if (labelId != null) {
+                    return labelId;
+                }
+            }
+
+            return null;
+        }
+
+        void initContext(IQueryContext context) {
+            params.forEach(param -> param.initContext(context));
+        }
+
+        void destroy() {
+            params.forEach(param -> param.destroy());
+            params.clear();
+        }
+    }
+
     protected class QueryFinishedEvent extends Event {
         
         private final IAbortable thread;
@@ -99,27 +214,6 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
     };
     
     /**
-     * Patient context change listener. Used only if the controller is marked as patient aware.
-     */
-    private final IPatientContextEvent patientContextListener = new IPatientContextEvent() {
-        
-        @Override
-        public void pending(ISurveyResponse response) {
-            onPatientChanging(response);
-        }
-        
-        @Override
-        public void committed() {
-            onPatientChanged(PatientContext.getActivePatient());
-        }
-        
-        @Override
-        public void canceled() {
-            // ignored
-        }
-    };
-    
-    /**
      * Listener for query filter changes.
      */
     private final IQueryFilterChanged<M> queryFilterChangedListener = new IQueryFilterChanged<M>() {
@@ -144,10 +238,10 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
     private final IQueryContext queryContext = new QueryContext();
     
     private final QueryFilterSet<M> queryFilters = new QueryFilterSet<>();
-    
+
+    private final SupplementalQueryParams supplementalQueryParams = new SupplementalQueryParams();
+
     private final IQueryService<T> service;
-    
-    /*package*/final boolean patientAware;
     
     private final String labelPrefix;
     
@@ -157,23 +251,20 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
     
     private boolean fetchPending;
     
-    private Patient patient;
-    
     private BaseUIComponent hideOnShowMessage;
     
     /**
      * Create the controller.
      *
      * @param service The is the data query service.
-     * @param patientAware If true, uses patient context.
      * @param labelPrefix Prefix used to resolve label id's with placeholders.
      */
-    public AbstractServiceController(IQueryService<T> service, boolean patientAware, String labelPrefix) {
+    public AbstractServiceController(IQueryService<T> service, String labelPrefix, SupplementalQueryParam<?> ...params) {
         super();
         this.service = service;
-        this.patientAware = patientAware;
         this.labelPrefix = labelPrefix;
         queryFilters.addListener(queryFilterChangedListener);
+        supplementalQueryParams.register(params);
     }
     
     // Begin override section.  The following methods will likely require implementation/overrides to produce desired behaviors.
@@ -261,15 +352,12 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
     }
     
     /**
-     * Unsubscribe context listener on unload.
+     * Clean up.
      */
     @Override
     public void onUnload() {
         super.onUnload();
-        
-        if (patientAware) {
-            getAppFramework().unregisterObject(patientContextListener);
-        }
+        supplementalQueryParams.destroy();
     }
     
     /**
@@ -338,20 +426,8 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
      * @return Null if all required parameters are present. Otherwise, the id of a label to display.
      */
     protected String hasRequired() {
-        if (patientAware && patient == null) {
-            return ReportConstants.LABEL_ID_NO_PATIENT;
-        }
-        
-        return service.hasRequired(queryContext) ? null : ReportConstants.LABEL_ID_MISSING_PARAMETER;
-    }
-    
-    /**
-     * Returns the current patient.
-     *
-     * @return The current patient.
-     */
-    public Patient getPatient() {
-        return patient;
+        String labelId = supplementalQueryParams.hasRequired();
+        return labelId != null ? labelId : service.hasRequired(queryContext) ? null : ReportConstants.LABEL_ID_MISSING_PARAMETER;
     }
     
     /**
@@ -368,7 +444,7 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
         
         showBusy(getLabel(ReportConstants.LABEL_ID_FETCHING));
         queryContext.reset();
-        queryContext.setParam("patient", patient);
+        supplementalQueryParams.initContext(queryContext);
         queryFilters.updateContext(queryContext);
         prepareQueryContext(queryContext);
         String msg = hasRequired();
@@ -482,36 +558,18 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
     public void afterInitialized(BaseComponent comp) {
         super.afterInitialized(comp);
         initializeController();
-        
-        if (patientAware) {
-            getAppFramework().registerObject(patientContextListener);
-            patient = PatientContext.getActivePatient();
-            onPatientChanged(patient);
-        } else {
-            refresh();
-        }
-    }
-    
-    /**
-     * Called if the controller is patient aware and the patient context has changed.
-     *
-     * @param patient The newly selected patient.
-     */
-    protected void onPatientChanged(Patient patient) {
-        this.patient = patient;
         refresh();
     }
     
     /**
-     * Called if the controller is patient aware and the patient context is about to be changed.
-     * Override to control the pending context change.
+     * Called if a supplemental parameter value has changed.
      *
-     * @param response The survey response.
+     * @param param The parameter whose value has changed.
      */
-    protected void onPatientChanging(ISurveyResponse response) {
-        response.accept();
+    protected void onParameterChanged(SupplementalQueryParam<?> param) {
+        refresh();
     }
-    
+
     /**
      * Refreshes the data by re-fetching from the data source. If the plugin is not active, the
      * fetch request is deferred.

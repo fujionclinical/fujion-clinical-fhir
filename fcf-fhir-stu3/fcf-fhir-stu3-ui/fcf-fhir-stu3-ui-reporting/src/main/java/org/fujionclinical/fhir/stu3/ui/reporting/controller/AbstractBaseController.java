@@ -90,18 +90,7 @@ public abstract class AbstractBaseController<T, M> extends AbstractServiceContro
 
     private final String printStyleSheet;
 
-    /**
-     * Create the controller.
-     *
-     * @param service The is the data query service.
-     * @param labelPrefix Prefix used to resolve label id's with placeholders.
-     * @param propertyPrefix Prefix for property names.
-     * @param printStyleSheet Optional style sheet to apply when printing.
-     */
-    public AbstractBaseController(IQueryService<T> service, String labelPrefix, String propertyPrefix,
-                                  String printStyleSheet) {
-        this(service, labelPrefix, propertyPrefix, printStyleSheet, true);
-    }
+    private final String reportHeader;
 
     /**
      * Create the controller.
@@ -110,11 +99,11 @@ public abstract class AbstractBaseController<T, M> extends AbstractServiceContro
      * @param labelPrefix Prefix used to resolve label id's with placeholders.
      * @param propertyPrefix Prefix for property names.
      * @param printStyleSheet Optional style sheet to apply when printing.
-     * @param patientAware If true, uses patient context.
+     * @param params Optional supplemental query parameters.
      */
     public AbstractBaseController(IQueryService<T> service, String labelPrefix, String propertyPrefix,
-                                  String printStyleSheet, boolean patientAware) {
-        super(service, patientAware, labelPrefix);
+                                  String printStyleSheet, String reportHeader, SupplementalQueryParam<?> ...params) {
+        super(service, labelPrefix, params);
         this.propertyPrefix = propertyPrefix;
 
         if (printStyleSheet != null && !printStyleSheet.startsWith("web/")) {
@@ -122,6 +111,7 @@ public abstract class AbstractBaseController<T, M> extends AbstractServiceContro
         }
 
         this.printStyleSheet = printStyleSheet;
+        this.reportHeader = reportHeader == null ? "user" : reportHeader;
     }
 
     @SuppressWarnings("unchecked")
@@ -401,7 +391,7 @@ public abstract class AbstractBaseController<T, M> extends AbstractServiceContro
     protected void print(BaseComponent root) {
         String printTitle = getLabel(ReportConstants.LABEL_ID_TITLE);
         ReportUtil.print((BaseUIComponent) (root == null ? baseComponent.getParent() : root), printTitle,
-            patientAware ? "patient" : "user", printStyleSheet);
+            reportHeader, printStyleSheet);
     }
 
     @EventHandler(value = "click", target = "btnPrint", onFailure = OnFailure.IGNORE)
