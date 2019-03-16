@@ -13,6 +13,7 @@
 
 	<modules>
 		<module>fcf-fhir-common-core</module>
+		<module>fcf-fhir-common-security</module>
 		<module>fcf-fhir-common-smart</module>
 	</modules>
 </project>

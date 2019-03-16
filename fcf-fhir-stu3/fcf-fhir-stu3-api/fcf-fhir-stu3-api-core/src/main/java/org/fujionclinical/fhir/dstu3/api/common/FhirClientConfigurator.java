@@ -29,9 +29,9 @@ import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.SummaryEnum;
 import org.apache.commons.lang.StringUtils;
 import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.fhir.common.client.IAuthInterceptor;
 import org.fujionclinical.fhir.common.client.IFhirClientConfigurator;
-import org.fujionclinical.fhir.dstu3.api.security.AuthInterceptorRegistry;
+import org.fujionclinical.fhir.common.security.AuthInterceptorRegistry;
+import org.fujionclinical.fhir.common.security.IAuthInterceptor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 

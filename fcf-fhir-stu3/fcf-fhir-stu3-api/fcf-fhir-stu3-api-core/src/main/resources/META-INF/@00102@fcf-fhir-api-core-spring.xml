@@ -26,7 +26,7 @@
 		</bean>
 		
 		<bean id="fhirAuthInterceptorRegistry" factory-method="getInstance"
-			class="org.fujionclinical.fhir.dstu3.api.security.AuthInterceptorRegistry" />
+			class="org.fujionclinical.fhir.common.security.AuthInterceptorRegistry" />
 		
 		<bean id="fhirAuthInterceptor" abstract="true" 
 			class="org.springframework.beans.factory.config.MethodInvokingBean">
@@ -37,7 +37,7 @@
 		<bean parent="fhirAuthInterceptor">
 			<property name="arguments">
 				<map>
-					<entry key="Basic" value="org.fujionclinical.fhir.dstu3.api.security.BasicAuthInterceptor" />
+					<entry key="Basic" value="org.fujionclinical.fhir.common.security.BasicAuthInterceptor" />
 				</map>
 			</property>
 		</bean>
@@ -70,8 +70,8 @@
 		<bean parent="fhirAuthInterceptor">
 			<property name="arguments">
 				<map>
-					<entry key="OAuth2" value="org.fujionclinical.fhir.dstu3.api.security.OAuth2AuthInterceptor" />
-					<entry key="JWT" value="org.fujionclinical.fhir.dstu3.api.security.JWTAuthInterceptor" />
+					<entry key="OAuth2" value="org.fujionclinical.fhir.common.security.OAuth2AuthInterceptor" />
+					<entry key="JWT" value="org.fujionclinical.fhir.common.security.JWTAuthInterceptor" />
 				</map>
 			</property>
 		</bean>
