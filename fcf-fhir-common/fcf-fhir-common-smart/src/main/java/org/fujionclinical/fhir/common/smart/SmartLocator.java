@@ -38,7 +38,7 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 
 /**
- * Locates SMART app manifests and registers them as CareWeb plugins. Manifests must end in the
+ * Locates SMART app manifests and registers them as Fujion plugins. Manifests must end in the
  * extension ".smart" and be a valid JSON-ized manifest format.
  */
 public class SmartLocator implements ApplicationContextAware {
@@ -68,7 +68,7 @@ public class SmartLocator implements ApplicationContextAware {
 
     /**
      * Search for SMART manifests within the specified path root. Each discovered manifest will
-     * result in the creation of a CareWeb plugin definition for the associated SMART app.
+     * result in the creation of a Fujion plugin definition for the associated SMART app.
      *
      * @param appContext The application context.
      * @param root Root path for search.

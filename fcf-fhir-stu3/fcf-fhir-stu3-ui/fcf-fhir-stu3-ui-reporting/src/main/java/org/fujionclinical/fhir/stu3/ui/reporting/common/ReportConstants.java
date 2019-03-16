@@ -30,9 +30,9 @@ import org.fujionclinical.ui.util.FCFUtil;
 /**
  * Package-specific constants.
  */
-public class Constants {
+public class ReportConstants {
 
-    public static final String RESOURCE_PREFIX = FCFUtil.getResourcePath(Constants.class);
+    public static final String RESOURCE_PREFIX = FCFUtil.getResourcePath(ReportConstants.class);
 
     public static final String SCLASS_ABNORMAL_RESULT = "fcf-reporting-abnormalResult";
 
@@ -56,7 +56,7 @@ public class Constants {
 
     public static final String SCLASS_TEXT_REPORT_HEADER = "fcf-reporting-textReport-header";
 
-    public static final String PROPERTY_ID_DRILLDOWN = "CAREWEB.ENABLE.DRILLDOWN";
+    public static final String PROPERTY_ID_DRILLDOWN = "FUJION.ENABLE.DRILLDOWN";
 
     public static final String PROPERTY_ID_DATE_RANGE = "%.DATERANGE";
 
@@ -89,6 +89,6 @@ public class Constants {
     /**
      * Enforce static class.
      */
-    private Constants() {
+    private ReportConstants() {
     }
 }

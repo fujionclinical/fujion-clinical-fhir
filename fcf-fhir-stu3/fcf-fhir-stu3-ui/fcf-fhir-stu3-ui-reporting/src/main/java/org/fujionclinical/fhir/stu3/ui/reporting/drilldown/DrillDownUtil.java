@@ -30,7 +30,7 @@ import org.fujion.component.BaseComponent;
 import org.fujion.component.BaseUIComponent;
 import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.property.PropertyUtil;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 
 import java.lang.reflect.Constructor;
 
@@ -45,17 +45,17 @@ public class DrillDownUtil {
      * @return True if drill down icons are enabled.
      */
     public static boolean showIcons() {
-        Boolean result = (Boolean) FrameworkUtil.getAttribute(Constants.PROPERTY_ID_DRILLDOWN);
+        Boolean result = (Boolean) FrameworkUtil.getAttribute(ReportConstants.PROPERTY_ID_DRILLDOWN);
         
         if (result == null) {
             try {
-                String value = PropertyUtil.getValue(Constants.PROPERTY_ID_DRILLDOWN);
+                String value = PropertyUtil.getValue(ReportConstants.PROPERTY_ID_DRILLDOWN);
                 result = BooleanUtils.toBoolean(value);
             } catch (Exception e) {
                 result = true;
             }
             
-            FrameworkUtil.setAttribute(Constants.PROPERTY_ID_DRILLDOWN, result);
+            FrameworkUtil.setAttribute(ReportConstants.PROPERTY_ID_DRILLDOWN, result);
         }
         
         return result;

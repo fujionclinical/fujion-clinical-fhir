@@ -34,7 +34,7 @@ import java.util.List;
 
 /**
  * Abstract base class for SMART context adapters. This class defines most of the logic required to
- * convey CareWeb-based context changes to SMART subscribers of the equivalent context scope.
+ * convey Fujion-based context changes to SMART subscribers of the equivalent context scope.
  * Subclasses must implement the updateContext method (see SmartContextUser subclass as an example)
  * and should be configured as singleton beans in the desktop application context via Spring IOC.
  * Naming of the singleton beans must follow the convention "smart.context.[context scope]" where
@@ -81,7 +81,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
      * Main constructor.
      *
      * @param contextScope This is the name of the SMART context scope (e.g., "user").
-     * @param contextEvent This is the name of the corresponding CareWeb context change notification
+     * @param contextEvent This is the name of the corresponding Fujion context change notification
      *            event (e.g., "CONTEXT.CHANGED.User").
      */
     public SmartContextBase(String contextScope, String contextEvent) {

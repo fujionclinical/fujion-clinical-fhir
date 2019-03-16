@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.stu3.ui.reporting.drilldown;
 
 import org.fujion.common.StrUtil;
 import org.fujion.component.Image;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 
 /**
  * A clickable icon for invoking a drill down dialog on a single entity. All entity types are
@@ -66,8 +66,8 @@ public abstract class DrillDownIconBase<T> extends Image {
      * @param hint Tooltip text
      */
     public DrillDownIconBase(T dataObject, Class<?> drillDownDisplayClass, StockIcons stockIcon, String hint) {
-        this(dataObject, drillDownDisplayClass, Constants.RESOURCE_PREFIX + stockIcons[stockIcon.ordinal()] + ".png",
-                Constants.RESOURCE_PREFIX + stockIcons[stockIcon.ordinal()] + "2.png", hint);
+        this(dataObject, drillDownDisplayClass, ReportConstants.RESOURCE_PREFIX + stockIcons[stockIcon.ordinal()] + ".png",
+                ReportConstants.RESOURCE_PREFIX + stockIcons[stockIcon.ordinal()] + "2.png", hint);
     }
     
     /**
@@ -83,7 +83,7 @@ public abstract class DrillDownIconBase<T> extends Image {
         setSrc(glyph1);
         //TODO: setHover(glyph2 == null ? glyph1 : glyph2);
         setHint(hint != null ? hint : StrUtil.getLabel(TOOLTIP));
-        addClass(Constants.SCLASS_DRILLDOWN_LINK);
+        addClass(ReportConstants.SCLASS_DRILLDOWN_LINK);
         attachEventListener();
     }
     

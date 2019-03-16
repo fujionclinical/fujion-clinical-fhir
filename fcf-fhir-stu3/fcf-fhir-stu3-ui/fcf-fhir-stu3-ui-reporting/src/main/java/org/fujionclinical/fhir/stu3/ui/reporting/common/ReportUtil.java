@@ -33,7 +33,7 @@ import org.springframework.util.StringUtils;
 /**
  * Utility methods for processing report elements.
  */
-public class Util {
+public class ReportUtil {
     
     /**
      * Invokes a client-side print request.
@@ -62,6 +62,6 @@ public class Util {
     /**
      * Enforces static class.
      */
-    private Util() {
+    private ReportUtil() {
     }
 }

@@ -183,7 +183,7 @@ public class PatientSelection {
     public static boolean forcePatientSelection() {
         
         try {
-            return canSelect(false) && StrUtil.toBoolean(PropertyUtil.getValue("CAREWEB.PATIENT.FORCE.SELECT", null));
+            return canSelect(false) && StrUtil.toBoolean(PropertyUtil.getValue("FUJION.PATIENT.FORCE.SELECT", null));
         } catch (Exception e) {
             return false;
         }

@@ -43,7 +43,7 @@ public class MRUPatientList extends PropertyBasedPatientList {
 
     private static final Log log = LogFactory.getLog(MRUPatientList.class);
 
-    private static final String LIST_SIZE_MAX_PROPERTY = "CAREWEB.PATIENT.LIST.SIZE";
+    private static final String LIST_SIZE_MAX_PROPERTY = "FUJION.PATIENT.LIST.SIZE";
 
     private int pplListSizeMax = -1;
 

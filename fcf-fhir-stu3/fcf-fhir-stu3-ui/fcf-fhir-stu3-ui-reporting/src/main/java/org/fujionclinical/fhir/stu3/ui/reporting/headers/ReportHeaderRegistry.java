@@ -35,7 +35,7 @@ import org.fujion.component.Page;
 import org.fujion.page.PageUtil;
 import org.fujion.websocket.ISessionLifecycle;
 import org.fujion.websocket.Session;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,8 +50,8 @@ public class ReportHeaderRegistry implements ISessionLifecycle {
     private static final ReportHeaderRegistry instance = new ReportHeaderRegistry();
 
     static {
-        instance.register("user", Constants.RESOURCE_PREFIX + "userReportHeader.fsp");
-        instance.register("patient", Constants.RESOURCE_PREFIX + "patientReportHeader.fsp");
+        instance.register("user", ReportConstants.RESOURCE_PREFIX + "userReportHeader.fsp");
+        instance.register("patient", ReportConstants.RESOURCE_PREFIX + "patientReportHeader.fsp");
     }
 
     private final Map<String, String> map = new RegistryMap<>(DuplicateAction.ERROR);

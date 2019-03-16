@@ -42,7 +42,7 @@ import org.fujionclinical.api.query.*;
 import org.fujionclinical.api.thread.IAbortable;
 import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
 import org.fujionclinical.fhir.dstu3.api.patient.PatientContext.IPatientContextEvent;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.shell.plugins.PluginController;
 import org.fujionclinical.ui.util.FCFUtil;
@@ -339,10 +339,10 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
      */
     protected String hasRequired() {
         if (patientAware && patient == null) {
-            return Constants.LABEL_ID_NO_PATIENT;
+            return ReportConstants.LABEL_ID_NO_PATIENT;
         }
         
-        return service.hasRequired(queryContext) ? null : Constants.LABEL_ID_MISSING_PARAMETER;
+        return service.hasRequired(queryContext) ? null : ReportConstants.LABEL_ID_MISSING_PARAMETER;
     }
     
     /**
@@ -366,7 +366,7 @@ public abstract class AbstractServiceController<T, M> extends PluginController {
             return;
         }
         
-        showBusy(getLabel(Constants.LABEL_ID_FETCHING));
+        showBusy(getLabel(ReportConstants.LABEL_ID_FETCHING));
         queryContext.reset();
         queryContext.setParam("patient", patient);
         queryFilters.updateContext(queryContext);

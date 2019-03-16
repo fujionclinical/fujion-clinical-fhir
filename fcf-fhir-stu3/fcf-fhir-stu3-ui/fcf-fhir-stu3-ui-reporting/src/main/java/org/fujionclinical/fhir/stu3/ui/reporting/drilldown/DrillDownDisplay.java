@@ -34,7 +34,7 @@ import org.fujion.component.*;
 import org.fujion.event.*;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.api.security.SecurityUtil;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 import org.fujionclinical.ui.dialog.PopupDialog;
 import org.hl7.fhir.dstu3.model.Identifier;
 
@@ -159,7 +159,7 @@ public class DrillDownDisplay extends PopupDialog {
         setWidth("600px");
         
         try {
-            PageUtil.createPage(Constants.RESOURCE_PREFIX + "drillDownDisplay.fsp", this);
+            PageUtil.createPage(ReportConstants.RESOURCE_PREFIX + "drillDownDisplay.fsp", this);
             adjustGrid();
         } catch (Exception e) {
             log.error("Error creating drilldown display dialog.", e);
@@ -212,7 +212,7 @@ public class DrillDownDisplay extends PopupDialog {
                 addRow("-------DEBUG--------", clazz.getName());
                 row = getLastRow();
                 row.addChild(new Label());
-                row.addClass(Constants.SCLASS_DRILLDOWN_GRID);
+                row.addClass(ReportConstants.SCLASS_DRILLDOWN_GRID);
             }
             
             try {

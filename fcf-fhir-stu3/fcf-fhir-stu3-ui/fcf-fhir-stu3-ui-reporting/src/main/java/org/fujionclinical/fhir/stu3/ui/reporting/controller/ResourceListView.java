@@ -42,7 +42,7 @@ import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
 import org.fujionclinical.fhir.dstu3.api.subscription.ISubscriptionCallback;
 import org.fujionclinical.fhir.dstu3.api.subscription.ResourceSubscriptionManager;
 import org.fujionclinical.fhir.dstu3.api.subscription.SubscriptionWrapper;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.fujionclinical.ui.sharedforms.ListFormController;
@@ -245,7 +245,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
                 map.put("allowPrint", getAllowPrint());
                 try {
                     Window window = (Window) PageUtil
-                            .createPage(Constants.RESOURCE_PREFIX + "resourceListDetailPopup.fsp", null, map).get(0);
+                            .createPage(ReportConstants.RESOURCE_PREFIX + "resourceListDetailPopup.fsp", null, map).get(0);
                     window.modal(null);
                 } catch (Exception e) {
                     DialogUtil.showError(e);

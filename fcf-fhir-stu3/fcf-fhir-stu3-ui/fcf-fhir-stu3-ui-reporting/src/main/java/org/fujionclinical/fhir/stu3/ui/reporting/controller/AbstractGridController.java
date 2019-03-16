@@ -35,7 +35,7 @@ import org.fujion.component.Grid;
 import org.fujion.component.Row;
 import org.fujion.component.Rows;
 import org.fujionclinical.api.query.IQueryService;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +78,7 @@ public abstract class AbstractGridController<T, M> extends AbstractBaseControlle
         setComponents(grid, grid.getRows());
         super.initializeController();
         
-        boolean expandAll = getPropertyValue(Constants.PROPERTY_ID_EXPAND_DETAIL, Boolean.class,
+        boolean expandAll = getPropertyValue(ReportConstants.PROPERTY_ID_EXPAND_DETAIL, Boolean.class,
             chkExpandAll != null && chkExpandAll.isChecked());
         
         if (this.chkExpandAll != null) {

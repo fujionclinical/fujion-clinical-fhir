@@ -4,7 +4,7 @@
 		<menuitem label="Actions">
 			<menuitem
 				action="groovy:org.fujionclinical.shell.ShellUtil.getShell().lock();"
-				hint="groovy:org.carewebframework.shell.ShellUtil.getShell().lock();"
+				hint="groovy:org.fujionclinical.shell.ShellUtil.getShell().lock();"
 				label="Lock Application" />
 			<menuitem
 				action="groovy:org.fujionclinical.shell.ShellUtil.getShell().logout();"
