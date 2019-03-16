@@ -23,23 +23,35 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu3.api.common;
+package org.fujionclinical.fhir.common.query;
 
-import org.fujion.common.StrUtil;
+import ca.uhn.fhir.rest.gclient.IQuery;
+import org.hl7.fhir.instance.model.api.IBaseResource;
+
+import java.util.List;
 
 /**
- * Exception class for search related exceptions.
+ * Extended resource query interface.
+ * 
+ * @param <R> The resource class
+ * @param <C> The criteria class.
  */
-public class SearchException extends RuntimeException {
+public interface IResourceQueryEx<R extends IBaseResource, C> extends IResourceQuery<R, C> {
     
-    private static final long serialVersionUID = 1L;
     
-    public SearchException(String label) {
-        this(label, null);
-    }
+    /**
+     * Alternative method for performing a search that allows for external configuration of the
+     * query object.
+     * 
+     * @param query The query object.
+     * @return List of matching resources. May return null to indicate no matches.
+     */
+    List<R> search(IQuery<?> query);
     
-    public SearchException(String label, Throwable cause) {
-        super(StrUtil.formatMessage(label), cause);
-    }
-    
+    /**
+     * Creates an empty query object for this resource class.
+     * 
+     * @return The newly created query object.
+     */
+    IQuery<?> createQuery();
 }

@@ -34,7 +34,7 @@ import org.fujion.component.*;
 import org.fujion.event.*;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.api.security.SecurityUtil;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 import org.fujionclinical.ui.dialog.PopupDialog;
 import org.hl7.fhir.dstu3.model.Identifier;
 

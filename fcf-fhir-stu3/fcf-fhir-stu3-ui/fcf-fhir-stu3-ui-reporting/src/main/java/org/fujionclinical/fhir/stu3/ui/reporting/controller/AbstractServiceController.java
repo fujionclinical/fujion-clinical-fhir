@@ -42,7 +42,7 @@ import org.fujionclinical.api.query.*;
 import org.fujionclinical.api.thread.IAbortable;
 import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
 import org.fujionclinical.fhir.dstu3.api.patient.PatientContext.IPatientContextEvent;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.shell.plugins.PluginController;
 import org.fujionclinical.ui.util.FCFUtil;

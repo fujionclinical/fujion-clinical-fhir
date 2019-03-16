@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu3.api.common;
+package org.fujionclinical.fhir.common.query;
 
 import org.apache.commons.lang.StringUtils;
 

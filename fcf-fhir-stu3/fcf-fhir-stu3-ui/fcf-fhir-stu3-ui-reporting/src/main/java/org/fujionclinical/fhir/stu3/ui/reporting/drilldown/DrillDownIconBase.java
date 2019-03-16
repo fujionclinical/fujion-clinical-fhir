@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.stu3.ui.reporting.drilldown;
 
 import org.fujion.common.StrUtil;
 import org.fujion.component.Image;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 
 /**
  * A clickable icon for invoking a drill down dialog on a single entity. All entity types are

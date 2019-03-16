@@ -42,7 +42,7 @@ import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
 import org.fujionclinical.fhir.dstu3.api.subscription.ISubscriptionCallback;
 import org.fujionclinical.fhir.dstu3.api.subscription.ResourceSubscriptionManager;
 import org.fujionclinical.fhir.dstu3.api.subscription.SubscriptionWrapper;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.fujionclinical.ui.sharedforms.ListFormController;

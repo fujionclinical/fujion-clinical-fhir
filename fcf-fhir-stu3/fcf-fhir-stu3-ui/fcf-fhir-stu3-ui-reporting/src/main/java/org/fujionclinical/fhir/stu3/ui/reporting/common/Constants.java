@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.stu3.ui.reporting;
+package org.fujionclinical.fhir.stu3.ui.reporting.common;
 
 import org.fujionclinical.ui.util.FCFUtil;
 

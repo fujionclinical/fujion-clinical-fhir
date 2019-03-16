@@ -23,35 +23,27 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu3.api.query;
+package org.fujionclinical.fhir.common.query;
 
-import ca.uhn.fhir.rest.gclient.IQuery;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.List;
 
 /**
- * Extended resource query interface.
+ * Resource query interface.
  * 
  * @param <R> The resource class
  * @param <C> The criteria class.
  */
-public interface IResourceQueryEx<R extends IBaseResource, C> extends IResourceQuery<R, C> {
+public interface IResourceQuery<R extends IBaseResource, C> {
     
     
     /**
-     * Alternative method for performing a search that allows for external configuration of the
-     * query object.
+     * Search for matching resources.
      * 
-     * @param query The query object.
+     * @param criteria Search criteria.
      * @return List of matching resources. May return null to indicate no matches.
      */
-    List<R> search(IQuery<?> query);
+    List<R> search(C criteria);
     
-    /**
-     * Creates an empty query object for this resource class.
-     * 
-     * @return The newly created query object.
-     */
-    IQuery<?> createQuery();
 }

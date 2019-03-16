@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.dstu3.api.encounter;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.dstu3.api.common.ClientUtil;
 import org.fujionclinical.fhir.dstu3.api.common.FhirUtil;
-import org.fujionclinical.fhir.dstu3.api.query.IResourceQueryEx;
+import org.fujionclinical.fhir.common.query.IResourceQueryEx;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
 import org.hl7.fhir.dstu3.model.Encounter.EncounterLocationComponent;

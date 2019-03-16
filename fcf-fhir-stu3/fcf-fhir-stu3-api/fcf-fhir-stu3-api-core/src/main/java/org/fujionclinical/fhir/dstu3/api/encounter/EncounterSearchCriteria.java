@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.dstu3.api.encounter;
 
-import org.fujionclinical.fhir.dstu3.api.common.SearchCriteria;
+import org.fujionclinical.fhir.common.query.SearchCriteria;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Period;
 

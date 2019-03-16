@@ -30,7 +30,7 @@ import org.fujion.component.BaseComponent;
 import org.fujion.component.BaseUIComponent;
 import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.property.PropertyUtil;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 
 import java.lang.reflect.Constructor;
 

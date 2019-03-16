@@ -7,7 +7,7 @@
 	<beans profile="root">
 	
 		<!-- FHIR context and client -->
-		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.dstu3.api.common.FhirContextConfigurator" />
+		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.common.client.FhirContextConfigurator" />
 		
 		<bean id="fhirContext" class="org.fujionclinical.fhir.common.client.FhirContext">
 			<constructor-arg ref="fhirContextConfigurator" />

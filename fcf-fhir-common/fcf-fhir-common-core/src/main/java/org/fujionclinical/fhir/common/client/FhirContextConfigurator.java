@@ -23,12 +23,11 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu3.api.common;
+package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.fhir.common.client.IFhirContextConfigurator;
 
 /**
  * Configurator for all FHIR context-related settings.

@@ -35,7 +35,7 @@ import org.fujion.component.Page;
 import org.fujion.page.PageUtil;
 import org.fujion.websocket.ISessionLifecycle;
 import org.fujion.websocket.Session;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 
 import java.util.Map;
 import java.util.Map.Entry;

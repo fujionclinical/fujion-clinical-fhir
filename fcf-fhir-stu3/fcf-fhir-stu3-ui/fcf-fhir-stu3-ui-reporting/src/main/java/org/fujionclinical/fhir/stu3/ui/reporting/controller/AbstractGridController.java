@@ -35,7 +35,7 @@ import org.fujion.component.Grid;
 import org.fujion.component.Row;
 import org.fujion.component.Rows;
 import org.fujionclinical.api.query.IQueryService;
-import org.fujionclinical.fhir.stu3.ui.reporting.Constants;
+import org.fujionclinical.fhir.stu3.ui.reporting.common.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
