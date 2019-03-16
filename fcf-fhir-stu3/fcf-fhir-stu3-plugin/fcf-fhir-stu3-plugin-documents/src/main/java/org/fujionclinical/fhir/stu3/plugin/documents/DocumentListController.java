@@ -38,8 +38,8 @@ import org.fujionclinical.api.query.IQueryContext;
 import org.fujionclinical.fhir.dstu3.api.document.Document;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentListDataService;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentService;
-import org.fujionclinical.fhir.stu3.ui.reporting.controller.AbstractGridController;
-import org.fujionclinical.fhir.stu3.ui.reporting.controller.PatientQueryParameter;
+import org.fujionclinical.fhir.stu3.ui.reports.controller.PatientQueryParameter;
+import org.fujionclinical.ui.reports.controller.AbstractGridController;
 
 import java.util.*;
 

@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-stu3-ui-reporting</artifactId>
+			<artifactId>fcf-fhir-stu3-ui-reports</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>

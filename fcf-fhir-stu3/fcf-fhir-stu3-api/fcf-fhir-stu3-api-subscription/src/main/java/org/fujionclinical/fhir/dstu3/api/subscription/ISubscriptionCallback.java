@@ -29,6 +29,6 @@ import org.fujionclinical.api.event.IGenericEvent;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 /**
- * Generic event callback signature used for reporting subscription-related events.
+ * Generic event callback signature used for reports subscription-related events.
  */
 public interface ISubscriptionCallback extends IGenericEvent<IBaseResource> {}

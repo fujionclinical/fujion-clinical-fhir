@@ -30,7 +30,7 @@ import org.fujion.component.*;
 import org.fujion.model.IComponentRenderer;
 import org.fujionclinical.fhir.dstu3.api.document.Document;
 import org.fujionclinical.fhir.dstu3.api.document.DocumentContent;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
+import org.fujionclinical.ui.reports.common.ReportConstants;
 
 /**
  * Renderer for the document display.
