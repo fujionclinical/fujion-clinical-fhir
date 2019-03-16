@@ -23,11 +23,12 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.stu3.ui.reporting.controller;
+package org.fujionclinical.fhir.stu3.ui.reports.controller;
 
 import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
+import org.fujionclinical.ui.reports.controller.AbstractServiceController;
 import org.hl7.fhir.dstu3.model.Patient;
 
 /**

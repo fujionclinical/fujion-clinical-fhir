@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.stu3.ui.reporting.controller;
+package org.fujionclinical.fhir.stu3.ui.reports.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -42,9 +42,9 @@ import org.fujionclinical.fhir.dstu3.api.patient.PatientContext;
 import org.fujionclinical.fhir.dstu3.api.subscription.ISubscriptionCallback;
 import org.fujionclinical.fhir.dstu3.api.subscription.ResourceSubscriptionManager;
 import org.fujionclinical.fhir.dstu3.api.subscription.SubscriptionWrapper;
-import org.fujionclinical.fhir.stu3.ui.reporting.common.ReportConstants;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
+import org.fujionclinical.ui.reports.common.ReportConstants;
 import org.fujionclinical.ui.sharedforms.ListFormController;
 import org.fujionclinical.ui.thread.ThreadEx;
 import org.fujionclinical.ui.thread.ThreadEx.IRunnable;
