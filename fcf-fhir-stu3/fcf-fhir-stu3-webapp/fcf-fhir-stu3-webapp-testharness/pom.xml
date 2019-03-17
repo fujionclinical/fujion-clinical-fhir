@@ -122,12 +122,7 @@
 		<!-- SMART Support -->
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-stu3-api-smart</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-stu3-ui-smart</artifactId>
+			<artifactId>fcf-fhir-stu3-smart</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<!-- Security -->

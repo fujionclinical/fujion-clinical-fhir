@@ -1,0 +1,12 @@
+{
+    "client_name": "Bilirubin Chart", 
+    "client_id": "bilirubin_chart", 
+    "author": "Intermountain Healthcare", 
+    "description": "Hour-specific bilirubin risk chart for term and near-term infants with no additional risk factors.", 
+    "logo_uri": "https://sandbox.hspconsortium.org/hspc-bilirubin-app/static/bilirubin-chart/images/bilirubin.png", 
+    "launch_uri": "https://sandbox.hspconsortium.org/hspc-bilirubin-app/static/bilirubin-chart/launch.html", 
+    "mode": "ui", 
+    "scope": "patient", 
+    "smart_version": "2.0", 
+    "version": "1.0"
+}

@@ -8,7 +8,7 @@
 	</parent>
 	
 	<name>SMART Integration Support (STU3)</name>
-	<artifactId>fcf-fhir-stu3-api-smart</artifactId>
+	<artifactId>fcf-fhir-stu3-smart</artifactId>
 	<packaging>jar</packaging>
 	
 	<dependencies>

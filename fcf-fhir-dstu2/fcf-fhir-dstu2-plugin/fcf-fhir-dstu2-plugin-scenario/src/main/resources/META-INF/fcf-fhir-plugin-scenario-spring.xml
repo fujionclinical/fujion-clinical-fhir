@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:fcp="http://www.fujionclinical.org/schema/plugin"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.fujionclinical.org/schema/plugin
+		http://www.fujionclinical.org/schema/plugin/plugin-extensions.xsd">
+
+	<beans profile="root">
+		
+		<fcp:plugin id="fcfScenarioManager" name="Configure Scenario" 
+			url="web/org/fujionclinical/fhir/plugin/scenario/scenarioManager.fsp">
+			<fcp:resource>
+				<fcp:action-resource id="fcfScenarioShow"
+					label="${@msg.fcf.scenario.action.label}"
+					script="groovy:org.fujionclinical.fhir.dstu2.plugin.scenario.ScenarioManagerController.show();" />
+			</fcp:resource>
+		</fcp:plugin>
+		
+	</beans>
+	
+	<beans profile="child">
+	
+		<bean id="fcfScenarioManagerController" scope="prototype"
+			class="org.fujionclinical.fhir.dstu2.plugin.scenario.ScenarioManagerController">
+			<constructor-arg ref="fcfScenarioRegistry" />
+		</bean>	
+			
+		<bean id="fcfScenarioViewResourcesController" scope="prototype"
+			class="org.fujionclinical.fhir.dstu2.plugin.scenario.ViewResourcesController">
+			<constructor-arg ref="fhirService" />
+		</bean>	
+			
+	</beans>
+</beans>
