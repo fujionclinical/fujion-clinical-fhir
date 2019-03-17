@@ -41,7 +41,7 @@ import java.util.*;
 
 public class ScenarioUtil {
     
-    public static final String DEMO_URN = "urn:cogmedsys:hsp:model:demo";
+    public static final String DEMO_URN = "urn:fujion:hsp:model:demo";
     
     /**
      * Identifier used to locate demo resources for bulk deletes.
@@ -59,7 +59,7 @@ public class ScenarioUtil {
      */
     public static Identifier createIdentifier(String system, Object value) {
         Identifier identifier = new Identifier();
-        identifier.setSystem("urn:cogmedsys:hsp:model:" + system);
+        identifier.setSystem("urn:fujion:hsp:model:" + system);
         identifier.setValue(value.toString());
         return identifier;
     }

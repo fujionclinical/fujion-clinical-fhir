@@ -35,15 +35,6 @@ import org.fujionclinical.fhir.common.security.oauth.*;
 import java.net.URL;
 import java.util.UUID;
 
-/*
-import org.hspconsortium.client.auth.access.IAccessToken;
-import org.hspconsortium.client.auth.access.IAccessTokenProvider;
-import org.hspconsortium.client.auth.access.JsonAccessTokenProvider;
-import org.hspconsortium.client.auth.credentials.JWTCredentials;
-import org.hspconsortium.client.session.ApacheHttpClientFactory;
-import org.hspconsortium.client.session.clientcredentials.ClientCredentialsAccessTokenRequest;
-*/
-
 /**
  * Authentication interceptor supporting JWT authentication.
  */

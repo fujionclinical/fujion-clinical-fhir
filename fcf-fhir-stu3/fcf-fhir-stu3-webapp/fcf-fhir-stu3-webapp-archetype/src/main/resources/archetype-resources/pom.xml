@@ -33,7 +33,7 @@
 			<artifactId>fcf-fhir-stu3-demo-setup</artifactId>
 			<version>${fcf.fhir.version}</version>
 		</dependency>
-		<!--  HSPC CWF plugins -->
+		<!--  FHIR FCF plugins -->
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-stu3-ui-patientselection-v1</artifactId>
