@@ -8,14 +8,14 @@
 	<beans profile="root">
 	
 		<bean id="fcfScenarioRegistry" factory-method="getInstance"
-			class="org.fujionclinical.fhir.dstu3.api.scenario.ScenarioRegistry" />
+			class="org.fujionclinical.fhir.stu3.api.scenario.ScenarioRegistry" />
 		
 	</beans>
 	
 	<beans profile="child">
 	
 		<bean id="scenarioContext" parent="managedContext"
-			class="org.fujionclinical.fhir.dstu3.api.scenario.ScenarioContext">
+			class="org.fujionclinical.fhir.stu3.api.scenario.ScenarioContext">
 			<constructor-arg ref="fcfScenarioRegistry" />
 		</bean>
 	

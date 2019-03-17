@@ -33,8 +33,8 @@ import org.fujion.event.Event;
 import org.fujion.event.IEventListener;
 import org.fujion.model.ListModel;
 import org.fujionclinical.api.spring.SpringUtil;
-import org.fujionclinical.fhir.dstu3.api.patientlist.IPatientList;
-import org.fujionclinical.fhir.dstu3.api.patientlist.PatientListItem;
+import org.fujionclinical.fhir.stu3.api.patientlist.IPatientList;
+import org.fujionclinical.fhir.stu3.api.patientlist.PatientListItem;
 import org.fujionclinical.ui.controller.FrameworkController;
 
 import java.util.Collection;

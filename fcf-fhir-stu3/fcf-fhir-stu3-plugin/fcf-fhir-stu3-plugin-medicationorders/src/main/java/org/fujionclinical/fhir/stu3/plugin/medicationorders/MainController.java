@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.stu3.plugin.medicationorders;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.dstu3.api.medication.MedicationService;
+import org.fujionclinical.fhir.stu3.api.medication.MedicationService;
 import org.fujionclinical.fhir.stu3.ui.reports.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.Dosage;
 import org.hl7.fhir.dstu3.model.Medication;

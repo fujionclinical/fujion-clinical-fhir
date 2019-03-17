@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.stu3.plugin.orders;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.dstu3.api.common.FhirUtil;
+import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
 import org.fujionclinical.fhir.stu3.ui.reports.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;

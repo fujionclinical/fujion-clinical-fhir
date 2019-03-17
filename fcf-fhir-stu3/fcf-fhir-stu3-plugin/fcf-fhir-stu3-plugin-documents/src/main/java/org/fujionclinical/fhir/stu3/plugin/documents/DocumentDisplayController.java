@@ -34,9 +34,9 @@ import org.fujion.event.EventUtil;
 import org.fujion.model.IListModel;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
-import org.fujionclinical.fhir.dstu3.api.document.Document;
-import org.fujionclinical.fhir.dstu3.api.document.DocumentDisplayDataService;
-import org.fujionclinical.fhir.dstu3.api.document.DocumentService;
+import org.fujionclinical.fhir.stu3.api.document.Document;
+import org.fujionclinical.fhir.stu3.api.document.DocumentDisplayDataService;
+import org.fujionclinical.fhir.stu3.api.document.DocumentService;
 import org.fujionclinical.fhir.stu3.ui.reports.controller.PatientQueryParameter;
 import org.fujionclinical.ui.reports.controller.AbstractGridController;
 
