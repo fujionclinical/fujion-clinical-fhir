@@ -49,7 +49,7 @@ public class HumanNameParser implements IHumanNameParser {
     }
     
     @Override
-    public HumanName fromString(HumanName name, String value) {
+    public HumanName fromString(String value, HumanName name) {
         String[] pcs = value.split("\\,", 2);
         String[] pcs1 = pcs[0].split("\\ ");
         String[] pcs2 = pcs.length == 1 ? null : pcs[1].split("\\ ");

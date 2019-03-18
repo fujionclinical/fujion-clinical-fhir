@@ -28,8 +28,7 @@ package org.fujionclinical.fhir.stu3.api.common;
 import org.hl7.fhir.dstu3.model.HumanName;
 
 public interface IHumanNameParser {
-    
-    
+
     /**
      * Converts human name to displayable text.
      * 
@@ -37,14 +36,24 @@ public interface IHumanNameParser {
      * @return Displayable text.
      */
     String toString(HumanName name);
-    
+
     /**
      * Converts text to a human name equivalent.
-     * 
-     * @param name Human name (may be null).
+     *
+     * @param value Value to convert.
+     * @param name Human name instance to receive parsed result (if null, one will be created).
+     * @return The human name parsed from the input value.
+     */
+    HumanName fromString(String value, HumanName name);
+
+    /**
+     * Converts text to a human name equivalent.
+     *
      * @param value Value to convert.
      * @return The human name parsed from the input value.
      */
-    HumanName fromString(HumanName name, String value);
-    
+    default HumanName fromString(String value) {
+        return fromString(value, null);
+    }
+
 }

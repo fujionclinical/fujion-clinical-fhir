@@ -985,7 +985,7 @@ public class FhirUtil {
      * @return Parsed name.
      */
     public static HumanNameDt parseName(String name) {
-        return name == null ? null : defaultHumanNameParser.fromString(null, name);
+        return name == null ? null : defaultHumanNameParser.fromString(name);
     }
     
     /**

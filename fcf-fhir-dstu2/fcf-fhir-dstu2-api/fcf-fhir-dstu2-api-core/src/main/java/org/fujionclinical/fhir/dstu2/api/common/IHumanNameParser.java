@@ -37,14 +37,24 @@ public interface IHumanNameParser {
      * @return Displayable text.
      */
     String toString(HumanNameDt name);
-    
+
     /**
      * Converts text to a human name equivalent.
-     * 
-     * @param name Human name (may be null).
+     *
+     * @param value Value to convert.
+     * @param name Human name instance to receive parsed result (if null, one will be created).
+     * @return The human name parsed from the input value.
+     */
+    HumanNameDt fromString(String value, HumanNameDt name);
+
+    /**
+     * Converts text to a human name equivalent.
+     *
      * @param value Value to convert.
      * @return The human name parsed from the input value.
      */
-    HumanNameDt fromString(HumanNameDt name, String value);
-    
+    default HumanNameDt fromString(String value) {
+        return fromString(value, null);
+    }
+
 }
