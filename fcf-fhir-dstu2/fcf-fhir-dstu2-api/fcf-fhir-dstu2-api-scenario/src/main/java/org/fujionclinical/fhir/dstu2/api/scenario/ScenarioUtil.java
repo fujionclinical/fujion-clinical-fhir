@@ -190,10 +190,10 @@ public class ScenarioUtil {
     }
     
     /**
-     * This is a bit of a hack to enumerate all valid DSTU3 resource classes. It's used right now
+     * This is a bit of a hack to enumerate all valid DSTU2 resource classes. It's used right now
      * because many FHIR servers don't implement cross-resource searches.
      *
-     * @return Set of all valid DSTU3 resource classes.
+     * @return Set of all valid DSTU2 resource classes.
      */
     public static Set<Class<? extends IBaseResource>> getResourceClasses() {
         synchronized (resourceClasses) {

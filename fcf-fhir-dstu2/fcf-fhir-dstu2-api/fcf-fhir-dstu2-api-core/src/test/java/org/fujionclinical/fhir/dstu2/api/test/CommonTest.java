@@ -125,7 +125,7 @@ public class CommonTest {
     @Test
     public void testNameUtils() {
         HumanNameDt n = FhirUtil.parseName("last, first middle");
-        assertEquals("last", n.getFamily());
+        assertEquals("last", n.getFamilyAsSingleString());
         assertEquals("first middle", n.getGivenAsSingleString());
         assertEquals("first", n.getGiven().get(0).getValue());
         assertEquals("middle", n.getGiven().get(1).getValue());
@@ -147,7 +147,7 @@ public class CommonTest {
         practitioner.setName(n);
         Encounter encounter = new Encounter();
         assertSame(list, FhirUtil.getNames(patient));
-        assertSame(n, FhirUtil.getNames(practitioner));
+        assertSame(n, FhirUtil.getNames(practitioner).get(0));
         assertNull(FhirUtil.getNames(encounter));
     }
 

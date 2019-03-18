@@ -38,11 +38,11 @@ import static org.junit.Assert.assertTrue;
 
 public class ClientTest {
     
-    private static final String FHIR_EP = "https://fhirtest.uhn.ca/baseDdstu2";
+    private static final String FHIR_EP = "https://fhirtest.uhn.ca/baseDstu2";
     
     @Test
     public void testClient() {
-        FhirContext ctx = new FhirContext(FhirVersionEnum.DSTU3);
+        FhirContext ctx = new FhirContext(FhirVersionEnum.DSTU2);
         IGenericClient client = ctx.newRestfulGenericClient(FHIR_EP);
         //client.registerInterceptor(new BasicAuthInterceptor("user123", "user321$"));
         ((GenericClient) client).setDontValidateConformance(true);

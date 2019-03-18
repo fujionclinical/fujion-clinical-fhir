@@ -794,7 +794,7 @@ public class FhirUtil {
     public static HumanNameDt getName(List<HumanNameDt> list, NameUseEnum... uses) {
         for (NameUseEnum use : uses) {
             for (HumanNameDt name : list) {
-                if (use == null || use.equals(name.getUse())) {
+                if (use == null || use.equals(name.getUseElement().getValueAsEnum())) {
                     return name;
                 }
             }
@@ -861,7 +861,8 @@ public class FhirUtil {
     @SuppressWarnings("unchecked")
     public static <T> List<T> getListProperty(IBaseResource resource, String propertyName, Class<T> itemClass) {
         try {
-            return (List<T>) PropertyUtils.getSimpleProperty(resource, propertyName);
+            Object value = PropertyUtils.getSimpleProperty(resource, propertyName);
+            return value == null ? null : value instanceof List ? (List<T>) value : Collections.singletonList((T) value);
         } catch (Exception e) {
             return null;
         }
