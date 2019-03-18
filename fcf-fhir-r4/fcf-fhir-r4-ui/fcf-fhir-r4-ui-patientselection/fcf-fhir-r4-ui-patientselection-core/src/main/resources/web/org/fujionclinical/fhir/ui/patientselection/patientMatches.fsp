@@ -1,0 +1,46 @@
+	<window width="1000px" sizable="true"
+		title="Patient Matches (${self.resultCount} Found)" 
+		controller="PatientMatchesController">
+
+		<style>
+			.fcf-patientselection-matchitem, .fcf-patientselection-matchitem * {
+				font-size:.8em;
+				white-space:nowrap;
+				text-overflow:ellipsis;
+			}
+		</style>
+		
+		<listbox name="list" multiple="true" mold="paging" pageSize="15" 
+			onPaging="patientMatches.invalidate();" pagingPosition="both">
+			<listhead sizable="true">
+				<listheader label="Last Name" sort="auto" hflex="1"/>
+				<listheader label="First Name" sort="auto" hflex="1"/>
+				<listheader label="MRN" sort="auto" width="10em"/>
+				<listheader label="Birth Date" sort="auto" width="8em"
+					visible='${patientMatches.featureEnabled["birth"]}'
+					sortAscending="${patientMatches.DOBComparatorAsc}" 
+					sortDescending="${patientMatches.DOBComparatorDsc}" />
+				<listheader label="Sex" sort="auto" width="2.5em" align="center"/>
+				<listheader label="Phone" sort="auto" width="10em"/>
+				<listheader label="Mother's Name" sort="auto" width="8em"
+					visible='${patientMatches.featureEnabled["mom_name"]}' />
+				<listheader label="Home Address" sort="auto"  hflex="1"
+					visible='${patientMatches.featureEnabled["address"]}' />
+			</listhead>
+			<listitem forEach="${patientMatches.results}" value="${each}"
+				onClick="patientMatches.selectPatient(self.getValue());"
+				sclass="fcf-patientselection-matchitem">
+				<listcell label="${each.name.lastName}" hint="${each.name.lastName}" />
+				<listcell label="${each.name.firstName} ${each.name.middleName}" hint="${each.name.firstName} ${each.name.middleName}" />
+				<listcell label="${each.medicalRecordNumber.id}" hint="${each.medicalRecordNumber.id}" />
+				<listcell label="${each.birthDate}" hint="${each.birthDate}" />
+				<listcell label="${each.gender}" hint="${each.gender}" />
+				<listcell label="${each.phoneHome}" hint="${each.phoneHome}" />
+				<listcell label="${each.mothersFirstName}" hint="${each.mothersFirstName}" />
+				<listcell label="${each.addressHome}" hint="${each.addressHome}" />
+			</listitem>
+			<listfoot>
+				<listfooter span="7" label="${@msg.patientselection.info.match.selection}" />
+			</listfoot>
+		</listbox>
+	</window>

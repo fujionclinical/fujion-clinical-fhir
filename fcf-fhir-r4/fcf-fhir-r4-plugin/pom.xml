@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fujionclinical</groupId>
+		<artifactId>fcf-fhir-r4</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>fcf-fhir-r4-plugin</artifactId>
+	<packaging>pom</packaging>
+	<name>FHIR Plugin Aggregator (R4)</name>
+
+	<modules>
+		<module>fcf-fhir-r4-plugin-adversereactions</module>
+		<module>fcf-fhir-r4-plugin-conditions</module>
+		<module>fcf-fhir-r4-plugin-diagnosticreports</module>
+		<module>fcf-fhir-r4-plugin-documents</module>
+		<module>fcf-fhir-r4-plugin-familyhistory</module>
+		<module>fcf-fhir-r4-plugin-medicationorders</module>
+		<module>fcf-fhir-r4-plugin-observations</module>
+		<module>fcf-fhir-r4-plugin-orders</module>
+		<module>fcf-fhir-r4-plugin-patientheader</module>
+		<module>fcf-fhir-r4-plugin-patientphoto</module>
+		<module>fcf-fhir-r4-plugin-procedures</module>
+		<module>fcf-fhir-r4-plugin-scenario</module>
+	</modules>
+</project>

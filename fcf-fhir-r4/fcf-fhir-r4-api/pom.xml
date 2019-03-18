@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fujionclinical</groupId>
+		<artifactId>fcf-fhir-r4</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>fcf-fhir-r4-api</artifactId>
+	<packaging>pom</packaging>
+	<name>FHIR API Aggregator (R4)</name>
+
+	<modules>
+		<module>fcf-fhir-r4-api-core</module>
+		<module>fcf-fhir-r4-api-subscription</module>
+		<module>fcf-fhir-r4-api-scenario</module>
+	</modules>
+</project>

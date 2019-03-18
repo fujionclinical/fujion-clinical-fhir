@@ -1,0 +1,172 @@
+<window title="Patient Selection" width="90%" height="90%" closable="true" sizable="true"
+	closeAction="hide" controller="${@patientSelectionController}"
+	class="flavor:panel-primary fcf-patientselection">
+	<style>
+		.fcf-patientselection {
+			min-height: 400px;
+			min-width: 800px;
+		}
+		
+		.fcf-patientselection-toolbar1 {
+			background: transparent;
+			border: none;
+			min-width: 100px;
+		}
+
+		.fcf-patientselection-toolbar2 {
+			background: white;
+			border: none;
+			border-top: solid 1px gray;
+		}
+
+		.fcf-patientselection-toolbar1 button {
+			width: 80px!important;
+		}
+
+		.fcf-patientselection .fujion_listitem *,
+		.fcf-patientselection-toolbar1 {
+			word-wrap: normal;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.fcf-patientselection .fujion_pane {
+			background: lightyellow;
+		}
+
+		.fcf-patientselection .fujion_listbox {
+			background: white;
+		}
+
+	</style>
+
+	<timer name="timer" interval="1000" repeat="0" running="false" />
+
+	<paneview>
+		<pane title="Patient Lists" width="20%" splittable="true" style="min-width:100px"
+			class="fujion-layout-vertical">
+			<div height="2px" />
+			<radiogroup name="rgrpLists" orientation="vertical" />
+			<listbox name="lstFilter" flex="2" width="100%" size="100"/>
+			<label name="lblDateRange" label="List xxx for:"
+				style="margin-left: 5px" />
+			<datepicker name="drpDateRange" width="100%" allowCustom="true" 
+				placeholder="${@msg.patientselection.daterange.placeholder}"/>
+			<div flex="1" />
+			<toolbar alignment="center" class="fcf-patientselection-toolbar2" width="100%">
+				<button name="btnManageList"
+					label="${@msg.patientselection.btn.manage.label}" />
+				<button name="btnFavorite"
+					label="${@msg.patientselection.btn.favorite.label}" />
+			</toolbar>
+		</pane>
+		<pane title="Patients" width="50%" splittable="true">
+			<paneview orientation="vertical" width="100%" height="100%">
+				<pane height="50%" splittable="true">
+					<div height="100%" class="fujion-layout-vertical">
+						<div class="fujion-layout-horizontal">
+							<textbox name="edtSearch" flex="1"
+								placeholder="${@msg.patientselection.edit.search.placeholder}"
+								focus="true" class="pull-left" />
+							<button name="btnSearch"
+								class="flavor:btn-info size:btn-xs"
+								label="${@msg.patientselection.btn.search.label}"
+								hint="${@msg.patientselection.btn.search.hint}" />
+						</div>
+						<div flex="1">
+							<grid name="grdSearch" width="100%" 
+								class="table-condensed table-striped">
+								<rows selectable="single" />
+							</grid>
+						</div>
+					</div>
+				</pane>
+				<pane flex="1">
+					<div flex="1" class="fujion-layout-vertical">
+						<div style="padding:2px">
+							<label name="lblPatientList" />
+						</div>
+						<grid name="grdPatientList" width="100%" flex="1"
+							class="table-condensed table-striped">
+							<rows selectable="single" />
+						</grid>
+					</div>
+				</pane>
+			</paneview>
+		</pane>
+		<pane name="paneDemographics" title="Demographics" flex="1" style="min-width:100px">
+			<div width="100%" flex="1" class="fujion-layout-vertical">
+				<div name="pnlDemographics" visible="true"
+					flex="1" width="100%" class="fujion-layout-vertical">
+					<div name="pnlDemoRoot" width="100%" flex="1" style="padding-top: 10px"/>
+					<toolbar alignment="center" orientation="horizontal" width="100%"
+						class="fcf-patientselection-toolbar1">
+						<button name="btnDemoDetail" visible="false"
+							label="${@msg.patientselection.btn.detail.label}"
+							hint="${@msg.patientselection.btn.detail.hint}" />
+					</toolbar>
+				</div>
+				<div name="pnlManagedList" visible="false"
+					flex="1" width="100%" class="fujion-layout-vertical">
+					<div name="pnlManagedListFilters" flex="1" width="100%"
+						class="fujion-layout-horizontal">
+						<listbox name="lstManagedListFilter" size="100"
+							flex="1" />
+						<toolbar alignment="center" orientation="vertical" 
+							class="fcf-patientselection-toolbar1">
+							<button name="btnManagedListFilterNew"
+								label="${@msg.patientselection.btn.new_.label}" />
+							<button
+								name="btnManagedListFilterRename"
+								label="${@msg.patientselection.btn.rename.label}" />
+							<button
+								name="btnManagedListFilterDelete"
+								label="${@msg.patientselection.btn.delete.label}" />
+						</toolbar>
+					</div>
+					<label name="lblManagedList"
+						label="${@msg.patientselection.lbl.managed.label}" />
+					<div name="pnlManagedListItems" flex="2"
+						class="fujion-layout-horizontal">
+						<div style="overflow:auto" flex="1">
+							<grid name="grdManagedList" 
+								class="table-condensed table-striped">
+								<columns>
+									<column />
+									<column />
+								</columns>
+								<rows selectable="single" />
+							</grid>
+						</div>
+						<toolbar alignment="center" orientation="vertical"
+							class="fcf-patientselection-toolbar1">
+							<div flex="1" />
+							<button name="btnManagedListAdd"
+								label="${@msg.patientselection.btn.add.label}" />
+							<button name="btnManagedListImport"
+								label="${@msg.patientselection.btn.import_.label}" />
+							<button name="btnManagedListAddCurrent"
+								label="${@msg.patientselection.btn.add.current.label}" />
+							<div flex="1" />
+							<button name="btnManagedListRemove"
+								label="${@msg.patientselection.btn.remove.label}" />
+							<button name="btnManagedListRemoveAll"
+								label="${@msg.patientselection.btn.remove.all.label}" />
+							<div flex="1" />
+						</toolbar>
+					</div>
+				</div>
+				<toolbar alignment="center" orientation="horizontal" width="100%"
+					class="fcf-patientselection-toolbar2">
+					<button name="btnOK"
+						class="flavor:btn-success"
+						label="${@msg.patientselection.btn.ok.label}" />
+					<button name="btnCancel"
+						class="flavor:btn-danger"
+						label="${@msg.patientselection.btn.cancel.label}" />
+				</toolbar>
+			</div>
+		</pane>
+	</paneview>
+</window>

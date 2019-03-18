@@ -23,12 +23,10 @@
 	</dependencies>
 
 	<modules>
-		<!--
 		<module>fcf-fhir-r4-api</module>
 		<module>fcf-fhir-r4-ui</module>
 		<module>fcf-fhir-r4-plugin</module>
 		<module>fcf-fhir-r4-smart</module>
 		<module>fcf-fhir-r4-webapp</module>
-		-->
 	</modules>
 </project>
