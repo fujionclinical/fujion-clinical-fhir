@@ -54,7 +54,7 @@ public class DomainFactory implements IDomainFactory<BaseResource> {
     @Override
     public <T extends BaseResource> T newObject(Class<T> clazz) {
         try {
-            return clazz.newInstance();
+            return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
