@@ -44,7 +44,7 @@ public class LocationContext extends ResourceContext<Location> {
 
     private static final String SUBJECT_NAME = "Location";
 
-    private static final String PROPERTY_DEFAULT_LOCATION = "RGCWENCX LOCATION DEFAULT";
+    private static final String PROPERTY_DEFAULT_LOCATION = "FCF LOCATION DEFAULT";
 
     public interface ILocationContextEvent extends IContextEvent {};
 

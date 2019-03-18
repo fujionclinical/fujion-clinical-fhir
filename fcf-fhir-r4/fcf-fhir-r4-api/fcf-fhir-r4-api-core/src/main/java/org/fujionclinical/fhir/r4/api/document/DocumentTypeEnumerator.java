@@ -30,7 +30,6 @@ import java.util.Iterator;
 /**
  * Provides an iterable interface for document types.
  *
- * @author dmartin
  */
 public class DocumentTypeEnumerator implements Iterable<String> {
     

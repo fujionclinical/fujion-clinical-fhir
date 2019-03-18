@@ -42,7 +42,7 @@ public class FavoritePatientListFilterManager extends AbstractPatientListFilterM
 
     private static final Log log = LogFactory.getLog(FavoritePatientListFilterManager.class);
 
-    private static final String FAVORITES_PROPERTY = "FUJION.PATIENT.LIST.FAVORITES";
+    private static final String FAVORITES_PROPERTY = "FCF.PATIENT.LIST.FAVORITES";
 
     /**
      * Create the filter manager for the specified favorite patient list.
