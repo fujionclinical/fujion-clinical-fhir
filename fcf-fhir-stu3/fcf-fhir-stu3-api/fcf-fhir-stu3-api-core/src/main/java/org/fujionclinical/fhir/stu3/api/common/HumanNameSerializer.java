@@ -23,18 +23,18 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.r4.api.common;
+package org.fujionclinical.fhir.stu3.api.common;
 
 import org.fujionclinical.api.context.ISerializer;
-import org.hl7.fhir.r4.model.HumanName;
-import org.hl7.fhir.r4.model.StringType;
+import org.hl7.fhir.dstu3.model.HumanName;
+import org.hl7.fhir.dstu3.model.StringType;
 
 import java.util.List;
 
 /**
  * CCOW serializer / deserializer for HumanName class.
  */
-public class NameSerializer implements ISerializer<HumanName> {
+public class HumanNameSerializer implements ISerializer<HumanName> {
     
     private static final String NAME_DELIM = "^";
     

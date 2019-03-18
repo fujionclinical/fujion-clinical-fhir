@@ -82,7 +82,7 @@
 		</bean>
 		
 		<!-- Register a context serializer for names. -->
-		<bean class="org.fujionclinical.fhir.dstu2.api.common.NameSerializer" />
+		<bean class="org.fujionclinical.fhir.dstu2.api.common.HumanNameSerializer" />
 		
 		<!-- Patient search engine -->
 		<bean id="patientSearchEngine" class="org.fujionclinical.fhir.dstu2.api.patient.PatientSearch">

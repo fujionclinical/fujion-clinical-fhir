@@ -23,47 +23,47 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.api.common;
+package org.fujionclinical.fhir.r4.api.common;
 
-import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
-import ca.uhn.fhir.model.primitive.StringDt;
 import org.fujionclinical.api.context.ISerializer;
+import org.hl7.fhir.r4.model.HumanName;
+import org.hl7.fhir.r4.model.StringType;
 
 import java.util.List;
 
 /**
- * CCOW serializer / deserializer for HumanNameDt class.
+ * CCOW serializer / deserializer for HumanName class.
  */
-public class NameSerializer implements ISerializer<HumanNameDt> {
+public class HumanNameSerializer implements ISerializer<HumanName> {
     
     private static final String NAME_DELIM = "^";
     
     @Override
-    public String serialize(HumanNameDt value) {
-        return getComponent(value.getFamily(), 0) + NAME_DELIM + getComponent(value.getGiven(), 0) + NAME_DELIM
+    public String serialize(HumanName value) {
+        return value.getFamily() + NAME_DELIM + getComponent(value.getGiven(), 0) + NAME_DELIM
                 + getComponent(value.getGiven(), 1) + NAME_DELIM + getComponent(value.getSuffix(), 0) + NAME_DELIM
                 + getComponent(value.getPrefix(), 0) + NAME_DELIM + getComponent(value.getSuffix(), 1) + NAME_DELIM
-                + value.getUse();
+                + value.getUse().toCode();
     }
     
-    private String getComponent(List<StringDt> list, int index) {
+    private String getComponent(List<StringType> list, int index) {
         if (index >= list.size()) {
             return "";
         }
         
-        StringDt value = list.get(index);
+        StringType value = list.get(index);
         String result = value.getValue();
         return result == null ? "" : result;
     }
     
     @Override
-    public HumanNameDt deserialize(String value) {
+    public HumanName deserialize(String value) {
         String pcs[] = value.split("\\" + NAME_DELIM);
-        HumanNameDt result = new HumanNameDt();
+        HumanName result = new HumanName();
         int i = 0;
         
         if ((value = getComponent(pcs, i++)) != null) {
-            result.addFamily(value);
+            result.setFamily(value);
         }
         
         if ((value = getComponent(pcs, i++)) != null) {
@@ -103,7 +103,7 @@ public class NameSerializer implements ISerializer<HumanNameDt> {
     }
     
     @Override
-    public Class<HumanNameDt> getType() {
-        return HumanNameDt.class;
+    public Class<HumanName> getType() {
+        return HumanName.class;
     }
 }
