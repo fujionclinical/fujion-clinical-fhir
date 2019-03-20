@@ -27,8 +27,6 @@ package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.SummaryEnum;
-import org.apache.commons.lang.StringUtils;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
 import org.fujionclinical.fhir.common.security.AuthInterceptorRegistry;
 import org.fujionclinical.fhir.common.security.IAuthInterceptor;
 import org.springframework.context.ApplicationListener;
@@ -41,7 +39,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * <code>fhir.client.terminology_service.server.base</code>. For the default (i.e., null or empty)
  * category it would be <code>fhir.client.server.base</code>.
  */
-public class FhirClientConfigurator extends PropertyBasedConfigurator implements IFhirClientConfigurator, ApplicationListener<ContextRefreshedEvent> {
+public class FhirClientConfigurator extends FhirBaseConfigurator implements IFhirClientConfigurator, ApplicationListener<ContextRefreshedEvent> {
     
     @Param(property = "server.base", required = true)
     private String serverBase;
@@ -61,27 +59,14 @@ public class FhirClientConfigurator extends PropertyBasedConfigurator implements
     @Param(property = "summary")
     private SummaryEnum summary;
     
-    private final String category;
-    
-    private final String propertyPrefix;
-    
     private IAuthInterceptor authInterceptor;
 
-    public FhirClientConfigurator(String category) {
-        this.category = category;
-        String propertyPrefix = StringUtils.trimToEmpty(category);
-        this.propertyPrefix = "fhir.client."
-                + (propertyPrefix.isEmpty() || propertyPrefix.endsWith(".") ? propertyPrefix : propertyPrefix + ".");
-    }
+    public FhirClientConfigurator() {
+        this(null);
 
-    @Override
-    public String expandPropertyName(String name) {
-        return propertyPrefix + name;
     }
-    
-    @Override
-    public String getCategory() {
-        return category;
+    public FhirClientConfigurator(String category) {
+        super("fhir.client", category);
     }
 
     @Override

@@ -27,12 +27,11 @@ package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
 
 /**
  * Configurator for all FHIR context-related settings.
  */
-public class FhirContextConfigurator extends PropertyBasedConfigurator implements IFhirContextConfigurator {
+public class FhirContextConfigurator extends FhirBaseConfigurator implements IFhirContextConfigurator {
 
     @Param(property = "version", required = true, defaultValue = "DSTU3")
     private FhirVersionEnum version;
@@ -57,13 +56,16 @@ public class FhirContextConfigurator extends PropertyBasedConfigurator implement
 
     @Param(property = "server.validation.mode", defaultValue = "ONCE")
     private ServerValidationModeEnum serverValidationMode;
-    
-    @Override
-    public String expandPropertyName(String name) {
-        return "fhir.context." + name;
+
+    public FhirContextConfigurator() {
+        this(null);
     }
 
-    @Override
+    public FhirContextConfigurator(String category) {
+        super("fhir.context", category);
+    }
+
+   @Override
     public FhirVersionEnum getVersion() {
         return version;
     }

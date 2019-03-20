@@ -29,18 +29,8 @@ import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.SummaryEnum;
 import org.fujionclinical.fhir.common.security.IAuthInterceptor;
 
-public interface IFhirClientConfigurator {
+public interface IFhirClientConfigurator extends IFhirBaseConfigurator {
 
-    /**
-     * The category of the client. This allows for configuring multiple FHIR clients, each with its
-     * own specialized perhaps. For example, one might configure a FHIR client that accesses a
-     * FHIR-based terminology server and one that accesses patient records.
-     *
-     * @return The category of the client. This must be a unique name containing only alphanumeric
-     *         characters or underscores.
-     */
-    String getCategory();
-    
     /**
      * Returns the base URL of the FHIR server.
      *

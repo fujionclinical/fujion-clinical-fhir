@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.common.client;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 
-public interface IFhirContextConfigurator {
+public interface IFhirContextConfigurator extends IFhirBaseConfigurator {
 
     /**
      * @return The connection request timeout, in milliseconds.

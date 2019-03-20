@@ -70,10 +70,10 @@ public class FhirClientFactory {
      * @return The newly created generic client.
      */
     public IGenericClient createClient(IFhirClientConfigurator config) {
-        String category = config.getCategory();
+        String qualifier = config.getQualifier();
 
-        if (registry.containsKey(category)) {
-            throw new RuntimeException("A FHIR client category named '" + category + "' already exists");
+        if (registry.containsKey(qualifier)) {
+            throw new RuntimeException("A FHIR client qualifier named '" + qualifier + "' already exists");
         }
 
         IGenericClient client = fhirContext.newRestfulGenericClient(config.getServerBase());
@@ -91,7 +91,7 @@ public class FhirClientFactory {
         client.setPrettyPrint(config.isPrettyPrint());
         client.setEncoding(config.getEncoding());
         client.setSummary(config.getSummary());
-        registry.put(category, client);
+        registry.put(qualifier, client);
         return client;
     }
 
