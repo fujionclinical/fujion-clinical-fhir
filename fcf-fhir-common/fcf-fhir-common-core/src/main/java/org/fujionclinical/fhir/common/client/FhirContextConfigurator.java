@@ -33,7 +33,7 @@ import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
  */
 public class FhirContextConfigurator extends FhirBaseConfigurator implements IFhirContextConfigurator {
 
-    @Param(property = "version", required = true, defaultValue = "DSTU3")
+    @Param(property = "version", required = true)
     private FhirVersionEnum version;
     
     @Param(property = "proxy")
@@ -61,8 +61,8 @@ public class FhirContextConfigurator extends FhirBaseConfigurator implements IFh
         this(null);
     }
 
-    public FhirContextConfigurator(String category) {
-        super("fhir.context", category);
+    public FhirContextConfigurator(String qualifier) {
+        super("fhir.context", qualifier);
     }
 
    @Override

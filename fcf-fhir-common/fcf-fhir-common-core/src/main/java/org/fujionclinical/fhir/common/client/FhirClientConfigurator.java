@@ -34,10 +34,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * Configurator for all FHIR client-related settings. This is a property-based configurator with a
- * property prefix formatted as: <code>fhir.client[.&lt;category&gt;]</code>. For example, if the
- * category is "terminology_service", the server base property would be specified as
+ * property prefix formatted as: <code>fhir.client[.&lt;qualifier&gt;]</code>. For example, if the
+ * qualifier is "terminology_service", the server base property would be specified as
  * <code>fhir.client.terminology_service.server.base</code>. For the default (i.e., null or empty)
- * category it would be <code>fhir.client.server.base</code>.
+ * qualifier it would be <code>fhir.client.server.base</code>.
  */
 public class FhirClientConfigurator extends FhirBaseConfigurator implements IFhirClientConfigurator, ApplicationListener<ContextRefreshedEvent> {
     
@@ -65,8 +65,8 @@ public class FhirClientConfigurator extends FhirBaseConfigurator implements IFhi
         this(null);
 
     }
-    public FhirClientConfigurator(String category) {
-        super("fhir.client", category);
+    public FhirClientConfigurator(String qualifier) {
+        super("fhir.client", qualifier);
     }
 
     @Override
