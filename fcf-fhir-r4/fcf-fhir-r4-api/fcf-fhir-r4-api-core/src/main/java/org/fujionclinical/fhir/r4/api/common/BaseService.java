@@ -235,7 +235,7 @@ public class BaseService {
      * @return List of resources containing the identifier.
      */
     public <T extends IBaseResource> List<T> searchResourcesByIdentifier(String system, String value, Class<T> clazz) {
-        return searchResourcesByIdentifier(system, value, clazz);
+        return searchResourcesByIdentifier(system, value, clazz, DEFAULT_COUNT);
     }
     
     /**

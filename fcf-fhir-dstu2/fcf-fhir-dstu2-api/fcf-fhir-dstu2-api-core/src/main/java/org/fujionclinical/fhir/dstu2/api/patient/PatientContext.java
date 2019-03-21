@@ -59,7 +59,7 @@ public class PatientContext extends ResourceContext<Patient> {
 
     protected static final String CCOW_NAM = CCOW_CO + ".PatientName";
 
-    public interface IPatientContextEvent extends IContextEvent {};
+    public interface IPatientContextEvent extends IContextEvent {}
 
     /**
      * Returns the managed patient context.

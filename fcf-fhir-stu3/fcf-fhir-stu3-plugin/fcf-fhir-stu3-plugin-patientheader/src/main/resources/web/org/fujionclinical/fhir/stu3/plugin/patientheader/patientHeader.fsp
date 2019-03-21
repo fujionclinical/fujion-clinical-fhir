@@ -6,7 +6,7 @@
 		controller="${@fcfPatientHeaderController}">
 		<toolbar name="tbPatient" height="100%">
 			<button name="btnDetail" 
-				class="glyphicon glyphicon-search"/>
+				class="fa fa-search"/>
 			<label name="lblName" style="font-weight:bold;padding-right:10px"
 				label="${@msg.fcfpatientheader.noselection}" />
 			<link name="lnkSelect"

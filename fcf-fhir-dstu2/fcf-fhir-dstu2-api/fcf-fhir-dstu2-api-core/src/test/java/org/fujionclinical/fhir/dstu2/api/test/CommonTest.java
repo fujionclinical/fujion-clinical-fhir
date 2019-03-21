@@ -82,7 +82,7 @@ public class CommonTest {
         assertEquals(UnitsOfTimeEnum.MO, FhirUtil.convertTimeUnitToEnum("mo"));
 
         try {
-            assertEquals(null, FhirUtil.convertTimeUnitToEnum("bad"));
+            assertNull(FhirUtil.convertTimeUnitToEnum("bad"));
             fail("Should throw illegal argument exception.");
         } catch (IllegalArgumentException e) {}
     }

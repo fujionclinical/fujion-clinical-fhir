@@ -56,9 +56,7 @@ public class ViewResourcesController extends FrameworkController {
         return row;
     };
     
-    private static final Comparator<IBaseResource> resourceComparator = (r1, r2) -> {
-        return r1.getIdElement().getValue().compareToIgnoreCase(r2.getIdElement().getValue());
-    };
+    private static final Comparator<IBaseResource> resourceComparator = (r1, r2) -> r1.getIdElement().getValue().compareToIgnoreCase(r2.getIdElement().getValue());
     
     @WiredComponent
     private Grid tblResources;

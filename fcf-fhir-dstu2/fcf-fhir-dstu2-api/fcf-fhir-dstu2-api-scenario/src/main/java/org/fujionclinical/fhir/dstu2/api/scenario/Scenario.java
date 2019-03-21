@@ -293,7 +293,7 @@ public class Scenario {
         IParser parser = source.endsWith(".xml") ? ctx.newXmlParser() : ctx.newJsonParser();
         StringBuilder sb = new StringBuilder();
 
-        try (InputStream is = getResourceAsStream(source);) {
+        try (InputStream is = getResourceAsStream(source)) {
             List<String> json = IOUtils.readLines(is, "UTF-8");
 
             for (String s : json) {

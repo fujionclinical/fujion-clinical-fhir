@@ -33,6 +33,7 @@ import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator.Param;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Authentication interceptor supporting Basic authentication.
@@ -63,11 +64,7 @@ public class BasicAuthInterceptor extends AbstractAuthInterceptor {
     }
 
     private String encode(String username, String password) {
-        try {
-            String credentials = username + ":" + password;
-            return Base64.encodeBase64String(credentials.getBytes("ISO-8859-1"));
-        } catch (UnsupportedEncodingException e) {
-            throw MiscUtil.toUnchecked(e);
-        }
+        String credentials = username + ":" + password;
+        return Base64.encodeBase64String(credentials.getBytes(StandardCharsets.ISO_8859_1));
     }
 }

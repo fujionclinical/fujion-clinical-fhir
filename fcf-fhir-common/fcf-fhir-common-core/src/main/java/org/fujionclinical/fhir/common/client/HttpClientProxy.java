@@ -111,47 +111,45 @@ public class HttpClientProxy implements HttpClient, Closeable {
     }
 
     @Override
-    public HttpResponse execute(HttpUriRequest request) throws IOException, ClientProtocolException {
+    public HttpResponse execute(HttpUriRequest request) throws IOException {
         return getClient(request).execute(request);
     }
 
     @Override
-    public HttpResponse execute(HttpUriRequest request, HttpContext context) throws IOException, ClientProtocolException {
+    public HttpResponse execute(HttpUriRequest request, HttpContext context) throws IOException {
         return getClient(request).execute(request, context);
     }
 
     @Override
-    public HttpResponse execute(HttpHost target, HttpRequest request) throws IOException, ClientProtocolException {
+    public HttpResponse execute(HttpHost target, HttpRequest request) throws IOException {
         return getClient(request).execute(target, request);
     }
 
     @Override
-    public HttpResponse execute(HttpHost target, HttpRequest request, HttpContext context) throws IOException,
-    ClientProtocolException {
+    public HttpResponse execute(HttpHost target, HttpRequest request, HttpContext context) throws IOException {
         return getClient(request).execute(target, request, context);
     }
 
     @Override
-    public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException,
-    ClientProtocolException {
+    public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException {
         return getClient(request).execute(request, responseHandler);
     }
 
     @Override
     public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler,
-                         HttpContext context) throws IOException, ClientProtocolException {
+                         HttpContext context) throws IOException {
         return getClient(request).execute(request, responseHandler, context);
     }
 
     @Override
     public <T> T execute(HttpHost target, HttpRequest request,
-                         ResponseHandler<? extends T> responseHandler) throws IOException, ClientProtocolException {
+                         ResponseHandler<? extends T> responseHandler) throws IOException {
         return getClient(request).execute(target, request, responseHandler);
     }
 
     @Override
     public <T> T execute(HttpHost target, HttpRequest request, ResponseHandler<? extends T> responseHandler,
-                         HttpContext context) throws IOException, ClientProtocolException {
+                         HttpContext context) throws IOException {
         return getClient(request).execute(target, request, responseHandler, context);
     }
 

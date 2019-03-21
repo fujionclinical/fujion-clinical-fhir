@@ -86,7 +86,7 @@ public class Util {
         return null;
     }
 
-    public static Image getImage(String url) throws Exception {
+    public static Image getImage(String url) {
         return new Image(url);
     }
 

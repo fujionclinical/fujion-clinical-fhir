@@ -180,7 +180,7 @@ public class EncounterUtil {
 
     public static boolean isLocked(Encounter encounter) {
         EncounterStatus status = encounter.getStatus();
-        return status != null && status == EncounterStatus.FINISHED;
+        return status == EncounterStatus.FINISHED;
     }
 
     public static boolean isPrepared(Encounter encounter) {

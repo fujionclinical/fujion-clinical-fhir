@@ -30,6 +30,7 @@ import org.fujionclinical.api.property.PropertyUtil;
 import org.fujionclinical.api.spring.SpringUtil;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class Features {
         
         @Override
         public Collection<Boolean> values() {
-            return null;
+            return Collections.emptyList();
         }
         
         @Override
@@ -55,7 +56,7 @@ public class Features {
         
         @Override
         public Set<String> keySet() {
-            return null;
+            return Collections.emptySet();
         }
         
         @Override
@@ -70,8 +71,8 @@ public class Features {
         
         @Override
         public void putAll(Map<? extends String, ? extends Boolean> t) {
-        };
-        
+        }
+
         @Override
         public void clear() {
         }
@@ -93,7 +94,7 @@ public class Features {
         
         @Override
         public Set<java.util.Map.Entry<String, Boolean>> entrySet() {
-            return null;
+            return Collections.emptySet();
         }
         
         @Override
@@ -117,8 +118,8 @@ public class Features {
     
     public Features(String propertyPrefix) {
         this.propertyPrefix = propertyPrefix;
-    };
-    
+    }
+
     /**
      * Returns true if the specified feature is enabled.
      * 

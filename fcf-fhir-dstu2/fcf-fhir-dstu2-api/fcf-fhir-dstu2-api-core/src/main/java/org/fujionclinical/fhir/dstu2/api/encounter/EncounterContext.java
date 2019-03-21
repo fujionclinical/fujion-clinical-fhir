@@ -44,8 +44,8 @@ public class EncounterContext extends ResourceContext<Encounter> implements Pati
     
     private static final String SUBJECT_NAME = "Encounter";
     
-    public interface IEncounterContextEvent extends IContextEvent {};
-    
+    public interface IEncounterContextEvent extends IContextEvent {}
+
     /**
      * Returns the managed encounter context.
      *

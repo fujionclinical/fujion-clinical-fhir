@@ -91,9 +91,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Reactio
     protected void initModel(List<AllergyIntolerance> entries) {
         for (AllergyIntolerance adr : entries) {
             if (!exclusions.contains(adr.getStatusElement())) {
-                for (Reaction reaction : adr.getReaction()) {
-                    model.add(reaction);
-                }
+                model.addAll(adr.getReaction());
             }
         }
     }

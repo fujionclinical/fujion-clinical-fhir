@@ -33,7 +33,7 @@ public enum AccessTokenGrantType {
 
     private String paramValue;
 
-    private AccessTokenGrantType(String paramValue) {
+    AccessTokenGrantType(String paramValue) {
         this.paramValue = paramValue;
     }
 

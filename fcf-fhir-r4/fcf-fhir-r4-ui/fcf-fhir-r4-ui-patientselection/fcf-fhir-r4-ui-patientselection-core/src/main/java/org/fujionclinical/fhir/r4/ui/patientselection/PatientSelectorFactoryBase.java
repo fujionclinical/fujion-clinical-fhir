@@ -49,7 +49,7 @@ public class PatientSelectorFactoryBase implements IPatientSelectorFactory {
     @Override
     public IPatientSelector create() {
         try {
-            return patientSelectorClass.newInstance();
+            return patientSelectorClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }

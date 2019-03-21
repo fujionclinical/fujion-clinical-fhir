@@ -35,6 +35,6 @@ public interface IScope {
      *
      * @return The scope as a string value.
      */
-    public String asStringValue();
+    String asStringValue();
 
 }

@@ -491,7 +491,7 @@ public class FhirUtil {
         String[] pcs = type.split(":", 2);
         
         for (ContactPoint contact : list) {
-            if (pcs[0].equals(contact.getUse()) && pcs[1].equals(contact.getSystem())) {
+            if (pcs[0].equals(contact.getUse().toCode()) && pcs[1].equals(contact.getSystem().toCode())) {
                 return contact;
             }
         }

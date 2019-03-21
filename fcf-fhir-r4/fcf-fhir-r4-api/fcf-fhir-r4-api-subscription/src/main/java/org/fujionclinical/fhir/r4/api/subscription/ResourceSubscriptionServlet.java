@@ -62,17 +62,16 @@ public class ResourceSubscriptionServlet extends HttpServlet {
     }
     
     @Override
-    protected final void doDelete(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected final void doDelete(HttpServletRequest req, HttpServletResponse res) {
         // NOP
     }
     
     @Override
-    protected final void doPut(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected final void doPut(HttpServletRequest req, HttpServletResponse res) {
         // NOP
     }
     
-    protected final void processRequest(HttpServletRequest req, HttpServletResponse res) throws ServletException,
-                                                                                         IOException {
+    protected final void processRequest(HttpServletRequest req, HttpServletResponse res) {
         boolean rejected = !initService(req);
 
         if (!rejected) {

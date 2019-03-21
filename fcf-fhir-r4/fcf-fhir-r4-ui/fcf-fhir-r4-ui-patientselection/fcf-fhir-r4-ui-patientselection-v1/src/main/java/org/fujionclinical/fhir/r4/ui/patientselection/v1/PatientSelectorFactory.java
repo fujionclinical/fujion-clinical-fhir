@@ -46,11 +46,9 @@ public class PatientSelectorFactory extends PatientSelectorFactoryBase {
 
         @Override
         public void select(IResponseCallback<Patient> callback) {
-            dlg.modal(callback == null ? null : (event) -> {
-                callback.onComplete(dlg.getAttribute(Constants.SELECTED_PATIENT_ATTRIB, Patient.class));
-            });
+            dlg.modal(callback == null ? null : (event) -> callback.onComplete(dlg.getAttribute(Constants.SELECTED_PATIENT_ATTRIB, Patient.class)));
         }
-    };
+    }
 
     protected PatientSelectorFactory() {
         super("New patient selector", PatientSelector.class);

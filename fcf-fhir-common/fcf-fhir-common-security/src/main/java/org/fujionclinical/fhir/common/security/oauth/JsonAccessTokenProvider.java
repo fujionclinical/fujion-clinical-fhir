@@ -45,9 +45,7 @@ import org.fujionclinical.fhir.common.security.ICredentialProvider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,7 +179,7 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
     protected JsonObject processRequest(HttpUriRequest request) {
         CloseableHttpClient httpClient = apacheHttpClientFactory.getClient();
 
-        try (CloseableHttpResponse response = httpClient.execute(request);) {
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
 
             log.debug(response.getStatusLine());
 

@@ -58,7 +58,7 @@ public class HumanNameSerializer implements ISerializer<HumanNameDt> {
     
     @Override
     public HumanNameDt deserialize(String value) {
-        String pcs[] = value.split("\\" + NAME_DELIM);
+        String[] pcs = value.split("\\" + NAME_DELIM);
         HumanNameDt result = new HumanNameDt();
         int i = 0;
         

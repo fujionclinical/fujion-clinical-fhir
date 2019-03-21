@@ -36,8 +36,8 @@ public interface IPatientListFilterManager {
     /**
      * Each member represents a specific capability that may be supported by a given filter manager.
      */
-    enum FilterCapability { ADD, REMOVE, MOVE, RENAME };
-    
+    enum FilterCapability { ADD, REMOVE, MOVE, RENAME }
+
     /**
      * Adds a new filter to the filter list.
      * 

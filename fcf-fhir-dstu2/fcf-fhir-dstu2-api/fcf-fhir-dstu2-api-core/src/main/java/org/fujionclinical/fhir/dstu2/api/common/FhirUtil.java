@@ -443,7 +443,7 @@ public class FhirUtil {
     public static AddressDt getAddress(List<AddressDt> list, AddressUseEnum... uses) {
         for (AddressUseEnum use : uses) {
             for (AddressDt address : list) {
-                if (use == null || use.equals(address.getUse())) {
+                if (use == null || use.equals(address.getUseElement().getValueAsEnum())) {
                     return address;
                 }
             }

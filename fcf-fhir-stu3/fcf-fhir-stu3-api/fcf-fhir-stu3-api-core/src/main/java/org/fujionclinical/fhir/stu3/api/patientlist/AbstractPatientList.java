@@ -337,7 +337,7 @@ public abstract class AbstractPatientList implements IPatientList {
     @Override
     public IPatientList copy(String serialized) {
         IPatientList list = copy();
-        String pcs[] = PatientListUtil.split(serialized, 4);
+        String[] pcs = PatientListUtil.split(serialized, 4);
 
         if (list.isDateRangeRequired()) {
             list.setDateRange(StringUtils.isEmpty(pcs[1]) ? null : new DateRange(pcs[1]));

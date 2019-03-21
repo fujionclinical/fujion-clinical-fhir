@@ -78,7 +78,7 @@ public class PatientSearchUtil {
             HumanName name2 = FhirUtil.getName(patient2.getName(), NameUse.USUAL, null);
             String cmp1 = name1 == null ? "" : name1.toString();
             String cmp2 = name2 == null ? "" : name2.toString();
-            return cmp1.compareToIgnoreCase(cmp2.toString());
+            return cmp1.compareToIgnoreCase(cmp2);
         }
         
     };

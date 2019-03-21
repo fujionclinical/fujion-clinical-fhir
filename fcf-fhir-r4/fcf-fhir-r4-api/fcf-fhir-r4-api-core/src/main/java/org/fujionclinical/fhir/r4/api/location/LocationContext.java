@@ -46,7 +46,7 @@ public class LocationContext extends ResourceContext<Location> {
 
     private static final String PROPERTY_DEFAULT_LOCATION = "FCF LOCATION DEFAULT";
 
-    public interface ILocationContextEvent extends IContextEvent {};
+    public interface ILocationContextEvent extends IContextEvent {}
 
     /**
      * Returns the managed location context.

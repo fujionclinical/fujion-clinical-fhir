@@ -82,7 +82,7 @@ public class Document implements Comparable<Document> {
         DocumentReference.Context ctx = documentReference.getContext();
         CodeableConceptDt facilityType = ctx == null ? null : ctx.getFacilityType();
         CodingDt coding = facilityType == null ? null : FhirUtil.getFirst(facilityType.getCoding());
-        return coding == null ? "" : coding.getDisplay().toString();
+        return coding == null ? "" : coding.getDisplay();
     }
 
     public String getAuthorName() {

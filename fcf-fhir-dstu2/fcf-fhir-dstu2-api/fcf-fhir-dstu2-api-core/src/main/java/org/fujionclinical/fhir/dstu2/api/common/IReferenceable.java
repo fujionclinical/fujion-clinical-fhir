@@ -32,6 +32,6 @@ import ca.uhn.fhir.model.primitive.IdDt;
  */
 public interface IReferenceable {
     
-    public IdDt getId();
+    IdDt getId();
     
 }

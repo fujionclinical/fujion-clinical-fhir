@@ -30,6 +30,7 @@ import org.fujionclinical.api.property.PropertyUtil;
 import org.fujionclinical.api.spring.SpringUtil;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,65 +38,62 @@ import java.util.Set;
  * Class for managing boolean system and user preferences affecting patient selection.
  */
 public class Features {
-    
-    /**
-     * Used to allow EL expression to directly access property settings.
-     */
+
     private class FeatureMap implements Map<String, Boolean> {
-        
+
         @Override
         public Collection<Boolean> values() {
-            return null;
+            return Collections.emptyList();
         }
-        
+
         @Override
         public Boolean put(String key, Boolean value) {
             return null;
         }
-        
+
         @Override
         public Set<String> keySet() {
-            return null;
+            return Collections.emptySet();
         }
-        
+
         @Override
         public boolean isEmpty() {
             return false;
         }
-        
+
         @Override
         public int size() {
             return 0;
         }
-        
+
         @Override
         public void putAll(Map<? extends String, ? extends Boolean> t) {
-        };
-        
+        }
+
         @Override
         public void clear() {
         }
-        
+
         @Override
         public boolean containsValue(Object value) {
             return false;
         }
-        
+
         @Override
         public Boolean remove(Object key) {
             return null;
         }
-        
+
         @Override
         public boolean containsKey(Object key) {
             return false;
         }
-        
+
         @Override
         public Set<java.util.Map.Entry<String, Boolean>> entrySet() {
-            return null;
+            return Collections.emptySet();
         }
-        
+
         @Override
         public Boolean get(Object obj) {
             return obj instanceof String ? isEnabled((String) obj) : null;
@@ -117,8 +115,8 @@ public class Features {
     
     public Features(String propertyPrefix) {
         this.propertyPrefix = propertyPrefix;
-    };
-    
+    }
+
     /**
      * Returns true if the specified feature is enabled.
      * 

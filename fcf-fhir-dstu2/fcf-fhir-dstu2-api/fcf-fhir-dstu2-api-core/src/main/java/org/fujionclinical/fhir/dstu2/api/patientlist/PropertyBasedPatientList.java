@@ -260,9 +260,8 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      *
      * @param propertyName the name of the property definition to use when saving
      * @param patids List of patient logical ids.
-     * @throws Exception Unspecified exception.
      */
-    protected void saveProperty(String propertyName, List<String> patids) throws Exception {
+    protected void saveProperty(String propertyName, List<String> patids) {
         PropertyUtil.saveValues(propertyName, getListName(), false, patids);
     }
 

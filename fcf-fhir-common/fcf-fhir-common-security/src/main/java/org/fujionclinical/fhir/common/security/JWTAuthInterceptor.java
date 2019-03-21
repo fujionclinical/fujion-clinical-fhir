@@ -87,7 +87,7 @@ public class JWTAuthInterceptor extends AbstractAuthInterceptor {
 
     private JWTCredentials jwtCredentials;
 
-    public JWTAuthInterceptor(PropertyAwareConfigurator config) throws Exception {
+    public JWTAuthInterceptor(PropertyAwareConfigurator config) {
         super(config, "Bearer");
         ApacheHttpClientFactory factory = new ApacheHttpClientFactory(proxyHost, proxyPort, proxyUser, proxyPassword,
                 httpConnectionTimeOut, httpRequestTimeOut);

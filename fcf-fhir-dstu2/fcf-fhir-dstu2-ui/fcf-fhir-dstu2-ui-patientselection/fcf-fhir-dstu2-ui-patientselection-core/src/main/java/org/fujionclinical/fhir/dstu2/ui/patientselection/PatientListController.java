@@ -105,10 +105,9 @@ public class PatientListController extends FrameworkController {
      * Pass selection event to external listener, if any.
      *
      * @param event The onSelect event.
-     * @throws Exception Unspecified exception.
      */
     @EventHandler(value = "change", target = "rows")
-    private void onSelect$patientList(Event event) throws Exception {
+    private void onSelect$patientList(Event event) {
         if (selectListener != null) {
             selectListener.onEvent(event);
         }

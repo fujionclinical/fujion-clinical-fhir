@@ -68,14 +68,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
 
     private final List<ISmartContextSubscriber> subscribers = new WeakList<>();
 
-    private final IGenericEvent<String> refreshListener = new IGenericEvent<String>() {
-
-        @Override
-        public void eventCallback(String eventName, String eventData) {
-            notifySubscribers();
-        }
-
-    };
+    private final IGenericEvent<String> refreshListener = (eventName, eventData) -> notifySubscribers();
 
     /**
      * Main constructor.

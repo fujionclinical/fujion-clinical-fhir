@@ -978,7 +978,7 @@ public class PatientSelectionController extends FrameworkController {
 
     @EventHandler(value = "click", target = "btnManagedListImport")
     private void onClick$btnManagedListImport() {
-        for (Object item : (ListModel<?>) grdPatientList.getRows().getModel()) {
+        for (Object item : grdPatientList.getRows().getModel()) {
             managedListAdd((PatientListItem) item, false);
         }
 

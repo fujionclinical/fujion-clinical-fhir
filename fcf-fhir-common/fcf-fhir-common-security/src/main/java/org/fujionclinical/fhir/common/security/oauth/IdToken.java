@@ -29,7 +29,6 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.fujion.common.MiscUtil;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,7 +50,7 @@ public class IdToken implements Serializable {
         Validate.notNull(token);
 
         this.token = token;
-        String idTokenSegments[] = token.split("\\.");
+        String[] idTokenSegments = token.split("\\.");
 
         // todo support encryption
 

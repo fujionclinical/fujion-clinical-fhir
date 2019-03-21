@@ -28,7 +28,6 @@ package org.fujionclinical.fhir.common.security.oauth;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

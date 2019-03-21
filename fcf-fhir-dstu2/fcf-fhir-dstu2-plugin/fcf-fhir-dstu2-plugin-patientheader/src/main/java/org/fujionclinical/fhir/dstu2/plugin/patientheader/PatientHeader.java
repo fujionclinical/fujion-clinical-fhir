@@ -103,9 +103,7 @@ public class PatientHeader extends PluginController {
 
     private boolean showUser = true;
 
-    private final IGenericEvent<Patient> patientChangeListener = (event, patient) -> {
-        setPatient(patient);
-    };
+    private final IGenericEvent<Patient> patientChangeListener = (event, patient) -> setPatient(patient);
 
     @Override
     public void afterInitialized(BaseComponent comp) {
@@ -280,14 +278,7 @@ public class PatientHeader extends PluginController {
         header = null;
 
         List<ContactPointDt> telecoms = new ArrayList<>(patient.getTelecom());
-        Collections.sort(telecoms, new Comparator<ContactPointDt>() {
-
-            @Override
-            public int compare(ContactPointDt cp1, ContactPointDt cp2) {
-                return cp1.getRank() - cp2.getRank();
-            }
-
-        });
+        Collections.sort(telecoms, (cp1, cp2) -> cp1.getRank() - cp2.getRank());
 
         for (ContactPointDt telecom : telecoms) {
             if (header == null) {

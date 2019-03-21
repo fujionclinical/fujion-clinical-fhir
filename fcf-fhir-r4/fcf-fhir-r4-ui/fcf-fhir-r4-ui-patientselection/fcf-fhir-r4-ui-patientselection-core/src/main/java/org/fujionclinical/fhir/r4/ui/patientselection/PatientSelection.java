@@ -152,9 +152,7 @@ public class PatientSelection {
         args.put(Constants.RESULT_ATTRIB, patientList);
         Window window = (Window) PageUtil.createPage(Constants.RESOURCE_PREFIX + "patientMatches.fsp", null, args).get(0);
         
-        window.modal(callback == null ? null : (event) -> {
-            callback.onComplete(window.getAttribute(Constants.RESULT_ATTRIB, Patient.class));
-        });
+        window.modal(callback == null ? null : (event) -> callback.onComplete(window.getAttribute(Constants.RESULT_ATTRIB, Patient.class)));
     }
     
     /**

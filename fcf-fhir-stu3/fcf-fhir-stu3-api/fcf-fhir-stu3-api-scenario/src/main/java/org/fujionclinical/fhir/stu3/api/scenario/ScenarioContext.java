@@ -41,8 +41,8 @@ public class ScenarioContext extends ManagedContext<Scenario> {
     
     private static final Log log = LogFactory.getLog(ScenarioContext.class);
     
-    public interface IScenarioContextEvent extends IContextEvent {};
-    
+    public interface IScenarioContextEvent extends IContextEvent {}
+
     private final ScenarioRegistry registry;
     
     /**

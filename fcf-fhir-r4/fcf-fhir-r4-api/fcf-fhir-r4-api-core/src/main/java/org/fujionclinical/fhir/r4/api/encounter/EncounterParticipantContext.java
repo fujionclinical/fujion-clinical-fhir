@@ -43,7 +43,7 @@ public class EncounterParticipantContext extends ManagedContext<EncounterPartici
 
     private static final String SUBJECT_NAME = "EncounterParticipantComponent";
 
-    public interface IEncounterParticipantContextEvent extends IContextEvent {};
+    public interface IEncounterParticipantContextEvent extends IContextEvent {}
 
     /**
      * Returns the managed participant context.

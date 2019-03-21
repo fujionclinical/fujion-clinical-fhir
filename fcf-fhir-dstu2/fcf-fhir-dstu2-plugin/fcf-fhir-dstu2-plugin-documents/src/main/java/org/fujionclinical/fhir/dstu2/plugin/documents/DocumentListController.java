@@ -133,9 +133,7 @@ public class DocumentListController extends AbstractGridController<Document, Doc
 
         List<Comboitem> items = new ArrayList<>();
         
-        cboFilter.getChildren(Comboitem.class).forEach((item) -> {
-            items.add(item);
-        });
+        cboFilter.getChildren(Comboitem.class).forEach(items::add);
         
         items.remove(0);
         Set<String> types = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
@@ -184,7 +182,7 @@ public class DocumentListController extends AbstractGridController<Document, Doc
      */
     private String getCurrentFilter() {
         return fixedFilter != null ? fixedFilter
-                : cboFilter.getSelectedIndex() > 0 ? (String) cboFilter.getSelectedItem().getValue() : null;
+                : cboFilter.getSelectedIndex() > 0 ? cboFilter.getSelectedItem().getValue() : null;
     }
 
     /**

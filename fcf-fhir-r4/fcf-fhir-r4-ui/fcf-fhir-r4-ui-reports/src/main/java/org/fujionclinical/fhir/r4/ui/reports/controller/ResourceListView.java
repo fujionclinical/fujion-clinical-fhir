@@ -91,13 +91,9 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
     
     private Class<R> resourceClass;
     
-    private final ISubscriptionCallback subscriptionListener = (eventName, resource) -> {
-        refresh();
-    };
+    private final ISubscriptionCallback subscriptionListener = (eventName, resource) -> refresh();
 
-    private final IGenericEvent<Patient> patientChangeListener = (eventName, patient) -> {
-        setPatient(patient);
-    };
+    private final IGenericEvent<Patient> patientChangeListener = (eventName, patient) -> setPatient(patient);
     
     protected abstract void setup();
     
@@ -182,7 +178,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
         startBackgroundThread(new IRunnable() {
             
             @Override
-            public void run(ThreadEx thread) throws Exception {
+            public void run(ThreadEx thread) {
                 Bundle bundle = fhirService.getClient().search().byUrl(url).returnBundle(Bundle.class).execute();
                 thread.setAttribute("bundle", bundle);
             }

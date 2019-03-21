@@ -55,14 +55,7 @@ import java.util.Comparator;
  */
 public class ScenarioManagerController extends PluginController implements IScenarioContextEvent {
     
-    private static final Comparator<Scenario> scenarioComparator = new Comparator<Scenario>() {
-        
-        @Override
-        public int compare(Scenario s1, Scenario s2) {
-            return s1.getName().compareToIgnoreCase(s2.getName());
-        }
-        
-    };
+    private static final Comparator<Scenario> scenarioComparator = (s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName());
     
     @WiredComponent
     private Combobox cboScenarios;

@@ -50,9 +50,7 @@ public class Init implements IShellStartup {
 
     private static final IAction PATIENT_SELECT = ActionRegistry.register(true, ACTION_ID, ACTION_NAME, ACTION_SCRIPT);
 
-    private static final IEventListener forceSelectionListener = (event) -> {
-        PatientSelection.show(true);
-    };
+    private static final IEventListener forceSelectionListener = (event) -> PatientSelection.show(true);
     
     @Override
     public boolean execute() {

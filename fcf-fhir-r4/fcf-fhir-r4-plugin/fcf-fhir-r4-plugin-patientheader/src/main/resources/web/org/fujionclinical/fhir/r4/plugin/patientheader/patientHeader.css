@@ -7,14 +7,14 @@
 	vertical-align: middle;
 }
 
-.fcf-patientheader .glyphicon {
+.fcf-patientheader .fa {
 	background: none;
 	border: none;
 	font-size: 110%;
 	padding-bottom: 5px;
 }
 
-.fcf-patientheader .glyphicon:disabled {
+.fcf-patientheader .fa:disabled {
 	opacity: .5;
 }
 

@@ -39,24 +39,12 @@ import java.util.Date;
  */
 public class Comparators {
     
-    public static final Comparator<MedicationAdministration> MED_ADMIN_EFFECTIVE_TIME = new Comparator<MedicationAdministration>() {
-        
-        @Override
-        public int compare(MedicationAdministration o1, MedicationAdministration o2) {
-            return o1 == o2 ? 0
-                    : o1 == null ? -1 : o2 == null ? 1 : DateUtil.compare(getEffectiveTime(o1), getEffectiveTime(o2));
-        }
-    };
+    public static final Comparator<MedicationAdministration> MED_ADMIN_EFFECTIVE_TIME = (o1, o2) -> o1 == o2 ? 0
+            : o1 == null ? -1 : o2 == null ? 1 : DateUtil.compare(getEffectiveTime(o1), getEffectiveTime(o2));
     
-    public static final Comparator<MedicationOrder> MED_ORDER_DATE_WRITTEN = new Comparator<MedicationOrder>() {
-        
-        @Override
-        public int compare(MedicationOrder o1, MedicationOrder o2) {
-            return o1 == o2 ? 0 : o1 == null ? -1 : o2 == null ? 1 : o1.getDateWritten().compareTo(o2.getDateWritten());
-        }
-    };
+    public static final Comparator<MedicationOrder> MED_ORDER_DATE_WRITTEN = (o1, o2) -> o1 == o2 ? 0 : o1 == null ? -1 : o2 == null ? 1 : o1.getDateWritten().compareTo(o2.getDateWritten());
     
-    private static final Date getEffectiveTime(MedicationAdministration ma) {
+    private static Date getEffectiveTime(MedicationAdministration ma) {
         try {
             if (ma.getEffectiveTime() instanceof DateTimeDt) {
                 return ((DateTimeDt)ma.getEffectiveTime()).getValue();

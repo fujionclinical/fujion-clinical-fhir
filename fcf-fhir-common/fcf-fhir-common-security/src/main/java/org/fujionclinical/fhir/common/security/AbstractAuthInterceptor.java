@@ -63,7 +63,7 @@ public abstract class AbstractAuthInterceptor implements IAuthInterceptor {
     }
 
     @Override
-    public void interceptResponse(IHttpResponse theResponse) throws IOException {
+    public void interceptResponse(IHttpResponse theResponse) {
         // nothing
     }
 

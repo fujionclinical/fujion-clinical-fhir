@@ -156,8 +156,8 @@ public class PatientListUtil {
         if (StringUtils.isEmpty(name)) {
             return "";
         }
-        
-        String pcs[] = StrUtil.split(WordUtils.capitalizeFully(name, WORD_DELIMITERS), ",");
+
+        String[] pcs = StrUtil.split(WordUtils.capitalizeFully(name, WORD_DELIMITERS), ",");
         StringBuilder sb = new StringBuilder(name.length() + 5);
         
         for (String pc : pcs) {

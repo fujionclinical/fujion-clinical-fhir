@@ -199,15 +199,10 @@ public class ScenarioUtil {
         synchronized (resourceClasses) {
             if (resourceClasses.isEmpty()) {
                 FastClasspathScanner fcs = new FastClasspathScanner("org.hl7.fhir.dstu3.model");
-                fcs.matchClassesImplementing(IDomainResource.class, new ImplementingClassMatchProcessor<IDomainResource>() {
-                    
-                    @Override
-                    public void processMatch(Class<? extends IDomainResource> implementingClass) {
-                        if (!Modifier.isAbstract(implementingClass.getModifiers())) {
-                            resourceClasses.add(implementingClass);
-                        }
+                fcs.matchClassesImplementing(IDomainResource.class, implementingClass -> {
+                    if (!Modifier.isAbstract(implementingClass.getModifiers())) {
+                        resourceClasses.add(implementingClass);
                     }
-                    
                 });
                 fcs.scan();
             }

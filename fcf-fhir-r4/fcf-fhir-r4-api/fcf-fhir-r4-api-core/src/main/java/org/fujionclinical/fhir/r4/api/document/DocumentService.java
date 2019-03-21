@@ -160,7 +160,7 @@ public class DocumentService extends BaseService {
             
             for (CodeSystem cs : FhirUtil.getEntries(bundle, CodeSystem.class)) {
                 for (ConceptDefinitionComponent concept : cs.getConcept()) {
-                    results.add(concept.getDisplay().toString());
+                    results.add(concept.getDisplay());
                 }
             }
             

@@ -6,12 +6,8 @@
 	border: none !important;
 }
 
-.z-listbox, .z-listbox-body {
+.fujion-listbox {
 	height: auto !important;
-}
-
-.z-listitem-seld {
-	background-image: none!important;
 }
 
 .fcf-documents-sep {

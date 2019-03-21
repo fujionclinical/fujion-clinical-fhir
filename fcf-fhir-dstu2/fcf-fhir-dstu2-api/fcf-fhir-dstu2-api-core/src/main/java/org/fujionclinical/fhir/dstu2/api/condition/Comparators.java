@@ -35,14 +35,10 @@ import java.util.Date;
  */
 public class Comparators {
     
-    public static final Comparator<Condition> CONDITION_DATE_RECORDED = new Comparator<Condition>() {
-        
-        @Override
-        public int compare(Condition o1, Condition o2) {
-            Date d1 = o1 == null ? null : o1.getDateRecorded();
-            Date d2 = o2 == null ? null : o2.getDateRecorded();
-            return d1 == d2 ? 0 : d1 == null ? -1 : d2 == null ? 1 : d1.compareTo(d2);
-        }
+    public static final Comparator<Condition> CONDITION_DATE_RECORDED = (o1, o2) -> {
+        Date d1 = o1 == null ? null : o1.getDateRecorded();
+        Date d2 = o2 == null ? null : o2.getDateRecorded();
+        return d1 == d2 ? 0 : d1 == null ? -1 : d2 == null ? 1 : d1.compareTo(d2);
     };
     
     private Comparators() {

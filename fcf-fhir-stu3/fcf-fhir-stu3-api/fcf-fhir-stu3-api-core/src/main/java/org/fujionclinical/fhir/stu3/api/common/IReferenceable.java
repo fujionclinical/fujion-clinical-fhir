@@ -32,6 +32,6 @@ import org.hl7.fhir.dstu3.model.IdType;
  */
 public interface IReferenceable {
     
-    public IdType getId();
+    IdType getId();
     
 }

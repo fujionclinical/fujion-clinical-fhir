@@ -61,10 +61,10 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
         String med = null;
         IDatatype medicationDt = script.getMedication();
 
-        if (medicationDt != null && medicationDt instanceof CodeableConceptDt) {
+        if (medicationDt instanceof CodeableConceptDt) {
             CodeableConceptDt medCode = (CodeableConceptDt) medicationDt;
             med = medCode.getCodingFirstRep().getDisplay();//Assuming there is only one code. If not, we need to get the preferred one.
-        } else if (medicationDt != null && medicationDt instanceof Medication) {
+        } else if (medicationDt instanceof Medication) {
             Medication medObject = (Medication) medicationDt;
             med = medObject.getCode().getCodingFirstRep().getDisplay();//Not sure about this one
         }
