@@ -102,7 +102,7 @@ public class Document implements Comparable<Document> {
 
             if (codings != null) {
                 for (Coding coding : codings) {
-                    String type = coding;
+                    String type = coding.getDisplay();
 
                     if (type != null && !type.isEmpty()) {
                         types.add(type);
