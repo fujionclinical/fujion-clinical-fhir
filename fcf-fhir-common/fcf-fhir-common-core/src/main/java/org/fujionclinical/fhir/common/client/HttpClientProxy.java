@@ -43,14 +43,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Http client proxy to allow registration of request interceptors based on url patterns. This
+ * Http client proxy allow registration of request interceptors based on url patterns. This
  * capability allows one to create custom http clients to handle certain requests. In the absence of
  * a url match, it delegates requests to the usual http client. See {@link UriPatternMatcher} for
  * information on url patterns.
  */
 @SuppressWarnings("deprecation")
 public class HttpClientProxy implements HttpClient, Closeable {
-
 
     /**
      * Specialized client http request factories for servicing atypical requests.
@@ -82,24 +81,27 @@ public class HttpClientProxy implements HttpClient, Closeable {
 
     @Override
     public void close() throws IOException {
+        IOException exception = null;
+
         for (HttpClient client : clients) {
             if (client instanceof Closeable) {
-                close((Closeable) client);
+                try {
+                    ((Closeable) client).close();
+                } catch (IOException e) {
+                    if (exception != null) {
+                        exception = e;
+                    } else {
+                        exception.addSuppressed(e);
+                    }
+                }
             }
         }
 
         clients.clear();
-    }
 
-    /**
-     * Silently close a client.
-     *
-     * @param client Client to close.
-     */
-    private void close(Closeable client) {
-        try {
-            client.close();
-        } catch (IOException e) {}
+        if (exception != null) {
+            throw exception;
+        }
     }
 
     private HttpClient getClient(HttpRequest request) {
