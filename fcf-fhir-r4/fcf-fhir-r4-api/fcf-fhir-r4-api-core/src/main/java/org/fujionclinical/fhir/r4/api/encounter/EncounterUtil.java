@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.r4.api.encounter;
 
 import org.fujionclinical.api.spring.SpringUtil;
-import org.fujionclinical.fhir.common.query.IResourceQueryEx;
+import org.fujionclinical.fhir.common.api.query.IResourceQueryEx;
 import org.fujionclinical.fhir.r4.api.common.ClientUtil;
 import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;

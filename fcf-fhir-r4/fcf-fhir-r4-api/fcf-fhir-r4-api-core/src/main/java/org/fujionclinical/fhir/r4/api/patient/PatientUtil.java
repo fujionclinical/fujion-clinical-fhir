@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.r4.api.patient;
 
 import org.fujionclinical.api.spring.SpringUtil;
-import org.fujionclinical.fhir.common.query.IResourceQueryEx;
+import org.fujionclinical.fhir.common.api.query.IResourceQueryEx;
 import org.hl7.fhir.r4.model.Patient;
 
 import java.util.List;

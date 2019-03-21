@@ -1,4 +1,4 @@
-<div name="reportHeaderRoot" class="fcf-reporting-header" height="40px"
+<div name="reportHeaderRoot" class="fcf-reports-header" height="40px"
 	controller="${@reportHeaderPatient}">
 	<grid style="border:none;border-bottom:1px solid black">
 		<columns>

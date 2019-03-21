@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.dstu2.api.location;
 
 import ca.uhn.fhir.model.dstu2.valueset.LocationStatusEnum;
 import ca.uhn.fhir.model.dstu2.valueset.LocationTypeEnum;
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 
 /**
  * Represents search criteria supported by FHIR.

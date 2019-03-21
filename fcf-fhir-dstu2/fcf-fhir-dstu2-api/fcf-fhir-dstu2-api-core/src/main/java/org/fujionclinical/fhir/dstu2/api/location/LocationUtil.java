@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.dstu2.api.location;
 
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import org.fujionclinical.api.spring.SpringUtil;
-import org.fujionclinical.fhir.common.query.IResourceQueryEx;
+import org.fujionclinical.fhir.common.api.query.IResourceQueryEx;
 
 import java.util.List;
 

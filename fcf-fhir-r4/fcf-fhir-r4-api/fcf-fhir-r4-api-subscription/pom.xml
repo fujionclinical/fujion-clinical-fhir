@@ -18,7 +18,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-common-core</artifactId>
+			<artifactId>fcf-fhir-common-api</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

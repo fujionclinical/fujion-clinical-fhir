@@ -32,7 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.common.query.SearchException;
+import org.fujionclinical.fhir.common.api.query.SearchException;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.dstu2.api.patient.PatientSearchCriteria;
 import org.fujionclinical.fhir.dstu2.api.patient.PatientUtil;

@@ -30,8 +30,8 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
-import org.fujionclinical.fhir.common.query.IResourceQueryEx;
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.IResourceQueryEx;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 

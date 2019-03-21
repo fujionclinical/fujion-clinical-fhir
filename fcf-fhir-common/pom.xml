@@ -12,7 +12,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>fcf-fhir-common-core</module>
+		<module>fcf-fhir-common-api</module>
+		<module>fcf-fhir-common-ui</module>
 		<module>fcf-fhir-common-security</module>
 		<module>fcf-fhir-common-smart</module>
 	</modules>

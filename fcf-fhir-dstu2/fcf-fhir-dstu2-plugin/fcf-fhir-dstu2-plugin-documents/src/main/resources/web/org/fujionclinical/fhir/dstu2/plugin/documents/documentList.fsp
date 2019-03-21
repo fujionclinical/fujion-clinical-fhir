@@ -17,10 +17,10 @@
 				hint="${@msg.fcfdocuments.plugin.btn.clear.hint}"/>
 			<button name="btnView" label="${@msg.fcfdocuments.plugin.btn.view.selected.label}"
 				hint="${@msg.fcfdocuments.plugin.btn.view.hint}"/>
-			<button name="btnRefresh" label="${@msg.reporting.plugin.refresh.view.label}"
-				hint="${@msg.reporting.plugin.refresh.view.hint}"/>
-			<button name="btnPrint" label="${@msg.reporting.plugin.btn.print.label}"
-				hint="${@msg.reporting.plugin.btn.print.hint}" visible="false"/>
+			<button name="btnRefresh" label="${@msg.reports.plugin.refresh.view.label}"
+				hint="${@msg.reports.plugin.refresh.view.hint}"/>
+			<button name="btnPrint" label="${@msg.reports.plugin.btn.print.label}"
+				hint="${@msg.reports.plugin.btn.print.hint}" visible="false"/>
 		</span>
 	</toolbar>
 	<div height="100%" width="100%">

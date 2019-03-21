@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.stu3.api.location;
 
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 import org.hl7.fhir.dstu3.model.Location.LocationStatus;
 
 /**

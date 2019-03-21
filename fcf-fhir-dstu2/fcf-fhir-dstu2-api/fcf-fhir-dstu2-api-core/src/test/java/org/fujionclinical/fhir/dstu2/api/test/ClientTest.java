@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
-import org.fujionclinical.fhir.common.client.FhirContext;
+import org.fujionclinical.fhir.common.api.client.FhirContext;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

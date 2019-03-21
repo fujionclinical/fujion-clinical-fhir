@@ -32,7 +32,7 @@ import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.BoundCodeDt;
 import ca.uhn.fhir.model.primitive.UriDt;
 import org.fujionclinical.api.spring.SpringUtil;
-import org.fujionclinical.fhir.common.query.IResourceQueryEx;
+import org.fujionclinical.fhir.common.api.query.IResourceQueryEx;
 import org.fujionclinical.fhir.dstu2.api.common.ClientUtil;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;

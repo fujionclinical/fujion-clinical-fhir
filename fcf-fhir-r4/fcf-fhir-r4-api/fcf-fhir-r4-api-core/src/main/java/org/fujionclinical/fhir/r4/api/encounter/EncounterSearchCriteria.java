@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.r4.api.encounter;
 
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Period;
 

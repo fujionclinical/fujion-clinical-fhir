@@ -35,6 +35,7 @@ import org.fujion.component.Row;
 import org.fujion.component.Window;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.fhir.common.ui.reports.ReportConstants;
 import org.fujionclinical.fhir.r4.api.common.BaseService;
 import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.fujionclinical.fhir.r4.api.common.NarrativeService;
@@ -44,7 +45,6 @@ import org.fujionclinical.fhir.r4.api.subscription.ResourceSubscriptionManager;
 import org.fujionclinical.fhir.r4.api.subscription.SubscriptionWrapper;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.ui.reports.common.ReportConstants;
 import org.fujionclinical.ui.sharedforms.ListFormController;
 import org.fujionclinical.ui.thread.ThreadEx;
 import org.fujionclinical.ui.thread.ThreadEx.IRunnable;
@@ -240,8 +240,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
                 map.put("content", detail);
                 map.put("allowPrint", getAllowPrint());
                 try {
-                    Window window = (Window) PageUtil
-                            .createPage(ReportConstants.RESOURCE_PREFIX + "resourceListDetailPopup.fsp", null, map).get(0);
+                    Window window = (Window) PageUtil.createPage(ReportConstants.RESOURCE_PREFIX + "resourceListDetailPopup.fsp", null, map).get(0);
                     window.modal(null);
                 } catch (Exception e) {
                     DialogUtil.showError(e);

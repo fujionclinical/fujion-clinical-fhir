@@ -31,7 +31,7 @@ import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierTypeCodesEnum;
 import org.apache.commons.lang.StringUtils;
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 
 /**

@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.dstu2.api.encounter;
 
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 
 /**
  * Represents search criteria supported by FHIR.

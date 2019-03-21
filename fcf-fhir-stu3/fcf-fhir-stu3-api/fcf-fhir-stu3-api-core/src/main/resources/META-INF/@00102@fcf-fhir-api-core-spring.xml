@@ -7,19 +7,19 @@
 	<beans profile="root">
 	
 		<!-- FHIR context and client -->
-		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.common.client.FhirContextConfigurator" />
+		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.common.api.client.FhirContextConfigurator" />
 		
-		<bean id="fhirContext" class="org.fujionclinical.fhir.common.client.FhirContext">
+		<bean id="fhirContext" class="org.fujionclinical.fhir.common.api.client.FhirContext">
 			<constructor-arg ref="fhirContextConfigurator" />
 		</bean>
 		
-		<bean id="fhirClientFactory" class="org.fujionclinical.fhir.common.client.FhirClientFactory">
+		<bean id="fhirClientFactory" class="org.fujionclinical.fhir.common.api.client.FhirClientFactory">
 			<constructor-arg ref="fhirContext" />
 		</bean>
 		
 		<bean id="fhirClient" factory-bean="fhirClientFactory" factory-method="createClient">
 			<constructor-arg>
-				<bean class="org.fujionclinical.fhir.common.client.FhirClientConfigurator"/>
+				<bean class="org.fujionclinical.fhir.common.api.client.FhirClientConfigurator"/>
 			</constructor-arg>
 		</bean>
 		

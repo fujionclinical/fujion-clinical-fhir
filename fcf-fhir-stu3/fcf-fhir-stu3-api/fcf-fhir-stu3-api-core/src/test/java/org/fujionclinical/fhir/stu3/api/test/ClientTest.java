@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.stu3.api.test;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
-import org.fujionclinical.fhir.common.client.FhirContext;
+import org.fujionclinical.fhir.common.api.client.FhirContext;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.junit.Test;

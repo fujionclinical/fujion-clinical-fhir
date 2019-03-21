@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.r4.api.practitioner;
 
 import org.apache.commons.lang.StringUtils;
-import org.fujionclinical.fhir.common.query.SearchCriteria;
+import org.fujionclinical.fhir.common.api.query.SearchCriteria;
 import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.fujionclinical.fhir.r4.api.terminology.Constants;
 import org.hl7.fhir.r4.model.HumanName;
