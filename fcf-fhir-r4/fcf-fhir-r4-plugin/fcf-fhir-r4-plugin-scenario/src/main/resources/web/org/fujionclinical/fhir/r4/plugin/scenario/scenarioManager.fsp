@@ -1,0 +1,36 @@
+<div controller="${@fcfScenarioManagerController}" style="padding: 5px" flex="1"
+	class="fujion-layout-vertical">
+	<combobox name="cboScenarios" readonly="true" width="100%"
+		placeholder="${@msg.fcf.scenario.cbox.placeholder}"/>
+	<div style="padding:10px;overflow:auto" flex="1">
+		<label name="lblMessage" />
+	</div>
+	<toolbar width="100%">
+		<button name="btnDeleteAll"
+			label="${@msg.fcf.scenario.btn.deleteall.label}"
+			hint="${@msg.fcf.scenario.btn.deleteall.hint}"
+			class="flavor:btn-danger size:btn-xs"/>
+		<span name="scenarioButtons" flex="1" css="##{id} > * {margin: 2px}">
+			<button name="btnDelete"
+				label="${@msg.fcf.scenario.btn.delete.label}"
+				hint="${@msg.fcf.scenario.btn.delete.hint}"
+				class="flavor:btn-danger size:btn-xs"/>
+			<button name="btnReset"
+				label="${@msg.fcf.scenario.btn.reset.label}"
+				hint="${@msg.fcf.scenario.btn.reset.hint}"
+				class="flavor:btn-warning size:btn-xs"/>
+			<button name="btnReload"
+				label="${@msg.fcf.scenario.btn.reload.label}"
+				hint="${@msg.fcf.scenario.btn.reload.hint}"
+				class="flavor:btn-primary size:btn-xs"/>
+			<button name="btnView"
+				label="${@msg.fcf.scenario.btn.view.label}"
+				hint="${@msg.fcf.scenario.btn.view.hint}"
+				class="flavor:btn-info size:btn-xs"/>
+			<button name="btnContext"
+				label="${@msg.fcf.scenario.btn.context.label}"
+				hint="${@msg.fcf.scenario.btn.context.hint}"
+				class="flavor:btn-success size:btn-xs"/>
+		</span>
+	</toolbar>
+</div>

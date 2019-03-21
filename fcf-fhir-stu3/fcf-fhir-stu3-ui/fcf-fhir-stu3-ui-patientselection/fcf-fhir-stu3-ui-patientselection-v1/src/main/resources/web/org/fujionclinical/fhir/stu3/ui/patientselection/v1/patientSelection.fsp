@@ -1,6 +1,6 @@
 <window title="Patient Selection" width="90%" height="90%" closable="true" sizable="true"
 	closeAction="hide" controller="${@patientSelectionController}"
-	class="flavor:panel-primary fcf-patientselection">
+	class="flavor:alert-primary fcf-patientselection">
 	<style>
 		.fcf-patientselection {
 			min-height: 400px;

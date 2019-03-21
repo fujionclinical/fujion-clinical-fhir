@@ -39,16 +39,17 @@ import org.fujionclinical.ui.command.CommandUtil;
  * Patient selection initializers.
  */
 public class Init implements IShellStartup {
-    
-    private static final String ACTION_ID = "patientselection.select";
-    
-    private static final String ACTION_NAME = "@patientselection.action.select.label";
-    
+
     private static final String FORCE_SELECT_EVENT = "force.patient.selection";
-    
-    private static final IAction PATIENT_SELECT = ActionRegistry.register(true, ACTION_ID, ACTION_NAME,
-            "groovy:PatientSelection.show(true, null);");
-    
+
+    private static final String ACTION_ID = "patientselection.select";
+
+    private static final String ACTION_NAME = "@patientselection.action.select.label";
+
+    private static final String ACTION_SCRIPT = "groovy:" + PatientSelection.class.getName() + ".show(true, null);";
+
+    private static final IAction PATIENT_SELECT = ActionRegistry.register(true, ACTION_ID, ACTION_NAME, ACTION_SCRIPT);
+
     private static final IEventListener forceSelectionListener = (event) -> {
         PatientSelection.show(true);
     };

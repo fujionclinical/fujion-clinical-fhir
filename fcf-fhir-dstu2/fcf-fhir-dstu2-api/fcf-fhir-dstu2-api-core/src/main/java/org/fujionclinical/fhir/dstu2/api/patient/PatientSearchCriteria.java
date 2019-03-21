@@ -39,8 +39,7 @@ import java.util.Date;
  * Represents search criteria supported by FHIR.
  */
 public class PatientSearchCriteria extends SearchCriteria {
-    
-    
+
     private static final String ERROR_MISSING_REQUIRED = "@patientsearch.error.missing.required";
     
     private HumanNameDt name;

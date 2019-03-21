@@ -11,7 +11,7 @@
 	<beans profile="root">
 		
 		<fcp:plugin id="fcfScenarioManager" name="Configure Scenario" 
-			url="web/org/fujionclinical/fhir/plugin/scenario/scenarioManager.fsp">
+			url="web/org/fujionclinical/fhir/stu3/plugin/scenario/scenarioManager.fsp">
 			<fcp:resource>
 				<fcp:action-resource id="fcfScenarioShow"
 					label="${@msg.fcf.scenario.action.label}"

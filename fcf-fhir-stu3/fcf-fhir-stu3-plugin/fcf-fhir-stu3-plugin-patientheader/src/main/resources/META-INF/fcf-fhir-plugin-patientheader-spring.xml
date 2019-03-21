@@ -9,7 +9,7 @@
 
 	<beans profile="root">
 
-		<fcp:plugin url="web/org/fujionclinical/fhir/plugin/patientheader/patientHeader.fsp"
+		<fcp:plugin url="web/org/fujionclinical/fhir/stu3/plugin/patientheader/patientHeader.fsp"
 			id="fcfPatientHeader" name="Current Patient Header">
 			<fcp:serialization>
 				<fcp:property name="Background Color" id="color" type="color"

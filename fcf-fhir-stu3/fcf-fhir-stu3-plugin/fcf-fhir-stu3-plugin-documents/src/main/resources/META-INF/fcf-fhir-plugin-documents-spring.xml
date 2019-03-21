@@ -11,7 +11,7 @@
 	<beans profile="root">
 
 		<fcp:plugin
-			url="web/org/fujionclinical/fhir/plugin/documents/documentMain.fsp"
+			url="web/org/fujionclinical/fhir/stu3/plugin/documents/documentMain.fsp"
 			id="fcfDocuments" name="Clinical Documents Display">
 			<fcp:resource>
 				<fcp:help-resource module="fcfDocumentsHelp" />

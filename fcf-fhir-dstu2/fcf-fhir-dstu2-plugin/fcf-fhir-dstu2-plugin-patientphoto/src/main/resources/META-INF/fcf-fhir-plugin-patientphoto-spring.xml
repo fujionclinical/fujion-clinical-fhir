@@ -9,7 +9,7 @@
 
 	<beans profile="root">
 
-		<fcp:plugin url="web/org/fujionclinical/fhir/plugin/patientphoto/patientPhoto.fsp"
+		<fcp:plugin url="web/org/fujionclinical/fhir/dstu2/plugin/patientphoto/patientPhoto.fsp"
 			id="fcfPatientPhoto" name="Current Patient Photo">
 		</fcp:plugin>
 
