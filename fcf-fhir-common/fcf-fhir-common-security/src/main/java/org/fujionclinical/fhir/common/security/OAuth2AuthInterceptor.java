@@ -25,14 +25,14 @@
  */
 package org.fujionclinical.fhir.common.security;
 
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 
 /**
  * Authentication interceptor supporting OAuth2 authentication.
  */
 public class OAuth2AuthInterceptor extends AbstractAuthInterceptor {
 
-    public OAuth2AuthInterceptor(PropertyBasedConfigurator config) {
+    public OAuth2AuthInterceptor(PropertyAwareConfigurator config) {
         super(config, "Bearer");
     }
 

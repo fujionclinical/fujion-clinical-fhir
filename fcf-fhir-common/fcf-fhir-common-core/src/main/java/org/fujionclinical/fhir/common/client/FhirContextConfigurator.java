@@ -27,11 +27,12 @@ package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
+import org.fujionclinical.api.spring.SimplePropertyAwareConfigurator;
 
 /**
  * Configurator for all FHIR context-related settings.
  */
-public class FhirContextConfigurator extends FhirBaseConfigurator implements IFhirContextConfigurator {
+public class FhirContextConfigurator extends SimplePropertyAwareConfigurator implements IFhirContextConfigurator {
 
     @Param(property = "version", required = true)
     private FhirVersionEnum version;

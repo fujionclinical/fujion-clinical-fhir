@@ -29,8 +29,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.domain.IUser;
 import org.fujionclinical.api.security.SecurityUtil;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator.Param;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator.Param;
 
 import java.io.UnsupportedEncodingException;
 
@@ -47,7 +47,7 @@ public class BasicAuthInterceptor extends AbstractAuthInterceptor {
     @Param(property = "authentication.password")
     private String password;
 
-    public BasicAuthInterceptor(PropertyBasedConfigurator parentConfigurator) {
+    public BasicAuthInterceptor(PropertyAwareConfigurator parentConfigurator) {
         super(parentConfigurator, "Basic");
         credentials = username == null ? null : encode(username, password);
     }

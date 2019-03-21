@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.common.security;
 import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.client.api.IHttpRequest;
 import ca.uhn.fhir.rest.client.api.IHttpResponse;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 
 import java.io.IOException;
 
@@ -45,7 +45,7 @@ public abstract class AbstractAuthInterceptor implements IAuthInterceptor {
      * @param parentConfigurator The client configurator.
      * @param authType           The authorization type.
      */
-    protected AbstractAuthInterceptor(PropertyBasedConfigurator parentConfigurator, String authType) {
+    protected AbstractAuthInterceptor(PropertyAwareConfigurator parentConfigurator, String authType) {
         this.authType = authType.trim();
         parentConfigurator.wireParams(this);
     }

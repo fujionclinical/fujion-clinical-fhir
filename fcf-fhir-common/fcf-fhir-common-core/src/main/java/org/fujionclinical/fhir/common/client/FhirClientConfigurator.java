@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.common.client;
 
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.SummaryEnum;
+import org.fujionclinical.api.spring.SimplePropertyAwareConfigurator;
 import org.fujionclinical.fhir.common.security.AuthInterceptorRegistry;
 import org.fujionclinical.fhir.common.security.IAuthInterceptor;
 import org.springframework.context.ApplicationListener;
@@ -39,7 +40,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * <code>fhir.client.terminology_service.server.base</code>. For the default (i.e., null or empty)
  * qualifier it would be <code>fhir.client.server.base</code>.
  */
-public class FhirClientConfigurator extends FhirBaseConfigurator implements IFhirClientConfigurator, ApplicationListener<ContextRefreshedEvent> {
+public class FhirClientConfigurator extends SimplePropertyAwareConfigurator implements IFhirClientConfigurator, ApplicationListener<ContextRefreshedEvent> {
     
     @Param(property = "server.base", required = true)
     private String serverBase;

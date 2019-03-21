@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.common.security;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -58,7 +58,7 @@ public class AuthInterceptorRegistry {
      */
     public void register(String id, Class<AbstractAuthInterceptor> authInterceptorClass) {
         Constructor<?> ctor = ConstructorUtils
-                .getMatchingAccessibleConstructor(authInterceptorClass, PropertyBasedConfigurator.class);
+                .getMatchingAccessibleConstructor(authInterceptorClass, PropertyAwareConfigurator.class);
 
         if (ctor == null) {
             throw new RuntimeException("No suitable constructor found for " + authInterceptorClass);
@@ -89,7 +89,7 @@ public class AuthInterceptorRegistry {
      * @param parentConfigurator The configurator.
      * @return The corresponding authentication interceptor, or null if authType was not specified.
      */
-    public IAuthInterceptor create(String id, PropertyBasedConfigurator parentConfigurator) {
+    public IAuthInterceptor create(String id, PropertyAwareConfigurator parentConfigurator) {
         id = StringUtils.trimToNull(id);
 
         if (id == null) {

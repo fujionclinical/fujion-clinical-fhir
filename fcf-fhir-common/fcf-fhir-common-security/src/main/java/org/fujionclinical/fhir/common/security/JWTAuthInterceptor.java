@@ -28,8 +28,8 @@ package org.fujionclinical.fhir.common.security;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator;
-import org.fujionclinical.api.spring.PropertyBasedConfigurator.Param;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator;
+import org.fujionclinical.api.spring.PropertyAwareConfigurator.Param;
 import org.fujionclinical.fhir.common.security.oauth.*;
 
 import java.net.URL;
@@ -87,7 +87,7 @@ public class JWTAuthInterceptor extends AbstractAuthInterceptor {
 
     private JWTCredentials jwtCredentials;
 
-    public JWTAuthInterceptor(PropertyBasedConfigurator config) throws Exception {
+    public JWTAuthInterceptor(PropertyAwareConfigurator config) throws Exception {
         super(config, "Bearer");
         ApacheHttpClientFactory factory = new ApacheHttpClientFactory(proxyHost, proxyPort, proxyUser, proxyPassword,
                 httpConnectionTimeOut, httpRequestTimeOut);

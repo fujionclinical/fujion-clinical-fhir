@@ -28,7 +28,14 @@ package org.fujionclinical.fhir.common.client;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 
-public interface IFhirContextConfigurator extends IFhirBaseConfigurator {
+public interface IFhirContextConfigurator {
+
+    /**
+     * Returns the qualifier for the configurator, if any.
+     *
+     * @return The qualifier for the configurator, if any.
+     */
+    String getQualifier();
 
     /**
      * @return The connection request timeout, in milliseconds.

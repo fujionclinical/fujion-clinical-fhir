@@ -29,7 +29,14 @@ import ca.uhn.fhir.rest.api.EncodingEnum;
 import ca.uhn.fhir.rest.api.SummaryEnum;
 import org.fujionclinical.fhir.common.security.IAuthInterceptor;
 
-public interface IFhirClientConfigurator extends IFhirBaseConfigurator {
+public interface IFhirClientConfigurator {
+
+    /**
+     * Returns the qualifier for the configurator, if any.
+     *
+     * @return The qualifier for the configurator, if any.
+     */
+    String getQualifier();
 
     /**
      * Returns the base URL of the FHIR server.
