@@ -19,7 +19,7 @@
 					<button name="btnDelete" disabled="true" style="float:right"
 						label="${@msg.fcf.scenario.btn.deleteresource.label}" 
 						hint="${@msg.fcf.scenario.btn.deleteresource.hint}"
-						class="flavor:size:btn-xs btn-danger" />
+						class="flavor:size:btn-sm btn-danger" />
 				</div>
 				<memobox name="memoResource" flex="1" width="100%" />
 			</div>

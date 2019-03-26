@@ -70,7 +70,7 @@
 								placeholder="${@msg.patientselection.edit.search.placeholder}"
 								focus="true" class="pull-left" />
 							<button name="btnSearch"
-								class="flavor:btn-info size:btn-xs"
+								class="flavor:btn-info size:btn-sm"
 								label="${@msg.patientselection.btn.search.label}"
 								hint="${@msg.patientselection.btn.search.hint}" />
 						</div>
