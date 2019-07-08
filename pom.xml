@@ -31,6 +31,6 @@
 		<module>fcf-fhir-dstu2</module>
 		<module>fcf-fhir-stu3</module>
 		<module>fcf-fhir-r4</module>
-		<module>fcf-fhir-lm</module>
+		<module>fcf-fhir-quick</module>
 	</modules>
 </project>

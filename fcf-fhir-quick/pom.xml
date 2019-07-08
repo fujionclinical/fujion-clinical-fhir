@@ -9,17 +9,17 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fcf-fhir-lm</artifactId>
+	<artifactId>fcf-fhir-quick</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>FHIR Module Aggregator (Logical Model)</name>
+	<name>FHIR Module Aggregator (QUICK)</name>
 
 	<modules>
 		<!--
-		<module>fcf-fhir-lm-api</module>
-		<module>fcf-fhir-lm-ui</module>
-		<module>fcf-fhir-lm-plugin</module>
-		<module>fcf-fhir-lm-webapp</module>
+		<module>fcf-fhir-quick-api</module>
+		<module>fcf-fhir-quick-ui</module>
+		<module>fcf-fhir-quick-plugin</module>
+		<module>fcf-fhir-quick-webapp</module>
 		-->
 	</modules>
 </project>
