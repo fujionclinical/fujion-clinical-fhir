@@ -22,7 +22,7 @@
 	</scm>
 
 	<properties>
-		<hapi.fhir.version>3.7.0</hapi.fhir.version>
+		<hapi.fhir.version>3.8.0</hapi.fhir.version>
 		<fcf.core.version>1.0.0-SNAPSHOT</fcf.core.version>
 	</properties>
 	
@@ -31,6 +31,5 @@
 		<module>fcf-fhir-dstu2</module>
 		<module>fcf-fhir-stu3</module>
 		<module>fcf-fhir-r4</module>
-		<module>fcf-fhir-quick</module>
 	</modules>
 </project>

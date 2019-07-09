@@ -44,7 +44,10 @@ import org.fujionclinical.shell.plugins.PluginController;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Patient.PatientCommunicationComponent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Controller for patient header plugin.

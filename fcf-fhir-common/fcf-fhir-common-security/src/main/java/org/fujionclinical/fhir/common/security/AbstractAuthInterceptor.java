@@ -30,8 +30,6 @@ import ca.uhn.fhir.rest.client.api.IHttpRequest;
 import ca.uhn.fhir.rest.client.api.IHttpResponse;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 
-import java.io.IOException;
-
 /**
  * Abstract base class for implementing authentication interceptors.
  */

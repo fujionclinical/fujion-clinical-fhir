@@ -51,6 +51,7 @@ import org.fujionclinical.ui.thread.ThreadEx.IRunnable;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.INarrative;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Narrative;
 import org.hl7.fhir.r4.model.Patient;
@@ -250,11 +251,13 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
     }
     
     protected String getDetail(M modelObject) {
-        if (modelObject instanceof IBaseResource) {
-            Narrative narrative = narrativeService.extractNarrative((IBaseResource) modelObject, true);
-            return narrative == null ? null : narrative.getDivAsString();
-        }
-        
+        try {
+            if (modelObject instanceof IBaseResource) {
+                INarrative narrative = narrativeService.extractNarrative((IBaseResource) modelObject, true);
+                return narrative == null ? null : narrative.getDivAsString();
+            }
+        } catch (Exception e) {}
+
         return null;
     }
     

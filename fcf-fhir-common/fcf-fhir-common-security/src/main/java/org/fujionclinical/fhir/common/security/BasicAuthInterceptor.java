@@ -26,13 +26,11 @@
 package org.fujionclinical.fhir.common.security;
 
 import org.apache.commons.codec.binary.Base64;
-import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.domain.IUser;
 import org.fujionclinical.api.security.SecurityUtil;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator.Param;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 /**

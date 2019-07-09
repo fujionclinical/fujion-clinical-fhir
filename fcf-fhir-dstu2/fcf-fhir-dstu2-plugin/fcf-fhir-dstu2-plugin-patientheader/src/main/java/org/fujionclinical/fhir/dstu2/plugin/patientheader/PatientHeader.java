@@ -51,7 +51,10 @@ import org.fujionclinical.fhir.dstu2.ui.patientselection.PatientSelection;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.shell.plugins.PluginController;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Controller for patient header plugin.

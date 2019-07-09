@@ -27,7 +27,6 @@ package org.fujionclinical.fhir.stu3.api.scenario;
 
 import ca.uhn.fhir.model.api.Tag;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import io.github.lukehutch.fastclasspathscanner.matchprocessor.ImplementingClassMatchProcessor;
 import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;

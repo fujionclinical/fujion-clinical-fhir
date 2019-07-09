@@ -25,7 +25,6 @@
  */
 package org.fujionclinical.fhir.dstu2.ui.reports.controller;
 
-import ca.uhn.fhir.model.dstu2.composite.NarrativeDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +53,7 @@ import org.fujionclinical.ui.thread.ThreadEx.IRunnable;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.INarrative;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -251,11 +251,13 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
     }
     
     protected String getDetail(M modelObject) {
-        if (modelObject instanceof IBaseResource) {
-            NarrativeDt narrative = narrativeService.extractNarrative((IBaseResource) modelObject, true);
-            return narrative == null ? null : narrative.getDivAsString();
-        }
-        
+        try {
+            if (modelObject instanceof IBaseResource) {
+                INarrative narrative = narrativeService.extractNarrative((IBaseResource) modelObject, true);
+                return narrative == null ? null : narrative.getDivAsString();
+            }
+        } catch (Exception e) {}
+
         return null;
     }
     
