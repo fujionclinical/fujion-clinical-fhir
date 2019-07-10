@@ -86,11 +86,13 @@ public class HumanNameParser implements IHumanNameParser {
     }
     
     private void append(StringBuilder sb, StringType component) {
-        if (sb.length() > 0) {
-            sb.append(" ");
+        if (component != null && !component.isEmpty()) {
+            if (sb.length() > 0) {
+                sb.append(" ");
+            }
+
+            sb.append(component);
         }
-        
-        sb.append(component);
     }
     
 }

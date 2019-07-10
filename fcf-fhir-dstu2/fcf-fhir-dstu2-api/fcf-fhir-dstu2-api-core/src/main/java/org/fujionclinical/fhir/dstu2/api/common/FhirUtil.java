@@ -286,7 +286,7 @@ public class FhirUtil extends org.fujionclinical.fhir.common.api.core.FhirUtil {
      * @return A formatted name.
      */
     public static String formatName(List<HumanNameDt> names) {
-        return formatName(names, NameUseEnum.USUAL, null);
+        return formatName(names, NameUseEnum.OFFICIAL, NameUseEnum.USUAL, null);
     }
     
     /**
@@ -562,7 +562,17 @@ public class FhirUtil extends org.fujionclinical.fhir.common.api.core.FhirUtil {
         IdentifierDt identifier = getMRN(patient);
         return identifier == null ? "" : identifier.getValue();
     }
-    
+
+    /**
+     * Returns the official or usual name if found, otherwise returns the first name found.
+     *
+     * @param list List of names to consider.
+     * @return A name with a matching use category, or null if none found.
+     */
+    public static HumanNameDt getName(List<HumanNameDt> list) {
+        return getName(list, NameUseEnum.OFFICIAL, NameUseEnum.USUAL, null);
+    }
+
     /**
      * Returns a name of the desired use category from a list.
      *
@@ -579,10 +589,10 @@ public class FhirUtil extends org.fujionclinical.fhir.common.api.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns a list of names from a resource if one exists.
      *

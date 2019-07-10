@@ -32,6 +32,7 @@ import org.fujion.component.Image;
 import org.fujion.component.Label;
 import org.fujion.component.Popup;
 import org.fujionclinical.api.context.ISurveyResponse;
+import org.fujionclinical.fhir.common.ui.patientselection.Constants;
 import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
 import org.fujionclinical.fhir.stu3.api.patient.PatientContext;
 import org.fujionclinical.fhir.stu3.ui.util.Util;
@@ -72,11 +73,11 @@ public class PatientPhoto extends FrameworkController implements PatientContext.
         Image image = patient == null ? null : Util.getImage(patient.getPhoto());
 
         if (patient == null) {
-            imgPhoto.setSrc(Util.NOPATIENT_IMAGE);
+            imgPhoto.setSrc(Constants.NOPATIENT_IMAGE);
             imgPhoto.setPopup(null);
             imgPhoto.setHint(StrUtil.getLabel("patientphoto.no.patient"));
         } else if (image == null) {
-            imgPhoto.setSrc(Util.SILHOUETTE_IMAGE);
+            imgPhoto.setSrc(Constants.SILHOUETTE_IMAGE);
             imgPhoto.setPopup(null);
             imgPhoto.setHint(StrUtil.getLabel("patientphoto.no.photo"));
         } else {
@@ -85,7 +86,7 @@ public class PatientPhoto extends FrameworkController implements PatientContext.
             imgPhoto.setPopup(popup);
             imgFullPhoto.setSrc(image.getSrc());
             lblCaption.setLabel(
-                patient == null ? "" : FhirUtil.formatName(patient.getName(), NameUse.USUAL, NameUse.OFFICIAL, null));
+                patient == null ? "" : FhirUtil.formatName(patient.getName()));
         }
 
     }

@@ -85,7 +85,7 @@ public class PatientListItemRenderer implements IComponentRenderer<Row, Object> 
         String info = patientListItem.getInfo();
 
         if (patient != null) {
-            HumanNameDt name = FhirUtil.getName(patient.getName(), NameUseEnum.USUAL, null);
+            HumanNameDt name = FhirUtil.getName(patient.getName());
 
             if (name == null) {
                 name = FhirUtil.parseName(StrUtil.getLabel("patientselection.warn.unknown.patient"));

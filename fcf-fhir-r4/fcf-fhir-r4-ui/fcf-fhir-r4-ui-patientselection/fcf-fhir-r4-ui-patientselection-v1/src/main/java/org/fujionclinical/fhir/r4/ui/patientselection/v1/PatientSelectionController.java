@@ -37,6 +37,7 @@ import org.fujion.component.Rows.Selectable;
 import org.fujion.component.Window.Mode;
 import org.fujion.event.*;
 import org.fujion.model.ListModel;
+import org.fujionclinical.fhir.common.ui.patientselection.Constants;
 import org.fujionclinical.fhir.r4.api.patient.PatientContext;
 import org.fujionclinical.fhir.r4.api.patientlist.*;
 import org.fujionclinical.fhir.r4.api.patientlist.IPatientListFilterManager.FilterCapability;

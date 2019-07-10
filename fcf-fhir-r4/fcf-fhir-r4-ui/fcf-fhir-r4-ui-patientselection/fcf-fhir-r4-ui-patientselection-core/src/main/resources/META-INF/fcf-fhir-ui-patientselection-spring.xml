@@ -20,10 +20,6 @@
 			class="org.fujionclinical.fhir.r4.ui.patientselection.PatientListController"
 			scope="prototype" />
 
-		<bean id="fcfPatientSelectionFeatures" class="org.fujionclinical.fhir.r4.ui.patientselection.Features">
-			<constructor-arg value="PATIENT.SELECTION.SHOW." />
-		</bean>
-
 	</beans>
 
 </beans>

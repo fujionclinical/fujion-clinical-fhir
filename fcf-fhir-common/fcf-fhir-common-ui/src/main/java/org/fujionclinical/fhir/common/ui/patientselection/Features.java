@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.ui.patientselection;
+package org.fujionclinical.fhir.common.ui.patientselection;
 
 import org.fujion.common.StrUtil;
 import org.fujionclinical.api.property.PropertyUtil;
@@ -93,7 +93,7 @@ public class Features {
         }
         
         @Override
-        public Set<java.util.Map.Entry<String, Boolean>> entrySet() {
+        public Set<Entry<String, Boolean>> entrySet() {
             return Collections.emptySet();
         }
         

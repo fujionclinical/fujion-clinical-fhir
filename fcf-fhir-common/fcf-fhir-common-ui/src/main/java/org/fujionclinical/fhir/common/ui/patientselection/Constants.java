@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.stu3.ui.patientselection;
+package org.fujionclinical.fhir.common.ui.patientselection;
 
 import org.fujionclinical.ui.util.FCFUtil;
 
@@ -32,7 +32,11 @@ import org.fujionclinical.ui.util.FCFUtil;
  */
 public class Constants {
 
-    public static final String RESOURCE_PREFIX = FCFUtil.getResourcePath(Constants.class);
+    public static final String RESOURCE_PATH = FCFUtil.getResourcePath(Constants.class);
+
+    public static final String SILHOUETTE_IMAGE = RESOURCE_PATH + "silhouette1.png";
+
+    public static final String NOPATIENT_IMAGE = RESOURCE_PATH + "silhouette2.png";
 
     public static final String PROP_PREFIX = Constants.class.getName() + ".";
 

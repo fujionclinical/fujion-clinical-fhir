@@ -32,6 +32,7 @@ import org.fujion.page.PageUtil;
 import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.property.PropertyUtil;
 import org.fujionclinical.api.security.SecurityUtil;
+import org.fujionclinical.fhir.common.ui.patientselection.Constants;
 import org.fujionclinical.fhir.stu3.api.patient.PatientContext;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -150,7 +151,7 @@ public class PatientSelection {
     public static void selectFromList(List<Patient> patientList, IResponseCallback<Patient> callback) {
         Map<String, Object> args = new HashMap<>();
         args.put(Constants.RESULT_ATTRIB, patientList);
-        Window window = (Window) PageUtil.createPage(Constants.RESOURCE_PREFIX + "patientMatches.fsp", null, args).get(0);
+        Window window = (Window) PageUtil.createPage(Constants.RESOURCE_PATH + "patientMatches.fsp", null, args).get(0);
         
         window.modal(callback == null ? null : (event) -> callback.onComplete(window.getAttribute(Constants.RESULT_ATTRIB, Patient.class)));
     }

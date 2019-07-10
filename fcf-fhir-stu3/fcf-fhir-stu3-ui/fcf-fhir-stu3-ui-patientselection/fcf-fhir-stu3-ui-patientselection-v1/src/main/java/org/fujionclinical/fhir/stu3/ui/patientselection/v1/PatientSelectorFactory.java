@@ -28,10 +28,9 @@ package org.fujionclinical.fhir.stu3.ui.patientselection.v1;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.Window;
 import org.fujion.page.PageUtil;
-import org.fujionclinical.fhir.stu3.ui.patientselection.Constants;
+import org.fujionclinical.fhir.common.ui.patientselection.Constants;
 import org.fujionclinical.fhir.stu3.ui.patientselection.IPatientSelector;
 import org.fujionclinical.fhir.stu3.ui.patientselection.PatientSelectorFactoryBase;
-import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.dstu3.model.Patient;
 
 /**
@@ -42,7 +41,7 @@ public class PatientSelectorFactory extends PatientSelectorFactoryBase {
     public static class PatientSelector implements IPatientSelector {
 
         private final Window dlg = (Window) PageUtil
-                .createPage(FCFUtil.getResourcePath(PatientSelectorFactory.class) + "patientSelection.fsp", null).get(0);
+                .createPage(Constants.RESOURCE_PATH + "patientSelection-v1.fsp", null).get(0);
 
         @Override
         public void select(IResponseCallback<Patient> callback) {

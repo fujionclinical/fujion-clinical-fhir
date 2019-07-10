@@ -37,12 +37,6 @@ import java.util.List;
  */
 public class Util {
 
-    public static final String RESOURCE_PATH = FCFUtil.getResourcePath(Util.class);
-
-    public static final String SILHOUETTE_IMAGE = RESOURCE_PATH + "silhouette1.png";
-
-    public static final String NOPATIENT_IMAGE = RESOURCE_PATH + "silhouette2.png";
-
     /**
      * Returns an image from a list of attachments.
      *

@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.r4.ui.patientselection;
+package org.fujionclinical.fhir.common.ui.patientselection;
 
 
 /**

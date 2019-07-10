@@ -43,7 +43,7 @@
 
 	<timer name="timer" interval="1000" repeat="0" running="false" />
 
-	<paneview>
+	<paneview width="100%" height="100%">
 		<pane title="Patient Lists" width="20%" splittable="true" style="min-width:100px"
 			class="fujion-layout-vertical">
 			<div height="2px" />

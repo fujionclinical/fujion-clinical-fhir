@@ -74,8 +74,8 @@ public class PatientSearchUtil {
          */
         @Override
         public int compare(Patient patient1, Patient patient2) {
-            HumanName name1 = FhirUtil.getName(patient1.getName(), NameUse.USUAL, null);
-            HumanName name2 = FhirUtil.getName(patient2.getName(), NameUse.USUAL, null);
+            HumanName name1 = FhirUtil.getName(patient1.getName());
+            HumanName name2 = FhirUtil.getName(patient2.getName());
             String cmp1 = name1 == null ? "" : name1.toString();
             String cmp2 = name2 == null ? "" : name2.toString();
             return cmp1.compareToIgnoreCase(cmp2);

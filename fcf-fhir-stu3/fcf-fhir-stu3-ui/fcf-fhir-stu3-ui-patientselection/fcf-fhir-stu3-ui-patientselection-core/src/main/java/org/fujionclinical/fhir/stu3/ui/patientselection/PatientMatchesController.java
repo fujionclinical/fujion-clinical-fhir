@@ -30,6 +30,8 @@ import org.apache.commons.logging.LogFactory;
 import org.fujion.common.DateUtil;
 import org.fujion.component.Listitem;
 import org.fujionclinical.api.FrameworkUtil;
+import org.fujionclinical.fhir.common.ui.patientselection.Constants;
+import org.fujionclinical.fhir.common.ui.patientselection.Features;
 import org.fujionclinical.ui.controller.FrameworkController;
 import org.hl7.fhir.dstu3.model.Patient;
 

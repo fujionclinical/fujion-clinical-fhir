@@ -250,7 +250,7 @@ public class EncounterUtil {
     public static HumanNameDt getName(Encounter.Participant participant) {
         IBaseResource resource = ClientUtil.getResource(participant.getIndividual());
         List<HumanNameDt> names = FhirUtil.getNames(resource);
-        return names == null ? null : FhirUtil.getName(names, NameUseEnum.USUAL, NameUseEnum.OFFICIAL);
+        return names == null ? null : FhirUtil.getName(names);
     }
 
     public static Practitioner getPractitioner(Encounter.Participant participant) {
