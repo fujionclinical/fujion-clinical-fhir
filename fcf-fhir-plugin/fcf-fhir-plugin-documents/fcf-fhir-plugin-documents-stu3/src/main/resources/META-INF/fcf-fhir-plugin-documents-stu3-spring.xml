@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:fcp="http://www.fujionclinical.org/schema/plugin"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans.xsd
+		 http://www.fujionclinical.org/schema/plugin
+		 http://www.fujionclinical.org/schema/plugin/plugin-extensions.xsd">
+
+	<beans profile="root">
+
+		<fcp:plugin
+			url="web/org/fujionclinical/fhir/plugin/documents/stu3/documentMain.fsp"
+			id="fcfDocuments" name="Clinical Documents Display">
+			<fcp:resource>
+				<fcp:help-resource module="fcfDocumentsHelp" />
+				<fcp:property-resource group="DOCUMENT.CONTROLS" />
+				<fcp:bean-resource bean="fcfDocumentsActionStatus"
+					required="true" />
+			</fcp:resource>
+
+			<fcp:serialization>
+				<fcp:property name="Fixed Category" id="fixedFilter" type="enum" 
+					description="To restrict documents to a specific category, set this to the category name." >
+					<fcp:config>
+						<fcp:entry key="bean">documentTypeEnumerator</fcp:entry>
+					</fcp:config>
+				</fcp:property>
+			</fcp:serialization>
+
+			<fcp:security requiresAll="false">
+			</fcp:security>
+		</fcp:plugin>
+
+	</beans>
+
+	<beans profile="child">
+
+		<!-- Controllers -->
+		<bean id="fcfDocumentsMainController"
+			class="org.fujionclinical.fhir.plugin.documents.stu3.DocumentMainController"
+			scope="prototype" />
+
+		<bean id="fcfDocumentsListController"
+			class="org.fujionclinical.fhir.plugin.documents.stu3.DocumentListController"
+			scope="prototype">
+			<constructor-arg ref="fhirDocumentService" />
+		</bean>
+
+		<bean id="fcfDocumentsDisplayController"
+			class="org.fujionclinical.fhir.plugin.documents.stu3.DocumentDisplayController"
+			scope="prototype">
+			<constructor-arg ref="fhirDocumentService" />
+		</bean>
+
+		<bean id="fcfDocumentsActionStatus" lazy-init="true"
+			class="org.fujionclinical.fhir.plugin.documents.stu3.ActionStatus">
+		</bean>
+
+	</beans>
+</beans>

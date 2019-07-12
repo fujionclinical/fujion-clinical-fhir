@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ffc="http://www.fujion.org/schema/component"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.fujion.org/schema/component
+		http://www.fujion.org/schema/component-extensions.xsd">
+
+	<beans profile="root">
+
+		<ffc:component-scan package="org.fujionclinical.fhir.smart.common" />
+
+		<bean id="smartContextService" factory-method="getInstance" init-method="init"
+			class="org.fujionclinical.fhir.smart.common.SmartContextService">
+			<property name="smartContextBinder" ref="smartContextBinder" />
+		</bean>
+
+		<bean id="smartContextBinder"
+			  class="org.fujionclinical.fhir.smart.common.SmartContextBinder" />
+
+		<bean class="org.fujionclinical.fhir.smart.common.SmartLocator">
+			<constructor-arg ref="pluginRegistry" />
+		</bean>
+
+	</beans>
+	
+	<beans profile="child">
+
+		<bean id="smartContextRegistry"
+			class="org.fujionclinical.fhir.smart.common.SmartContextRegistry" />
+
+		<bean id="smartMessagingService"
+			  class="org.fujionclinical.fhir.smart.common.SmartMessagingService" />
+
+		<bean id="smartContextBase"
+			abstract="true" init-method="init" destroy-method="destroy">
+			<property name="eventManager" ref="eventManager" />
+		</bean>
+
+		<bean parent="smartContextBase" depends-on="userContext"
+			class="org.fujionclinical.fhir.smart.common.SmartContextUser" />
+
+		<bean class="org.fujionclinical.fhir.smart.common.SmartCdsHookMessageHandler" />
+	</beans>
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		 http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <beans profile="child">
+
+        <bean id="reportHeaderPatient"
+              class="org.fujionclinical.fhir.lib.reports.dstu2.headers.ReportHeaderPatient"
+              scope="prototype"/>
+
+        <bean id="reportListViewBase" abstract="true" parent="sharedFormListViewController"
+              scope="prototype">
+            <property name="fhirService" ref="fhirService"/>
+            <property name="narrativeService" ref="fhirNarrativeService"/>
+            <property name="resourceSubscriptionManager" ref="fhirSubManager"/>
+        </bean>
+
+    </beans>
+
+</beans>
