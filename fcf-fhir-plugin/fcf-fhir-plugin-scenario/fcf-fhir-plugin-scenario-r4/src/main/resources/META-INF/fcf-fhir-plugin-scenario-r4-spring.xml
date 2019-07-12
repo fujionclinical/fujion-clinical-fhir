@@ -22,6 +22,13 @@
 		<bean id="fcfScenarioRegistry" factory-method="getInstance"
 			  class="org.fujionclinical.fhir.plugin.scenario.r4.api.ScenarioRegistry" />
 
+		<bean id="fcfScenarioFinder"
+			  class="org.fujionclinical.fhir.plugin.scenario.r4.api.ScenarioFinder">
+			<constructor-arg ref="${fcf.scenario.base:classpath:scenarios/r4}" />
+			<constructor-arg ref="fcfScenarioRegistry" />
+			<constructor-arg ref="fhirService" />
+		</bean>
+
 	</beans>
 	
 	<beans profile="child">

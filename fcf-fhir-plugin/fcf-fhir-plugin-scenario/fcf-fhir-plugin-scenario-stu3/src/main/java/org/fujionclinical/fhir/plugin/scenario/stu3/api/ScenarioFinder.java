@@ -53,7 +53,6 @@ public class ScenarioFinder implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
             for (Resource yaml : applicationContext.getResources(scenarioBase + "/*.yaml")) {
-                
                 scenarioRegistry.register(new Scenario(yaml, fhirService));
             }
         } catch (Exception e) {
