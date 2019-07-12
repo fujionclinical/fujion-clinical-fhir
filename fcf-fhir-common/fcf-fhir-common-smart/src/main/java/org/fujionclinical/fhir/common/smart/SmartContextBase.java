@@ -74,7 +74,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
      * Main constructor.
      *
      * @param contextScope This is the name of the SMART context scope (e.g., "user").
-     * @param contextEvent This is the name of the corresponding Fujion context change notification
+     * @param contextEvent This is the name of the corresponding context change notification
      *            event (e.g., "CONTEXT.CHANGED.User").
      */
     public SmartContextBase(String contextScope, String contextEvent) {

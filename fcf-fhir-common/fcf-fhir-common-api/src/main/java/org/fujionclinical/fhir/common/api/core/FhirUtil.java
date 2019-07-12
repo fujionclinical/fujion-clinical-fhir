@@ -372,8 +372,9 @@ public class FhirUtil {
      * @return The expected resource type.
      */
     public static String getResourceType(String url) {
-        url = url.startsWith("http") ? url : "http://dummy/" + url;
-        return url.contains("?") ? "Bundle" : UrlUtil.parseUrl(url).getResourceType();
+        UrlUtil.UrlParts parts = UrlUtil.parseUrl(url);
+        String resourceId = parts.getResourceId();
+        return resourceId == null || resourceId.isEmpty() ? "Bundle" : parts.getResourceType();
     }
     
     /**

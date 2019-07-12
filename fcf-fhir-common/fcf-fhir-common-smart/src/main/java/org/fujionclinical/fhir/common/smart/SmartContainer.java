@@ -25,8 +25,9 @@
  */
 package org.fujionclinical.fhir.common.smart;
 
-import org.fujion.component.Iframe;
-import org.fujionclinical.api.spring.SpringUtil;
+import org.apache.commons.lang.StringUtils;
+import org.fujion.annotation.Component;
+import org.fujion.component.BaseUIComponent;
 import org.fujionclinical.fhir.common.smart.SmartContextBase.ContextMap;
 
 import java.util.HashMap;
@@ -35,19 +36,52 @@ import java.util.Map;
 /**
  * SMART Container Implementation
  */
-public class SmartContainer extends Iframe implements ISmartContextSubscriber {
+@Component(
+        tag = "#smart",
+        widgetModule = "fcf-smart",
+        widgetClass = "SmartContainer",
+        parentTag = "*",
+        description = "A container for a SMART app.")
+public class SmartContainer extends BaseUIComponent implements ISmartContextSubscriber {
 
-    protected final SmartManifest _manifest = new SmartManifest();
+    private final SmartManifest _manifest = new SmartManifest();
 
-    protected final Map<String, ContextMap> _context = new HashMap<>();
+    private final Map<String, ContextMap> _context = new HashMap<>();
 
     private final SmartContextRegistry contextRegistry;
+
+    private final SmartMessagingService messagingService;
+
+    private String src;
 
     private boolean _active;
 
     public SmartContainer() {
-        this.addStyle("background", "lightgray");
-        contextRegistry = SpringUtil.getBean("smartContextRegistry", SmartContextRegistry.class);
+        contextRegistry = SmartContextRegistry.getInstance();
+        messagingService = SmartMessagingService.getInstance();
+        messagingService.registerContainer(this);
+    }
+
+    /**
+     * Sets the URL of the SMART app to be loaded.
+     *
+     * @param src URL of the SMART app to be loaded.
+     */
+    private void setSrc(String src) {
+        src = nullify(src);
+
+        if (src != null && !src.startsWith("http")) {
+            String requestUrl = StringUtils.substringBeforeLast(getPage().getRequestUrl(), "/");
+            src = requestUrl + "/" + src;
+
+        }
+        propertyChange("src", this.src, this.src = src, true);
+    }
+
+    @Override
+    protected void _initProps(Map<String, Object> props) {
+        super._initProps(props);
+        props.put("wclazz", "fcf_smart_container");
     }
 
     /**
@@ -96,6 +130,7 @@ public class SmartContainer extends Iframe implements ISmartContextSubscriber {
     @Override
     public void destroy() {
         super.destroy();
+        messagingService.unregisterContainer(this);
         subscribeAll(false);
     }
 
@@ -141,5 +176,4 @@ public class SmartContainer extends Iframe implements ISmartContextSubscriber {
             contextRegistry.get(contextScope).unsubscribe(this);
         }
     }
-
 }

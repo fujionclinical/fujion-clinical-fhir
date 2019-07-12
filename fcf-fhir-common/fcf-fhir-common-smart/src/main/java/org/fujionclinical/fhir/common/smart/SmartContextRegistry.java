@@ -25,7 +25,9 @@
  */
 package org.fujionclinical.fhir.common.smart;
 
+import org.fujion.common.Logger;
 import org.fujionclinical.api.spring.BeanRegistry;
+import org.fujionclinical.api.spring.SpringUtil;
 import org.springframework.util.Assert;
 
 /**
@@ -33,7 +35,11 @@ import org.springframework.util.Assert;
  */
 public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
 
+    private static Logger log = Logger.create(SmartContextRegistry.class);
 
+    public static SmartContextRegistry getInstance() {
+        return SpringUtil.getBean("smartContextRegistry", SmartContextRegistry.class);
+    }
     public SmartContextRegistry() {
         super(ISmartContext.class);
     }
@@ -56,4 +62,8 @@ public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
         return context;
     }
 
+    @Override
+    protected void onRegister(String contextScope, ISmartContext iSmartContext) {
+        log.info("Registered SMART context type '" + contextScope + "'.");
+    }
 }

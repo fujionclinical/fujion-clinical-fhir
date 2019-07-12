@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ffc="http://www.fujion.org/schema/component"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.fujion.org/schema/component
+		http://www.fujion.org/schema/component-extensions.xsd">
 
 	<beans profile="root">
+
+		<ffc:component-scan package="org.fujionclinical.fhir.common.smart" />
 
 		<bean id="smartContextService" factory-method="getInstance" init-method="init"
 			class="org.fujionclinical.fhir.common.smart.SmartContextService">
@@ -25,7 +30,10 @@
 
 		<bean id="smartContextRegistry"
 			class="org.fujionclinical.fhir.common.smart.SmartContextRegistry" />
-		
+
+		<bean id="smartMessagingService"
+			  class="org.fujionclinical.fhir.common.smart.SmartMessagingService" />
+
 		<bean id="smartContextBase"
 			abstract="true" init-method="init" destroy-method="destroy">
 			<property name="eventManager" ref="eventManager" />
@@ -34,5 +42,6 @@
 		<bean parent="smartContextBase" depends-on="userContext"
 			class="org.fujionclinical.fhir.common.smart.SmartContextUser" />
 
+		<bean class="org.fujionclinical.fhir.common.smart.SmartCdsHookMessageHandler" />
 	</beans>
 </beans>

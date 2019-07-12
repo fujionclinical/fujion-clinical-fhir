@@ -10,6 +10,19 @@
 	<artifactId>fcf-fhir-common-smart</artifactId>
 	<name>FHIR SMART Support</name>
 
+	<properties>
+		<webjar.name>fcf-smart</webjar.name>
+		<skip.minification>false</skip.minification>
+		<systemjs>
+			{
+			'paths': {
+				'fcf-smart': 'js/smart',
+				'fcf-smart-css': 'css/smart'
+			}
+			}
+		</systemjs>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
