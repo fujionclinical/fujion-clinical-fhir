@@ -1,4 +1,4 @@
-<window title="${@msg.fcf.scenario.view.title}" height="500px" width="800px" closeable="true"
+<window title="${@msg.fcf.scenario.view.title}" height="500px" width="800px" closable="true"
 	controller="${@fcfScenarioViewResourcesController}">
 	<paneview width="100%" height="100%">
 		<pane splittable="true" width="30%">
