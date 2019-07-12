@@ -37,7 +37,6 @@ import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.fujionclinical.fhir.r4.api.patient.PatientContext;
 import org.fujionclinical.fhir.ui.r4.Util;
 import org.fujionclinical.ui.controller.FrameworkController;
-import org.hl7.fhir.r4.model.HumanName.NameUse;
 import org.hl7.fhir.r4.model.Patient;
 
 /**

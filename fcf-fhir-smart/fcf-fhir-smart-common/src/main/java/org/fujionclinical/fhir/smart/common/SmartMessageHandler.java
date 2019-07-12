@@ -25,7 +25,6 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import org.fujion.event.IEventListener;
 import org.fujionclinical.api.event.EventManager;
 import org.fujionclinical.api.event.IEventManager;
 import org.fujionclinical.api.event.IGenericEvent;

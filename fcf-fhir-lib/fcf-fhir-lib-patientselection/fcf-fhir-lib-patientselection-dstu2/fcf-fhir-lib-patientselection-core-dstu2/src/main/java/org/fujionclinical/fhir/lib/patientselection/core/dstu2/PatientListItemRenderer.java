@@ -27,7 +27,6 @@ package org.fujionclinical.fhir.lib.patientselection.core.dstu2;
 
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import org.apache.commons.lang.StringUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.StrUtil;

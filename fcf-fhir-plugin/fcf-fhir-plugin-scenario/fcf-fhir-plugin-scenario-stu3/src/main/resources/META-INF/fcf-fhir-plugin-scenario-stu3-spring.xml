@@ -24,7 +24,7 @@
 
 		<bean id="fcfScenarioFinder"
 			  class="org.fujionclinical.fhir.plugin.scenario.stu3.api.ScenarioFinder">
-			<constructor-arg ref="${fcf.scenario.base:classpath:scenarios/stu3}" />
+			<constructor-arg value="${fcf.scenario.base:classpath:scenarios/stu3}" />
 			<constructor-arg ref="fcfScenarioRegistry" />
 			<constructor-arg ref="fhirService" />
 		</bean>

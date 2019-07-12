@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.plugin.adversereactions.r4;
 
-import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.fujionclinical.fhir.lib.reports.r4.controller.ResourceListView;
+import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
 

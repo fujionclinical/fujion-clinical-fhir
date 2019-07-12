@@ -31,7 +31,6 @@ import org.fujionclinical.api.context.ContextItems;
 import org.fujionclinical.api.context.ContextManager;
 import org.fujionclinical.api.context.IContextEvent;
 import org.fujionclinical.api.context.ManagedContext;
-import org.fujionclinical.fhir.plugin.scenario.r4.api.Scenario;
 
 /**
  * Wrapper for shared scenario context.

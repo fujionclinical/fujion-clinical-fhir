@@ -28,7 +28,6 @@ package org.fujionclinical.fhir.api.dstu2.encounter;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
-import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.BoundCodeDt;
 import ca.uhn.fhir.model.primitive.UriDt;
 import org.fujionclinical.api.spring.SpringUtil;

@@ -27,7 +27,6 @@ package org.fujionclinical.fhir.ui.stu3;
 
 import org.fujion.ancillary.MimeContent;
 import org.fujion.component.Image;
-import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.dstu3.model.Attachment;
 
 import java.util.List;

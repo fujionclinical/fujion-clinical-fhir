@@ -26,7 +26,6 @@
 package org.fujionclinical.fhir.plugin.patientphoto.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.common.StrUtil;
 import org.fujion.component.BaseComponent;

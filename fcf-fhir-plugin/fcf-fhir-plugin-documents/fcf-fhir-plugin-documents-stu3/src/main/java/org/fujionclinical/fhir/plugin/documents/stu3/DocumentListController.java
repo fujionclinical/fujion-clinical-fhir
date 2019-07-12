@@ -35,10 +35,10 @@ import org.fujion.model.IListModel;
 import org.fujionclinical.api.query.AbstractQueryFilter;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
+import org.fujionclinical.fhir.lib.reports.stu3.controller.PatientQueryParameter;
 import org.fujionclinical.fhir.stu3.api.document.Document;
 import org.fujionclinical.fhir.stu3.api.document.DocumentListDataService;
 import org.fujionclinical.fhir.stu3.api.document.DocumentService;
-import org.fujionclinical.fhir.lib.reports.stu3.controller.PatientQueryParameter;
 import org.fujionclinical.ui.reports.controller.AbstractGridController;
 
 import java.util.*;

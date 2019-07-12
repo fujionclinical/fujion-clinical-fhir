@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.smart.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.fhir.smart.common.SmartContextBase;
 import org.fujionclinical.fhir.api.dstu2.patient.PatientContext;
+import org.fujionclinical.fhir.smart.common.SmartContextBase;
 
 /**
  * Implements SMART context scope "record".

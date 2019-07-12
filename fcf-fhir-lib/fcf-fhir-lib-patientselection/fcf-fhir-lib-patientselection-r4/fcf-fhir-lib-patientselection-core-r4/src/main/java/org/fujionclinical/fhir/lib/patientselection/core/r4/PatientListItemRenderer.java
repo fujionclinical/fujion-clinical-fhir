@@ -37,7 +37,6 @@ import org.fujion.model.IComponentRenderer;
 import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.fujionclinical.fhir.r4.api.patientlist.PatientListItem;
 import org.hl7.fhir.r4.model.HumanName;
-import org.hl7.fhir.r4.model.HumanName.NameUse;
 import org.hl7.fhir.r4.model.Patient;
 
 import java.util.Date;

@@ -36,7 +36,6 @@ import org.fujionclinical.fhir.r4.api.patient.PatientUtil;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.r4.model.HumanName;
-import org.hl7.fhir.r4.model.HumanName.NameUse;
 import org.hl7.fhir.r4.model.Patient;
 
 import java.util.Comparator;

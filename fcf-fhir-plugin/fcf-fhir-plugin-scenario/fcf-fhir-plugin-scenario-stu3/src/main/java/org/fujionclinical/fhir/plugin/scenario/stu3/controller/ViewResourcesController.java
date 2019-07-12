@@ -65,7 +65,7 @@ public class ViewResourcesController extends FrameworkController {
     private Column colResource;
     
     @WiredComponent
-    private Textbox txtResource;
+    private Memobox txtResource;
     
     @WiredComponent
     private Radiobutton rbJSON;
@@ -92,7 +92,7 @@ public class ViewResourcesController extends FrameworkController {
     public static void show(Scenario scenario, IResponseCallback<Boolean> callback) {
         Map<String, Object> args = new HashMap<>();
         args.put("scenario", scenario);
-        Window dlg = (Window) PageUtil.createPage("web/org/fujionclinical/fhir/ui/scenario/stu3/viewResources.fsp", null, args)
+        Window dlg = (Window) PageUtil.createPage("web/org/fujionclinical/fhir/plugin/scenario/stu3/viewResources.fsp", null, args)
                 .get(0);
         
         dlg.modal((event) -> {

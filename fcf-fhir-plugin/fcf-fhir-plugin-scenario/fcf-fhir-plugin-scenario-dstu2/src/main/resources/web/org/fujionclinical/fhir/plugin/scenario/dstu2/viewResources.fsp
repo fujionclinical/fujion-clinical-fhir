@@ -4,7 +4,7 @@
 		<pane splittable="true" width="30%">
 			<grid name="tblResources" height="100%" width="100%">
 				<columns>
-					<column label="colResource" sortOrder="ascending" />
+					<column name="colResource" sortOrder="ascending" />
 				</columns>
 				<rows selectable="single" />
 			</grid>
@@ -21,7 +21,7 @@
 						hint="${@msg.fcf.scenario.btn.deleteresource.hint}"
 						class="flavor:size:btn-sm btn-danger" />
 				</div>
-				<memobox name="memoResource" flex="1" width="100%" />
+				<memobox name="txtResource" flex="1" width="100%" />
 			</div>
 		</pane>
 	</paneview>

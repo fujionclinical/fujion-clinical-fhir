@@ -38,8 +38,8 @@ import org.fujion.component.BaseUIComponent;
 import org.fujion.component.Div;
 import org.fujion.component.Image;
 import org.fujion.component.Label;
-import org.fujionclinical.fhir.lib.patientselection.common.Constants;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.lib.patientselection.common.Constants;
 import org.fujionclinical.fhir.ui.dstu2.Util;
 
 import java.util.Date;
