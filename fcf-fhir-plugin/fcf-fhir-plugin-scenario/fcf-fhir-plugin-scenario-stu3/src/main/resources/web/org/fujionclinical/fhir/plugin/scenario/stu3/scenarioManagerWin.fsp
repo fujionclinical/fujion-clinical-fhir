@@ -1,4 +1,0 @@
-<window title="${@msg.fcf.scenario.title}" closable="true" width="400px"
-	height="200px" class="flavor:alert-primary">
-	<import src="web/orgfujionclinical/fhir/plugin/scenario/stu3/scenarioManager.fsp" flex="1" style="display:flex" />
-</window>

@@ -7,27 +7,27 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
-	<name>FHIR Scenario Builder Plugin (DSTU2)</name>
-	<artifactId>fcf-fhir-plugin-scenario-dstu2</artifactId>
+	<name>FHIR Scenario Builder Plugin (common)</name>
+	<artifactId>fcf-fhir-plugin-scenario-common</artifactId>
 	<packaging>jar</packaging>
 	
 	<description>Configures resources for demo scenarios.</description>
 	
 	<dependencies>
 		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-plugin-scenario-common</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>org.fujion</groupId>
+			<artifactId>fujion-core</artifactId>
+			<version>${org.fujion.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-structures-dstu2</artifactId>
-			<version>${hapi.fhir.version}</version>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.23</version>
 		</dependency>
 		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-lib-patientselection-core-dstu2</artifactId>
-			<version>${project.parent.version}</version>
+			<groupId>io.github.lukehutch</groupId>
+			<artifactId>fast-classpath-scanner</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

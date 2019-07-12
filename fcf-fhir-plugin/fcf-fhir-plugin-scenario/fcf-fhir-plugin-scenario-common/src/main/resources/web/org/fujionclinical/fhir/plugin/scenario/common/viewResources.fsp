@@ -1,15 +1,15 @@
-<window title="${@msg.fcf.scenario.view.title}" height="500px" width="800px"
+<window title="${@msg.fcf.scenario.view.title}" height="500px" width="800px" closeable="true"
 	controller="${@fcfScenarioViewResourcesController}">
 	<paneview width="100%" height="100%">
 		<pane splittable="true" width="30%">
-			<grid name="tblResources" height="100%" width="100%">
+			<grid name="grdResources" height="100%" width="100%">
 				<columns>
 					<column name="colResource" sortOrder="ascending" />
 				</columns>
 				<rows selectable="single" />
 			</grid>
 		</pane>
-		<pane>
+		<pane flex="1">
 			<div height="100%" width="100%" class="fujion-layout-vertical">
 				<div width="100%" style="padding:5px">
 					<radiogroup>

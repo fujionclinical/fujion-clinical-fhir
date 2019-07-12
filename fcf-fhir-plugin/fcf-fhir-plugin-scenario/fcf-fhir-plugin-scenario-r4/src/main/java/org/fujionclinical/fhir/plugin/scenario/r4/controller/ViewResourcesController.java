@@ -59,7 +59,7 @@ public class ViewResourcesController extends FrameworkController {
     private static final Comparator<IBaseResource> resourceComparator = (r1, r2) -> r1.getIdElement().getValue().compareToIgnoreCase(r2.getIdElement().getValue());
     
     @WiredComponent
-    private Grid tblResources;
+    private Grid grdResources;
     
     @WiredComponent
     private Column colResource;
@@ -92,7 +92,7 @@ public class ViewResourcesController extends FrameworkController {
     public static void show(Scenario scenario, IResponseCallback<Boolean> callback) {
         Map<String, Object> args = new HashMap<>();
         args.put("scenario", scenario);
-        Window dlg = (Window) PageUtil.createPage("web/org/fujionclinical/fhir/plugin/scenario/r4/viewResources.fsp", null, args)
+        Window dlg = (Window) PageUtil.createPage("web/org/fujionclinical/fhir/plugin/scenario/common/viewResources.fsp", null, args)
                 .get(0);
         
         dlg.modal((event) -> {
@@ -116,14 +116,14 @@ public class ViewResourcesController extends FrameworkController {
         model.addAll(scenario.getResources());
         model.sort(resourceComparator, true);
         colResource.setSortComparator(resourceComparator);
-        IModelAndView<Row, IBaseResource> mv = tblResources.getRows().getModelAndView(IBaseResource.class);
+        IModelAndView<Row, IBaseResource> mv = grdResources.getRows().getModelAndView(IBaseResource.class);
         mv.setRenderer(resourceRenderer);
         mv.setModel(model);
         updateCaption();
     }
     
-    @EventHandler(value = "change", target = "@lboxResources")
-    private void onSelect$lboxResources() {
+    @EventHandler(value = "change", target = "@grdResources")
+    private void onSelect$grdResources() {
         displayResource();
     }
     
@@ -157,7 +157,7 @@ public class ViewResourcesController extends FrameworkController {
     }
     
     private IBaseResource getSelectedResource() {
-        Row row = tblResources.getRows().getSelectedRow();
+        Row row = grdResources.getRows().getSelectedRow();
         return row == null ? null : (IBaseResource) row.getData();
     }
     
