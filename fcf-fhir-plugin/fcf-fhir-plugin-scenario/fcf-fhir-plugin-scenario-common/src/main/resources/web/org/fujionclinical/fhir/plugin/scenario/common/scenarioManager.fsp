@@ -1,6 +1,6 @@
 <div controller="${@fcfScenarioManagerController}" style="padding: 5px" flex="1"
 	class="fujion-layout-vertical">
-	<combobox name="cboScenarios" readonly="true" width="100%"
+	<combobox name="cboScenarios" readonly="true" width="500px"
 		placeholder="${@msg.fcf.scenario.cbox.placeholder}"/>
 	<div style="padding:10px;overflow:auto" flex="1">
 		<label name="lblMessage" />

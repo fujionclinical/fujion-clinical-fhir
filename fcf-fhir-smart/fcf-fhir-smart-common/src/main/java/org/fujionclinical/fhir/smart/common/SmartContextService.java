@@ -71,7 +71,13 @@ public class SmartContextService {
         }
         
         String qs = getQueryString(contexts);
-        return qs.isEmpty() ? null : manifest.getValue("launch_uri") + "?" + qs;
+
+        if (qs.isEmpty()) {
+            return null;
+        }
+
+        String url = manifest.getValue("launch_uri");
+        return url + (url.contains("?") ? "&" : "?") + qs;
     }
 
     public void setSmartContextBinder(ISmartContextBinder smartContextBinder) {

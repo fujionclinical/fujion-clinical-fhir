@@ -103,10 +103,11 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
             File file = File.createTempFile("fcf", ".properties");
+            file.deleteOnExit();
 
             try (FileOutputStream out = new FileOutputStream(file)) {
-                findPropertyFiles(applicationContext, "classpath*:META-INF/narratives.properties", out);
-                findPropertyFiles(applicationContext, "classpath*:WEB-INF/narratives.properties", out);
+                findPropertyFiles(applicationContext, "classpath*:META-INF/fhir-narratives.properties", out);
+                findPropertyFiles(applicationContext, "classpath*:WEB-INF/fhir-narratives.properties", out);
             }
             
             generator.setPropertyFile("file:" + file.getAbsolutePath());
