@@ -1,12 +1,12 @@
 <window title="${@msg.fcf.scenario.view.title}" height="500px" width="800px" closable="true"
 	controller="${@fcfScenarioViewResourcesController}">
 	<paneview width="100%" height="100%">
-		<pane splittable="true" width="30%">
+		<pane splittable="true" width="30%" style="overflow:auto">
 			<grid name="grdResources" height="100%" width="100%">
 				<columns>
-					<column name="colResource" sortOrder="ascending" />
+					<column name="colResource" sortOrder="ascending" label="Click to sort -->"/>
 				</columns>
-				<rows selectable="single" />
+				<rows name="rowsResources" selectable="single" />
 			</grid>
 		</pane>
 		<pane flex="1">

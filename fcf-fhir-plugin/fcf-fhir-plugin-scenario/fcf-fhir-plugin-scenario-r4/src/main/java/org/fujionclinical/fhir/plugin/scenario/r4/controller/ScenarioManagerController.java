@@ -81,7 +81,6 @@ public class ScenarioManagerController extends PluginController implements Scena
         
         if (active) {
             item.addStyles("font-weight: bold; color: blue!important");
-            cboScenarios.setSelectedItem(item);
             EventUtil.post(ChangeEvent.TYPE, cboScenarios, item);
         }
         
@@ -134,18 +133,27 @@ public class ScenarioManagerController extends PluginController implements Scena
         cboScenarios.setPlaceholder(
             StrUtil.getLabel(model.isEmpty() ? "fcf.scenario.cbox.placeholder.none" : "fcf.scenario.cbox.placeholder"));
         Collections.sort(model, scenarioComparator);
-        FCFUtil.disableChildren(scenarioButtons, true);
+        disableButtons(true);
     }
     
     private void rerenderScenarios() {
         activeScenario = ScenarioContext.getActiveScenario();
         mv.rerender();
+        disableButtons(getSelectedScenario() == null);
     }
-    
+
+    private boolean disableButtons(boolean disable) {
+        FCFUtil.disableChildren(scenarioButtons, disable);
+        return disable;
+    }
+
     @EventHandler(value = "change", target = "@cboScenarios")
-    private void onChange$cboScenarios() {
-        boolean disabled = getSelectedScenario() == null;
-        FCFUtil.disableChildren(scenarioButtons, disabled);
+    private void onChange$cboScenarios(Event event) {
+        if (event.getData() instanceof Comboitem) {
+            cboScenarios.setSelectedItem((Comboitem) event.getData());
+        }
+
+        boolean disabled = disableButtons(getSelectedScenario() == null);
         
         if (disabled) {
             setMessage(null);
@@ -222,6 +230,7 @@ public class ScenarioManagerController extends PluginController implements Scena
         root.removeMask();
         Scenario scenario = getSelectedScenario();
         Action action = (Action) event.getData();
+        setMessage(action.label + "...");
         String result = null;
         
         if (action == Action.DELETEALL || scenario != null) {

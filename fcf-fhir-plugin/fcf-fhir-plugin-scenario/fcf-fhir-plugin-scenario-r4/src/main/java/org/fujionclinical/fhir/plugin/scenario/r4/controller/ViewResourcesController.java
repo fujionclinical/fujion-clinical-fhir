@@ -60,7 +60,10 @@ public class ViewResourcesController extends FrameworkController {
     
     @WiredComponent
     private Grid grdResources;
-    
+
+    @WiredComponent
+    private Rows rowsResources;
+
     @WiredComponent
     private Column colResource;
     
@@ -122,8 +125,8 @@ public class ViewResourcesController extends FrameworkController {
         updateCaption();
     }
     
-    @EventHandler(value = "change", target = "@grdResources")
-    private void onSelect$grdResources() {
+    @EventHandler(value = "change", target = "@rowsResources")
+    private void onSelect$rowsResources() {
         displayResource();
     }
     
