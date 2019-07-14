@@ -27,42 +27,75 @@ package org.fujionclinical.fhir.plugin.observations.stu3;
 
 import org.fujionclinical.fhir.lib.reports.stu3.controller.ResourceListView;
 import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
+import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.dstu3.model.Type;
 
 import java.util.List;
 
 /**
  * Controller for patient observations display.
  */
-public class MainController extends ResourceListView<Observation, Observation> {
+public class MainController extends ResourceListView<Observation, MainController.ObservationResult> {
+
+    public static class ObservationResult {
+
+        private final CodeableConcept code;
+
+        private final Type effective;
+
+        private final Observation.ObservationStatus status;
+
+        private final Type value;
+
+        private final List<Observation.ObservationReferenceRangeComponent> referenceRange;
+
+        public ObservationResult(Observation obs) {
+            this.code = obs.getCode();
+            this.effective = obs.getEffective();
+            this.status = obs.getStatus();
+            this.value = obs.getValue();
+            this.referenceRange = obs.getReferenceRange();
+        }
+
+        public ObservationResult(Observation obs, Observation.ObservationComponentComponent cmp) {
+            this.code = cmp.getCode();
+            this.effective = obs.getEffective();
+            this.status = obs.getStatus();
+            this.value = cmp.getValue();
+            this.referenceRange = cmp.getReferenceRange();
+        }
+    }
 
     @Override
     protected void setup() {
         setup(Observation.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
             "Status", "Result", "Ref Range");
     }
-    
+
     @Override
-    protected void render(Observation observation, List<Object> columns) {
-        columns.add(observation.getCode());
-        columns.add(observation.getEffective());
-        columns.add(observation.getStatus());
-        columns.add(observation.getValue());
-        
-        if (observation.hasReferenceRange()) {
-            columns.add(FhirUtil.getFirst(observation.getReferenceRange()).getText());
-        } else {
-            columns.add("");
-        }
+    protected void render(ObservationResult result, List<Object> columns) {
+        columns.add(result.code);
+        columns.add(result.effective);
+        columns.add(result.status);
+        columns.add(result.value);
+        columns.add(renderReferenceRange(result.referenceRange));
     }
     
     @Override
     protected void initModel(List<Observation> entries) {
         for (Observation observation : entries) {
             if (observation.getComponent().isEmpty()) {
-                model.add(observation);
+                model.add(new ObservationResult(observation));
+            } else {
+                for (Observation.ObservationComponentComponent cmp : observation.getComponent()) {
+                    model.add(new ObservationResult(observation, cmp));
+                }
             }
         }
     }
-    
+
+    private String renderReferenceRange(List<Observation.ObservationReferenceRangeComponent> ranges) {
+        return null;
+    }
 }
