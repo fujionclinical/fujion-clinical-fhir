@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.plugin.documents.dstu2;
 
 import org.fujionclinical.api.context.ISurveyResponse;
-import org.fujionclinical.fhir.api.dstu2.patient.PatientContext;
-import org.fujionclinical.fhir.api.dstu2.patient.PatientContext.IPatientContextEvent;
+import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
+import org.fujionclinical.fhir.dstu2.api.patient.PatientContext.IPatientContextEvent;
 import org.fujionclinical.shell.plugins.PluginStatus;
 
 /**

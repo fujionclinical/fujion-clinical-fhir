@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.scenario.dstu2.api;
 
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.dstu2.api.common.BaseService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

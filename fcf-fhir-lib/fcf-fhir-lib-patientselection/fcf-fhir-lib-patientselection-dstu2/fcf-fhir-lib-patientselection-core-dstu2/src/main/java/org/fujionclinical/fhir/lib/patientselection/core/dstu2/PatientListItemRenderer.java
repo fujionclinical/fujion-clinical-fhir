@@ -36,8 +36,8 @@ import org.fujion.component.Grid;
 import org.fujion.component.Row;
 import org.fujion.event.ChangeEvent;
 import org.fujion.model.IComponentRenderer;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
-import org.fujionclinical.fhir.api.dstu2.patientlist.PatientListItem;
+import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
+import org.fujionclinical.fhir.dstu2.api.patientlist.PatientListItem;
 
 import java.util.Date;
 

@@ -26,7 +26,10 @@
 package org.fujionclinical.fhir.stu3.api.common;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.MethodUtils;
 import org.fujion.common.DateUtil;
+import org.fujion.common.MiscUtil;
 import org.fujionclinical.fhir.stu3.api.terminology.Constants;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
@@ -36,9 +39,12 @@ import org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity;
 import org.hl7.fhir.dstu3.model.OperationOutcome.OperationOutcomeIssueComponent;
 import org.hl7.fhir.dstu3.model.Timing.TimingRepeatComponent;
 import org.hl7.fhir.dstu3.model.Timing.UnitsOfTime;
+import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,36 +55,36 @@ import java.util.List;
  * Domain object utility methods.
  */
 public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
-    
+
     public static class OperationOutcomeException extends RuntimeException {
-        
+
         private static final long serialVersionUID = 1L;
-        
+
         private final OperationOutcome operationOutcome;
-        
+
         private final IssueSeverity severity;
-        
+
         private OperationOutcomeException(String message, IssueSeverity severity, OperationOutcome operationOutcome) {
             super(message);
             this.severity = severity;
             this.operationOutcome = operationOutcome;
         }
-        
+
         public OperationOutcome getOperationOutcome() {
             return operationOutcome;
         }
-        
+
         public IssueSeverity getSeverity() {
             return severity;
         }
     }
-    
+
     public static IHumanNameParser defaultHumanNameParser = new HumanNameParser();
-    
+
     /**
      * Performs an equality check on two references using their id's.
      *
-     * @param <T> Resource type.
+     * @param <T>  Resource type.
      * @param ref1 The first resource.
      * @param ref2 The second resource.
      * @return True if the two references have equal id's.
@@ -86,13 +92,13 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static <T extends Reference> boolean areEqual(T ref1, T ref2) {
         return areEqual(ref1, ref2, false);
     }
-    
+
     /**
      * Performs an equality check on two resources using their id's.
      *
-     * @param <T> Resource type.
-     * @param ref1 The first resource.
-     * @param ref2 The second resource.
+     * @param <T>           Resource type.
+     * @param ref1          The first resource.
+     * @param ref2          The second resource.
      * @param ignoreVersion If true, ignore any version qualifiers in the comparison.
      * @return True if the two resources have equal id's.
      */
@@ -100,10 +106,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         if (ref1 == null || ref2 == null) {
             return false;
         }
-        
+
         return ref1 == ref2 || getIdAsString(ref1, ignoreVersion).equals(getIdAsString(ref2, ignoreVersion));
     }
-    
+
     /**
      * Performs an equality check between a resource and a reference using their id's.
      *
@@ -116,14 +122,14 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static <T extends IBaseResource, R extends Reference> boolean areEqual(T res, R ref) {
         return areEqual(res, ref, false);
     }
-    
+
     /**
      * Performs an equality check between a resource and a reference using their id's.
      *
-     * @param <T> Resource type.
-     * @param <R> Reference type.
-     * @param res The resource.
-     * @param ref The reference.
+     * @param <T>           Resource type.
+     * @param <R>           Reference type.
+     * @param res           The resource.
+     * @param ref           The reference.
      * @param ignoreVersion If true, ignore any version qualifiers in the comparison.
      * @return True if the two inputs have equal id's.
      */
@@ -131,16 +137,16 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         if (res == null || ref == null) {
             return false;
         }
-        
+
         IBaseResource res2 = ref.getResource();
-        
+
         if (res2 != null) {
             return areEqual(res, res2, ignoreVersion);
         }
-        
+
         return getIdAsString(ref, ignoreVersion).equals(getIdAsString(res, ignoreVersion));
     }
-    
+
     /**
      * Checks the response from a server request to determine if it is an OperationOutcome with a
      * severity of ERROR or FATAL. If so, it will throw a runtime exception with the diagnostics of
@@ -154,31 +160,31 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         if (resource instanceof OperationOutcome) {
             OperationOutcome outcome = (OperationOutcome) resource;
             IssueSeverity severity = IssueSeverity.NULL;
-            
+
             if (outcome.hasIssue()) {
                 StringBuilder sb = new StringBuilder();
-                
+
                 for (OperationOutcomeIssueComponent issue : outcome.getIssue()) {
                     IssueSeverity theSeverity = issue.getSeverity();
-                    
+
                     if (theSeverity == IssueSeverity.ERROR || theSeverity == IssueSeverity.FATAL) {
                         sb.append(issue.getDiagnostics()).append(" (").append(theSeverity.getDisplay()).append(")\n");
                         severity = theSeverity.ordinal() < severity.ordinal() ? theSeverity : severity;
                     }
                 }
-                
+
                 if (sb.length() != 0) {
                     throw new OperationOutcomeException(sb.toString(), severity, outcome);
                 }
-                
+
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Convert a string-based time unit to the corresponding enum.
      *
@@ -192,12 +198,12 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             throw new IllegalArgumentException("Unknown time unit " + timeUnit);
         }
     }
-    
+
     /**
      * Convenience method that creates a CodeableConcept with a single coding.
      *
-     * @param system The coding system.
-     * @param code The code.
+     * @param system      The coding system.
+     * @param code        The code.
      * @param displayName The concept's display name.
      * @return A CodeableConcept instance.
      */
@@ -207,12 +213,12 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         codeableConcept.addCoding(coding);
         return codeableConcept;
     }
-    
+
     /**
      * Convenience method that creates an Identifier with the specified system and value.
      *
      * @param system The system.
-     * @param value The value.
+     * @param value  The value.
      * @return An identifier.
      */
     public static Identifier createIdentifier(String system, String value) {
@@ -221,29 +227,29 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         identifier.setValue(value);
         return identifier;
     }
-    
+
     /**
      * Creates a period object from a start and end date.
      *
      * @param startDate The starting date.
-     * @param endDate The ending date.
+     * @param endDate   The ending date.
      * @return A period object, or null if both dates are null.
      */
     public static Period createPeriod(Date startDate, Date endDate) {
         Period period = null;
-        
+
         if (startDate != null) {
             period = new Period();
             period.setStart(startDate);
         }
-        
+
         if (endDate != null) {
             (period == null ? period = new Period() : period).setEnd(endDate);
         }
-        
+
         return period;
     }
-    
+
     /**
      * Method returns true if two quantities are equal. Compares two quantities by comparing their
      * values and their units. TODO Do a comparator instead
@@ -266,7 +272,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return false;
         }
     }
-    
+
     /**
      * Formats a name using the active parser.
      *
@@ -276,7 +282,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static String formatName(HumanName name) {
         return name == null ? "" : defaultHumanNameParser.toString(name);
     }
-    
+
     /**
      * Format the "usual" name.
      *
@@ -286,24 +292,24 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static String formatName(List<HumanName> names) {
         return formatName(names, NameUse.OFFICIAL, NameUse.USUAL, null);
     }
-    
+
     /**
      * Format a name of the specified use category.
      *
      * @param names List of names
-     * @param uses Use categories (use categories to search).
+     * @param uses  Use categories (use categories to search).
      * @return A formatted name.
      */
     public static String formatName(List<HumanName> names, NameUse... uses) {
         return formatName(getName(names, uses));
     }
-    
+
     /**
      * Returns an address of the desired use category from a list.
      *
      * @param list List of addresses to consider.
      * @param uses One or more use categories. These are searched in order until one is found. A
-     *            null value matches any use category.
+     *             null value matches any use category.
      * @return An address with a matching use category, or null if none found.
      */
     public static Address getAddress(List<Address> list, AddressUse... uses) {
@@ -314,10 +320,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns a list of addresses from a resource if one exists.
      *
@@ -327,13 +333,13 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static List<Address> getAddresses(IBaseResource resource) {
         return getListProperty(resource, "address", Address.class);
     }
-    
+
     /**
      * Returns a coding of the desired system from a list.
      *
-     * @param list List of codings to consider.
+     * @param list    List of codings to consider.
      * @param systems One or more systems to consider. These are searched in order until one is
-     *            found. A null value matches any system.
+     *                found. A null value matches any system.
      * @return An coding with a matching system, or null if none found.
      */
     public static Coding getCoding(List<Coding> list, String... systems) {
@@ -344,10 +350,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns an contact of the desired type category from a list.
      *
@@ -357,7 +363,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      */
     public static ContactPoint getContact(List<ContactPoint> list, String type) {
         String[] pcs = type.split(":", 2);
-        
+
         for (ContactPoint contact : list) {
             ContactPoint.ContactPointSystem system = contact.getSystem();
             ContactPoint.ContactPointUse use = contact.getUse();
@@ -366,14 +372,35 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 return contact;
             }
         }
-        
+
         return null;
     }
-    
-    public static String getDisplayValue(Annotation value) {
-        return value.getText();
+
+    /**
+     * Returns the displayable value for an enum.  If the enum has a property called "display",
+     * its value will be returned.  Otherwise the value of the toString method is returned.
+     *
+     * @param value The enum value.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(Enum<?> value) {
+        try {
+            return value == null ? null : BeanUtils.getSimpleProperty(value, "display");
+        } catch (Exception e) {
+            return value.toString();
+        }
     }
-    
+
+    /**
+     * Returns the displayable value for an annotation.
+     *
+     * @param value The enum value.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(Annotation value) {
+        return value == null ? null : value.getText();
+    }
+
     /**
      * Returns a displayable value for a codeable concept.
      *
@@ -381,75 +408,210 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return Displayable value.
      */
     public static String getDisplayValue(CodeableConcept value) {
+        if (value == null) {
+            return null;
+        }
+
+        if (value.hasText()) {
+            return value.getText();
+        }
+
         Coding coding = FhirUtil.getFirst(value.getCoding());
-        String result = coding == null ? "" : coding.getDisplay();
-        return result == null ? coding.getCode() : result;
+        return coding == null ? null : coding.hasDisplay() ? coding.getDisplay() : coding.getCode();
     }
-    
+
+    /**
+     * Returns the displayable value for an timestamp.
+     *
+     * @param value The timestamp.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(DateTimeType value) {
-        return DateUtil.formatDate(value.getValue());
+        return value == null ? null : DateUtil.formatDate(value.getValue());
     }
-    
+
+    /**
+     * Returns the displayable value for a date.
+     *
+     * @param value The date value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(DateType value) {
-        return DateUtil.formatDate(value.getValue());
+        return value == null ? null : DateUtil.formatDate(value.getValue());
     }
-    
+
+    /**
+     * Returns the displayable value for period.
+     *
+     * @param value The period value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Period value) {
+        if (value == null) {
+            return null;
+        }
+
         Date start = value.getStart();
         Date end = value.getEnd();
         String result = "";
-        
+
         if (start != null) {
             result = DateUtil.formatDate(start);
-            
+
             if (start.equals(end)) {
                 end = null;
             }
         }
-        
+
         if (end != null) {
             result += (result.isEmpty() ? "" : " - ") + DateUtil.formatDate(end);
         }
-        
+
         return result;
     }
-    
+
+    /**
+     * Returns the displayable value for a quantity.
+     *
+     * @param value The quantity value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Quantity value) {
+        if (value == null) {
+            return null;
+        }
+
         String val = value.hasValue() ? value.getValue().toString() : "";
         String units = val.isEmpty() || !value.hasUnit() ? "" : (" " + value.getUnit());
         return val + units;
     }
-    
+
+    /**
+     * Returns the displayable value for a reference.
+     *
+     * @param value The reference value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Reference value) {
-        return value.getDisplay();
+        return value == null ? null : value.getDisplay();
     }
-    
+
+    /**
+     * Returns the displayable value for a simple quantity.
+     *
+     * @param value The quantity value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(SimpleQuantity value) {
+        if (value == null) {
+            return null;
+        }
+
         String unit = value.hasUnit() ? " " + value.getUnit() : "";
         return value.getValue().toPlainString() + unit;
     }
-    
+
+    /**
+     * Returns the displayable value for a timing.
+     *
+     * @param value The timing value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Timing value) {
-        StringBuilder sb = new StringBuilder(getDisplayValueForType(value.getCode())).append(" ");
-        TimingRepeatComponent repeat = value.getRepeat();
-        
-        if (!repeat.isEmpty()) {
+        if (value == null) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String code = getDisplayValue(value.getCode());
+
+        if (code != null) {
+            sb.append(code).append(" ");
+        }
+
+        TimingRepeatComponent repeat = value.hasRepeat() ? value.getRepeat() : null;
+
+        if (repeat != null) {
             // TODO: finish
         }
-        
+
         if (!value.getEvent().isEmpty()) {
-            sb.append(" at ").append(getDisplayValueForTypes(value.getEvent(), ", "));
+            String events = getDisplayValueForTypes(value.getEvent());
+
+            if (events != null) {
+                sb.append(" at ").append(events);
+            }
         }
-        
-        return sb.toString();
+
+        return sb.length() == 0 ? null : sb.toString();
     }
-    
+
+    /**
+     * Returns the displayable value for an age.
+     *
+     * @param value The age value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Age value) {
+        if (value == null) {
+            return null;
+        }
+
         String unit = value.hasUnit() ? " " + value.getUnit() : "";
         BigDecimal age = value.getValue();
-        return age == null ? "" : age.toString() + unit;
+        return age == null ? null : age.toString() + unit;
     }
-    
+
+    /**
+     * Returns a displayable value by invoking the type-specific method.
+     *
+     * @param value The value to display.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValueForType(IBaseDatatype value) {
+        try {
+            return value == null ? null : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
+        } catch (Exception e) {
+            return value.toString();
+        }
+    }
+
+    /**
+     * Returns a concatenation of displayable values from a list of values separated by a comma.
+     *
+     * @param values The values to display.
+     * @return A concatenation of displayable values (possibly null).
+     */
+    public static <T extends IBaseDatatype> String getDisplayValueForTypes(List<T> values) {
+        return getDisplayValueForTypes(values, ", ");
+    }
+
+    /**
+     * Returns a concatenation of displayable values from a list of values separated by
+     * the specified delimiter.
+     *
+     * @param values The values to display.
+     * @param delimiter The delimiter for separating values.
+     * @return A concatenation of displayable values (possibly null).
+     */
+    public static <T extends IBaseDatatype> String getDisplayValueForTypes(List<T> values, String delimiter) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (T value: values) {
+            String display = getDisplayValueForType(value);
+
+            if (display != null) {
+                sb.append(sb.length() == 0 ? "" : delimiter).append(display);
+            }
+        }
+
+        return sb.length() == 0 ? null : sb.toString();
+    }
+
     /**
      * Extracts resources of the specified class from a bundle.
      *

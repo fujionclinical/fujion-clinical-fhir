@@ -26,8 +26,11 @@
 package org.fujionclinical.fhir.r4.api.common;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.MethodUtils;
 import org.fujion.common.DateUtil;
 import org.fujionclinical.fhir.r4.api.terminology.Constants;
+import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
@@ -369,11 +372,32 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
         return null;
     }
-    
-    public static String getDisplayValue(Annotation value) {
-        return value.getText();
+
+    /**
+     * Returns the displayable value for an enum.  If the enum has a property called "display",
+     * its value will be returned.  Otherwise the value of the toString method is returned.
+     *
+     * @param value The enum value.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(Enum<?> value) {
+        try {
+            return value == null ? null : BeanUtils.getSimpleProperty(value, "display");
+        } catch (Exception e) {
+            return value.toString();
+        }
     }
-    
+
+    /**
+     * Returns the displayable value for an annotation.
+     *
+     * @param value The enum value.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(Annotation value) {
+        return value == null ? null : value.getText();
+    }
+
     /**
      * Returns a displayable value for a codeable concept.
      *
@@ -381,75 +405,210 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return Displayable value.
      */
     public static String getDisplayValue(CodeableConcept value) {
+        if (value == null) {
+            return null;
+        }
+
+        if (value.hasText()) {
+            return value.getText();
+        }
+
         Coding coding = FhirUtil.getFirst(value.getCoding());
-        String result = coding == null ? "" : coding.getDisplay();
-        return result == null ? coding.getCode() : result;
+        return coding == null ? null : coding.hasDisplay() ? coding.getDisplay() : coding.getCode();
     }
-    
+
+    /**
+     * Returns the displayable value for an timestamp.
+     *
+     * @param value The timestamp.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(DateTimeType value) {
-        return DateUtil.formatDate(value.getValue());
+        return value == null ? null : DateUtil.formatDate(value.getValue());
     }
-    
+
+    /**
+     * Returns the displayable value for a date.
+     *
+     * @param value The date value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(DateType value) {
-        return DateUtil.formatDate(value.getValue());
+        return value == null ? null : DateUtil.formatDate(value.getValue());
     }
-    
+
+    /**
+     * Returns the displayable value for period.
+     *
+     * @param value The period value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Period value) {
+        if (value == null) {
+            return null;
+        }
+
         Date start = value.getStart();
         Date end = value.getEnd();
         String result = "";
-        
+
         if (start != null) {
             result = DateUtil.formatDate(start);
-            
+
             if (start.equals(end)) {
                 end = null;
             }
         }
-        
+
         if (end != null) {
             result += (result.isEmpty() ? "" : " - ") + DateUtil.formatDate(end);
         }
-        
+
         return result;
     }
-    
+
+    /**
+     * Returns the displayable value for a quantity.
+     *
+     * @param value The quantity value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Quantity value) {
+        if (value == null) {
+            return null;
+        }
+
         String val = value.hasValue() ? value.getValue().toString() : "";
         String units = val.isEmpty() || !value.hasUnit() ? "" : (" " + value.getUnit());
         return val + units;
     }
-    
+
+    /**
+     * Returns the displayable value for a reference.
+     *
+     * @param value The reference value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Reference value) {
-        return value.getDisplay();
+        return value == null ? null : value.getDisplay();
     }
-    
+
+    /**
+     * Returns the displayable value for a simple quantity.
+     *
+     * @param value The quantity value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(SimpleQuantity value) {
+        if (value == null) {
+            return null;
+        }
+
         String unit = value.hasUnit() ? " " + value.getUnit() : "";
         return value.getValue().toPlainString() + unit;
     }
-    
+
+    /**
+     * Returns the displayable value for a timing.
+     *
+     * @param value The timing value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Timing value) {
-        StringBuilder sb = new StringBuilder(getDisplayValueForType(value.getCode())).append(" ");
-        TimingRepeatComponent repeat = value.getRepeat();
-        
-        if (!repeat.isEmpty()) {
+        if (value == null) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String code = getDisplayValue(value.getCode());
+
+        if (code != null) {
+            sb.append(code).append(" ");
+        }
+
+        TimingRepeatComponent repeat = value.hasRepeat() ? value.getRepeat() : null;
+
+        if (repeat != null) {
             // TODO: finish
         }
-        
+
         if (!value.getEvent().isEmpty()) {
-            sb.append(" at ").append(getDisplayValueForTypes(value.getEvent(), ", "));
+            String events = getDisplayValueForTypes(value.getEvent());
+
+            if (events != null) {
+                sb.append(" at ").append(events);
+            }
         }
-        
-        return sb.toString();
+
+        return sb.length() == 0 ? null : sb.toString();
     }
-    
+
+    /**
+     * Returns the displayable value for an age.
+     *
+     * @param value The age value.
+     * @return The displayable value (possibly null).
+     */
     public static String getDisplayValue(Age value) {
+        if (value == null) {
+            return null;
+        }
+
         String unit = value.hasUnit() ? " " + value.getUnit() : "";
         BigDecimal age = value.getValue();
-        return age == null ? "" : age.toString() + unit;
+        return age == null ? null : age.toString() + unit;
     }
-    
+
+    /**
+     * Returns a displayable value by invoking the type-specific method.
+     *
+     * @param value The value to display.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValueForType(IBaseDatatype value) {
+        try {
+            return value == null ? null : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
+        } catch (Exception e) {
+            return value.toString();
+        }
+    }
+
+    /**
+     * Returns a concatenation of displayable values from a list of values separated by a comma.
+     *
+     * @param values The values to display.
+     * @return A concatenation of displayable values (possibly null).
+     */
+    public static <T extends IBaseDatatype> String getDisplayValueForTypes(List<T> values) {
+        return getDisplayValueForTypes(values, ", ");
+    }
+
+    /**
+     * Returns a concatenation of displayable values from a list of values separated by
+     * the specified delimiter.
+     *
+     * @param values The values to display.
+     * @param delimiter The delimiter for separating values.
+     * @return A concatenation of displayable values (possibly null).
+     */
+    public static <T extends IBaseDatatype> String getDisplayValueForTypes(List<T> values, String delimiter) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (T value: values) {
+            String display = getDisplayValueForType(value);
+
+            if (display != null) {
+                sb.append(sb.length() == 0 ? "" : delimiter).append(display);
+            }
+        }
+
+        return sb.length() == 0 ? null : sb.toString();
+    }
+
     /**
      * Extracts resources of the specified class from a bundle.
      *

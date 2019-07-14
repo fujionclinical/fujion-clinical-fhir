@@ -46,9 +46,13 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
     public void buildQuery(PatientSearchCriteria criteria, IQuery<?> query) {
         super.buildQuery(criteria, query);
         Identifier id = criteria.getMRN();
-        
+
         if (id != null) {
-            query.where(Patient.IDENTIFIER.exactly().systemAndIdentifier(id.getSystem(), id.getValue()));
+            if (id.hasSystem()) {
+                query.where(Patient.IDENTIFIER.exactly().systemAndIdentifier(id.getSystem(), id.getValue()));
+            } else {
+                query.where(Patient.IDENTIFIER.exactly().identifier(id.getValue()));
+            }
         }
         
         id = criteria.getSSN();

@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.observations.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Observation;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
 
 import java.util.List;

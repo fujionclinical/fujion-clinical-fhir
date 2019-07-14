@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.plugin.documents.dstu2;
 
 import org.fujion.component.Comboitem;
 import org.fujion.model.IComponentRenderer;
-import org.fujionclinical.fhir.api.dstu2.document.Document;
+import org.fujionclinical.fhir.dstu2.api.document.Document;
 
 /**
  * Renderer for the document display combo box selector.

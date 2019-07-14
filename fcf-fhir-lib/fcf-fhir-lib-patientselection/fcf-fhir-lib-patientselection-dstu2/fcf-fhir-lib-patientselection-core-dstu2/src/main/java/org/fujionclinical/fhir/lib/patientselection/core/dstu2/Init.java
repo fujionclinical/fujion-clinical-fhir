@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.lib.patientselection.core.dstu2;
 
 import org.fujion.event.EventUtil;
 import org.fujion.event.IEventListener;
-import org.fujionclinical.fhir.api.dstu2.patient.PatientContext;
+import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
 import org.fujionclinical.shell.IShellStartup;
 import org.fujionclinical.shell.Shell;
 import org.fujionclinical.shell.ShellUtil;

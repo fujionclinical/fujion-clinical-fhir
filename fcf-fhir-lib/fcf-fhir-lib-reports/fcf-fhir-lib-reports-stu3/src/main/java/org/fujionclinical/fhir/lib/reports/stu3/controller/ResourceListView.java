@@ -148,7 +148,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
             }
 
             if (c.get(0) instanceof IBaseDatatype) {
-                return FhirUtil.getDisplayValueForTypes((List<IBaseDatatype>) c, ", ");
+                return FhirUtil.getDisplayValueForTypes((List<IBaseDatatype>) c);
             }
         }
         

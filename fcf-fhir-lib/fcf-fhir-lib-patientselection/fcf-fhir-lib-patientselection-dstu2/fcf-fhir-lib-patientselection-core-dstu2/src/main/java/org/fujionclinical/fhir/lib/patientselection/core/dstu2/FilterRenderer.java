@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.lib.patientselection.core.dstu2;
 
 import org.fujion.component.Listitem;
 import org.fujion.model.IComponentRenderer;
-import org.fujionclinical.fhir.api.dstu2.patientlist.AbstractPatientListFilter;
+import org.fujionclinical.fhir.dstu2.api.patientlist.AbstractPatientListFilter;
 
 /**
  * Renderer for filters.

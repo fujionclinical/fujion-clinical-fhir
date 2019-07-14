@@ -168,49 +168,7 @@ public class FhirUtil {
         
         return root + "/" + fragment;
     }
-    
-    /**
-     * Delegates to the getDisplayValue function for the runtime type of value, if available.
-     * Otherwise, calls toString() on the value.
-     *
-     * @param value Value to format for display.
-     * @return The formatted value.
-     */
-    public static String getDisplayValueForType(IBaseDatatype value) {
-        if (value == null || value.isEmpty()) {
-            return "";
-        }
-        
-        try {
-            Method method = MethodUtils.getAccessibleMethod(FhirUtil.class, "getDisplayValue", value.getClass());
-            return method == null ? value.toString() : (String) method.invoke(null, value);
-        } catch (Exception e) {
-            return "???";
-        }
-    }
-    
-    /**
-     * Invokes getDisplayValueForType on each list element, using the specified delimiter to
-     * separate results.
-     *
-     * @param values Values to format for display.
-     * @param delimiter Delimiter to separate multiple values.
-     * @return The formatted values.
-     */
-    public static String getDisplayValueForTypes(List<? extends IBaseDatatype> values, String delimiter) {
-        StringBuilder sb = new StringBuilder();
-        
-        for (IBaseDatatype value : values) {
-            String result = getDisplayValueForType(value);
-            
-            if (!result.isEmpty()) {
-                sb.append(sb.length() == 0 ? "" : delimiter).append(result);
-            }
-        }
-        
-        return sb.toString();
-    }
-    
+
     /**
      * Returns the first element in a list, or null if there is none.
      *

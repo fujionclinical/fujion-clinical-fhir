@@ -33,8 +33,8 @@ import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder.DosageInstruction;
 import org.apache.commons.lang.StringUtils;
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;
-import org.fujionclinical.fhir.api.dstu2.medication.MedicationService;
+import org.fujionclinical.fhir.dstu2.api.common.ClientUtil;
+import org.fujionclinical.fhir.dstu2.api.medication.MedicationService;
 import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
 
 import java.util.List;
