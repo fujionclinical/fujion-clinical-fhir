@@ -28,10 +28,7 @@ package org.fujionclinical.fhir.plugin.scenario.r4.controller;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.common.StrUtil;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Combobox;
-import org.fujion.component.Comboitem;
-import org.fujion.component.Label;
+import org.fujion.component.*;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
@@ -64,7 +61,10 @@ public class ScenarioManagerController extends PluginController implements Scena
     
     @WiredComponent
     private BaseComponent scenarioButtons;
-    
+
+    @WiredComponent
+    private Toolbar toolbar;
+
     private Scenario activeScenario;
     
     private final ScenarioRegistry scenarioRegistry;
@@ -133,17 +133,17 @@ public class ScenarioManagerController extends PluginController implements Scena
         cboScenarios.setPlaceholder(
             StrUtil.getLabel(model.isEmpty() ? "fcf.scenario.cbox.placeholder.none" : "fcf.scenario.cbox.placeholder"));
         Collections.sort(model, scenarioComparator);
-        disableButtons(true);
+        disableButtons(true, false);
     }
     
     private void rerenderScenarios() {
         activeScenario = ScenarioContext.getActiveScenario();
         mv.rerender();
-        disableButtons(getSelectedScenario() == null);
+        disableButtons(getSelectedScenario() == null, false);
     }
 
-    private boolean disableButtons(boolean disable) {
-        FCFUtil.disableChildren(scenarioButtons, disable);
+    private boolean disableButtons(boolean disable, boolean all) {
+        FCFUtil.disableChildren(all ? toolbar : scenarioButtons, disable, true);
         return disable;
     }
 
@@ -153,7 +153,7 @@ public class ScenarioManagerController extends PluginController implements Scena
             cboScenarios.setSelectedItem((Comboitem) event.getData());
         }
 
-        boolean disabled = disableButtons(getSelectedScenario() == null);
+        boolean disabled = disableButtons(getSelectedScenario() == null, false);
         
         if (disabled) {
             setMessage(null);
@@ -232,7 +232,8 @@ public class ScenarioManagerController extends PluginController implements Scena
         Action action = (Action) event.getData();
         setMessage(action.label + "...");
         String result = null;
-        
+        disableButtons(true, true);
+
         if (action == Action.DELETEALL || scenario != null) {
             try {
                 
@@ -272,6 +273,7 @@ public class ScenarioManagerController extends PluginController implements Scena
         }
         
         setMessage(result);
+        disableButtons(false, true);
     }
     
     /**

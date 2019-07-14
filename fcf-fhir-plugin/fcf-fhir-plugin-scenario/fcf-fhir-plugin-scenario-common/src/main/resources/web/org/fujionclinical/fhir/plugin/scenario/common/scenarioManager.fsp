@@ -5,7 +5,7 @@
 	<div style="padding:10px;overflow:auto" flex="1">
 		<label name="lblMessage" />
 	</div>
-	<toolbar width="100%">
+	<toolbar name="toolbar" width="100%">
 		<button name="btnDeleteAll"
 			label="${@msg.fcf.scenario.btn.deleteall.label}"
 			hint="${@msg.fcf.scenario.btn.deleteall.hint}"
