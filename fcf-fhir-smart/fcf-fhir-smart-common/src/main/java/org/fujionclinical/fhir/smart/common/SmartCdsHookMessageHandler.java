@@ -18,7 +18,11 @@ public class SmartCdsHookMessageHandler extends SmartMessageHandler {
         String pcs[] = eventName.split("\\.");
 
         if (pcs.length > 3) {
-            cdsHookResponses.put(pcs[3], eventData);
+            if (eventData == null) {
+                cdsHookResponses.remove(pcs[3]);
+            } else {
+                cdsHookResponses.put(pcs[3], eventData);
+            }
         }
     });
 
