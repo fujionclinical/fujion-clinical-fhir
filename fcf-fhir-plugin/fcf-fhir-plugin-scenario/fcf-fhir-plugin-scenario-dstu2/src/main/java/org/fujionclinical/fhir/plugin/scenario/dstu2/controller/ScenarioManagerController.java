@@ -144,7 +144,7 @@ public class ScenarioManagerController extends PluginController implements IScen
     }
 
     private boolean disableButtons(boolean disable, boolean all) {
-        FCFUtil.disableChildren(all ? toolbar : scenarioButtons, disable, true);
+        (all ? toolbar : scenarioButtons).disableChildren(disable, true);
         return disable;
     }
 

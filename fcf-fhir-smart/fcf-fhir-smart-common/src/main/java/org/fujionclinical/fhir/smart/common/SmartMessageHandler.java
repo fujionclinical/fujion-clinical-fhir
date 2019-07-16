@@ -52,23 +52,24 @@ public abstract class SmartMessageHandler {
 
     protected SmartMessageHandler(String messageType) {
         this.messageType = messageType;
-        this.eventManager.subscribe(SmartMessagingService.EVENT_REQUEST, requestHandler);
+        this.eventManager.subscribe(SmartMessageBroker.EVENT_REQUEST, requestHandler);
     }
 
     protected abstract Map<String, Object> handleRequest(Map<String, Object> request);
 
     private void _handleRequest(Map<String, Object> request) {
-        Map<String, Object> response = handleRequest(request);
-
-        if (response != null) {
-            response.put("responseToMessageId", request.get("messageId"));
-            eventManager.fireLocalEvent(SmartMessagingService.EVENT_RESPONSE, response);
-        }
-
+        sendResponse(handleRequest(request));
     }
 
-    protected Map<String, Object> createResponse(Map<String, Object> payload, HttpStatus status) {
+    protected void sendResponse(Map<String, Object> response) {
+        if (response != null) {
+            eventManager.fireLocalEvent(SmartMessageBroker.EVENT_RESPONSE, response);
+        }
+    }
+
+    protected Map<String, Object> createResponse(Map<String, Object> request, Map<String, Object> payload, HttpStatus status) {
         Map<String, Object> response = new HashMap<>();
+        response.put("responseToMessageId", request.get("messageId"));
         response.put("payload", payload);
         payload.put("status", status.value());
         return response;

@@ -143,7 +143,7 @@ public class ScenarioManagerController extends PluginController implements Scena
     }
 
     private boolean disableButtons(boolean disable, boolean all) {
-        FCFUtil.disableChildren(all ? toolbar : scenarioButtons, disable, true);
+        (all ? toolbar : scenarioButtons).disableChildren(disable, true);
         return disable;
     }
 

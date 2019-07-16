@@ -40,12 +40,15 @@ import java.util.*;
 /**
  * Support for bidirectional SMART messaging.
  */
-public class SmartMessagingService {
+public class SmartMessageBroker {
 
+    // Event type for a request from a SMART app.
     public static final String EVENT_REQUEST = "smart_request";
 
+    // Event type for responding to a request from a SMART app.
     public static final String EVENT_RESPONSE = "smart_response";
 
+    // How long before a request will be considered abandoned.
     private static final long TIME_TO_LIVE = 60 * 1000;
 
     private final IEventManager eventManager = EventManager.getInstance();
@@ -62,11 +65,11 @@ public class SmartMessagingService {
         handleResponse(eventData);
     };
 
-    public static SmartMessagingService getInstance() {
-        return SpringUtil.getBean("smartMessagingService", SmartMessagingService.class);
+    public static SmartMessageBroker getInstance() {
+        return SpringUtil.getBean("smartMessageBroker", SmartMessageBroker.class);
     }
 
-    public SmartMessagingService() {
+    public SmartMessageBroker() {
         eventManager.subscribe(EVENT_RESPONSE, responseListener);
     }
 

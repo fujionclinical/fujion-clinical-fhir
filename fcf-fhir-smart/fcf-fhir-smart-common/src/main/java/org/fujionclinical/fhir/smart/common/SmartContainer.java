@@ -50,7 +50,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
 
     private final SmartContextRegistry contextRegistry;
 
-    private final SmartMessagingService messagingService;
+    private final SmartMessageBroker messagingService;
 
     private String src;
 
@@ -58,7 +58,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
 
     public SmartContainer() {
         contextRegistry = SmartContextRegistry.getInstance();
-        messagingService = SmartMessagingService.getInstance();
+        messagingService = SmartMessageBroker.getInstance();
         messagingService.registerContainer(this);
     }
 

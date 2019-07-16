@@ -31,8 +31,8 @@
 		<bean id="smartContextRegistry"
 			class="org.fujionclinical.fhir.smart.common.SmartContextRegistry" />
 
-		<bean id="smartMessagingService"
-			  class="org.fujionclinical.fhir.smart.common.SmartMessagingService" />
+		<bean id="smartMessageBroker"
+			  class="org.fujionclinical.fhir.smart.common.SmartMessageBroker" />
 
 		<bean id="smartContextBase"
 			abstract="true" init-method="init" destroy-method="destroy">
