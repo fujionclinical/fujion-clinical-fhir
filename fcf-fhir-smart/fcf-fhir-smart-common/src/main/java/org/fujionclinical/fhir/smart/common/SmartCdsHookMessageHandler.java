@@ -74,7 +74,8 @@ public class SmartCdsHookMessageHandler extends SmartMessageHandler {
 
         if (pending != null) {
             for (Map<String, Object> response : pending) {
-                response.put("response", cdsHookResponse);
+                Map<String, Object> payload = getPayload(response);
+                payload.put("response", cdsHookResponse);
                 sendResponse(response);
             }
         }

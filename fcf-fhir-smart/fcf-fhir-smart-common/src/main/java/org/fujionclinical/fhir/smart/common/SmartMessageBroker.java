@@ -42,6 +42,18 @@ import java.util.*;
  */
 public class SmartMessageBroker {
 
+    private static class PendingResponse {
+
+        final long expiration;
+
+        final BaseComponent container;
+
+        PendingResponse(BaseComponent container) {
+            this.container = container;
+            this.expiration = System.currentTimeMillis() + TIME_TO_LIVE;
+        }
+    }
+
     // Event type for a request from a SMART app.
     public static final String EVENT_REQUEST = "smart_request";
 
@@ -49,13 +61,11 @@ public class SmartMessageBroker {
     public static final String EVENT_RESPONSE = "smart_response";
 
     // How long before a request will be considered abandoned.
-    private static final long TIME_TO_LIVE = 60 * 1000;
+    private static final long TIME_TO_LIVE = 120 * 1000;
 
     private final IEventManager eventManager = EventManager.getInstance();
 
-    private final Map<String, Long> ttl = new LinkedHashMap<>();
-
-    private final Map<String, BaseComponent> pendingResponses = new LinkedHashMap<>();
+    private final Map<String, PendingResponse> pendingResponses = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private final IEventListener requestListener = (event) -> {
         handleRequest(event);
@@ -79,15 +89,16 @@ public class SmartMessageBroker {
 
     public void unregisterContainer(BaseComponent container) {
         container.removeEventListener(EVENT_REQUEST, requestListener);
-        Iterator<Map.Entry<String, BaseComponent>> iter = pendingResponses.entrySet().iterator();
 
-        while (iter.hasNext()) {
-            Map.Entry<String, BaseComponent> entry = iter.next();
+        synchronized (pendingResponses) {
+            Iterator<Map.Entry<String, PendingResponse>> iter = pendingResponses.entrySet().iterator();
 
-            if (entry.getValue() == container) {
-                String messageId = entry.getKey();
-                iter.remove();
-                ttl.remove(messageId);
+            while (iter.hasNext()) {
+                Map.Entry<String, PendingResponse> entry = iter.next();
+
+                if (entry.getValue().container == container) {
+                    iter.remove();
+                }
             }
         }
     }
@@ -97,22 +108,19 @@ public class SmartMessageBroker {
         Map<String, Object> request = (Map) event.getData();
         String messageId = (String) request.get("messageId");
         Assert.notNull(messageId, "Cannot dispatch SMART request without a message id.");
-        pendingResponses.put(messageId, event.getTarget());
-        ttl.put(messageId, System.currentTimeMillis() + TIME_TO_LIVE);
+        pendingResponses.put(messageId, new PendingResponse(event.getTarget()));
         eventManager.fireLocalEvent(EVENT_REQUEST, request);
     }
 
     private void handleResponse(Map<String, Object> response) {
         String messageId = (String) response.get("responseToMessageId");
         Assert.notNull(messageId, "Cannot dispatch SMART response without a message id.");
-        BaseComponent cmp = pendingResponses.remove(messageId);
+        PendingResponse pendingResponse = pendingResponses.remove(messageId);
 
-        if (cmp != null) {
-            ttl.remove(messageId);
-
-            if (!cmp.isDead()) {
+        if (pendingResponse != null) {
+            if (!pendingResponse.container.isDead()) {
                 response.put("messageId", UUID.randomUUID().toString());
-                cmp.fireEventToClient(EVENT_RESPONSE, response);
+                pendingResponse.container.fireEventToClient(EVENT_RESPONSE, response);
             }
         }
 
@@ -122,15 +130,22 @@ public class SmartMessageBroker {
     private void prunePendingResponses() {
         long currentTime = System.currentTimeMillis();
 
-        for (Map.Entry<String, Long> entry: ttl.entrySet()) {
-            if (entry.getValue() >= currentTime) {
-                String messageId = entry.getKey();
-                Map<String, Object> response = new HashMap<>();
-                response.put("responseToMessageId", messageId);
-                response.put("payload", Collections.singletonMap("status", HttpStatus.REQUEST_TIMEOUT));
-                handleResponse(response);
-            } else {
-                break;
+        synchronized (pendingResponses) {
+            Iterator<Map.Entry<String, PendingResponse>> iter = pendingResponses.entrySet().iterator();
+
+            while (iter.hasNext()) {
+                Map.Entry<String, PendingResponse> entry = iter.next();
+
+                if (currentTime >= entry.getValue().expiration) {
+                    iter.remove();
+                    String messageId = entry.getKey();
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("responseToMessageId", messageId);
+                    response.put("payload", Collections.singletonMap("status", HttpStatus.REQUEST_TIMEOUT));
+                    handleResponse(response);
+                } else {
+                    break;
+                }
             }
         }
     }
