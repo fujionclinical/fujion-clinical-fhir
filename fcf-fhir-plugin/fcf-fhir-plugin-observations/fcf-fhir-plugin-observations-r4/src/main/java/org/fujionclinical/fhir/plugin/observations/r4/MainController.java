@@ -26,7 +26,6 @@
 package org.fujionclinical.fhir.plugin.observations.r4;
 
 import org.fujionclinical.fhir.lib.reports.r4.controller.ResourceListView;
-import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Type;

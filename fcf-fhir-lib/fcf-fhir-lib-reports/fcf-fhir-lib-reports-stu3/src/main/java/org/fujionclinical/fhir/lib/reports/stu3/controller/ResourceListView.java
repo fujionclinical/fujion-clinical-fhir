@@ -61,7 +61,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Controller for cover sheet components.
+ * Controller for displaying FHIR resources in a columnar format.
  *
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
