@@ -34,6 +34,8 @@ import org.fujion.component.Html;
 import org.fujion.component.Row;
 import org.fujion.component.Window;
 import org.fujion.page.PageUtil;
+import org.fujion.thread.ICancellable;
+import org.fujion.thread.ThreadedTask;
 import org.fujionclinical.api.event.IGenericEvent;
 import org.fujionclinical.fhir.stu3.api.common.BaseService;
 import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
@@ -46,8 +48,6 @@ import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.fujionclinical.ui.reports.common.ReportConstants;
 import org.fujionclinical.ui.sharedforms.ListFormController;
-import org.fujionclinical.ui.thread.ThreadEx;
-import org.fujionclinical.ui.thread.ThreadEx.IRunnable;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Patient;
@@ -175,32 +175,25 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
     protected void requestData() {
         final String url = resourcePath.replace("#", patient.getIdElement().getIdPart());
         
-        startBackgroundThread(new IRunnable() {
-            
-            @Override
-            public void run(ThreadEx thread) {
-                Bundle bundle = fhirService.getClient().search().byUrl(url).returnBundle(Bundle.class).execute();
-                thread.setAttribute("bundle", bundle);
-            }
-            
-            @Override
-            public void abort() {
-            }
-            
+        startBackgroundThread(map -> {
+            Bundle bundle = fhirService.getClient().search().byUrl(url).returnBundle(Bundle.class).execute();
+            map.put("bundle", bundle);
         });
     }
     
     @Override
-    protected void threadFinished(ThreadEx thread) {
+    protected void threadFinished(ICancellable thread) {
+        ThreadedTask task = (ThreadedTask) thread;
+
         try {
-            thread.rethrow();
+            task.rethrow();
         } catch (Throwable e) {
             status("An unexpected error was encountered:  " + FCFUtil.formatExceptionForDisplay(e));
             return;
         }
         
         model.clear();
-        initModel(processBundle((Bundle) thread.getAttribute("bundle")));
+        initModel(processBundle((Bundle) task.getAttribute("bundle")));
         renderData();
     }
     
