@@ -8,7 +8,7 @@
 
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-stu3-webapp</artifactId>
+		<artifactId>fcf-fhir-webapp-stu3</artifactId>
 		<version>${fcfVersion}</version>
 	</parent>
 	
