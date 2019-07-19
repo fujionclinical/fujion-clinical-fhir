@@ -1,8 +1,10 @@
 <span controller="${@fcfPatientPhotoController}">
+	<style src="web/org/fujionclinical/fhir/plugin/patientphoto/common/patientPhoto.css?" />
+
 	<image name="imgPhoto" height="100%" width="100%" />
 	
 	<popup name="popup">
-		<div class="fujion-layout-vertical text-center" style="background:white">
+		<div class="fcf-patientphoto-popup fujion-layout-vertical">
 			<image name="imgFullPhoto" />
 			<label name="lblCaption" class="flavor:lbl-info" />
 		</div>
