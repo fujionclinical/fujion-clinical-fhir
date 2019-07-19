@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-ui-reports</artifactId>
+			<artifactId>fcf-fhir-lib-reports-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
