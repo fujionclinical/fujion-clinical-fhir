@@ -13,6 +13,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-plugin-patientphoto-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-ui-r4</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

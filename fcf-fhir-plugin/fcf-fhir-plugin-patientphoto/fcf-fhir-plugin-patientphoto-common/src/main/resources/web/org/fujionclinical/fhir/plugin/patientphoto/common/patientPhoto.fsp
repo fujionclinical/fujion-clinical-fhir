@@ -2,7 +2,7 @@
 	<image name="imgPhoto" height="100%" width="100%" />
 	
 	<popup name="popup">
-		<div class="fujion-layout-vertical text-center">
+		<div class="fujion-layout-vertical text-center" style="background:white">
 			<image name="imgFullPhoto" />
 			<label name="lblCaption" class="flavor:lbl-info" />
 		</div>

@@ -15,6 +15,7 @@
 	<name>FHIR Patient Photo Plugin Aggregator</name>
 
 	<modules>
+		<module>fcf-fhir-plugin-patientphoto-common</module>
 		<module>fcf-fhir-plugin-patientphoto-dstu2</module>
 		<module>fcf-fhir-plugin-patientphoto-r4</module>
 		<module>fcf-fhir-plugin-patientphoto-stu3</module>
