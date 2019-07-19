@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.r4.plugin.patientheader;
+package org.fujionclinical.fhir.plugin.patientheader.r4;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;

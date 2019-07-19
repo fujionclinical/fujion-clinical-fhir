@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.plugin.patientheader;
+package org.fujionclinical.fhir.plugin.patientheader.dstu2;
 
 import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.AddressDt;
