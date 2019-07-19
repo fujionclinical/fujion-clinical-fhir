@@ -1,0 +1,34 @@
+<page>
+	
+	<style src="web/org/fujionclinical/fhir/plugin/patientheader/common/patientHeader.css?" />
+	
+	<div class="fcf-patientheader fujion-layout-horizontal" height="100%" width="100%"
+		controller="${@fcfPatientHeaderController}">
+		<toolbar name="tbPatient" height="100%">
+			<button name="btnDetail" 
+				class="fa fa-search"/>
+			<label name="lblName" style="font-weight:bold;padding-right:10px"
+				label="${@msg.fcfpatientheader.noselection}" />
+			<link name="lnkSelect"
+				label="${@msg.fcfpatientheader.change.label}"
+				hint="${@msg.fcfpatientheader.change.hint}" />
+			<div width="10px" />
+			<label name="lblDOBLabel" class="fcf-patientheader-label"
+				label="${@msg.fcfpatientheader.dob.label}" />
+			<label name="lblDOB" />
+			<label name="lblDODLabel" class="fcf-patientheader-label"
+				label="${@msg.fcfpatientheader.dod.label}" />
+			<label name="lblDOD" />
+			<label name="lblGender" />
+		</toolbar>
+		<toolbar name="tbUser" height="100%" flex="1" alignment="end">
+			<label name="lblUser" />
+			<div width="5px" />
+		</toolbar>
+		
+		<popup name="popDetail">
+			<paneview name="pnlDetail" orientation="horizontal" class="fcf-patientheader-detail"/>
+		</popup>
+	</div>
+	
+</page>

@@ -1,0 +1,32 @@
+.fcf-patientheader {
+    overflow: hidden;
+}
+
+.fcf-patientheader .fujion_toolbar {
+	border: none;
+	vertical-align: middle;
+}
+
+.fcf-patientheader .fa {
+	background: none;
+	border: none;
+	font-size: 110%;
+	padding-bottom: 5px;
+}
+
+.fcf-patientheader .fa:disabled {
+	opacity: .5;
+}
+
+.fcf-patientheader a {
+	text-decoration: underline;
+}
+
+.fcf-patientheader a:focus {
+	outline: none;
+}
+
+.fcf-patientheader-label {
+	font-weight: bold;
+	padding-right: 5px;
+}
