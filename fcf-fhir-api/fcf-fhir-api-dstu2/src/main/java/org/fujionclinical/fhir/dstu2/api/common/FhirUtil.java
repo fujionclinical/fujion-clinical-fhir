@@ -575,6 +575,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     /**
      * Returns a concatenation of displayable values from a list of values separated by a comma.
      *
+     * @param <T> The data type.
      * @param values The values to display.
      * @return A concatenation of displayable values (possibly null).
      */
@@ -586,6 +587,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * Returns a concatenation of displayable values from a list of values separated by
      * the specified delimiter.
      *
+     * @param <T> The data type.
      * @param values The values to display.
      * @param delimiter The delimiter for separating values.
      * @return A concatenation of displayable values (possibly null).
@@ -667,7 +669,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         String result = reference == null ? null : reference.getReference().getValue();
         return result == null ? "" : stripVersion ? stripVersion(result) : result;
     }
-    
+
     /**
      * Returns the first identifier from the list that matches one of the specified types. A search
      * is performed for each specified type, returning when a match is found.
@@ -676,7 +678,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param types CodingDt types to be matched.
      * @return A matching identifier, or null if not found.
      */
-    public static IdentifierDt getIdentifier(List<IdentifierDt> list, CodingDt... types) {
+    public static IdentifierDt getIdentifierByType(List<IdentifierDt> list, CodingDt... types) {
         for (CodingDt type : types) {
             for (IdentifierDt id : list) {
                 for (CodingDt coding : id.getType().getCoding()) {
@@ -686,10 +688,27 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
+    /**
+     * Returns the first identifier from the list that matches one of the specified system.
+     *
+     * @param list List of identifiers to consider.
+     * @param system The identifier system to be matched.
+     * @return A matching identifier, or null if not found.
+     */
+    public static IdentifierDt getIdentifierBySystem(List<IdentifierDt> list, String system) {
+        for (IdentifierDt id : list) {
+            if (system.equals(id.getSystem())) {
+                return id;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Returns identifiers for the given resource, if any.
      *
@@ -708,7 +727,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return MRN identifier
      */
     public static IdentifierDt getMRN(Patient patient) {
-        return patient == null ? null : getIdentifier(patient.getIdentifier(), Constants.CODING_MRN);
+        return patient == null ? null : getIdentifierByType(patient.getIdentifier(), Constants.CODING_MRN);
     }
     
     /**
