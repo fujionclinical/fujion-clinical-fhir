@@ -8,7 +8,10 @@
 	<beans profile="child">
 
 		<bean parent="smartContextBase" depends-on="patientContext"
-			class="org.fujionclinical.fhir.smart.r4.SmartContextPatient" />
+			  class="org.fujionclinical.fhir.smart.r4.SmartContextPatient" />
+
+		<bean parent="smartContextBase" depends-on="encounterContext"
+			  class="org.fujionclinical.fhir.smart.r4.SmartContextEncounter" />
 
 	</beans>
 </beans>
