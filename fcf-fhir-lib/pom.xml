@@ -3,11 +3,11 @@
 	
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-parent</artifactId>
+		<artifactId>fcf-fhir</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
-	<artifactId>fcf-fhir-lib-parent</artifactId>
+	<artifactId>fcf-fhir-lib</artifactId>
 	<name>FHIR Library Aggregator</name>
 	<packaging>pom</packaging>
 

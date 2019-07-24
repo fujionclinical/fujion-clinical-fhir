@@ -3,7 +3,7 @@
 
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-plugin-procedures-parent</artifactId>
+		<artifactId>fcf-fhir-plugin-procedures</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	

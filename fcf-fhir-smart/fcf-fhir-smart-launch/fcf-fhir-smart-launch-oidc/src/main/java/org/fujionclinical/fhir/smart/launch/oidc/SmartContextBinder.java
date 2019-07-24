@@ -23,34 +23,53 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.smart.common;
+package org.fujionclinical.fhir.smart.launch.oidc;
 
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.fujionclinical.fhir.smart.common.ISmartContextBinder;
 import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
- * Default implementation for binding SMART context to launch id.
+ * OpenID Connect implementation for binding SMART context to launch id.
  */
 public class SmartContextBinder implements ISmartContextBinder {
 
     private final RestTemplate restTemplate;
-    
+
+    private final HttpHeaders headers = new HttpHeaders();
+
     @Value("${smart.service.launch.binder.url:}")
     private String smartLaunchBinder;
-    
+
+    @Value("${smart.service.launch.binder.username:}")
+    private String username;
+
+    @Value("${smart.service.launch.binder.password:}")
+    private String password;
+
     public SmartContextBinder() {
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory(
                 HttpClientBuilder.create().build());
         restTemplate = new RestTemplate(clientHttpRequestFactory);
     }
-    
+
+    private void init() {
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        if (!username.isEmpty() && !password.isEmpty()) {
+            headers.setBasicAuth(username, password);
+        }
+    }
+
     /**
      * Binds the context to a unique launch identifier.
      * 
@@ -63,13 +82,11 @@ public class SmartContextBinder implements ISmartContextBinder {
             return null;
         }
 
-        String launchId = UUID.randomUUID().toString();
-        ContextMap cloneMap = new ContextMap(contextMap);
-        cloneMap.put("launch_id", launchId);
         Map<String, Object> body = new HashMap<>();
-        body.put("parameters", cloneMap);
-        restTemplate.postForObject(smartLaunchBinder, body, String.class);
-        return launchId;
+        body.put("parameters", contextMap);
+        HttpEntity<Map> entity = new HttpEntity<>(body, headers);
+        Map<String, String> result = restTemplate.postForObject(smartLaunchBinder, entity, Map.class);
+        return result.get("launch_id");
     }
     
 }

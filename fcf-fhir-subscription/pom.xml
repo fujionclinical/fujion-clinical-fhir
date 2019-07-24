@@ -5,11 +5,11 @@
 
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-parent</artifactId>
+		<artifactId>fcf-fhir</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fcf-fhir-subscription-parent</artifactId>
+	<artifactId>fcf-fhir-subscription</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>FHIR Subscription Service Aggregator</name>

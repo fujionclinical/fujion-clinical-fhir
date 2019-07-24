@@ -34,10 +34,10 @@ public interface ISmartContextBinder {
     
     
     /**
-     * Binds the context to a unique launch identifier.
+     * Binds the context to a unique launch token.
      * 
      * @param contextMap The context map.
-     * @return A unique launch identifier.
+     * @return A unique launch token.
      */
     String bindContext(ContextMap contextMap);
     

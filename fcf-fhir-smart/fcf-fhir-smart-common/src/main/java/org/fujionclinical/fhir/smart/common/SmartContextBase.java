@@ -47,11 +47,11 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
 
         private static final long serialVersionUID = 1L;
 
-        protected ContextMap() {
+        public ContextMap() {
             super();
         }
 
-        protected ContextMap(ContextMap contextMap) {
+        public ContextMap(ContextMap contextMap) {
             super(contextMap);
         }
     }

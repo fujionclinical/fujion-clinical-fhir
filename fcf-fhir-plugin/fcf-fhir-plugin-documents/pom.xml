@@ -5,11 +5,11 @@
 
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-plugin-parent</artifactId>
+		<artifactId>fcf-fhir-plugin</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fcf-fhir-plugin-documents-parent</artifactId>
+	<artifactId>fcf-fhir-plugin-documents</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>FHIR Documents Plugin Aggregator</name>

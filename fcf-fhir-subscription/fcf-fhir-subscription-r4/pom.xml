@@ -3,7 +3,7 @@
 	
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-subscription-parent</artifactId>
+		<artifactId>fcf-fhir-subscription</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
