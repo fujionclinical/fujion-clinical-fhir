@@ -15,7 +15,7 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-lib-patientselection-core-dstu2</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>

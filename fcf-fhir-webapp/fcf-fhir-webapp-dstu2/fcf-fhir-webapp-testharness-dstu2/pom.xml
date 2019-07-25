@@ -79,11 +79,13 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<!-- SMART Support -->
+		<!--
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-smart-dstu2</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		-->
 		<!-- Fujion Clinical Framework components -->
 		<dependency>
 			<groupId>org.fujionclinical</groupId>

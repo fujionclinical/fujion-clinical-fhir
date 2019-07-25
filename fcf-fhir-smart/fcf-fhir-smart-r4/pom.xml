@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-api-r4</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-smart-common</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

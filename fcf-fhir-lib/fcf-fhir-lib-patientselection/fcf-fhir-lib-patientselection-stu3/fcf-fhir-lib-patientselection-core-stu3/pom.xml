@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-ui-stu3</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-lib-patientselection-common</artifactId>
-			<version>${project.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>
