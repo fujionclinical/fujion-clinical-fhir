@@ -148,6 +148,7 @@ public class ScenarioManagerController extends PluginController implements IScen
         return disable;
     }
 
+    @EventHandler(value = "change", target = "@cboScenarios")
     private void onChange$cboScenarios(Event event) {
         if (event.getData() instanceof Comboitem) {
             cboScenarios.setSelectedItem((Comboitem) event.getData());

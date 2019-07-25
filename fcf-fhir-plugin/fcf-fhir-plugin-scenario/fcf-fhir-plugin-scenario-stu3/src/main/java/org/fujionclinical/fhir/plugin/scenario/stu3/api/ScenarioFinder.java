@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.scenario.stu3.api;
 
-import org.fujion.common.MiscUtil;
+import org.fujion.common.Logger;
 import org.fujionclinical.fhir.stu3.api.common.BaseService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -36,19 +36,21 @@ import org.springframework.core.io.Resource;
  * Registry that detects and automatically registers scenario definitions.
  */
 public class ScenarioFinder implements ApplicationContextAware {
-    
+
+    private static final Logger log = Logger.create(ScenarioFinder.class);
+
     private final String scenarioBase;
-    
+
     private final BaseService fhirService;
-    
+
     private final ScenarioRegistry scenarioRegistry;
-    
+
     public ScenarioFinder(String scenarioBase, ScenarioRegistry scenarioRegistry, BaseService fhirService) {
         this.scenarioBase = scenarioBase;
         this.scenarioRegistry = scenarioRegistry;
         this.fhirService = fhirService;
     }
-    
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
@@ -56,7 +58,7 @@ public class ScenarioFinder implements ApplicationContextAware {
                 scenarioRegistry.register(new Scenario(yaml, fhirService));
             }
         } catch (Exception e) {
-            throw MiscUtil.toUnchecked(e);
+            log.warn("Error loading scenarios from folder " + scenarioBase + ":\n" + e.getMessage());
         }
     }
 }
