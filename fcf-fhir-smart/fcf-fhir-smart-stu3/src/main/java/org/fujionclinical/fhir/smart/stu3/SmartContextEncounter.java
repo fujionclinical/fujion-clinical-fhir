@@ -51,7 +51,7 @@ public class SmartContextEncounter extends SmartContextBase {
         Encounter encounter = EncounterContext.getActiveEncounter();
 
         if (encounter != null) {
-            context.put("encounterId", encounter.getIdElement().getIdPart());
+            context.put("encounter", encounter.getIdElement().getIdPart());
         }
     }
 

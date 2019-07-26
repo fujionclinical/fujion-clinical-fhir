@@ -106,7 +106,7 @@ public class SmartLocator implements ApplicationContextAware {
 
             PluginDefinition definition = new PluginDefinition();
             String name = manifest.getValue("client_name");
-            definition.setId(StrUtil.xlate(manifest.getValue("client_id"), " @", "__"));
+            definition.setId("smart_" + StrUtil.xlate(manifest.getValue("client_id"), " @", "__"));
             definition.setName(name);
             definition.setUrl(manifest.getValue("launch_uri"));
             definition.setClazz(SmartPlugin.class);

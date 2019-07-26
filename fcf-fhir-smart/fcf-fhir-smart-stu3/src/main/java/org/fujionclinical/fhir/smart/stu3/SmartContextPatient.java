@@ -52,7 +52,7 @@ public class SmartContextPatient extends SmartContextBase {
         Patient patient = PatientContext.getActivePatient();
 
         if (patient != null) {
-            context.put("patientId", patient.getIdElement().getIdPart());
+            context.put("patient", patient.getIdElement().getIdPart());
         }
     }
 

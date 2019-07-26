@@ -73,8 +73,8 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
         if (src != null && !src.startsWith("http")) {
             String requestUrl = StringUtils.substringBeforeLast(getPage().getRequestUrl(), "/");
             src = requestUrl + "/" + src;
-
         }
+
         propertyChange("src", this.src, this.src = src, true);
     }
 

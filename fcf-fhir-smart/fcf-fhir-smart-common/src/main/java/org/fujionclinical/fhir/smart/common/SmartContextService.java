@@ -96,13 +96,9 @@ public class SmartContextService {
 
         for (ContextMap context : contexts) {
             combinedContexts.putAll(context);
-
-            for (Entry<String, String> entry : context.entrySet()) {
-                qs.append(entry.getKey(), entry.getValue());
-            }
         }
         
-        if (qs.length() > 0) {
+        if (!combinedContexts.isEmpty()) {
             qs.append("iss", serviceRoot);
             qs.append("launch", smartContextBinder.bindContext(combinedContexts));
         }
