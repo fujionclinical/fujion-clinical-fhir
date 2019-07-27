@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.scenario.dstu2.api;
 
+import ca.uhn.fhir.model.api.IResource;
 import ca.uhn.fhir.model.api.Tag;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.BaseResource;
@@ -33,7 +34,6 @@ import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.instance.model.api.IDomainResource;
 
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -198,7 +198,7 @@ public class ScenarioUtil {
         synchronized (resourceClasses) {
             if (resourceClasses.isEmpty()) {
                 FastClasspathScanner fcs = new FastClasspathScanner("ca.uhn.fhir.model.dstu2.resource");
-                fcs.matchClassesImplementing(IDomainResource.class, implementingClass -> {
+                fcs.matchClassesImplementing(IResource.class, implementingClass -> {
                     if (!Modifier.isAbstract(implementingClass.getModifiers())) {
                         resourceClasses.add(implementingClass);
                     }
