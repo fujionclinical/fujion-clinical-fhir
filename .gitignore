@@ -25,3 +25,5 @@ hs_err_pid*
 
 #code signing
 codesigning.asc
+
+fcf.properties
