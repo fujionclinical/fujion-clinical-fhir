@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.common.core;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.narrative.CustomThymeleafNarrativeGenerator;
 import org.apache.commons.io.IOUtils;
+import org.fujion.common.Logger;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.INarrative;
 import org.springframework.beans.BeansException;
@@ -41,7 +42,9 @@ import java.io.*;
  * Wraps hapi-fhir's narrative generator as a service.
  */
 public abstract class BaseNarrativeService implements ApplicationContextAware {
-    
+
+    private static final Logger log = Logger.create(BaseNarrativeService.class);
+
     private final CustomThymeleafNarrativeGenerator generator;
 
     private final FhirContext fhirContext;
@@ -104,24 +107,38 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
         try {
             File file = File.createTempFile("fcf", ".properties");
             file.deleteOnExit();
+            String fhirVersion = fhirContext.getVersion().getVersion().toString().toLowerCase().replace("dstu3", "stu3");
+            String propFile = "fhir-narratives-" + fhirVersion + ".properties";
+            boolean found = false;
 
             try (FileOutputStream out = new FileOutputStream(file)) {
-                findPropertyFiles(applicationContext, "classpath*:META-INF/fhir-narratives.properties", out);
-                findPropertyFiles(applicationContext, "classpath*:WEB-INF/fhir-narratives.properties", out);
+                found |= findPropertyFiles(applicationContext, "classpath*:META-INF/" + propFile, out);
+                found |= findPropertyFiles(applicationContext, "classpath*:WEB-INF/" + propFile, out);
             }
             
             generator.setPropertyFile("file:" + file.getAbsolutePath());
+
+            if (!found) {
+                log.warn("No FHIR narrative templates found.");
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
                 
-    private void findPropertyFiles(ApplicationContext applicationContext, String path, OutputStream out) throws IOException {
+    private boolean findPropertyFiles(ApplicationContext applicationContext, String path, OutputStream out) throws IOException {
+        boolean found = false;
+
         for (Resource resource : applicationContext.getResources(path)) {
-                try (InputStream in = resource.getInputStream()) {
-                    IOUtils.copy(in, out);
-                }
+            log.info("Found FHIR narrative template at " + resource);
+            found = true;
+
+            try (InputStream in = resource.getInputStream()) {
+                IOUtils.copy(in, out);
             }
         }
+
+        return found;
+    }
 
 }
