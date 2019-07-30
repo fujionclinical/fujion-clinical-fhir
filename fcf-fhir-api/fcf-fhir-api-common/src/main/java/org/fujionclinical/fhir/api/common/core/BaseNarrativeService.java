@@ -118,10 +118,10 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
                 
     private void findPropertyFiles(ApplicationContext applicationContext, String path, OutputStream out) throws IOException {
         for (Resource resource : applicationContext.getResources(path)) {
-                    try (InputStream in = resource.getInputStream()) {
-                        IOUtils.copy(in, out);
-                    }
+                try (InputStream in = resource.getInputStream()) {
+                    IOUtils.copy(in, out);
                 }
             }
+        }
 
 }
