@@ -67,6 +67,7 @@ public class BaseService {
      */
     public BaseService(IGenericClient client) {
         this.client = client;
+        FhirUtil.assertFhirVersion(client);
     }
     
     /**

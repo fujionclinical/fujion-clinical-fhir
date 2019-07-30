@@ -25,6 +25,8 @@
  */
 package org.fujionclinical.fhir.dstu2.api.common;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.OperationOutcome;
@@ -36,6 +38,7 @@ import ca.uhn.fhir.model.dstu2.valueset.UnitsOfTimeEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.rest.api.MethodOutcome;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.MethodUtils;
 import org.fujion.common.DateUtil;
@@ -849,7 +852,29 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         
         return resource;
     }
-    
+
+    /**
+     * Asserts that the actual and the expected FHIR versions are the same.  Throws
+     * an exception if not.
+     *
+     * @param fhirClient The FHIR client.
+     * @exception IllegalStateException If the versions do not match.
+     */
+    public static void assertFhirVersion(IGenericClient fhirClient) {
+        assertFhirVersion(fhirClient.getFhirContext());
+    }
+
+    /**
+     * Asserts that the actual and the expected FHIR versions are the same.  Throws
+     * an exception if not.
+     *
+     * @param fhirContext The FHIR context.
+     * @exception IllegalStateException If the versions do not match.
+     */
+    public static void assertFhirVersion(FhirContext fhirContext) {
+        assertFhirVersion(fhirContext, FhirVersionEnum.DSTU2);
+    }
+
     /**
      * Enforce static class.
      */

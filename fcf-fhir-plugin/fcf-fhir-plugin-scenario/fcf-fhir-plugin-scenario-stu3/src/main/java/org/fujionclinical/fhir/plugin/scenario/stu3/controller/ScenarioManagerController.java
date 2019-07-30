@@ -108,7 +108,7 @@ public class ScenarioManagerController extends PluginController implements Scena
      * Demonstration Configuration Helper Class.
      */
     public static void show() {
-        DialogUtil.popup("web/org/fujionclinical/fhir/plugin/scenario/stu3/scenarioManagerWin.fsp", true, true, true);
+        DialogUtil.popup("web/org/fujionclinical/fhir/plugin/scenario/common/scenarioManagerWin.fsp", true, true, true);
     }
     
     public ScenarioManagerController(ScenarioRegistry scenarioRegistry) {

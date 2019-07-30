@@ -33,7 +33,6 @@ import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Collection;
-import java.util.Map.Entry;
 
 /**
  * Provides full launch url for SMART apps.

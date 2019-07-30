@@ -109,7 +109,7 @@ public class ScenarioManagerController extends PluginController implements IScen
      * Demonstration Configuration Helper Class.
      */
     public static void show() {
-        DialogUtil.popup("web/org/fujionclinical/fhir/plugin/scenario/dstu2/scenarioManagerWin.fsp", true, true, true);
+        DialogUtil.popup("web/org/fujionclinical/fhir/plugin/scenario/common/scenarioManagerWin.fsp", true, true, true);
     }
     
     public ScenarioManagerController(ScenarioRegistry scenarioRegistry) {

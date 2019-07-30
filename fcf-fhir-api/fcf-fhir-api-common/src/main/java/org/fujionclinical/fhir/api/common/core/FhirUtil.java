@@ -25,6 +25,9 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.context.FhirVersionEnum;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.UrlUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -33,6 +36,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.springframework.util.Assert;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -408,6 +412,53 @@ public class FhirUtil {
         }
         
         return dest;
+    }
+
+    /**
+     * Returns the FHIR version of the client.
+     *
+     * @param fhirClient The FHIR client.
+     * @return The FHIR version.
+     */
+    public static FhirVersionEnum getFhirVersion(IGenericClient fhirClient) {
+        return getFhirVersion(fhirClient.getFhirContext());
+    }
+
+    /**
+     * Returns the FHIR version of the context.
+     *
+     * @param fhirContext The FHIR context.
+     * @return The FHIR version.
+     */
+    public static FhirVersionEnum getFhirVersion(FhirContext fhirContext) {
+        return fhirContext.getVersion().getVersion();
+    }
+
+    /**
+     * Asserts that the actual and the expected FHIR versions are the same.  Throws
+     * an exception if not.
+     *
+     * @param fhirClient The FHIR client.
+     * @param expected The expected version.
+     * @exception IllegalStateException If the versions do not match.
+     */
+    public static void assertFhirVersion(IGenericClient fhirClient, FhirVersionEnum expected) {
+        assertFhirVersion(fhirClient.getFhirContext(), expected);
+    }
+
+    /**
+     * Asserts that the actual and the expected FHIR versions are the same.  Throws
+     * an exception if not.
+     *
+     * @param fhirContext The FHIR context.
+     * @param expected The expected version.
+     * @exception IllegalStateException If the versions do not match.
+     */
+    public static void assertFhirVersion(FhirContext fhirContext, FhirVersionEnum expected) {
+        FhirVersionEnum found = getFhirVersion(fhirContext);
+
+        Assert.state(getFhirVersion(fhirContext) == expected, () ->
+                "FHIR version mismatch.  Expected " + expected + " but found " + found);
     }
 
     /**
