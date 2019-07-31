@@ -15,6 +15,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-plugin-orders-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-lib-reports-dstu2</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

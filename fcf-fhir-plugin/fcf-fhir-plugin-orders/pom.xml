@@ -15,6 +15,7 @@
 	<name>FHIR Orders Plugin Aggregator</name>
 
 	<modules>
+		<module>fcf-fhir-plugin-orders-common</module>
 		<module>fcf-fhir-plugin-orders-dstu2</module>
 		<module>fcf-fhir-plugin-orders-r4</module>
 		<module>fcf-fhir-plugin-orders-stu3</module>

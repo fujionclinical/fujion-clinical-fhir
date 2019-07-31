@@ -16,6 +16,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-plugin-observations-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-lib-reports-r4</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
