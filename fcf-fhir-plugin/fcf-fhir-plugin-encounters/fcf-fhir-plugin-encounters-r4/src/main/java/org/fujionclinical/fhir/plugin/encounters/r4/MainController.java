@@ -25,7 +25,13 @@
  */
 package org.fujionclinical.fhir.plugin.encounters.r4;
 
+import org.fujion.annotation.WiredComponent;
+import org.fujion.component.*;
+import org.fujion.event.DblclickEvent;
+import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.fhir.r4.api.encounter.EncounterContext;
 import org.fujionclinical.fhir.lib.reports.r4.controller.ResourceListView;
+import org.fujionclinical.shell.elements.ElementPlugin;
 import org.hl7.fhir.r4.model.Encounter;
 
 import java.util.List;
@@ -35,13 +41,25 @@ import java.util.List;
  */
 public class MainController extends ResourceListView<Encounter, Encounter> {
 
+    private Encounter lastEncounter;
+
+    @WiredComponent
+    private Rows rows;
+
+    @WiredComponent
+    private Columns columns;
+
+    private final IGenericEvent<Encounter> encounterChangeListener = (eventName, encounter) -> setEncounter(encounter);
+
     @Override
     protected void setup() {
-        setup(Encounter.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "Date", "Status", "Location", "Providers");
+        setup(Encounter.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "Status", "Location", "Providers");
+        columns.getFirstChild(Column.class).setStyles("width: 1%; min-width: 40px");
     }
 
     @Override
     protected void render(Encounter encounter, List<Object> columns) {
+        columns.add(" ");
         columns.add(encounter.getPeriod());
         columns.add(encounter.getStatus());
         columns.add(encounter.getLocation());
@@ -53,4 +71,48 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         model.addAll(entries);
     }
 
+    @Override
+    protected void renderRow(Row row, Encounter encounter) {
+        super.renderRow(row, encounter);
+
+        row.addEventListener(DblclickEvent.class, (event) -> {
+            EncounterContext.changeEncounter(encounter);
+        });
+    }
+
+    @Override
+    public void onLoad(ElementPlugin plugin) {
+        super.onLoad(plugin);
+        EncounterContext.getEncounterContext().addListener(encounterChangeListener);
+        lastEncounter = EncounterContext.getActiveEncounter();
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        EncounterContext.getEncounterContext().removeListener(encounterChangeListener);
+    }
+
+    private void setEncounter(Encounter encounter) {
+        updateRowStatus(lastEncounter, false);
+        updateRowStatus(encounter, true);
+        lastEncounter = encounter;
+    }
+
+    private void updateRowStatus(Encounter encounter, boolean activeContext) {
+        Row row = encounter == null ? null : (Row) rows.findChildByData(encounter);
+
+        if (row != null) {
+            Rowcell cell = row.getFirstChild(Rowcell.class);
+            BaseUIComponent flag;
+
+            if (cell.hasChildren()) {
+                flag = (BaseUIComponent) cell.getFirstChild();
+            } else {
+                cell.addChild(flag = new Div());
+            }
+
+            flag.setClasses(activeContext ? "fa fa-check" : "-fa -fa-check");
+        }
+    }
 }
