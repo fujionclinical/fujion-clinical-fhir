@@ -801,6 +801,7 @@ public class PatientSelectionController extends FrameworkController {
         root.removeAttribute(Constants.SELECTED_PATIENT_ATTRIB);
         grdSearch.getRows().clearSelected();
         onChange$rgrpLists();
+        edtSearch.focus();
 
         if (root.getMode() != Mode.MODAL) {
             root.modal(null);
