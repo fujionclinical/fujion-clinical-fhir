@@ -47,7 +47,7 @@ import org.fujionclinical.fhir.subscription.stu3.ResourceSubscriptionManager;
 import org.fujionclinical.fhir.subscription.stu3.SubscriptionWrapper;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.ui.sharedforms.ListFormController;
+import org.fujionclinical.ui.sharedforms.controller.ListFormController;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Patient;
