@@ -30,13 +30,15 @@ import org.fujion.component.*;
 import org.fujion.model.IComponentRenderer;
 import org.fujionclinical.fhir.stu3.api.document.Document;
 import org.fujionclinical.fhir.stu3.api.document.DocumentContent;
-import org.fujionclinical.ui.reports.common.ReportConstants;
+import org.fujionclinical.ui.sharedforms.common.FormConstants;
 
 /**
  * Renderer for the document display.
  */
 public class DocumentDisplayRenderer implements IComponentRenderer<Row, Document> {
-    
+
+    private static final String SCLASS_TEXT_REPORT_TITLE = "fcf-documents-title";
+
     /**
      * Render the list item for the specified document.
      *
@@ -52,12 +54,12 @@ public class DocumentDisplayRenderer implements IComponentRenderer<Row, Document
         sep.addClass("fcf-documents-sep");
         cell.addChild(sep);
         Div div = new Div();
-        div.addClass(ReportConstants.SCLASS_TEXT_REPORT_TITLE);
+        div.addClass(SCLASS_TEXT_REPORT_TITLE);
         cell.addChild(div);
         Div boxHeader = new Div();
         div.addClass("fujion-layout-horizontal");
         Label header = new Label(doc.getTitle());
-        header.addClass(ReportConstants.SCLASS_TEXT_REPORT_TITLE);
+        header.addClass(SCLASS_TEXT_REPORT_TITLE);
         boxHeader.addChild(header);
         div.addChild(boxHeader);
         

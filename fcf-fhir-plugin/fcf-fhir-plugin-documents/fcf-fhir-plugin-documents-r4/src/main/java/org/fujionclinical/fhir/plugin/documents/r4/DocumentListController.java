@@ -39,7 +39,7 @@ import org.fujionclinical.fhir.lib.reports.r4.controller.PatientQueryParameter;
 import org.fujionclinical.fhir.r4.api.document.Document;
 import org.fujionclinical.fhir.r4.api.document.DocumentListDataService;
 import org.fujionclinical.fhir.r4.api.document.DocumentService;
-import org.fujionclinical.ui.reports.controller.AbstractGridController;
+import org.fujionclinical.ui.sharedforms.controller.AbstractGridController;
 
 import java.util.*;
 
