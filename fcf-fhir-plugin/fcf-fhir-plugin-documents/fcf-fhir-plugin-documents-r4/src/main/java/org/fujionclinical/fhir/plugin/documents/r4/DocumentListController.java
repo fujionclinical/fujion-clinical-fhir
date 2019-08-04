@@ -35,7 +35,7 @@ import org.fujion.model.IListModel;
 import org.fujionclinical.api.query.AbstractQueryFilter;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
-import org.fujionclinical.fhir.lib.reports.r4.controller.PatientQueryParameter;
+import org.fujionclinical.fhir.lib.sharedforms.r4.controller.PatientQueryParameter;
 import org.fujionclinical.fhir.r4.api.document.Document;
 import org.fujionclinical.fhir.r4.api.document.DocumentListDataService;
 import org.fujionclinical.fhir.r4.api.document.DocumentService;

@@ -22,11 +22,6 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-subscription-stu3</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>

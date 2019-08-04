@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.observations.stu3;
 
-import org.fujionclinical.fhir.lib.reports.stu3.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Type;

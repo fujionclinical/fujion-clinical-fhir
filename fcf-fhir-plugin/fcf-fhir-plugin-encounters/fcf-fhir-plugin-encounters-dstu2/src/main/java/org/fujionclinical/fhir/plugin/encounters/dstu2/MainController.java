@@ -31,7 +31,7 @@ import org.fujion.component.*;
 import org.fujion.event.DblclickEvent;
 import org.fujionclinical.api.event.IGenericEvent;
 import org.fujionclinical.fhir.dstu2.api.encounter.EncounterContext;
-import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
 
 import java.util.List;

@@ -30,7 +30,7 @@ import org.fujion.component.*;
 import org.fujion.event.DblclickEvent;
 import org.fujionclinical.api.event.IGenericEvent;
 import org.fujionclinical.fhir.r4.api.encounter.EncounterContext;
-import org.fujionclinical.fhir.lib.reports.r4.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.hl7.fhir.r4.model.Encounter;
 

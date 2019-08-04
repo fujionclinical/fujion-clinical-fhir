@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.resource.FamilyMemberHistory;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
-import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
 import java.util.List;
 

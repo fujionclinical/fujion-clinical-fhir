@@ -35,7 +35,7 @@ import org.fujion.common.DateUtil;
 import org.fujion.component.Label;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
-import org.fujionclinical.fhir.lib.reports.common.ReportConstants;
+import org.fujionclinical.fhir.lib.reports.common.Constants;
 import org.fujionclinical.ui.reports.header.ReportHeaderBase;
 import org.fujionclinical.ui.reports.header.ReportHeaderRegistry;
 
@@ -48,7 +48,7 @@ public class ReportHeaderPatient extends ReportHeaderBase {
 
     static {
         ReportHeaderRegistry.getInstance().register("patient",
-                ReportConstants.RESOURCE_PREFIX + "patientReportHeader.fsp");
+                Constants.RESOURCE_PREFIX + "patientReportHeader.fsp");
     }
 
     @WiredComponent(onFailure = OnFailure.IGNORE)

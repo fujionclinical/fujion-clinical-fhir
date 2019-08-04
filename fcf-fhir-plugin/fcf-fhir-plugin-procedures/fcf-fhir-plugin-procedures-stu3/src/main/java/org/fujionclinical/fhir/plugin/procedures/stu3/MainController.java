@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.procedures.stu3;
 
-import org.fujionclinical.fhir.lib.reports.stu3.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.Procedure;
 
 import java.util.List;

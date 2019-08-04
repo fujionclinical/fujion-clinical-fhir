@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.fujionclinical</groupId>
+		<artifactId>fcf-fhir-lib-sharedforms</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	
+	<name>FHIR Shared Forms (DSTU2)</name>
+	<artifactId>fcf-fhir-lib-sharedforms-dstu2</artifactId>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-lib-sharedforms-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-api-dstu2</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-subscription-dstu2</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ca.uhn.hapi.fhir</groupId>
+			<artifactId>hapi-fhir-structures-dstu2</artifactId>
+			<version>${hapi.fhir.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+	</dependencies>
+</project>

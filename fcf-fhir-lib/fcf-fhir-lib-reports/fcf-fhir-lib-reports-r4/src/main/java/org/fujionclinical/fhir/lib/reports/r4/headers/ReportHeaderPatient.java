@@ -30,7 +30,7 @@ import org.fujion.annotation.OnFailure;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.common.DateUtil;
 import org.fujion.component.Label;
-import org.fujionclinical.fhir.lib.reports.common.ReportConstants;
+import org.fujionclinical.fhir.lib.reports.common.Constants;
 import org.fujionclinical.fhir.r4.api.common.FhirUtil;
 import org.fujionclinical.fhir.r4.api.patient.PatientContext;
 import org.fujionclinical.ui.reports.header.ReportHeaderBase;
@@ -47,7 +47,7 @@ import java.util.Date;
 public class ReportHeaderPatient extends ReportHeaderBase {
 
     static {
-        ReportHeaderRegistry.getInstance().register("patient", ReportConstants.RESOURCE_PREFIX + "patientReportHeader.fsp");
+        ReportHeaderRegistry.getInstance().register("patient", Constants.RESOURCE_PREFIX + "patientReportHeader.fsp");
     }
 
     @WiredComponent(onFailure = OnFailure.IGNORE)

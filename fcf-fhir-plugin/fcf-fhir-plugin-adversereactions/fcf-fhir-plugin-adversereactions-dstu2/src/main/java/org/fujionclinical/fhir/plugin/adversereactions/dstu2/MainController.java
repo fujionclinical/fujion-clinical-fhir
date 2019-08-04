@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance;
 import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance.Reaction;
 import ca.uhn.fhir.model.dstu2.valueset.AllergyIntoleranceStatusEnum;
 import org.apache.commons.lang3.StringUtils;
-import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
 import java.util.HashSet;
 import java.util.List;

@@ -35,7 +35,7 @@ import org.apache.commons.lang.StringUtils;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.dstu2.api.common.ClientUtil;
 import org.fujionclinical.fhir.dstu2.api.medication.MedicationService;
-import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
 import java.util.List;
 

@@ -31,7 +31,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.primitive.BooleanDt;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
-import org.fujionclinical.fhir.lib.reports.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 

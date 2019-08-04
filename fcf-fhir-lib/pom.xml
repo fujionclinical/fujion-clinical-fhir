@@ -14,5 +14,6 @@
 	<modules>
 		<module>fcf-fhir-lib-patientselection</module>
 		<module>fcf-fhir-lib-reports</module>
+		<module>fcf-fhir-lib-sharedforms</module>
 	</modules>
 </project>

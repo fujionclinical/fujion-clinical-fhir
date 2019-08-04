@@ -3,7 +3,7 @@
 	
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-lib-reports</artifactId>
+		<artifactId>fcf-fhir-lib-sharedforms</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	
@@ -19,11 +19,6 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-api-r4</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-subscription-r4</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.diagnosticreports.stu3;
 
-import org.fujionclinical.fhir.lib.reports.stu3.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.DiagnosticReport;
 
 import java.util.List;

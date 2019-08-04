@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.medicationorders.r4;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.lib.reports.r4.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.fujionclinical.fhir.r4.api.medication.MedicationService;
 import org.hl7.fhir.r4.model.Dosage;
 import org.hl7.fhir.r4.model.Medication;

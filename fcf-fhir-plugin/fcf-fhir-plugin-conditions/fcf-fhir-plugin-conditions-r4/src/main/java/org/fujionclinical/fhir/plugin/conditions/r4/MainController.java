@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.conditions.r4;
 
-import org.fujionclinical.fhir.lib.reports.r4.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.hl7.fhir.r4.model.Condition;
 
 import java.util.List;
