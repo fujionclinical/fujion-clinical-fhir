@@ -6,7 +6,7 @@
 
 	<beans profile="child">
 
-		<bean id="fcfEncountersController" parent="reportListViewBase"
+		<bean id="fcfEncountersController" parent="resourceListViewBase"
 			  class="org.fujionclinical.fhir.plugin.encounters.dstu2.MainController" scope="prototype" />
 
 	</beans>

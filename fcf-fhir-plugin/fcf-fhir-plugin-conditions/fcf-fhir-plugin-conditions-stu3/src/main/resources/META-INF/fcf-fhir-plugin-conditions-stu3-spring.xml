@@ -6,7 +6,7 @@
 
 	<beans profile="child">
 
-		<bean id="fcfConditionsController" parent="reportListViewBase"
+		<bean id="fcfConditionsController" parent="resourceListViewBase"
 			  class="org.fujionclinical.fhir.plugin.conditions.stu3.MainController" scope="prototype" />
 
 	</beans>

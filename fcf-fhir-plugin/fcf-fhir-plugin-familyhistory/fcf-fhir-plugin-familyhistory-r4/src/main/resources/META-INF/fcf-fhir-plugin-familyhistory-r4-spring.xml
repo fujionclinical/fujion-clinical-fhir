@@ -6,7 +6,7 @@
 
 	<beans profile="child">
 
-		<bean id="fcfFamilyHistoryController" parent="reportListViewBase"
+		<bean id="fcfFamilyHistoryController" parent="resourceListViewBase"
               class="org.fujionclinical.fhir.plugin.familyhistory.r4.MainController" scope="prototype" />
 
 	</beans>

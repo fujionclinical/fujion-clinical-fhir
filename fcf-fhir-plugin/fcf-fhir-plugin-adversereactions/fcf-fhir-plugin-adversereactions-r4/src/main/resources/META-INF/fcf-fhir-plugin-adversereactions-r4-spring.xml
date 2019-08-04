@@ -6,7 +6,7 @@
 
 	<beans profile="child">
 
-		<bean id="fcfAdverseReactionsController" parent="reportListViewBase"
+		<bean id="fcfAdverseReactionsController" parent="resourceListViewBase"
 			  class="org.fujionclinical.fhir.plugin.adversereactions.r4.MainController" scope="prototype" />
 
 	</beans>

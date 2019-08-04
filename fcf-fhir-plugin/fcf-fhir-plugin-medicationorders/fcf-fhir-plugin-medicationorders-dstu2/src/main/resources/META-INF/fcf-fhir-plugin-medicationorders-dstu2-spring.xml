@@ -6,7 +6,7 @@
 
 	<beans profile="child">
 
-		<bean id="fcfMedicationOrdersController" parent="reportListViewBase" scope="prototype"
+		<bean id="fcfMedicationOrdersController" parent="resourceListViewBase" scope="prototype"
 			class="org.fujionclinical.fhir.plugin.medicationorders.dstu2.MainController">
 			<constructor-arg ref="fhirMedicationService" />
 		</bean>
