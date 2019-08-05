@@ -33,6 +33,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.fujion.common.Logger;
+import org.fujion.component.Image;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -44,9 +46,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Domain object utility methods.
+ * FHIR utility methods.
  */
 public class FhirUtil {
+
+    protected static final Logger log = Logger.create(FhirUtil.class);
 
     /**
      * Adds a tag to a resource if not already present.
@@ -459,6 +463,10 @@ public class FhirUtil {
 
         Assert.state(getFhirVersion(fhirContext) == expected, () ->
                 "FHIR version mismatch.  Expected " + expected + " but found " + found);
+    }
+
+    public static Image getImage(String url) {
+        return new Image(url);
     }
 
     /**

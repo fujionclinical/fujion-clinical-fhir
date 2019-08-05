@@ -37,8 +37,6 @@ import org.fujionclinical.ui.sharedforms.common.FormConstants;
  */
 public class DocumentDisplayRenderer implements IComponentRenderer<Row, Document> {
 
-    private static final String SCLASS_TEXT_REPORT_TITLE = "fcf-documents-title";
-
     /**
      * Render the list item for the specified document.
      *
@@ -54,12 +52,12 @@ public class DocumentDisplayRenderer implements IComponentRenderer<Row, Document
         sep.addClass("fcf-documents-sep");
         cell.addChild(sep);
         Div div = new Div();
-        div.addClass(SCLASS_TEXT_REPORT_TITLE);
+        div.addClass(FormConstants.SCLASS_DOCUMENT_TITLE);
         cell.addChild(div);
         Div boxHeader = new Div();
         div.addClass("fujion-layout-horizontal");
         Label header = new Label(doc.getTitle());
-        header.addClass(SCLASS_TEXT_REPORT_TITLE);
+        header.addClass(FormConstants.SCLASS_DOCUMENT_TITLE);
         boxHeader.addChild(header);
         div.addChild(boxHeader);
         

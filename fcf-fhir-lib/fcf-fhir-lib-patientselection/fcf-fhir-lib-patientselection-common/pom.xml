@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-ui-core</artifactId>
+			<artifactId>fcf-shell</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>

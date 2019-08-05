@@ -36,7 +36,6 @@ import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.ui.dstu2.Util;
 import org.fujionclinical.ui.controller.FrameworkController;
 
 /**
@@ -69,7 +68,7 @@ public class PatientPhoto extends FrameworkController implements PatientContext.
     @Override
     public void committed() {
         Patient patient = PatientContext.getActivePatient();
-        Image image = patient == null ? null : Util.getImage(patient.getPhoto());
+        Image image = patient == null ? null : FhirUtil.getImage(patient.getPhoto());
 
         if (patient == null) {
             imgPhoto.setSrc(Constants.NOPATIENT_IMAGE);

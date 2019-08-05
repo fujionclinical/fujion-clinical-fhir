@@ -34,7 +34,6 @@ import org.fujion.component.Image;
 import org.fujion.component.Label;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
 import org.fujionclinical.fhir.r4.api.common.FhirUtil;
-import org.fujionclinical.fhir.ui.r4.Util;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Address.AddressUse;
 
@@ -69,7 +68,7 @@ public class PatientDetailRenderer implements IPatientDetailRenderer {
         root.addChild(new Div());
         Image photo = new Image();
         photo.setStyles("max-height:300px;max-width:300px;padding-bottom:10px");
-        photo.setSrc(Util.getImage(patient.getPhoto(), Constants.SILHOUETTE_IMAGE).getSrc());
+        photo.setSrc(FhirUtil.getImage(patient.getPhoto(), Constants.SILHOUETTE_IMAGE).getSrc());
         root.addChild(photo);
         addDemographic(root, null, FhirUtil.formatName(patient.getName()), "font-weight: bold");
         addDemographic(root, "mrn", FhirUtil.getMRNString(patient));

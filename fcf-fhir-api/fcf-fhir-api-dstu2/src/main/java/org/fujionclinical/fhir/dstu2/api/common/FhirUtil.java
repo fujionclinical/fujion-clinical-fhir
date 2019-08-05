@@ -41,7 +41,9 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.MethodUtils;
+import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
+import org.fujion.component.Image;
 import org.fujionclinical.fhir.dstu2.api.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -54,7 +56,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Domain object utility methods.
+ * FHIR utility methods.
  */
 public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     
@@ -571,6 +573,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         try {
             return value == null ? null : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
         } catch (Exception e) {
+            log.error("Cannot convert datatype '" + value.getClass().getName() + "' for display", e);
             return value.toString();
         }
     }
@@ -873,6 +876,49 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      */
     public static void assertFhirVersion(FhirContext fhirContext) {
         assertFhirVersion(fhirContext, FhirVersionEnum.DSTU2);
+    }
+
+    /**
+     * Returns an image from a list of attachments.
+     *
+     * @param attachments List of attachments.
+     * @return An image component if a suitable attachment was found, or null.
+     */
+    public static Image getImage(List<AttachmentDt> attachments) {
+        return getImage(attachments, null);
+    }
+
+    /**
+     * Returns an image from a list of attachments.
+     *
+     * @param attachments List of attachments.
+     * @param defaultImage URL of default image to use if none found (may be null).
+     * @return An image component if a suitable attachment was found, or the default image if
+     *         specified, or null.
+     */
+    public static Image getImage(List<AttachmentDt> attachments, String defaultImage) {
+        for (AttachmentDt attachment : attachments) {
+            String contentType = attachment.getContentType();
+
+            if (contentType.startsWith("image/")) {
+                try {
+                    String url = attachment.getUrl();
+                    return url != null ? getImage(url) : new Image(new MimeContent(contentType, attachment.getData()));
+                } catch (Exception e) {
+
+                }
+            }
+        }
+
+        if (defaultImage != null) {
+            try {
+                return getImage(defaultImage);
+            } catch (Exception e) {
+
+            }
+        }
+
+        return null;
     }
 
     /**
