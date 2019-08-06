@@ -31,6 +31,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
 import org.fujion.component.Image;
@@ -574,7 +575,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         try {
             return value == null ? null : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
         } catch (Exception e) {
-            log.error("Cannot convert datatype '" + value.getClass().getName() + "' for display", e);
+            log.error("Cannot convert datatype '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
             return value.toString();
         }
     }

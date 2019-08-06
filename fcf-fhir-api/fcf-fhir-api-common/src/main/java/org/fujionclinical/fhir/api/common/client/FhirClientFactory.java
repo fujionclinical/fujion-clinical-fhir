@@ -29,6 +29,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
 import org.fujionclinical.fhir.security.common.IAuthInterceptor;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,10 +47,7 @@ public class FhirClientFactory {
     }
 
     public FhirClientFactory(FhirContext fhirContext) {
-        if (instance != null) {
-            throw new RuntimeException("Attempt to create a second instance of FhirClientFactory");
-        }
-
+        Assert.state(instance == null, "Attempt to create a second instance of FhirClientFactory");
         instance = this;
         this.fhirContext = fhirContext;
     }
@@ -71,11 +69,7 @@ public class FhirClientFactory {
      */
     public IGenericClient createClient(IFhirClientConfigurator config) {
         String qualifier = config.getQualifier();
-
-        if (registry.containsKey(qualifier)) {
-            throw new RuntimeException("A FHIR client qualifier named '" + qualifier + "' already exists");
-        }
-
+        Assert.isTrue(!registry.containsKey(qualifier), () -> "A FHIR client qualifier named '" + qualifier + "' already exists");
         IGenericClient client = fhirContext.newRestfulGenericClient(config.getServerBase());
         
         if (client instanceof GenericClient) {

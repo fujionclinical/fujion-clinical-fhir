@@ -41,6 +41,8 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
 import org.fujion.component.Image;
@@ -413,8 +415,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return null;
         }
 
-        if (!value.getText().isEmpty()) {
-            return value.getText();
+        String text = value.getText();
+
+        if (!StringUtils.isEmpty(text)) {
+            return text;
         }
 
         CodingDt coding = FhirUtil.getFirst(value.getCoding());
@@ -482,9 +486,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return null;
         }
 
-        String val = value.getValueElement().isEmpty() ? value.getValue().toString() : "";
-        String units = val.isEmpty() || value.getUnit().isEmpty() ? "" : (" " + value.getUnit());
-        return val + units;
+        BigDecimal rawValue = value.getValue();
+        String val = rawValue == null ? "" : rawValue.toString();
+        String units = val.isEmpty() ? null : StringUtils.trimToNull(value.getUnit());
+        return val + (units == null ? "" : " " + units);
     }
 
     /**
@@ -508,8 +513,8 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return null;
         }
 
-        String unit = value.getUnit().isEmpty() ? "" : " " + value.getUnit();
-        return value.getValue().toPlainString() + unit;
+        String unit = StringUtils.trimToNull(value.getUnit());
+        return value.getValue().toPlainString() + (unit == null ? "" : " " + unit);
     }
 
     /**
@@ -573,7 +578,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         try {
             return value == null ? null : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
         } catch (Exception e) {
-            log.error("Cannot convert datatype '" + value.getClass().getName() + "' for display", e);
+            log.error("Cannot convert datatype '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
             return value.toString();
         }
     }

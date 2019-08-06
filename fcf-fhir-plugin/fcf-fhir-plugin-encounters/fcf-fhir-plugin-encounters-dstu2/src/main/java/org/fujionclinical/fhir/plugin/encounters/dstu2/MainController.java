@@ -25,16 +25,21 @@
  */
 package org.fujionclinical.fhir.plugin.encounters.dstu2;
 
+import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
+import ca.uhn.fhir.model.dstu2.resource.Location;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.component.*;
 import org.fujion.event.DblclickEvent;
 import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.fhir.dstu2.api.common.ClientUtil;
+import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.dstu2.api.encounter.EncounterContext;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller for patient encounters display.
@@ -62,10 +67,29 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         columns.add(" ");
         columns.add(encounter.getPeriod());
         columns.add(encounter.getStatus());
-        columns.add(encounter.getLocation());
-        columns.add(encounter.getParticipant());
+        columns.add(getLocations(encounter));
+        columns.add(getParticipants(encounter));
     }
-    
+
+    private List<Location> getLocations(Encounter encounter) {
+        List<Encounter.Location> locations = encounter.getLocation();
+
+        return locations.isEmpty() ? null : locations.stream()
+                .map(encloc -> ClientUtil.getResource(encloc.getLocation(), Location.class))
+                .filter(location -> location != null)
+                .collect(Collectors.toList());
+    }
+
+    private List<HumanNameDt> getParticipants(Encounter encounter) {
+        List<Encounter.Participant> participants = encounter.getParticipant();
+
+        return participants.isEmpty() ? null : participants.stream()
+                .map(encpart -> ClientUtil.getResource(encpart.getIndividual()))
+                .map(individual -> FhirUtil.getProperty(individual, "getName", HumanNameDt.class))
+                .filter(name -> name != null)
+                .collect(Collectors.toList());
+    }
+
     @Override
     protected void initModel(List<Encounter> entries) {
         model.addAll(entries);

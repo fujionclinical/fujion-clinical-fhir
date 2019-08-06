@@ -38,6 +38,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Reference;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -162,11 +163,7 @@ public class BaseService {
         }
         
         String resourceId = reference.getReference();
-        
-        if (resourceId == null) {
-            throw new IllegalStateException("Reference has no resource ID defined");
-        }
-        
+        Assert.state(resourceId != null, "Reference has no resource ID defined");
         String resourceUrl = expandURL(resourceId);
         IBaseResource resource = getClient().read().resource(reference.getReferenceElement().getResourceType())
                 .withUrl(resourceUrl).execute();

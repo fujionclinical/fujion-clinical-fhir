@@ -38,6 +38,7 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -162,11 +163,7 @@ public class BaseService {
         }
         
         String resourceId = reference.getReference().getValue();
-        
-        if (resourceId == null) {
-            throw new IllegalStateException("ResourceReferenceDt has no resource ID defined");
-        }
-        
+        Assert.state(resourceId != null, "Reference has no resource ID defined");
         String resourceUrl = expandURL(resourceId);
         IBaseResource resource = getClient().read().resource(reference.getReferenceElement().getResourceType())
                 .withUrl(resourceUrl).execute();

@@ -7,13 +7,16 @@
 	<beans profile="root">
 	
 		<!-- FHIR context and client -->
-		<bean id="fhirContextConfigurator" class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator" />
+		<bean id="fhirContextConfigurator"
+			  class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator" />
 		
-		<bean id="fhirContext" class="org.fujionclinical.fhir.api.common.client.FhirContext">
+		<bean id="fhirContext"
+			  class="org.fujionclinical.fhir.api.common.client.FhirContext">
 			<constructor-arg ref="fhirContextConfigurator" />
 		</bean>
 		
-		<bean id="fhirClientFactory" class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
+		<bean id="fhirClientFactory"
+			  class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
 			<constructor-arg ref="fhirContext" />
 		</bean>
 		
@@ -40,11 +43,13 @@
 			</property>
 		</bean>
 		
-		<bean id="fhirNarrativeService" class="org.fujionclinical.fhir.dstu2.api.common.NarrativeService">
+		<bean id="fhirNarrativeService"
+			  class="org.fujionclinical.fhir.dstu2.api.common.NarrativeService">
 			<constructor-arg ref="fhirContext" />
 		</bean>
 		
-		<bean id="fhirService" class="org.fujionclinical.fhir.dstu2.api.common.BaseService">
+		<bean id="fhirService"
+			  class="org.fujionclinical.fhir.dstu2.api.common.BaseService">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 		
@@ -75,7 +80,8 @@
 		</bean>
 		
 		<!-- Domain factory  -->
-		<bean class="org.fujionclinical.fhir.dstu2.api.common.DomainFactory" factory-method="getInstance">
+		<bean factory-method="getInstance"
+				class="org.fujionclinical.fhir.dstu2.api.common.DomainFactory">
 			<property name="fhirClient" ref="fhirClient" />
 		</bean>
 		
@@ -83,22 +89,26 @@
 		<bean class="org.fujionclinical.fhir.dstu2.api.common.HumanNameSerializer" />
 		
 		<!-- Patient search engine -->
-		<bean id="patientSearchEngine" class="org.fujionclinical.fhir.dstu2.api.patient.PatientSearch">
+		<bean id="patientSearchEngine"
+			  class="org.fujionclinical.fhir.dstu2.api.patient.PatientSearch">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 		
 		<!-- Encounter search engine -->
-		<bean id="encounterSearchEngine" class="org.fujionclinical.fhir.dstu2.api.encounter.EncounterSearch">
+		<bean id="encounterSearchEngine"
+			  class="org.fujionclinical.fhir.dstu2.api.encounter.EncounterSearch">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 		
 		<!-- Practitioner search engine -->
-		<bean id="practitionerSearchEngine" class="org.fujionclinical.fhir.dstu2.api.practitioner.PractitionerSearch">
+		<bean id="practitionerSearchEngine"
+			  class="org.fujionclinical.fhir.dstu2.api.practitioner.PractitionerSearch">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 		
 		<!-- Location search engine -->
-		<bean id="locationSearchEngine" class="org.fujionclinical.fhir.dstu2.api.location.LocationSearch">
+		<bean id="locationSearchEngine"
+			  class="org.fujionclinical.fhir.dstu2.api.location.LocationSearch">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 
@@ -128,21 +138,25 @@
 			class="org.fujionclinical.fhir.dstu2.api.encounter.EncounterParticipantContext">
 		</bean>
 		
-		<bean id="patientListRegistry" class="org.fujionclinical.fhir.dstu2.api.patientlist.PatientListRegistry"
+		<bean id="patientListRegistry"
+			  class="org.fujionclinical.fhir.dstu2.api.patientlist.PatientListRegistry"
 			depends-on="userContext" />
 		
 		<bean id="patientList" abstract="true">
 		</bean>
 		
-		<bean id="patientListMRU" class="org.fujionclinical.fhir.dstu2.api.patientlist.MRUPatientList" parent="patientList">
+		<bean id="patientListMRU" parent="patientList"
+			  class="org.fujionclinical.fhir.dstu2.api.patientlist.MRUPatientList">
 			<constructor-arg type="java.lang.String" value="FCF.PATIENT.LIST.MRU" />
 		</bean>
 		
-		<bean id="patientListPersonal" class="org.fujionclinical.fhir.dstu2.api.patientlist.PersonalPatientList" parent="patientList">
+		<bean id="patientListPersonal" parent="patientList"
+			  class="org.fujionclinical.fhir.dstu2.api.patientlist.PersonalPatientList">
 			<constructor-arg type="java.lang.String" value="FCF.PATIENT.LIST.PERSONAL" />
 		</bean>
 		
-		<bean id="patientListFavorites" class="org.fujionclinical.fhir.dstu2.api.patientlist.FavoritePatientList" parent="patientList">
+		<bean id="patientListFavorites" parent="patientList"
+			  class="org.fujionclinical.fhir.dstu2.api.patientlist.FavoritePatientList">
 		</bean>
 
 	</beans>
