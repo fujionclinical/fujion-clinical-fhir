@@ -54,11 +54,12 @@ public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
      *
      * @param contextScope The name of the SMART context scope.
      * @return The context implementation.
+     * @exception IllegalArgumentException If scope is not known.
      */
     @Override
     public ISmartContext get(String contextScope) {
         ISmartContext context = super.get(contextScope);
-        Assert.notNull(context, "Unknown SMART context type: " + contextScope);
+        Assert.notNull(context, () -> "Unknown SMART context type: " + contextScope);
         return context;
     }
 
