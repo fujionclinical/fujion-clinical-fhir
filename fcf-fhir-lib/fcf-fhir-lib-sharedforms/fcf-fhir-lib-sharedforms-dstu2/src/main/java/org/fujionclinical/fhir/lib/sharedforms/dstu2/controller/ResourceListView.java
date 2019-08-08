@@ -136,23 +136,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends ListF
     @SuppressWarnings("unchecked")
     @Override
     protected Object transformData(Object data) {
-        if (data instanceof IBaseDatatype) {
-            return FhirUtil.getDisplayValueForType((IBaseDatatype) data);
-        }
-        
-        if (data instanceof List) {
-            List<?> c = (List<?>) data;
-            
-            if (c.isEmpty()) {
-                return "";
-            }
-
-            if (c.get(0) instanceof IBaseDatatype) {
-                return FhirUtil.getDisplayValueForTypes((List<IBaseDatatype>) c, ", ");
-            }
-        }
-        
-        return super.transformData(data);
+        return FhirUtil.getDisplayValueForType(data);
     }
     
     /**

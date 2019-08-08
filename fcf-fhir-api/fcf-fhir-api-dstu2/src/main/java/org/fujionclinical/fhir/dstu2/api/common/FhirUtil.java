@@ -29,6 +29,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.resource.OperationOutcome;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
@@ -40,9 +41,10 @@ import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
 import org.fujion.component.Image;
@@ -51,6 +53,7 @@ import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -395,9 +398,19 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
+     * Returns the displayable value for a name.
+     *
+     * @param value The name.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(HumanNameDt value) {
+        return value == null ? null : formatName(value);
+    }
+
+    /**
      * Returns the displayable value for an annotation.
      *
-     * @param value The enum value.
+     * @param value The annotation value.
      * @return The displayable value (possibly null).
      */
     public static String getDisplayValue(AnnotationDt value) {
@@ -569,28 +582,56 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
+     * Returns the displayable value for a location.
+     *
+     * @param value The location.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(Location value) {
+        if (value == null) {
+            return null;
+        }
+
+        if (value.getName() != null) {
+            return value.getName();
+        }
+
+        return getDisplayValueForTypes(value.getIdentifier());
+    }
+
+    /**
+     * Returns the displayable value for an identifier.
+     *
+     * @param value The identifier.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(IdentifierDt value) {
+        return value == null ? null : value.getValue();
+    }
+
+    /**
      * Returns a displayable value by invoking the type-specific method.
      *
      * @param value The value to display.
      * @return The displayable value (possibly null).
      */
-    public static String getDisplayValueForType(IBaseDatatype value) {
+    public static String getDisplayValueForType(Object value) {
         try {
-            return value == null ? null : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
+            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
         } catch (Exception e) {
-            log.error("Cannot convert datatype '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
-            return value.toString();
+            log.error("Cannot convert type '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
+            Method method = MethodUtils.getAccessibleMethod(value.getClass(), "toString", ArrayUtils.EMPTY_CLASS_ARRAY);
+            return method != null && method.getDeclaringClass() != Object.class ? value.toString() : null;
         }
     }
 
     /**
      * Returns a concatenation of displayable values from a list of values separated by a comma.
      *
-     * @param <T> The data type.
      * @param values The values to display.
      * @return A concatenation of displayable values (possibly null).
      */
-    public static <T extends IBaseDatatype> String getDisplayValueForTypes(List<T> values) {
+    public static String getDisplayValueForTypes(List<?> values) {
         return getDisplayValueForTypes(values, ", ");
     }
 
@@ -598,19 +639,18 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * Returns a concatenation of displayable values from a list of values separated by
      * the specified delimiter.
      *
-     * @param <T> The data type.
      * @param values The values to display.
      * @param delimiter The delimiter for separating values.
      * @return A concatenation of displayable values (possibly null).
      */
-    public static <T extends IBaseDatatype> String getDisplayValueForTypes(List<T> values, String delimiter) {
+    public static String getDisplayValueForTypes(List<?> values, String delimiter) {
         if (values == null || values.isEmpty()) {
             return null;
         }
 
         StringBuilder sb = new StringBuilder();
 
-        for (T value: values) {
+        for (Object value: values) {
             String display = getDisplayValueForType(value);
 
             if (display != null) {
