@@ -3,28 +3,19 @@
 	
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-plugin-patientheader</artifactId>
+		<artifactId>fcf-fhir-lib-patientselection-v1</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	
-	<name>FHIR Patient Header Plugin (R4)</name>
-	<artifactId>fcf-fhir-plugin-patientheader-r4</artifactId>
+
+	<name>FHIR Patient Selection v1 (common)</name>
+	<artifactId>fcf-fhir-lib-patientselection-v1-common</artifactId>
 	<packaging>jar</packaging>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-plugin-patientheader-common</artifactId>
+			<artifactId>fcf-fhir-lib-patientselection-common</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-lib-patientselection-r4</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 </project>

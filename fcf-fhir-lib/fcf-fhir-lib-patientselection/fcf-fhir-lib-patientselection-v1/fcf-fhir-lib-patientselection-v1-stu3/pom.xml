@@ -3,35 +3,24 @@
 	
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-plugin-scenario</artifactId>
+		<artifactId>fcf-fhir-lib-patientselection-v1</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	
-	<name>FHIR Scenario Builder Plugin (DSTU2)</name>
-	<artifactId>fcf-fhir-plugin-scenario-dstu2</artifactId>
+
+	<name>FHIR Patient Selection v1 (STU3)</name>
+	<artifactId>fcf-fhir-lib-patientselection-v1-stu3</artifactId>
 	<packaging>jar</packaging>
-	
-	<description>Configures resources for demo scenarios.</description>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-plugin-scenario-common</artifactId>
+			<artifactId>fcf-fhir-lib-patientselection-v1-common</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-structures-dstu2</artifactId>
-			<version>${hapi.fhir.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-lib-patientselection-dstu2</artifactId>
+			<artifactId>fcf-fhir-lib-patientselection-stu3</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
 		</dependency>
 	</dependencies>
 </project>

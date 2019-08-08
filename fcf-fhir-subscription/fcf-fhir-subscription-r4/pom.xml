@@ -18,17 +18,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-api-core</artifactId>
-			<version>${fcf.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-api-common</artifactId>
+			<artifactId>fcf-fhir-subscription-common</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

@@ -15,6 +15,7 @@
 	<name>FHIR Subscription Service Aggregator</name>
 
 	<modules>
+		<module>fcf-fhir-subscription-common</module>
 		<module>fcf-fhir-subscription-dstu2</module>
 		<module>fcf-fhir-subscription-r4</module>
 		<module>fcf-fhir-subscription-stu3</module>

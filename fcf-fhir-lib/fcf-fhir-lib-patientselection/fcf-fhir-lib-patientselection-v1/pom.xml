@@ -5,17 +5,19 @@
 
 	<parent>
 		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-lib</artifactId>
+		<artifactId>fcf-fhir-lib-patientselection</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fcf-fhir-lib-patientselection</artifactId>
+	<artifactId>fcf-fhir-lib-patientselection-v1</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>FHIR Patient Selection Aggregator</name>
+	<name>FHIR Patient Selection v1 Aggregator</name>
 
 	<modules>
-		<module>fcf-fhir-lib-patientselection-core</module>
-		<module>fcf-fhir-lib-patientselection-v1</module>
+		<module>fcf-fhir-lib-patientselection-v1-common</module>
+		<module>fcf-fhir-lib-patientselection-v1-dstu2</module>
+		<module>fcf-fhir-lib-patientselection-v1-r4</module>
+		<module>fcf-fhir-lib-patientselection-v1-stu3</module>
 	</modules>
 </project>

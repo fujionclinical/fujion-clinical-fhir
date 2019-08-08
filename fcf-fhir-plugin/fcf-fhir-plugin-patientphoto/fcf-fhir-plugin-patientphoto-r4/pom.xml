@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-lib-patientselection-core-r4</artifactId>
+			<artifactId>fcf-fhir-lib-patientselection-r4</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
