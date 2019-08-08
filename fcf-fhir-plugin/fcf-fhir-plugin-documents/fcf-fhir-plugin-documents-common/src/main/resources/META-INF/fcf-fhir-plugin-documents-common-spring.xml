@@ -35,4 +35,28 @@
 
 	</beans>
 
+	<beans profile="child">
+
+		<!-- Controllers -->
+		<bean id="fcfDocumentsMainController"
+			  class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.DocumentMainController"
+			  scope="prototype" />
+
+		<bean id="fcfDocumentsListController"
+			  class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.DocumentListController"
+			  scope="prototype">
+			<constructor-arg ref="fhirDocumentService" />
+		</bean>
+
+		<bean id="fcfDocumentsDisplayController"
+			  class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.DocumentDisplayController"
+			  scope="prototype">
+			<constructor-arg ref="fhirDocumentService" />
+		</bean>
+
+		<bean id="fcfDocumentsActionStatus" lazy-init="true"
+			  class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.ActionStatus">
+		</bean>
+
+	</beans>
 </beans>

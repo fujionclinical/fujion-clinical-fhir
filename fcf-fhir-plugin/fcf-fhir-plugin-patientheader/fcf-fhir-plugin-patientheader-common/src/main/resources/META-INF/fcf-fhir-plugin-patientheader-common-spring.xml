@@ -22,5 +22,12 @@
 			</fcp:resource>
 		</fcp:plugin>
 	</beans>
-	
+
+	<beans profile="child">
+
+		<bean id="fcfPatientHeaderController" class="org.fujionclinical.fhir.plugin.patientheader.${fhir.context.version}.PatientHeader"
+			  scope="prototype" />
+
+	</beans>
+
 </beans>

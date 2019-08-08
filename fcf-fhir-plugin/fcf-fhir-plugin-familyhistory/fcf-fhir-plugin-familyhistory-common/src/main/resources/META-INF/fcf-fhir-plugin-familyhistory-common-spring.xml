@@ -47,4 +47,11 @@
 
 	</beans>
 
+	<beans profile="child">
+
+		<bean id="fcfFamilyHistoryController" parent="resourceListViewBase"
+			  class="org.fujionclinical.fhir.plugin.familyhistory.${fhir.context.version}.MainController" scope="prototype" />
+
+	</beans>
+
 </beans>

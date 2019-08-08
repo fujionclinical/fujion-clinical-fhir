@@ -47,4 +47,10 @@
 
 	</beans>
 
+	<beans profile="child">
+
+		<bean id="fcfAdverseReactionsController" parent="resourceListViewBase"
+			  class="org.fujionclinical.fhir.plugin.adversereactions.${fhir.context.version}.MainController" scope="prototype" />
+
+	</beans>
 </beans>

@@ -15,4 +15,11 @@
 
 	</beans>
 
+	<beans profile="child">
+
+		<bean id="fcfPatientPhotoController" class="org.fujionclinical.fhir.plugin.patientphoto.${fhir.context.version}.PatientPhoto"
+			  scope="prototype" />
+
+	</beans>
+
 </beans>

@@ -105,5 +105,17 @@ public class FhirContextConfigurator extends SimplePropertyAwareConfigurator imp
     public int getPoolMaxPerRoute() {
         return poolMaxPerRoute;
     }
-    
+
+    @Override
+    protected String preprocess(Param annotation, String value) {
+        if (value != null && annotation.property().equals("version")) {
+            value = value.toUpperCase();
+
+            if (value.equals("STU3")) {
+                value = "DSTU3";
+            }
+        }
+
+        return value;
+    }
 }

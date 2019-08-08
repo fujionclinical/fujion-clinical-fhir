@@ -15,16 +15,16 @@
 			<fcp:resource>
 				<fcp:action-resource id="fcfScenarioShow"
 					label="${@msg.fcf.scenario.action.label}"
-					script="groovy:org.fujionclinical.fhir.plugin.scenario.dstu2.ScenarioManagerController.show();" />
+					script="groovy:org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.ScenarioManagerController.show();" />
 			</fcp:resource>
 		</fcp:plugin>
 
 		<bean id="fcfScenarioRegistry" factory-method="getInstance"
-			  class="org.fujionclinical.fhir.plugin.scenario.dstu2.api.ScenarioRegistry" />
+			  class="org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.api.ScenarioRegistry" />
 
 		<bean id="fcfScenarioFinder"
-			  class="org.fujionclinical.fhir.plugin.scenario.dstu2.api.ScenarioFinder">
-			<constructor-arg value="${fcf.scenario.base:classpath:scenarios/dstu2}" />
+			  class="org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.api.ScenarioFinder">
+			<constructor-arg value="${fcf.scenario.base:classpath:scenarios/${fhir.context.version}}" />
 			<constructor-arg ref="fcfScenarioRegistry" />
 			<constructor-arg ref="fhirService" />
 		</bean>
@@ -34,17 +34,17 @@
 	<beans profile="child">
 	
 		<bean id="fcfScenarioManagerController" scope="prototype"
-			class="org.fujionclinical.fhir.plugin.scenario.dstu2.controller.ScenarioManagerController">
+			class="org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.controller.ScenarioManagerController">
 			<constructor-arg ref="fcfScenarioRegistry" />
 		</bean>	
 			
 		<bean id="fcfScenarioViewResourcesController" scope="prototype"
-			class="org.fujionclinical.fhir.plugin.scenario.dstu2.controller.ViewResourcesController">
+			class="org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.controller.ViewResourcesController">
 			<constructor-arg ref="fhirService" />
 		</bean>
 
 		<bean id="scenarioContext" parent="managedContext"
-			  class="org.fujionclinical.fhir.plugin.scenario.dstu2.api.ScenarioContext">
+			  class="org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.api.ScenarioContext">
 			<constructor-arg ref="fcfScenarioRegistry" />
 		</bean>
 

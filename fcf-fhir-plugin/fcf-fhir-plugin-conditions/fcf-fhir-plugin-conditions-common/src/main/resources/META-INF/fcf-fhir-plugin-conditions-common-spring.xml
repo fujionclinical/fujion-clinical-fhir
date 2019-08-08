@@ -47,5 +47,12 @@
 
 	</beans>
 
+	<beans profile="child">
+
+		<bean id="fcfConditionsController" parent="resourceListViewBase"
+			  class="org.fujionclinical.fhir.plugin.conditions.${fhir.context.version}.MainController" scope="prototype" />
+
+	</beans>
+
 
 </beans>
