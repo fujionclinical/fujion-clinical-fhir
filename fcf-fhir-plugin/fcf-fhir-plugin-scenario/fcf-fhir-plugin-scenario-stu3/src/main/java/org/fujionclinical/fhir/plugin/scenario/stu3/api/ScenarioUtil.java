@@ -25,30 +25,21 @@
  */
 package org.fujionclinical.fhir.plugin.scenario.stu3.api;
 
-import ca.uhn.fhir.model.api.Tag;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
 import org.hl7.fhir.dstu3.model.DomainResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.instance.model.api.IDomainResource;
 
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class ScenarioUtil {
-    
-    public static final String DEMO_URN = "urn:fujion:hsp:model:demo";
-    
-    /**
-     * Identifier used to locate demo resources for bulk deletes.
-     */
-    public static final Tag DEMO_GROUP_TAG = new Tag(DEMO_URN, "*", "Demo Data");
-    
+public class ScenarioUtil extends org.fujionclinical.fhir.plugin.scenario.common.ScenarioUtil {
+
     private static final Set<Class<? extends IBaseResource>> resourceClasses = new HashSet<>();
-    
+
     /**
      * Convenience method for creating identifiers in local system.
      *
@@ -78,47 +69,6 @@ public class ScenarioUtil {
     }
     
     /**
-     * Convenience method to create a time offset.
-     *
-     * @param minuteOffset Offset in minutes.
-     * @return A date minus the offset.
-     */
-    public static Date createDateWithMinuteOffset(long minuteOffset) {
-        return new Date(System.currentTimeMillis() - minuteOffset * 60 * 1000);
-    }
-    
-    /**
-     * Convenience method to create a time offset.
-     *
-     * @param dayOffset Offset in days.
-     * @return A date minus the offset.
-     */
-    public static Date createDateWithDayOffset(long dayOffset) {
-        return createDateWithMinuteOffset(dayOffset * 24 * 60);
-    }
-    
-    /**
-     * Convenience method to create a time offset.
-     *
-     * @param yearOffset Offset in years.
-     * @return A date minus the offset.
-     */
-    public static Date createDateWithYearOffset(long yearOffset) {
-        return createDateWithDayOffset(yearOffset * 365);
-    }
-    
-    /**
-     * Returns a random element from a string array.
-     *
-     * @param choices The array of possible choices.
-     * @return A random element.
-     */
-    public static String getRandom(String[] choices) {
-        int index = (int) (Math.random() * choices.length);
-        return choices[index];
-    }
-    
-    /**
      * Returns the principal identifier for the given resource.
      *
      * @param resource The resource whose main identifier is sought.
@@ -127,47 +77,6 @@ public class ScenarioUtil {
     public static Identifier getMainIdentifier(DomainResource resource) {
         List<Identifier> identifiers = FhirUtil.getIdentifiers(resource);
         return FhirUtil.getFirst(identifiers);
-    }
-    
-    /**
-     * Adds a tag to a resource for bulk deletes of demo data.
-     *
-     * @param resource The resource.
-     */
-    public static void addDemoTag(IBaseResource resource) {
-        FhirUtil.addTag(DEMO_GROUP_TAG, resource);
-    }
-    
-    /**
-     * Adds a tag to a resource for scenario-based deletes of demo data.
-     *
-     * @param resource The resource.
-     * @param scenario The scenario name.
-     */
-    public static void addScenarioTag(IBaseResource resource, String scenario) {
-        FhirUtil.addTag(createScenarioTag(scenario), resource);
-    }
-    
-    /**
-     * Copies any demo tags from source to destination.
-     *
-     * @param source The source resource.
-     * @param destination The destination resource.
-     */
-    public static void copyDemoTags(IBaseResource source, IBaseResource destination) {
-        for (IBaseCoding tag : FhirUtil.getTagsBySystem(source, DEMO_URN)) {
-            FhirUtil.addTag(tag, destination);
-        }
-    }
-    
-    /**
-     * Creates a tag to be used for scenario-based deletes.
-     *
-     * @param scenario The scenario name.
-     * @return The newly created tag.
-     */
-    public static IBaseCoding createScenarioTag(String scenario) {
-        return new Tag(DEMO_URN, scenario, "Scenario: " + scenario);
     }
     
     /**
@@ -187,26 +96,9 @@ public class ScenarioUtil {
         
         return scenario;
     }
-    
-    /**
-     * This is a bit of a hack to enumerate all valid DSTU3 resource classes. It's used right now
-     * because many FHIR servers don't implement cross-resource searches.
-     *
-     * @return Set of all valid DSTU3 resource classes.
-     */
+
     public static Set<Class<? extends IBaseResource>> getResourceClasses() {
-        synchronized (resourceClasses) {
-            if (resourceClasses.isEmpty()) {
-                FastClasspathScanner fcs = new FastClasspathScanner("org.hl7.fhir.dstu3.model");
-                fcs.matchClassesImplementing(IDomainResource.class, implementingClass -> {
-                    if (!Modifier.isAbstract(implementingClass.getModifiers())) {
-                        resourceClasses.add(implementingClass);
-                    }
-                });
-                fcs.scan();
-            }
-            
-            return Collections.unmodifiableSet(resourceClasses);
-        }
+        return getResourceClasses("org.hl7.fhir.dstu3.model", resourceClasses);
     }
+
 }
