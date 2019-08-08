@@ -43,6 +43,7 @@ import org.hl7.fhir.dstu3.model.DateType;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -77,7 +78,7 @@ public class Scenario {
         this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioName);
 
         try (InputStream in = scenarioYaml.getInputStream()) {
-            scenarioConfig = (Map<String, Map<String, String>>) new Yaml().load(in);
+            scenarioConfig = new Yaml().load(in);
         } catch (Exception e) {
             log.error("Failed to load scenario: " + scenarioName, e);
             throw MiscUtil.toUnchecked(e);
@@ -146,8 +147,8 @@ public class Scenario {
         destroy();
 
         for (String name : scenarioConfig.keySet()) {
-            Map<String, String> map = scenarioConfig.get(name);
-            IBaseResource resource = initialize(map.get("source"), map);
+            Map<String, String> params = scenarioConfig.get(name);
+            IBaseResource resource = initialize(params.get("source"), params);
             resourcesByName.put(name, resource);
         }
 
@@ -162,10 +163,7 @@ public class Scenario {
      * @return The created resource.
      */
     public synchronized IBaseResource initialize(String source, Map<String, String> params) {
-        if (source == null) {
-            throw new RuntimeException("A source must be specified.");
-        }
-
+        Assert.notNull(source, "A source must be specified.");
         return initialize(parseResource(source, params));
     }
 
@@ -367,11 +365,7 @@ public class Scenario {
 
         if (i == -1) {
             IBaseResource resource = resourceMap.get(exp);
-
-            if (resource == null) {
-                throw new RuntimeException("Resource not defined: " + exp);
-            }
-
+            Assert.notNull(resource, () -> "Resource not defined: " + exp);
             return resource.getIdElement().getResourceType() + "/" + resource.getIdElement().getIdPart();
         }
 
@@ -419,17 +413,11 @@ public class Scenario {
         }
     }
 
-    private String doDate(String value, boolean dateOnly) {
+    private String doDate(final String value, boolean dateOnly) {
         Date date = DateUtil.parseDate(value);
-
-        if (date != null) {
-            BaseDateTimeType dtt = dateOnly ? new DateType(date) : new DateTimeType(date);
-            value = dtt.getValueAsString();
-        } else {
-            throw new RuntimeException("Bad date specification: " + value);
-        }
-
-        return value;
+        Assert.notNull(date, () -> "Bad date specification: " + value);
+        BaseDateTimeType dtt = dateOnly ? new DateType(date) : new DateTimeType(date);
+        return dtt.getValueAsString();
     }
 
 }
