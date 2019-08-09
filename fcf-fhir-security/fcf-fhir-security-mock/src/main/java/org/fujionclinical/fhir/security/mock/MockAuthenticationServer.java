@@ -1,6 +1,5 @@
 package org.fujionclinical.fhir.security.mock;
 
-import org.fujion.common.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import java.util.*;
 @RequestMapping("/auth")
 public class MockAuthenticationServer {
 
-    private static final Logger log = Logger.create(MockAuthenticationServer.class);
 
     private final Map<String, Map<String, String>> contexts = Collections.synchronizedMap(new HashMap<>());
 
@@ -28,7 +26,6 @@ public class MockAuthenticationServer {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity launch(@RequestBody Map<String, Object> payload) {
-        log.debug("Hit Launch endpoint");
         Object params = payload.get("parameters");
 
         if (!(params instanceof Map)) {
@@ -49,7 +46,6 @@ public class MockAuthenticationServer {
             path = "/authorize",
             method = RequestMethod.GET)
     public Object authorize(HttpServletRequest request) {
-        log.debug("Hit authorize endpoint");
         String response_type = request.getParameter("response_type");
         String client_id = request.getParameter("client_id");
         String scope = request.getParameter("scope");
@@ -75,7 +71,6 @@ public class MockAuthenticationServer {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity token(@RequestParam Map<String, String> payload) {
-        log.debug("Hit token endpoint");
         String code = payload.get("code");
         String grant_type = payload.get("grant_type");
         Map<String, String> body = code == null ? null : contexts.remove(code);

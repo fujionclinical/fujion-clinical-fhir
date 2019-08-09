@@ -15,11 +15,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-api-core</artifactId>
-            <version>${fcf.core.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>5.0.8.RELEASE</version>
