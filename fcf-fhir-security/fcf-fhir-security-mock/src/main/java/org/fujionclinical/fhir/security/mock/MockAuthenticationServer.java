@@ -17,8 +17,24 @@ import java.util.*;
 @RequestMapping("/auth")
 public class MockAuthenticationServer {
 
+    private static final long EXPIRATION_INTERVAL = 10000;
 
-    private final Map<String, Map<String, String>> contexts = Collections.synchronizedMap(new HashMap<>());
+    private static class LaunchContext {
+
+        final long expirationTime;
+
+        final Map<String, String> map;
+
+        LaunchContext(Map<String, String> map) {
+            this.map = map;
+            expirationTime = System.currentTimeMillis() + EXPIRATION_INTERVAL;
+            map.put("access_token", UUID.randomUUID().toString());
+            map.put("token_type", "Bearer");
+        }
+
+    }
+
+    private final Map<String, LaunchContext> contexts = Collections.synchronizedMap(new LinkedHashMap<>());
 
     @RequestMapping(
             path = "/Launch",
@@ -33,7 +49,7 @@ public class MockAuthenticationServer {
         }
 
         String launchId = UUID.randomUUID().toString();
-        contexts.put(launchId, (Map) params);
+        contexts.put(launchId, new LaunchContext((Map) params));
         Map<String, Object> body = new HashMap<>();
         body.put("parameters", params);
         body.put("launch_id", launchId);
@@ -46,6 +62,7 @@ public class MockAuthenticationServer {
             path = "/authorize",
             method = RequestMethod.GET)
     public Object authorize(HttpServletRequest request) {
+        removeExpiredLaunchIds();
         String response_type = request.getParameter("response_type");
         String client_id = request.getParameter("client_id");
         String scope = request.getParameter("scope");
@@ -53,14 +70,14 @@ public class MockAuthenticationServer {
         String aud = request.getParameter("aud");
         String launch = request.getParameter("launch");
         String state = request.getParameter("state");
-        Map<String, String> context = launch == null ? null : contexts.get(launch);
+        LaunchContext context = launch == null ? null : contexts.get(launch);
 
         if (!"code".equals(response_type) || client_id == null || scope == null || redirect_uri == null
                 || aud == null || context == null || state == null) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        context.put("scope", scope);
+        context.map.put("scope", scope);
         redirect_uri += "?code=" + launch + "&state=" + state;
         return "redirect:" + redirect_uri;
     }
@@ -71,17 +88,16 @@ public class MockAuthenticationServer {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity token(@RequestParam Map<String, String> payload) {
+        removeExpiredLaunchIds();
         String code = payload.get("code");
         String grant_type = payload.get("grant_type");
-        Map<String, String> body = code == null ? null : contexts.remove(code);
+        LaunchContext context = code == null ? null : contexts.remove(code);
 
-        if (body == null || !"authorization_code".equals(grant_type)) {
+        if (context == null || !"authorization_code".equals(grant_type)) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        body.put("access_token", UUID.randomUUID().toString());
-        body.put("token_type", "Bearer");
-        return new ResponseEntity(body, HttpStatus.OK);
+        return new ResponseEntity(context.map, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -90,6 +106,24 @@ public class MockAuthenticationServer {
             produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String ping() {
-        return "<h1>Received Ping Request</h1>";
+        removeExpiredLaunchIds();
+        return "<h1>Active launch ids: " + contexts.size() + "</h1>";
+    }
+
+    private void removeExpiredLaunchIds() {
+        synchronized (contexts) {
+            long current = System.currentTimeMillis();
+            Iterator<String> iter = contexts.keySet().iterator();
+
+            while (iter.hasNext()) {
+                String key = iter.next();
+
+                if (current > contexts.get(key).expirationTime) {
+                    iter.remove();
+                } else {
+                    break;
+                }
+            }
+        }
     }
 }
