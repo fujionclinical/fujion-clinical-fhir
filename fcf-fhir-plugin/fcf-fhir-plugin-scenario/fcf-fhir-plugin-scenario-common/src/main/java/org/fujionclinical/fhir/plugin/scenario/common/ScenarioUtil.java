@@ -25,17 +25,12 @@
  */
 package org.fujionclinical.fhir.plugin.scenario.common;
 
-import ca.uhn.fhir.model.api.IResource;
 import ca.uhn.fhir.model.api.Tag;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
-import java.lang.reflect.Modifier;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
 
 public class ScenarioUtil {
     
@@ -128,27 +123,4 @@ public class ScenarioUtil {
         return new Tag(DEMO_URN, scenario, "Scenario: " + scenario);
     }
     
-    /**
-     * This is a bit of a hack to enumerate all valid resource classes. It's used right now
-     * because many FHIR servers don't implement cross-resource searches.
-     *
-     * @param packageName Name of the package containing the resource classes.
-     * @param resourceClasses The set to receive the resource classes.
-     * @return Set of all valid resource classes.
-     */
-    protected static final Set<Class<? extends IBaseResource>> getResourceClasses(String packageName, Set<Class<? extends IBaseResource>> resourceClasses) {
-        synchronized (resourceClasses) {
-            if (resourceClasses.isEmpty()) {
-                FastClasspathScanner fcs = new FastClasspathScanner(packageName);
-                fcs.matchClassesImplementing(IResource.class, implementingClass -> {
-                    if (!Modifier.isAbstract(implementingClass.getModifiers())) {
-                        resourceClasses.add(implementingClass);
-                    }
-                });
-                fcs.scan();
-            }
-
-            return resourceClasses;
-        }
-    }
 }

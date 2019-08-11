@@ -34,6 +34,7 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.util.Assert;
 
@@ -142,7 +143,7 @@ public class BaseService {
         IBaseResource resource = getResource(reference);
         return clazz.isInstance(resource) ? (T) resource : null;
     }
-    
+
     /**
      * Returns a resource given a resource reference. If the resource has not been previously
      * fetched, it will be fetched from the server.
@@ -154,20 +155,27 @@ public class BaseService {
         if (reference == null || reference.isEmpty()) {
             return null;
         }
-        
+
         if (reference.getResource() != null) {
             return reference.getResource();
         }
-        
-        String resourceId = reference.getReference();
-        Assert.state(resourceId != null, "Reference has no resource ID defined");
-        String resourceUrl = expandURL(resourceId);
-        IBaseResource resource = getClient().read().resource(reference.getReferenceElement().getResourceType())
-                .withUrl(resourceUrl).execute();
+
+        Assert.state(reference.hasReference(), "Reference has no resource ID defined");
+        IBaseResource resource = getResource(reference.getReferenceElement());
         reference.setResource(resource);
         return resource;
     }
-    
+
+    /**
+     * Returns the resource corresponding to the given id.
+     *
+     * @param id The resource id.
+     * @return The corresponding resource, if found.
+     */
+    public IBaseResource getResource(IIdType id) {
+        return getClient().read().resource(id.getResourceType()).withId(id).execute();
+    }
+
     /**
      * Search for patient-based resources of the given class.
      *

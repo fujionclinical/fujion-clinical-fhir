@@ -97,8 +97,4 @@ public class ScenarioUtil extends org.fujionclinical.fhir.plugin.scenario.common
         return scenario;
     }
 
-    public static Set<Class<? extends IBaseResource>> getResourceClasses() {
-        return getResourceClasses("org.hl7.fhir.dstu3.model", resourceClasses);
-    }
-
 }

@@ -39,6 +39,7 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -165,13 +166,21 @@ public class BaseService {
         
         String resourceId = reference.getReference().getValue();
         Assert.state(resourceId != null, "Reference has no resource ID defined");
-        String resourceUrl = expandURL(resourceId);
-        IBaseResource resource = getClient().read().resource(reference.getReferenceElement().getResourceType())
-                .withUrl(resourceUrl).execute();
+        IBaseResource resource = getResource(reference.getReference());
         reference.setResource(resource);
         return resource;
     }
-    
+
+    /**
+     * Returns the resource corresponding to the given id.
+     *
+     * @param id The resource id.
+     * @return The corresponding resource, if found.
+     */
+    public IBaseResource getResource(IIdType id) {
+        return getClient().read().resource(id.getResourceType()).withId(id).execute();
+    }
+
     /**
      * Search for patient-based resources of the given class.
      *

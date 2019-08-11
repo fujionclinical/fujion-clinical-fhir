@@ -25,17 +25,21 @@
  */
 package org.fujionclinical.fhir.plugin.scenario.dstu2.api;
 
+import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.ListResource;
+import ca.uhn.fhir.model.primitive.IdDt;
 import org.fujionclinical.fhir.dstu2.api.common.BaseService;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.plugin.scenario.common.ScenarioBase;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
-import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class Scenario extends ScenarioBase {
 
@@ -47,18 +51,43 @@ public class Scenario extends ScenarioBase {
     }
 
     @Override
-    protected List<? extends IBaseResource> _searchResourcesByTag(IBaseCoding tag, Class<? extends IBaseResource> clazz) {
-        return fhirService.searchResourcesByTag(tag, clazz, Integer.MAX_VALUE);
+    protected IIdType _createScenarioId(String resourceType, String id) {
+        return new IdDt(resourceType, id);
     }
 
     @Override
-    protected Set<Class<? extends IBaseResource>> _getResourceClasses() {
-        return ScenarioUtil.getResourceClasses();
+    protected Collection<IBaseResource> _loadResources() {
+        List<IBaseResource> resources = new ArrayList<>();
+
+        try {
+            ListResource list = (ListResource) fhirService.getResource(getId());
+
+            for (ListResource.Entry entry : list.getEntry()) {
+                try {
+                    resources.add(fhirService.getResource(entry.getItem()));
+                } catch (Exception e) {}
+            }
+
+        } catch (Exception e) {}
+
+        return resources;
     }
 
     @Override
     protected void _deleteResource(IBaseResource resource) {
         fhirService.deleteResource(resource);
+    }
+
+    @Override
+    protected IBaseResource _packageResources(Collection<IBaseResource> resources) {
+        ListResource list = new ListResource();
+
+        for (IBaseResource resource: resources) {
+            ResourceReferenceDt ref = new ResourceReferenceDt(resource.getIdElement());
+            list.addEntry().setItem(ref);
+        }
+
+        return list;
     }
 
     @Override

@@ -36,10 +36,12 @@ import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
+import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.yaml.snakeyaml.Yaml;
@@ -60,9 +62,11 @@ public abstract class ScenarioBase {
 
     private final IBaseCoding scenarioTag;
 
-    private final Map<String, IBaseResource> resourcesById = new HashMap<>();
+    private final IIdType scenarioId;
 
-    private final Map<String, IBaseResource> resourcesByName = new HashMap<>();
+    private final Map<String, IBaseResource> resourcesById = Collections.synchronizedMap(new HashMap<>());
+
+    private final Map<String, IBaseResource> resourcesByName = Collections.synchronizedMap(new HashMap<>());
     
     private final FhirContext fhirContext;
 
@@ -73,19 +77,74 @@ public abstract class ScenarioBase {
         this.scenarioName = FilenameUtils.getBaseName(scenarioYaml.getFilename());
         this.scenarioBase = scenarioYaml;
         this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioName);
+        this.scenarioId = _createScenarioId("List", "fcf-scenario-" + StrUtil.xlate(scenarioName, " _", ".-"));
 
         try (InputStream in = scenarioYaml.getInputStream()) {
             scenarioConfig = new Yaml().load(in);
         } catch (Exception e) {
-            log.error("Failed to load scenario: " + scenarioName, e);
+            log.error("Failed to load scenario configuration: " + scenarioName, e);
             throw MiscUtil.toUnchecked(e);
         }
 
-        log.info(() -> "Loaded demo scenario: " + scenarioName);
+        log.info(() -> "Loaded scenario configuration: " + scenarioName);
     }
 
     /**
-     * Return the name of this scenario.
+     * Creates the id to be used to store scenario resources.
+     *
+     * @param resourceType The resource type (will always be "List").
+     * @param id The resource id.
+     * @return The newly created id.
+     */
+    protected abstract IIdType _createScenarioId(String resourceType, String id);
+
+    /**
+     * Loads resources associated with the scenario.
+     *
+     * @return List of resources associated with the scenario.
+     */
+    protected abstract Collection<IBaseResource> _loadResources();
+
+    /**
+     * Packages scenario resources into a List resource.
+     *
+     * @param resources List of resources to package.
+     * @return The newly created List resource.
+     */
+    protected abstract IBaseResource _packageResources(Collection<IBaseResource> resources);
+
+    /**
+     * Deletes a resource.
+     *
+     * @param resource The resource to delete.
+     */
+    protected abstract void _deleteResource(IBaseResource resource);
+
+    /**
+     * Returns resources related to the reference resource (using $everything operation).
+     * @param resource The reference resource.
+     * @return All resources related to the reference resource.
+     */
+    protected abstract List<IBaseResource> _relatedResources(IBaseResource resource);
+
+    /**
+     * Extracts entries from a bundle resource.
+     *
+     * @param bundle The bundle resource.
+     * @return List of resources extracted from the bundle resource.
+     */
+    protected abstract List<IBaseResource> _getEntries(IBaseBundle bundle);
+
+    /**
+     * Creates or updates the given resource.
+     *
+     * @param resource The resource.
+     * @return The new or updated resource.
+     */
+    protected abstract IBaseResource _createOrUpdateResource(IBaseResource resource);
+
+    /**
+     * Returns the name of this scenario.
      *
      * @return The scenario name.
      */
@@ -94,12 +153,21 @@ public abstract class ScenarioBase {
     }
 
     /**
-     * Return the tag used to mark a resource as belonging to this scenario.
+     * Returns the tag used to mark a resource as belonging to this scenario.
      *
      * @return The scenario tag.
      */
     public final IBaseCoding getTag() {
         return scenarioTag;
+    }
+
+    /**
+     * Returns the id for the list resource used to store scenario resources.
+     *
+     * @return The id for the list resource used to store scenario resources.
+     */
+    public final IIdType getId() {
+        return scenarioId;
     }
 
     /**
@@ -130,6 +198,11 @@ public abstract class ScenarioBase {
         return resourcesById.size();
     }
 
+    /**
+     * Returns true if the scenario has been loaded.
+     *
+     * @return True if the scenario has been loaded.
+     */
     public final boolean isLoaded() {
         return isLoaded;
     }
@@ -149,6 +222,10 @@ public abstract class ScenarioBase {
             resourcesByName.put(name, resource);
         }
 
+        IBaseResource list = _packageResources(resourcesById.values());
+        list.setId(getId());
+        addTags(list);
+        _createOrUpdateResource(list);
         return resourcesById.size();
     }
 
@@ -181,29 +258,18 @@ public abstract class ScenarioBase {
      *
      * @return Count of resources loaded for this scenario.
      */
-    @SuppressWarnings("unchecked")
     public final synchronized int load() {
         isLoaded = true;
         resourcesById.clear();
 
-        for (Class<? extends IBaseResource> clazz : _getResourceClasses()) {
-            try {
-                for (IBaseResource resource : _searchResourcesByTag(scenarioTag, (Class<IBaseResource>) clazz)) {
-                    addResource(resource);
-                    logAction(resource, "Retrieved");
-                }
-            } catch (Exception e) {
-                log.warn("Search by tag error on resource " + clazz.getName());
-            }
+        for (IBaseResource resource : _loadResources()) {
+            addResource(resource);
+            logAction(resource, "Retrieved");
         }
 
         return resourcesById.size();
     }
 
-    protected abstract List<? extends IBaseResource> _searchResourcesByTag(IBaseCoding tag, Class<? extends IBaseResource> clazz);
-    
-    protected abstract Set<Class<? extends IBaseResource>> _getResourceClasses();
-    
     /**
      * Destroy all resources belonging to this scenario.
      *
@@ -240,10 +306,6 @@ public abstract class ScenarioBase {
         return count;
     }
 
-    protected abstract void _deleteResource(IBaseResource resource);
-
-    protected abstract List<IBaseResource> _relatedResources(IBaseResource resource);
-
     /**
      * Deletes a resource and any related resources, returning a count of those successfully deleted.
      *
@@ -263,6 +325,12 @@ public abstract class ScenarioBase {
         return count;
     }
 
+    /**
+     * Returns a list of all resources related to the reference resource.
+     *
+     * @param resource The reference resource.
+     * @return A list of all resources related to the reference resource.
+     */
     private List<IBaseResource> relatedResources(IBaseResource resource) {
         List<IBaseResource> resources;
 
@@ -299,10 +367,6 @@ public abstract class ScenarioBase {
         return resource;
     }
 
-    protected abstract List<IBaseResource> _getEntries(IBaseBundle bundle);
-    
-    protected abstract IBaseResource _createOrUpdateResource(IBaseResource resource);
-    
     /**
      * Adds a resource to the list of resources for this scenario.
      *
