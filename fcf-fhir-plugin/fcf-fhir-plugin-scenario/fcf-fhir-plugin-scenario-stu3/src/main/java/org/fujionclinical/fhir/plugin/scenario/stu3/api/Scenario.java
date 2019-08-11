@@ -62,6 +62,11 @@ public class Scenario extends ScenarioBase {
     }
 
     @Override
+    protected List<IBaseResource> _relatedResources(IBaseResource resource) {
+        return fhirService.everything(resource);
+    }
+
+    @Override
     protected List<IBaseResource> _getEntries(IBaseBundle bundle) {
         return FhirUtil.getEntries((Bundle) bundle, IBaseResource.class);
     }

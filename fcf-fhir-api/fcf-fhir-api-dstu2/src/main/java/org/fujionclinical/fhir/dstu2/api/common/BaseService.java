@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.dstu2.api.common;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.Parameters;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.rest.api.MethodOutcome;
@@ -198,7 +199,25 @@ public class BaseService {
         
         return FhirUtil.getEntries(bundle, clazz);
     }
-    
+
+    /**
+     * Returns a list of all resources related to the specified resource (i.e., the $everything operation).
+     *
+     * @param resource The reference resource.
+     * @return The resources related to the reference resource.
+     */
+    public List<IBaseResource> everything(IBaseResource resource) {
+        Parameters result = getClient()
+                .operation()
+                .onInstance(resource.getIdElement())
+                .named("$everything")
+                .withNoParameters(Parameters.class)
+                .execute();
+
+        Bundle bundle = (Bundle) result.getParameterFirstRep().getResource();
+        return FhirUtil.getEntries(bundle);
+    }
+
     /**
      * Returns all resources of the given class.
      *

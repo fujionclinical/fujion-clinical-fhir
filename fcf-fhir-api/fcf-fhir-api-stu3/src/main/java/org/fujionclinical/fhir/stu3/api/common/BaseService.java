@@ -32,10 +32,7 @@ import ca.uhn.fhir.rest.client.impl.GenericClient;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Identifier;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.util.Assert;
@@ -198,7 +195,25 @@ public class BaseService {
         
         return FhirUtil.getEntries(bundle, clazz);
     }
-    
+
+    /**
+     * Returns a list of all resources related to the specified resource (i.e., the $everything operation).
+     *
+     * @param resource The reference resource.
+     * @return The resources related to the reference resource.
+     */
+    public List<IBaseResource> everything(IBaseResource resource) {
+        Parameters result = getClient()
+                .operation()
+                .onInstance(resource.getIdElement())
+                .named("$everything")
+                .withNoParameters(Parameters.class)
+                .execute();
+
+        Bundle bundle = (Bundle) result.getParameterFirstRep().getResource();
+        return FhirUtil.getEntries(bundle);
+    }
+
     /**
      * Returns all resources of the given class.
      *

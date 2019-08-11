@@ -212,24 +212,24 @@ public abstract class ScenarioBase {
     public final synchronized int destroy() {
         load();
         int count = 0;
-        boolean deleted = true;
+        boolean stop = false;
 
-        while (deleted) {
-            deleted = false;
+        while (!stop) {
+            stop = true;
             Iterator<IBaseResource> iterator = resourcesById.values().iterator();
 
             while (iterator.hasNext()) {
                 IBaseResource resource = iterator.next();
+                    int deleted = deleteResource(resource);
 
-                try {
-                    _deleteResource(resource);
-                    resourcesByName.values().remove(resource);
-                    iterator.remove();
-                    deleted = true;
-                    count++;
-                    logAction(resource, "Deleted");
-                } catch (Exception e) {}
-            }
+                    if (deleted > 0) {
+                        count += deleted;
+                        stop = false;
+                        resourcesByName.values().remove(resource);
+                        iterator.remove();
+                        logAction(resource, "Deleted");
+                    }
+             }
         }
 
         for (IBaseResource resource : resourcesById.values()) {
@@ -241,7 +241,41 @@ public abstract class ScenarioBase {
     }
 
     protected abstract void _deleteResource(IBaseResource resource);
-    
+
+    protected abstract List<IBaseResource> _relatedResources(IBaseResource resource);
+
+    /**
+     * Deletes a resource and any related resources, returning a count of those successfully deleted.
+     *
+     * @param resource Resource to delete.
+     * @return Count of resources actually deleted.
+     */
+    public int deleteResource(IBaseResource resource) {
+        int count = 0;
+
+        for (IBaseResource res: relatedResources(resource)) {
+            try {
+                _deleteResource(res);
+                count++;
+            } catch (Exception e) {}
+        }
+
+        return count;
+    }
+
+    private List<IBaseResource> relatedResources(IBaseResource resource) {
+        List<IBaseResource> resources;
+
+        try {
+            resources = _relatedResources(resource);
+        } catch (Exception e) {
+            resources = new ArrayList<>();
+        }
+
+        resources.add(resource);
+        return resources;
+    }
+
     /**
      * Creates or updates the specified resource, first tagging it as belonging to this scenario.
      *

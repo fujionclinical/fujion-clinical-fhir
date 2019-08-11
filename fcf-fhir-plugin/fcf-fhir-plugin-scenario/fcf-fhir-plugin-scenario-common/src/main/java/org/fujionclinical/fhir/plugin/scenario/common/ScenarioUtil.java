@@ -132,6 +132,8 @@ public class ScenarioUtil {
      * This is a bit of a hack to enumerate all valid resource classes. It's used right now
      * because many FHIR servers don't implement cross-resource searches.
      *
+     * @param packageName Name of the package containing the resource classes.
+     * @param resourceClasses The set to receive the resource classes.
      * @return Set of all valid resource classes.
      */
     protected static final Set<Class<? extends IBaseResource>> getResourceClasses(String packageName, Set<Class<? extends IBaseResource>> resourceClasses) {
@@ -146,7 +148,7 @@ public class ScenarioUtil {
                 fcs.scan();
             }
 
-            return Collections.unmodifiableSet(resourceClasses);
+            return resourceClasses;
         }
     }
 }

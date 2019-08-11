@@ -662,6 +662,16 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
+     * Extracts resources from a bundle.
+     *
+     * @param bundle The bundle.
+     * @return The list of extracted resources.
+     */
+    public static List<IBaseResource> getEntries(Bundle bundle) {
+        return (List) getEntries(bundle, null, null);
+    }
+
+    /**
      * Extracts resources of the specified class from a bundle.
      *
      * @param <T> Resource type.
@@ -673,7 +683,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static <T extends IBaseResource> List<T> getEntries(Bundle bundle, Class<T> clazz) {
         return (List<T>) getEntries(bundle, Collections.singletonList(clazz), null);
     }
-    
+
     /**
      * Extracts resources from a bundle according to the inclusion and exclusion criteria.
      *
