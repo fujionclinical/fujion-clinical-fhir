@@ -38,6 +38,7 @@ import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
+import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.util.Assert;
@@ -416,8 +417,8 @@ public class BaseService {
      *
      * @param resource Resource to delete.
      */
-    public void deleteResource(IBaseResource resource) {
-        getClient().delete().resource(resource).execute();
+    public IBaseOperationOutcome deleteResource(IBaseResource resource) {
+        return getClient().delete().resource(resource).execute();
     }
     
     /**

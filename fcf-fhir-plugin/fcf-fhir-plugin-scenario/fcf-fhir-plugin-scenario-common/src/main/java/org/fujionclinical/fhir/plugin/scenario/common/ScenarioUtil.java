@@ -34,7 +34,7 @@ import java.util.Date;
 
 public class ScenarioUtil {
     
-    public static final String DEMO_URN = "urn:fujion:hsp:model:demo";
+    public static final String DEMO_URN = "urn:fujionclinical:demo";
     
     /**
      * Identifier used to locate demo resources for bulk deletes.

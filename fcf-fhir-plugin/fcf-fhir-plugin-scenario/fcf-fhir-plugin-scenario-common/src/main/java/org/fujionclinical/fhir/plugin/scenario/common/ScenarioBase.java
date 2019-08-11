@@ -224,8 +224,7 @@ public abstract class ScenarioBase {
 
         IBaseResource list = _packageResources(resourcesById.values());
         list.setId(getId());
-        addTags(list);
-        _createOrUpdateResource(list);
+        createOrUpdateResource(list);
         return resourcesById.size();
     }
 
@@ -289,7 +288,7 @@ public abstract class ScenarioBase {
                     int deleted = deleteResource(resource);
 
                     if (deleted > 0) {
-                        count += deleted;
+                        count++;
                         stop = false;
                         resourcesByName.values().remove(resource);
                         iterator.remove();
