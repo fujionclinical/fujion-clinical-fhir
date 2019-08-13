@@ -37,9 +37,9 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Scenario extends ScenarioBase {
 
@@ -56,21 +56,18 @@ public class Scenario extends ScenarioBase {
     }
 
     @Override
-    protected Collection<IBaseResource> _loadResources() {
-        List<IBaseResource> resources = new ArrayList<>();
-
+    protected void _loadResources(Consumer<IBaseResource> resources) {
         try {
             ListResource list = (ListResource) fhirService.getResource(getId());
+            resources.accept(list);
 
             for (ListResource.Entry entry : list.getEntry()) {
                 try {
-                    resources.add(fhirService.getResource(entry.getItem()));
+                    resources.accept(fhirService.getResource(entry.getItem()));
                 } catch (Exception e) {}
             }
 
         } catch (Exception e) {}
-
-        return resources;
     }
 
     @Override

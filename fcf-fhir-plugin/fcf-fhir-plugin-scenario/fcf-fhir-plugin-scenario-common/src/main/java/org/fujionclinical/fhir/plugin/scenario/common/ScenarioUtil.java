@@ -95,10 +95,10 @@ public class ScenarioUtil {
      * Adds a tag to a resource for scenario-based deletes of demo data.
      *
      * @param resource The resource.
-     * @param scenario The scenario name.
+     * @param scenarioTag The scenario tag.
      */
-    public static final void addScenarioTag(IBaseResource resource, String scenario) {
-        FhirUtil.addTag(createScenarioTag(scenario), resource);
+    public static final void addScenarioTag(IBaseResource resource, IBaseCoding scenarioTag) {
+        FhirUtil.addTag(scenarioTag, resource);
     }
 
     /**
@@ -116,11 +116,12 @@ public class ScenarioUtil {
     /**
      * Creates a tag to be used for scenario-based deletes.
      *
-     * @param scenario The scenario name.
+     * @param scenarioId The scenario unique id.
+     * @param scenarioName The scenario name.
      * @return The newly created tag.
      */
-    public static final IBaseCoding createScenarioTag(String scenario) {
-        return new Tag(DEMO_URN, scenario, "Scenario: " + scenario);
+    public static final IBaseCoding createScenarioTag(String scenarioId, String scenarioName) {
+        return new Tag(DEMO_URN, scenarioId, "Scenario: " + scenarioName);
     }
     
 }

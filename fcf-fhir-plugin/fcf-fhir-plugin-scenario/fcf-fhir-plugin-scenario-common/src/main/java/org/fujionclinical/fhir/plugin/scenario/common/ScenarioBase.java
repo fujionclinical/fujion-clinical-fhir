@@ -31,12 +31,10 @@ import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.parser.IParser;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
-import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -49,6 +47,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Consumer;
 
 public abstract class ScenarioBase {
 
@@ -74,19 +73,27 @@ public abstract class ScenarioBase {
 
     protected ScenarioBase(Resource scenarioYaml, FhirContext fhirContext) {
         this.fhirContext = fhirContext;
-        this.scenarioName = FilenameUtils.getBaseName(scenarioYaml.getFilename());
         this.scenarioBase = scenarioYaml;
-        this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioName);
-        this.scenarioId = _createScenarioId("List", "fcf-scenario-" + StrUtil.xlate(scenarioName, " _", ".-"));
 
         try (InputStream in = scenarioYaml.getInputStream()) {
-            scenarioConfig = new Yaml().load(in);
+            Map<String, ?> config = new Yaml().load(in);
+            Map<String, String> meta = (Map<String, String>) getParam(config, "scenario");
+            this.scenarioConfig = (Map<String, Map<String, String>>) getParam(config, "resources");
+            this.scenarioId = _createScenarioId("List", getParam(meta, "id"));
+            this.scenarioName = getParam(meta, "name");
+            this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioId.getIdPart(), scenarioName);
         } catch (Exception e) {
-            log.error("Failed to load scenario configuration: " + scenarioName, e);
+            log.error(() -> "Failed to load scenario configuration: " + scenarioYaml, e);
             throw MiscUtil.toUnchecked(e);
         }
 
         log.info(() -> "Loaded scenario configuration: " + scenarioName);
+    }
+
+    private <T> T getParam(Map<String, T> map, String param) {
+        T value = map.get(param);
+        Assert.notNull(value, () -> "Missing configuration parameter: " + param);
+        return value;
     }
 
     /**
@@ -101,9 +108,9 @@ public abstract class ScenarioBase {
     /**
      * Loads resources associated with the scenario.
      *
-     * @return List of resources associated with the scenario.
+     * @resources Consumer function for receiving resources.
      */
-    protected abstract Collection<IBaseResource> _loadResources();
+    protected abstract void _loadResources(Consumer<IBaseResource> resources);
 
     /**
      * Packages scenario resources into a List resource.
@@ -218,7 +225,7 @@ public abstract class ScenarioBase {
 
         for (String name : scenarioConfig.keySet()) {
             Map<String, String> params = scenarioConfig.get(name);
-            IBaseResource resource = initialize(params.get("source"), params);
+            IBaseResource resource = initialize(getParam(params, "source"), params);
             resourcesByName.put(name, resource);
         }
 
@@ -236,7 +243,6 @@ public abstract class ScenarioBase {
      * @return The created resource.
      */
     public final synchronized IBaseResource initialize(String source, Map<String, String> params) {
-        Assert.notNull(source, "A source must be specified.");
         return initialize(parseResource(source, params));
     }
 
@@ -260,12 +266,7 @@ public abstract class ScenarioBase {
     public final synchronized int load() {
         isLoaded = true;
         resourcesById.clear();
-
-        for (IBaseResource resource : _loadResources()) {
-            addResource(resource);
-            logAction(resource, "Retrieved");
-        }
-
+        _loadResources(resource -> addResource(resource));
         return resourcesById.size();
     }
 
