@@ -49,7 +49,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
 
-public abstract class ScenarioBase {
+/**
+ * Abstract base class for FHIR-specific scenarios.
+ *
+ * @param <T> The List resource class.
+ */
+public abstract class ScenarioBase<T extends IBaseResource> {
 
     private static final Logger log = Logger.create(ScenarioBase.class);
 
@@ -70,6 +75,8 @@ public abstract class ScenarioBase {
     private final FhirContext fhirContext;
 
     private boolean isLoaded;
+
+    private T scenarioResources;
 
     protected ScenarioBase(Resource scenarioYaml, FhirContext fhirContext) {
         this.fhirContext = fhirContext;
@@ -108,9 +115,10 @@ public abstract class ScenarioBase {
     /**
      * Loads resources associated with the scenario.
      *
-     * @resources Consumer function for receiving resources.
+     * @param resources Consumer function for receiving resources.
+     * @return The newly created List resource.
      */
-    protected abstract void _loadResources(Consumer<IBaseResource> resources);
+    protected abstract T _loadResources(Consumer<IBaseResource> resources);
 
     /**
      * Packages scenario resources into a List resource.
@@ -118,7 +126,7 @@ public abstract class ScenarioBase {
      * @param resources List of resources to package.
      * @return The newly created List resource.
      */
-    protected abstract IBaseResource _packageResources(Collection<IBaseResource> resources);
+    protected abstract T _packageResources(Collection<IBaseResource> resources);
 
     /**
      * Deletes a resource.
@@ -229,9 +237,10 @@ public abstract class ScenarioBase {
             resourcesByName.put(name, resource);
         }
 
-        IBaseResource list = _packageResources(resourcesById.values());
-        list.setId(getId());
-        createOrUpdateResource(list);
+        scenarioResources = _packageResources(resourcesById.values());
+        scenarioResources.setId(getId());
+        addTags(scenarioResources);
+        _createOrUpdateResource(scenarioResources);
         return resourcesById.size();
     }
 
@@ -266,7 +275,7 @@ public abstract class ScenarioBase {
     public final synchronized int load() {
         isLoaded = true;
         resourcesById.clear();
-        _loadResources(resource -> addResource(resource));
+        scenarioResources = _loadResources(resource -> addResource(resource));
         return resourcesById.size();
     }
 
@@ -280,13 +289,18 @@ public abstract class ScenarioBase {
         int count = 0;
         boolean stop = false;
 
+        if (scenarioResources != null) {
+            deleteResource(scenarioResources);
+            scenarioResources = null;
+        }
+
         while (!stop) {
             stop = true;
             Iterator<IBaseResource> iterator = resourcesById.values().iterator();
 
             while (iterator.hasNext()) {
                 IBaseResource resource = iterator.next();
-                    int deleted = deleteResource(resource);
+                    int deleted = deleteResources(resource);
 
                     if (deleted > 0) {
                         count++;
@@ -312,17 +326,25 @@ public abstract class ScenarioBase {
      * @param resource Resource to delete.
      * @return Count of resources actually deleted.
      */
-    public int deleteResource(IBaseResource resource) {
+    public int deleteResources(IBaseResource resource) {
         int count = 0;
 
         for (IBaseResource res: relatedResources(resource)) {
-            try {
-                _deleteResource(res);
+            if (deleteResource(res)) {
                 count++;
-            } catch (Exception e) {}
+            }
         }
 
         return count;
+    }
+
+    private boolean deleteResource(IBaseResource resource) {
+        try {
+            _deleteResource(resource);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**

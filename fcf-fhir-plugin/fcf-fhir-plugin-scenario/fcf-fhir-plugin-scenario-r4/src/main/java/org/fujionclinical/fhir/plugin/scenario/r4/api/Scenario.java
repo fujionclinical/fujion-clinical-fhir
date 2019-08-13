@@ -41,7 +41,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Scenario extends ScenarioBase {
+public class Scenario extends ScenarioBase<ListResource> {
 
     private final BaseService fhirService;
 
@@ -56,10 +56,11 @@ public class Scenario extends ScenarioBase {
     }
 
     @Override
-    protected void _loadResources(Consumer<IBaseResource> resources) {
+    protected ListResource _loadResources(Consumer<IBaseResource> resources) {
+        ListResource list = null;
+
         try {
-            ListResource list = (ListResource) fhirService.getResource(getId());
-            resources.accept(list);
+            list = (ListResource) fhirService.getResource(getId());
 
             for (ListResource.ListEntryComponent entry : list.getEntry()) {
                 try {
@@ -68,6 +69,8 @@ public class Scenario extends ScenarioBase {
             }
 
         } catch (Exception e) {}
+
+        return list;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class Scenario extends ScenarioBase {
     }
 
     @Override
-    protected IBaseResource _packageResources(Collection<IBaseResource> resources) {
+    protected ListResource _packageResources(Collection<IBaseResource> resources) {
         ListResource list = new ListResource();
 
         for (IBaseResource resource: resources) {
