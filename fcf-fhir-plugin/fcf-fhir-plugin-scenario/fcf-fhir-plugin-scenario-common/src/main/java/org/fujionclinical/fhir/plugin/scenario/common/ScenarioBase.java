@@ -424,6 +424,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
 
                 while ((p1 = s.indexOf("${")) > -1) {
                     int p2 = s.indexOf("}", p1);
+                    Assert.isTrue(p2 > -1, "No closing bracket for placeholder");
                     String key = s.substring(p1 + 2, p2);
                     int p3 = key.indexOf(":");
                     String dflt = "";
@@ -439,10 +440,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
                         value = dflt;
                     }
 
-                    if (value == null) {
-                        throw new RuntimeException("Reference not found: " + key);
-                    }
-
+                    Assert.notNull(value, "Reference not found: " + key);
                     String r = eval(value, resourcesByName);
                     s = s.substring(0, p1) + r + s.substring(p2 + 1);
                 }
