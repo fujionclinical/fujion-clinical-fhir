@@ -289,11 +289,6 @@ public abstract class ScenarioBase<T extends IBaseResource> {
         int count = 0;
         boolean stop = false;
 
-        if (scenarioResources != null) {
-            deleteResource(scenarioResources);
-            scenarioResources = null;
-        }
-
         while (!stop) {
             stop = true;
             Iterator<IBaseResource> iterator = resourcesById.values().iterator();
@@ -312,11 +307,15 @@ public abstract class ScenarioBase<T extends IBaseResource> {
              }
         }
 
+        if (scenarioResources != null) {
+            deleteResource(scenarioResources);
+            scenarioResources = null;
+        }
+
         for (IBaseResource resource : resourcesById.values()) {
             logAction(resource, "Failed to delete");
         }
 
-        resourcesByName.clear();
         return count;
     }
 
