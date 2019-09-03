@@ -1,5 +1,6 @@
 package org.fujionclinical.fhir.security.mock;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,20 +22,30 @@ public class MockAuthenticationServer {
 
     private static class LaunchContext {
 
-        final long expirationTime;
+        long expirationTime;
 
         final Map<String, String> map;
 
-        LaunchContext(Map<String, String> map) {
+        LaunchContext(Map<String, String> map, boolean allowRefresh) {
             this.map = map;
-            expirationTime = System.currentTimeMillis() + EXPIRATION_INTERVAL;
+            resetExpirationTime();
             map.put("access_token", UUID.randomUUID().toString());
             map.put("token_type", "Bearer");
+
+            if (allowRefresh) {
+                map.put("refresh_token", UUID.randomUUID().toString());
+            }
         }
 
+        void resetExpirationTime() {
+            expirationTime = System.currentTimeMillis() + EXPIRATION_INTERVAL;
+        }
     }
 
     private final Map<String, LaunchContext> contexts = Collections.synchronizedMap(new LinkedHashMap<>());
+
+    @Value("${oauth.mock.allowrefresh:false}")
+    private boolean allowRefresh;
 
     @RequestMapping(
             path = "/Launch",
@@ -49,7 +60,7 @@ public class MockAuthenticationServer {
         }
 
         String launchId = UUID.randomUUID().toString();
-        contexts.put(launchId, new LaunchContext((Map) params));
+        contexts.put(launchId, new LaunchContext((Map) params, allowRefresh));
         Map<String, Object> body = new HashMap<>();
         body.put("parameters", params);
         body.put("launch_id", launchId);
@@ -88,16 +99,22 @@ public class MockAuthenticationServer {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity token(@RequestParam Map<String, String> payload) {
+        boolean badRequest = false;
         removeExpiredLaunchIds();
         String code = payload.get("code");
         String grant_type = payload.get("grant_type");
         LaunchContext context = code == null ? null : contexts.remove(code);
 
-        if (context == null || !"authorization_code".equals(grant_type)) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        if (context == null) {
+            badRequest = true;
+        } else if (allowRefresh && "refresh_token".equals(grant_type)) {
+            context.resetExpirationTime();
+            contexts.put(code, context);
+        } else if (!"authorization_code".equals(grant_type)) {
+            badRequest = true;
         }
 
-        return new ResponseEntity(context.map, HttpStatus.OK);
+        return badRequest ? new ResponseEntity(HttpStatus.BAD_REQUEST) : new ResponseEntity(context.map, HttpStatus.OK);
     }
 
     @RequestMapping(
