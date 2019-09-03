@@ -18,34 +18,45 @@ import java.util.*;
 @RequestMapping("/auth")
 public class MockAuthenticationServer {
 
-    private static final long EXPIRATION_INTERVAL = 10000;
+    private static final int INITIAL_EXPIRATION_INTERVAL = 10;
 
     private static class LaunchContext {
 
         long expirationTime;
 
+        final int expiresIn;
+
         final Map<String, String> map;
 
-        LaunchContext(Map<String, String> map, boolean allowRefresh) {
+        LaunchContext(Map<String, String> map, int expiresIn, boolean allowRefresh) {
             this.map = map;
-            resetExpirationTime();
+            this.expiresIn = expiresIn;
+            setExpirationTime(INITIAL_EXPIRATION_INTERVAL);
             map.put("access_token", UUID.randomUUID().toString());
             map.put("token_type", "Bearer");
+            map.put("expires_in", expiresIn + "");
 
             if (allowRefresh) {
                 map.put("refresh_token", UUID.randomUUID().toString());
             }
         }
 
+        private void setExpirationTime(int expirationInterval) {
+            expirationTime = System.currentTimeMillis() + expirationInterval * 1000;
+        }
+
         void resetExpirationTime() {
-            expirationTime = System.currentTimeMillis() + EXPIRATION_INTERVAL;
+            setExpirationTime(expiresIn);
         }
     }
 
-    private final Map<String, LaunchContext> contexts = Collections.synchronizedMap(new LinkedHashMap<>());
+    private final Map<String, LaunchContext> contexts = Collections.synchronizedMap(new HashMap<>());
 
-    @Value("${oauth.mock.allowrefresh:false}")
+    @Value("${oauth.mock.allow_refresh:false}")
     private boolean allowRefresh;
+
+    @Value("${oauth.mock.expires_in:3600}")
+    private int expiresIn;
 
     @RequestMapping(
             path = "/Launch",
@@ -60,7 +71,7 @@ public class MockAuthenticationServer {
         }
 
         String launchId = UUID.randomUUID().toString();
-        contexts.put(launchId, new LaunchContext((Map) params, allowRefresh));
+        contexts.put(launchId, new LaunchContext((Map) params, expiresIn, allowRefresh));
         Map<String, Object> body = new HashMap<>();
         body.put("parameters", params);
         body.put("launch_id", launchId);
@@ -73,7 +84,7 @@ public class MockAuthenticationServer {
             path = "/authorize",
             method = RequestMethod.GET)
     public Object authorize(HttpServletRequest request) {
-        removeExpiredLaunchIds();
+        removeExpiredContexts();
         String response_type = request.getParameter("response_type");
         String client_id = request.getParameter("client_id");
         String scope = request.getParameter("scope");
@@ -100,7 +111,7 @@ public class MockAuthenticationServer {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity token(@RequestParam Map<String, String> payload) {
         boolean badRequest = false;
-        removeExpiredLaunchIds();
+        removeExpiredContexts();
         String code = payload.get("code");
         String grant_type = payload.get("grant_type");
         LaunchContext context = code == null ? null : contexts.remove(code);
@@ -110,7 +121,9 @@ public class MockAuthenticationServer {
         } else if (allowRefresh && "refresh_token".equals(grant_type)) {
             context.resetExpirationTime();
             contexts.put(code, context);
-        } else if (!"authorization_code".equals(grant_type)) {
+        } else if ("authorization_code".equals(grant_type)) {
+            context.resetExpirationTime();
+        } else {
             badRequest = true;
         }
 
@@ -123,11 +136,11 @@ public class MockAuthenticationServer {
             produces = MediaType.TEXT_HTML_VALUE)
     @ResponseBody
     public String ping() {
-        removeExpiredLaunchIds();
-        return "<h1>Active launch ids: " + contexts.size() + "</h1>";
+        removeExpiredContexts();
+        return "<h1>Active contexts: " + contexts.size() + "</h1>";
     }
 
-    private void removeExpiredLaunchIds() {
+    private void removeExpiredContexts() {
         synchronized (contexts) {
             long current = System.currentTimeMillis();
             Iterator<String> iter = contexts.keySet().iterator();
@@ -137,8 +150,6 @@ public class MockAuthenticationServer {
 
                 if (current > contexts.get(key).expirationTime) {
                     iter.remove();
-                } else {
-                    break;
                 }
             }
         }
