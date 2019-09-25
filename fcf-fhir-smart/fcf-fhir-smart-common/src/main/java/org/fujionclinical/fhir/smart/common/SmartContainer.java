@@ -30,8 +30,7 @@ import org.fujion.annotation.Component;
 import org.fujion.component.BaseUIComponent;
 import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * SMART Container Implementation
@@ -154,10 +153,13 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * @param subscribe If true, subscribe; false, unsubscribe;
      */
     private void subscribeAll(boolean subscribe) {
-        String scopes = _manifest == null ? null : _manifest.getValue("scope");
+        String scopeStr = _manifest == null ? null : _manifest.getValue("scope");
 
-        if (scopes != null) {
-            for (String scope : scopes.split("\\,")) {
+        if (scopeStr != null) {
+            Set<String> scopes = new HashSet<>(Arrays.asList(scopeStr.split("\\,")));
+            scopes.add("user");
+
+            for (String scope : scopes) {
                 subscribe(scope.trim(), subscribe);
             }
         }
