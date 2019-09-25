@@ -100,7 +100,9 @@ public class MockAuthenticationServer {
         }
 
         context.map.put("scope", scope);
-        redirect_uri += "?code=" + launch + "&state=" + state;
+        String userid = context.map.get("user");
+
+        redirect_uri += "?code=" + launch + "&state=" + state + (userid == null ? "" : "&userid=" + userid);
         return "redirect:" + redirect_uri;
     }
 
