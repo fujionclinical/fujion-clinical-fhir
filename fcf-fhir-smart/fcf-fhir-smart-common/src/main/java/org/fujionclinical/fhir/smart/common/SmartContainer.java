@@ -2,7 +2,7 @@
  * #%L
  * Fujion Clinical Framework
  * %%
- * Copyright (C) 2018 fujionclinical.org
+ * Copyright (C) 2019 fujionclinical.org
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,10 +117,10 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      */
     @Override
     public void updateContext(String contextName, ContextMap context) {
-        _context.remove(contextName);
-
         if (context != null && !context.isEmpty()) {
             _context.put(contextName, context);
+        } else {
+            _context.remove(contextName);
         }
 
         refresh();
