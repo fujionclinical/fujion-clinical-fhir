@@ -36,9 +36,9 @@ public interface ISmartContextSubscriber {
     /**
      * Allows a SMART context to notify a subscriber of a context change.
      * 
-     * @param contextScope The name of the SMART context scope.
+     * @param contextName The name of the SMART context.
      * @param context The context map containing the updated state.
      */
-    void updateContext(String contextScope, ContextMap context);
+    void updateContext(String contextName, ContextMap context);
     
 }

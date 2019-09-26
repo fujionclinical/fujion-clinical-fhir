@@ -116,11 +116,11 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * this container of a change to the context.
      */
     @Override
-    public void updateContext(String contextScope, ContextMap context) {
-        _context.remove(contextScope);
+    public void updateContext(String contextName, ContextMap context) {
+        _context.remove(contextName);
 
         if (context != null && !context.isEmpty()) {
-            _context.put(contextScope, context);
+            _context.put(contextName, context);
         }
 
         refresh();
@@ -148,34 +148,34 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
     }
 
     /**
-     * Subscribes/unsubscribes all scopes declared within the manifest.
+     * Subscribes/unsubscribes all contexts declared within the manifest.
      *
      * @param subscribe If true, subscribe; false, unsubscribe;
      */
     private void subscribeAll(boolean subscribe) {
-        String scopeStr = _manifest == null ? null : _manifest.getValue("scope");
+        String contextStr = _manifest == null ? null : _manifest.getValue("context");
 
-        if (scopeStr != null) {
-            Set<String> scopes = new HashSet<>(Arrays.asList(scopeStr.split("\\,")));
-            scopes.add("user");
+        if (contextStr != null) {
+            Set<String> contexts = new HashSet<>(Arrays.asList(contextStr.split("\\,")));
+            contexts.add("user");
 
-            for (String scope : scopes) {
-                subscribe(scope.trim(), subscribe);
+            for (String context : contexts) {
+                subscribe(context.trim(), subscribe);
             }
         }
     }
 
     /**
-     * Subscribes/unsubscribes this subscriber to/from a SMART context scope.
+     * Subscribes/unsubscribes this subscriber to/from a SMART context.
      *
-     * @param contextScope The name of the SMART context scope.
+     * @param contextName The name of the SMART context.
      * @param subscribe If true, subscribe; false, unsubscribe;
      */
-    private void subscribe(String contextScope, boolean subscribe) {
+    private void subscribe(String contextName, boolean subscribe) {
         if (subscribe) {
-            contextRegistry.get(contextScope).subscribe(this);
+            contextRegistry.get(contextName).subscribe(this);
         } else {
-            contextRegistry.get(contextScope).unsubscribe(this);
+            contextRegistry.get(contextName).unsubscribe(this);
         }
     }
 }

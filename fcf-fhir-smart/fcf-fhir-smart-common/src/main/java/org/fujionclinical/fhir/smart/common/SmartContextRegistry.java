@@ -46,25 +46,25 @@ public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
 
     @Override
     protected String getKey(ISmartContext item) {
-        return item.getContextScope();
+        return item.getContextName();
     }
 
     /**
-     * Returns the SMART context implementation corresponding to the specified scope.
+     * Returns the SMART context implementation corresponding to the specified context name.
      *
-     * @param contextScope The name of the SMART context scope.
+     * @param contextName The name of the SMART context.
      * @return The context implementation.
-     * @exception IllegalArgumentException If scope is not known.
+     * @exception IllegalArgumentException If the context name is not known.
      */
     @Override
-    public ISmartContext get(String contextScope) {
-        ISmartContext context = super.get(contextScope);
-        Assert.notNull(context, () -> "Unknown SMART context type: " + contextScope);
+    public ISmartContext get(String contextName) {
+        ISmartContext context = super.get(contextName);
+        Assert.notNull(context, () -> "Unknown SMART context: " + contextName);
         return context;
     }
 
     @Override
-    protected void onRegister(String contextScope, ISmartContext iSmartContext) {
-        log.info("Registered SMART context type '" + contextScope + "'.");
+    protected void onRegister(String contextName, ISmartContext iSmartContext) {
+        log.info("Registered SMART context '" + contextName + "'.");
     }
 }

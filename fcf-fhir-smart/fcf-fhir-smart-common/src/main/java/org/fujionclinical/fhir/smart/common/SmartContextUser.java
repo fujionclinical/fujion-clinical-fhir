@@ -29,11 +29,11 @@ import org.fujionclinical.api.context.UserContext;
 import org.fujionclinical.api.domain.IUser;
 
 /**
- * Implements the SMART "user" context scope. This also demonstrates the basic requirements for
- * implementing a SMART context scope. The constructor requires the SMART context name and the
+ * Implements the SMART "user" context. This also demonstrates the basic requirements for
+ * implementing a SMART context. The constructor requires the SMART context name and the
  * corresponding Fujion context event name. The updateContext method implementation writes the
  * context state to the target context map. A bean definition for this class must be declared in the
- * desktop scope. For this class the declaration looks like this:
+ * child scope. For this class the declaration looks like this:
  * <p>
  * {@code
  *  <bean id="smart.context.user" parent="smart.context.base" class="org.fujionclinical.smart.SmartContextUser" depends-on="userContext"/>

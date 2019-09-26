@@ -30,12 +30,12 @@ import org.fujionclinical.fhir.dstu2.api.encounter.EncounterContext;
 import org.fujionclinical.fhir.smart.common.SmartContextBase;
 
 /**
- * Implements SMART context scope "encounter".
+ * Implements SMART encounter context.
  */
 public class SmartContextEncounter extends SmartContextBase {
 
     /**
-     * Binds encounter context changes to the SMART encounter context scope.
+     * Binds encounter context changes to the SMART encounter context.
      */
     public SmartContextEncounter() {
         super("encounter", "CONTEXT.CHANGED.Encounter");

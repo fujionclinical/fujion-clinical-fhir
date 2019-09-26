@@ -30,13 +30,13 @@ import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
 import org.fujionclinical.fhir.smart.common.SmartContextBase;
 
 /**
- * Implements SMART context scope "record".
+ * Implements SMART patient context.
  */
 public class SmartContextPatient extends SmartContextBase {
 
 
     /**
-     * Binds patient context changes to the SMART record context scope.
+     * Binds patient context changes to the SMART patient context.
      */
     public SmartContextPatient() {
         super("patient", "CONTEXT.CHANGED.Patient");

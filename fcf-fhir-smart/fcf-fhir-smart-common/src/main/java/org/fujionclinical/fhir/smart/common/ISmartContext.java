@@ -31,7 +31,7 @@ package org.fujionclinical.fhir.smart.common;
 public interface ISmartContext {
     
     
-    String getContextScope();
+    String getContextName();
     
     /**
      * Registers the subscriber to receive notification of changes to the SMART context.

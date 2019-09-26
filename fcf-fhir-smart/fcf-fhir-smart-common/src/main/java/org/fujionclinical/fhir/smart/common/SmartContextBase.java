@@ -34,11 +34,11 @@ import java.util.List;
 
 /**
  * Abstract base class for SMART context adapters. This class defines most of the logic required to
- * convey Fujion-based context changes to SMART subscribers of the equivalent context scope.
+ * dispatch context changes to subscribers of the bound SMART context.
  * Subclasses must implement the updateContext method (see SmartContextUser subclass as an example)
  * and should be configured as singleton beans in the desktop application context via Spring IOC.
- * Naming of the singleton beans must follow the convention "smart.context.[context scope]" where
- * [context scope] is the name of the SMART context as passed to the constructor (e.g.,
+ * Naming of the singleton beans must follow the convention "smart.context.[context name]" where
+ * [context name] is the name of the SMART context as passed to the constructor (e.g.,
  * "smart.context.user").
  */
 public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartContext {
@@ -60,7 +60,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
 
     private IEventManager eventManager;
 
-    private final String contextScope;
+    private final String contextName;
 
     private final String contextEvent;
 
@@ -73,12 +73,12 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
     /**
      * Main constructor.
      *
-     * @param contextScope This is the name of the SMART context scope (e.g., "user").
+     * @param contextName This is the name of the SMART context (e.g., "user").
      * @param contextEvent This is the name of the corresponding context change notification
      *            event (e.g., "CONTEXT.CHANGED.User").
      */
-    public SmartContextBase(String contextScope, String contextEvent) {
-        this.contextScope = contextScope;
+    public SmartContextBase(String contextName, String contextEvent) {
+        this.contextName = contextName;
         this.contextEvent = contextEvent;
     }
 
@@ -139,7 +139,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
      */
     protected void notifySubscriber(ISmartContextSubscriber subscriber) {
         if (subscriber != null) {
-            subscriber.updateContext(contextScope, new ContextMap(context));
+            subscriber.updateContext(contextName, new ContextMap(context));
         }
     }
 
@@ -152,18 +152,20 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
     protected abstract void updateContext(ContextMap context);
 
     /**
-     * Returns the name of the SMART context scope.
+     * Returns the name of the SMART context.
      *
-     * @return The context scope.
+     * @return The context name.
      */
     @Override
-    public String getContextScope() {
-        return contextScope;
+    public String getContextName() {
+        return contextName;
     }
 
     /**
      * ISmartContext.subscribe method allows a SMART container to subscribe to context changes for
-     * the target scope as declared by its hosted application. subscriber The subscriber.
+     * the target context as declared by its hosted application.
+     *
+     * @param subscriber The subscriber.
      */
     @Override
     public void subscribe(ISmartContextSubscriber subscriber) {
@@ -175,7 +177,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
 
     /**
      * ISmartContext.unsubscribe method allows a SMART container to unsubscribe from context changes
-     * for the target scope as declared by its hosted application.
+     * for the target context as declared by its hosted application.
      */
     @Override
     public void unsubscribe(ISmartContextSubscriber subscriber) {
