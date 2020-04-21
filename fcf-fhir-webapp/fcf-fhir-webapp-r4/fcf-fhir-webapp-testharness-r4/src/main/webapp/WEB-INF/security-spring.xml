@@ -6,7 +6,7 @@
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	http://www.springframework.org/schema/security/spring-security-5.3.xsd">
 	
 	<sec:http use-expressions="false">
 		<sec:intercept-url pattern="/security/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
