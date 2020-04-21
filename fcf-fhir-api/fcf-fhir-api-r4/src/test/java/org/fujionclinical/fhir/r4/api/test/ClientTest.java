@@ -37,11 +37,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ClientTest {
-    
-    private static final String FHIR_EP = "https://fhirtest.uhn.ca/baseR4";
-    
+
+    private static final String FHIR_EP = "TEST_FHIR_R4_EP";
+
     @Test
     public void testClient() {
+        String endpoint = System.getenv(FHIR_EP);
+
+        if (endpoint == null) {
+            System.err.println("Environment variable " + FHIR_EP + " was not found; skipping test...");
+            return;
+        }
+
         FhirContext ctx = new FhirContext(FhirVersionEnum.R4);
         IGenericClient client = ctx.newRestfulGenericClient(FHIR_EP);
         //client.registerInterceptor(new BasicAuthInterceptor("user123", "user321$"));
