@@ -50,7 +50,7 @@ public class ClientTest {
         }
 
         FhirContext ctx = new FhirContext(FhirVersionEnum.R4);
-        IGenericClient client = ctx.newRestfulGenericClient(FHIR_EP);
+        IGenericClient client = ctx.newRestfulGenericClient(endpoint);
         //client.registerInterceptor(new BasicAuthInterceptor("user123", "user321$"));
         ((GenericClient) client).setDontValidateConformance(true);
         Bundle bundle = client.search().forResource(Patient.class).count(1).returnBundle(Bundle.class).execute();
