@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "fcf-smart": "js/smart.js",
+    "fcf-smart-css": "css/smart.css"
+  }
+}
