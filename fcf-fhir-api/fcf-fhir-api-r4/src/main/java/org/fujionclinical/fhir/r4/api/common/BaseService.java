@@ -25,15 +25,10 @@
  */
 package org.fujionclinical.fhir.r4.api.common;
 
-import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import ca.uhn.fhir.rest.client.impl.GenericClient;
-import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
-import ca.uhn.fhir.rest.gclient.TokenClientParam;
-import org.fujionclinical.api.messaging.Message;
+import org.fujionclinical.fhir.api.common.core.BaseFhirService;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
@@ -44,41 +39,22 @@ import java.util.List;
 /**
  * Base service for accessing FHIR-based services.
  */
-public class BaseService {
-    
-    public static final String SP_IDENTIFIER = "identifier";
-    
-    public static final String SP_PATIENT = "patient";
-    
-    public static final TokenClientParam PARAM_IDENTIFIER = new TokenClientParam(SP_IDENTIFIER);
-    
-    public static final ReferenceClientParam PARAM_PATIENT = new ReferenceClientParam(SP_PATIENT);
-    
-    private static final int DEFAULT_COUNT = 100;
-    
-    private static final int MAX_COUNT = Integer.MAX_VALUE;
-    
-    private final IGenericClient client;
-    
+public class BaseService extends BaseFhirService {
+
     /**
      * Inject FHIR client.
      *
      * @param client The FHIR client.
      */
     public BaseService(IGenericClient client) {
-        this.client = client;
-        FhirUtil.assertFhirVersion(client);
+        super(client);
     }
-    
-    /**
-     * Returns the FHIR client.
-     *
-     * @return The FHIR client.
-     */
-    public IGenericClient getClient() {
-        return client;
+
+    @Override
+    protected void validateClient() {
+        FhirUtil.assertFhirVersion(getClient());
     }
-    
+
     /**
      * FHIR request to update the given resource.
      *
@@ -86,6 +62,7 @@ public class BaseService {
      * @param resource Resource to update.
      * @return The updated resource.
      */
+    @Override
     public <T extends IBaseResource> T updateResource(T resource) {
         MethodOutcome outcome = getClient().update().resource(FhirUtil.stripVersion(resource)).execute();
         return FhirUtil.processMethodOutcome(outcome, resource);
@@ -98,21 +75,10 @@ public class BaseService {
      * @param resource Resource to create.
      * @return The created resource.
      */
+    @Override
     public <T extends IBaseResource> T createResource(T resource) {
         MethodOutcome outcome = getClient().create().resource(resource).execute();
         return FhirUtil.processMethodOutcome(outcome, resource);
-    }
-    
-    /**
-     * FHIR request to create or update the given resource. If the resource has no logical
-     * identifier, a create operation is requested. Otherwise, an update operation is requested.
-     *
-     * @param <T> Resource type.
-     * @param resource Resource to create or update.
-     * @return The resource resulting from the operation.
-     */
-    public <T extends IBaseResource> T createOrUpdateResource(T resource) {
-        return resource.getIdElement().isEmpty() ? createResource(resource) : updateResource(resource);
     }
     
     /**
@@ -168,16 +134,6 @@ public class BaseService {
     }
 
     /**
-     * Returns the resource corresponding to the given id.
-     *
-     * @param id The resource id.
-     * @return The corresponding resource, if found.
-     */
-    public IBaseResource getResource(IIdType id) {
-        return getClient().read().resource(id.getResourceType()).withId(id).execute();
-    }
-
-    /**
      * Search for patient-based resources of the given class.
      *
      * @param <T> Resource type.
@@ -211,6 +167,7 @@ public class BaseService {
      * @param resource The reference resource.
      * @return The resources related to the reference resource.
      */
+    @Override
     public List<IBaseResource> everything(IBaseResource resource) {
         Parameters result = getClient()
                 .operation()
@@ -228,20 +185,10 @@ public class BaseService {
      *
      * @param <T> Resource type.
      * @param clazz Class of the resources to be searched.
-     * @return List of resources containing the identifier.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesByType(Class<T> clazz) {
-        return searchResourcesByType(clazz, DEFAULT_COUNT);
-    }
-    
-    /**
-     * Returns all resources of the given class.
-     *
-     * @param <T> Resource type.
-     * @param clazz Class of the resources to be searched.
      * @param maxCount Maximum entries to return.
      * @return List of resources containing the identifier.
      */
+    @Override
     public <T extends IBaseResource> List<T> searchResourcesByType(Class<T> clazz, int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount).returnBundle(Bundle.class).execute();
         return FhirUtil.getEntries(bundle, clazz);
@@ -254,22 +201,10 @@ public class BaseService {
      * @param system The identifier's system.
      * @param value The identifier's value.
      * @param clazz Class of the resources to be searched.
-     * @return List of resources containing the identifier.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesByIdentifier(String system, String value, Class<T> clazz) {
-        return searchResourcesByIdentifier(system, value, clazz, DEFAULT_COUNT);
-    }
-    
-    /**
-     * Returns all resources of the given class that contain the identifier.
-     *
-     * @param <T> Resource type.
-     * @param system The identifier's system.
-     * @param value The identifier's value.
-     * @param clazz Class of the resources to be searched.
      * @param maxCount Maximum entries to return.
      * @return List of resources containing the identifier.
      */
+    @Override
     public <T extends IBaseResource> List<T> searchResourcesByIdentifier(String system, String value, Class<T> clazz,
                                                                          int maxCount) {
         return searchResourcesByIdentifier(FhirUtil.createIdentifier(system, value), clazz, maxCount);
@@ -309,38 +244,17 @@ public class BaseService {
      * Returns all resources that contain the tag.
      *
      * @param tag Resources with this tag will be returned.
-     * @return List of resources containing the tag.
-     */
-    public List<IBaseResource> searchResourcesByTag(IBaseCoding tag) {
-        return searchResourcesByTag(tag, DEFAULT_COUNT);
-    }
-    
-    /**
-     * Returns all resources that contain the tag.
-     *
-     * @param tag Resources with this tag will be returned.
      * @param maxCount Maximum entries to return.
      * @return List of resources containing the tag.
      */
+    @Override
     public List<IBaseResource> searchResourcesByTag(IBaseCoding tag, int maxCount) {
         Bundle bundle = getClient().search().forAllResources().count(maxCount).withTag(tag.getSystem(), tag.getCode())
                 .returnBundle(Bundle.class).execute();
-        
+
         return FhirUtil.getEntries(bundle, null, null);
     }
-    
-    /**
-     * Returns all resources of the given class that contain the tag.
-     *
-     * @param <T> Resource type.
-     * @param tag Resources with this tag will be returned.
-     * @param clazz Class of the resources to be searched.
-     * @return List of resources containing the tag.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesByTag(IBaseCoding tag, Class<T> clazz) {
-        return searchResourcesByTag(tag, clazz, DEFAULT_COUNT);
-    }
-    
+
     /**
      * Returns all resources of the given class that contain the tag.
      *
@@ -350,6 +264,7 @@ public class BaseService {
      * @param maxCount Maximum entries to return.
      * @return List of resources containing the tag.
      */
+    @Override
     public <T extends IBaseResource> List<T> searchResourcesByTag(IBaseCoding tag, Class<T> clazz, int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount).withTag(tag.getSystem(), tag.getCode())
                 .returnBundle(Bundle.class).execute();
@@ -369,121 +284,6 @@ public class BaseService {
         List<T> resources = searchResourcesByIdentifier(identifier, clazz, MAX_COUNT);
         deleteResources(resources);
         return resources.size();
-    }
-    
-    /**
-     * Deletes all resources contain the tag.
-     *
-     * @param tag Resources with this tag will be deleted.
-     * @return Count of deleted resources.
-     */
-    public int deleteResourcesByTag(IBaseCoding tag) {
-        return deleteResourcesByTag(tag, null);
-    }
-    
-    /**
-     * Deletes all resources of the given class that contain the tag.
-     *
-     * @param <T> Resource type.
-     * @param tag Resources with this tag will be deleted.
-     * @param clazz Class of the resources to be searched (null for all).
-     * @return Count of deleted resources.
-     */
-    public <T extends IBaseResource> int deleteResourcesByTag(IBaseCoding tag, Class<T> clazz) {
-        List<? extends IBaseResource> resources = clazz == null ? searchResourcesByTag(tag, MAX_COUNT)
-                : searchResourcesByTag(tag, clazz, MAX_COUNT);
-        deleteResources(resources);
-        return resources.size();
-    }
-    
-    /**
-     * Deletes all resources in the provided list.
-     *
-     * @param resources Resources to delete.
-     */
-    public void deleteResources(List<? extends IBaseResource> resources) {
-        for (IBaseResource resource : resources) {
-            deleteResource(resource);
-        }
-    }
-    
-    /**
-     * Deletes a resource.
-     *
-     * @param resource Resource to delete.
-     */
-    public IBaseOperationOutcome deleteResource(IBaseResource resource) {
-        return getClient().delete().resource(resource).execute();
-    }
-    
-    /**
-     * Returns the default FHIR service root url.
-     *
-     * @return Default FHIR service root url.
-     */
-    public String getServiceRoot() {
-        return ((GenericClient) getClient()).getUrlBase();
-    }
-    
-    /**
-     * For urls without a service root, prepends the default service root.
-     *
-     * @param url URL to expand.
-     * @return URL with a service root prepended.
-     */
-    public String expandURL(String url) {
-        return url.contains(":/") ? url : FhirUtil.concatPath(getServiceRoot(), url);
-    }
-    
-    /**
-     * Package a resource into a message for transport via the messaging subsystem.
-     *
-     * @param resource The resource to package.
-     * @param asJSON If true, serialize to JSON format; otherwise, to XML format;
-     * @return The newly created message.
-     */
-    public Message resourceToMessage(IBaseResource resource, boolean asJSON) {
-        if (asJSON) {
-            String data = client.getFhirContext().newJsonParser().encodeResourceToString(resource);
-            return new Message("application/json+fhir", data);
-        } else {
-            String data = client.getFhirContext().newXmlParser().encodeResourceToString(resource);
-            return new Message("application/xml+fhir", data);
-        }
-    }
-    
-    /**
-     * Extracts a FHIR resource from a message.
-     *
-     * @param message Message containing a FHIR resource.
-     * @return The extracted resource.
-     */
-    public IBaseResource messageToResource(Message message) {
-        if ("application/json+fhir".equals(message.getType())) {
-            return client.getFhirContext().newJsonParser().parseResource(message.getPayload().toString());
-        } else if ("application/xml+fhir".equals(message.getType())) {
-            return client.getFhirContext().newXmlParser().parseResource(message.getPayload().toString());
-        } else {
-            throw new DataFormatException(message.getType());
-        }
-    }
-    
-    /**
-     * Extracts a FHIR resource from a message.
-     *
-     * @param <T> Resource type.
-     * @param message Message containing a FHIR resource.
-     * @param resourceType The expected resource type.
-     * @return The extracted resource.
-     */
-    public <T extends IBaseResource> T messageToResource(Message message, Class<T> resourceType) {
-        if ("application/json+fhir".equals(message.getType())) {
-            return client.getFhirContext().newJsonParser().parseResource(resourceType, message.getPayload().toString());
-        } else if ("application/xml+fhir".equals(message.getType())) {
-            return client.getFhirContext().newXmlParser().parseResource(resourceType, message.getPayload().toString());
-        } else {
-            throw new DataFormatException(message.getType());
-        }
     }
     
 }

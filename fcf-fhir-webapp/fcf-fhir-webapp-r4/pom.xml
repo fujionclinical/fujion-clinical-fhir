@@ -11,7 +11,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>fcf-fhir-webapp-testharness-r4</module>
-		<module>fcf-fhir-webapp-archetype-r4</module>
+		<module>fcf-fhir-webapp-r4-testharness</module>
+		<module>fcf-fhir-webapp-r4-archetype</module>
+		<module>fcf-fhir-webapp-r4-profile</module>
 	</modules>
 </project>

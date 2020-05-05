@@ -11,7 +11,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>fcf-fhir-webapp-testharness-dstu2</module>
-		<module>fcf-fhir-webapp-archetype-dstu2</module>
+		<module>fcf-fhir-webapp-dstu2-testharness</module>
+		<module>fcf-fhir-webapp-dstu2-archetype</module>
+		<module>fcf-fhir-webapp-dstu2-profile</module>
 	</modules>
 </project>

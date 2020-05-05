@@ -11,7 +11,8 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>fcf-fhir-webapp-testharness-stu3</module>
-		<module>fcf-fhir-webapp-archetype-stu3</module>
+		<module>fcf-fhir-webapp-stu3-testharness</module>
+		<module>fcf-fhir-webapp-stu3-archetype</module>
+		<module>fcf-fhir-webapp-stu3-profile</module>
 	</modules>
 </project>

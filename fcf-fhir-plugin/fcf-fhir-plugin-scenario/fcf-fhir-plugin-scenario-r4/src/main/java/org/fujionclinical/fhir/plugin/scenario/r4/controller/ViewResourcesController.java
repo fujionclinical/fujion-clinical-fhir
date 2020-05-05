@@ -36,7 +36,7 @@ import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.plugin.scenario.r4.api.Scenario;
+import org.fujionclinical.fhir.scenario.r4.api.Scenario;
 import org.fujionclinical.fhir.r4.api.common.BaseService;
 import org.fujionclinical.ui.controller.FrameworkController;
 import org.fujionclinical.ui.dialog.DialogUtil;

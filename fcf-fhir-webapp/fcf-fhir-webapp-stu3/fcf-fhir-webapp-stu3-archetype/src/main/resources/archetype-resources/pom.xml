@@ -1,0 +1,93 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fujionclinical</groupId>
+		<artifactId>fcf-fhir-webapp-stu3</artifactId>
+		<version>${fcfVersion}</version>
+	</parent>
+	
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
+	<packaging>war</packaging>
+	<name>${displayName}</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<!--  Demo Setup -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-demo-setup-stu3</artifactId>
+			<version>${fcf.fhir.version}</version>
+		</dependency>
+		<!--  FHIR FCF plugins -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-webapp-profile-stu3</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- Fujion Clinical Framework components -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.ui.popupsupport</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.plugin.chat</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.plugin.userheader</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.plugin.statuspanel</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.hibernate.security</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.hibernate.property</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>org.fujionclinical.hibernate.h2</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<!-- Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,18 @@
+#fhir.context.proxy=
+fhir.context.version=r4
+# Default root url for FHIR service
+fhir.client.server.base=http://fhirtest.uhn.ca/baseR4/
+#fhir.client.authentication.type=Basic
+#fhir.client.authentication.username=username
+#fhir.client.authentication.password=password
+
+fhir.client.encoding=JSON
+fhir.client.prettyprint=false
+
+# Setting autologin to true will automatically pass mock credentials to authenticator without prompting.
+mock.autologin=true
+mock.authorities=PRIV_FCF_DESIGNER,PRIV_PATIENT_SELECT,PRIV_DEBUG
+mock.domains=1^Mock Server^url=${fhir.client.server.base}
+mock.username=USER123
+mock.password=USER321$
+mock.fullname=User, Test

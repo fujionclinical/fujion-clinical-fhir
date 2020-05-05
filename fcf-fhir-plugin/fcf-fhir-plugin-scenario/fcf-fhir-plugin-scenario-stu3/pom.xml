@@ -15,13 +15,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-plugin-scenario-common</artifactId>
+			<artifactId>fcf-fhir-scenario-stu3</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-structures-dstu3</artifactId>
-			<version>${hapi.fhir.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>

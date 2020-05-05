@@ -33,6 +33,7 @@
 		<module>fcf-fhir-smart</module>
 		<module>fcf-fhir-subscription</module>
 		<module>fcf-fhir-lib</module>
+		<module>fcf-fhir-scenario</module>
 		<module>fcf-fhir-webapp</module>
 	</modules>
 </project>

@@ -51,7 +51,6 @@ import org.fujionclinical.ui.sharedforms.controller.ListFormController;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.INarrative;
 

@@ -35,7 +35,7 @@ import org.fujion.model.IComponentRenderer;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujion.page.PageUtil;
-import org.fujionclinical.fhir.plugin.scenario.stu3.api.Scenario;
+import org.fujionclinical.fhir.scenario.stu3.api.Scenario;
 import org.fujionclinical.fhir.stu3.api.common.BaseService;
 import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
 import org.fujionclinical.ui.controller.FrameworkController;
