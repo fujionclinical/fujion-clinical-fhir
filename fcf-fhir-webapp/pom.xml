@@ -17,6 +17,7 @@
 	<modules>
 		<module>fcf-fhir-webapp-oauth</module>
 		<module>fcf-fhir-webapp-setup</module>
+		<module>fcf-fhir-webapp-profile</module>
 		<module>fcf-fhir-webapp-dstu2</module>
 		<module>fcf-fhir-webapp-r4</module>
 		<module>fcf-fhir-webapp-stu3</module>

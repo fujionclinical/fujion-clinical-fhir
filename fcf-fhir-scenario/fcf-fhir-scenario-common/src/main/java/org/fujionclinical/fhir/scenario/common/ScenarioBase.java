@@ -23,12 +23,13 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.plugin.scenario.common;
+package org.fujionclinical.fhir.scenario.common;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.primitive.BaseDateTimeDt;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
+import ca.uhn.fhir.model.primitive.IdDt;
 import ca.uhn.fhir.parser.IParser;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -52,9 +53,9 @@ import java.util.function.Consumer;
 /**
  * Abstract base class for FHIR-specific scenarios.
  *
- * @param <T> The List resource class.
+ * @param <LIST> The List resource class.
  */
-public abstract class ScenarioBase<T extends IBaseResource> {
+public abstract class ScenarioBase<LIST extends IBaseResource> {
 
     private static final Logger log = Logger.create(ScenarioBase.class);
 
@@ -76,7 +77,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
 
     private boolean isLoaded;
 
-    private T scenarioResources;
+    private LIST scenarioResources;
 
     protected ScenarioBase(Resource scenarioYaml, FhirContext fhirContext) {
         this.fhirContext = fhirContext;
@@ -86,7 +87,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
             Map<String, ?> config = new Yaml().load(in);
             Map<String, String> meta = (Map<String, String>) getParam(config, "scenario");
             this.scenarioConfig = (Map<String, Map<String, String>>) getParam(config, "resources");
-            this.scenarioId = _createScenarioId("List", getParam(meta, "id"));
+            this.scenarioId = _createScenarioId(getParam(meta, "id"));
             this.scenarioName = getParam(meta, "name");
             this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioId.getIdPart(), scenarioName);
         } catch (Exception e) {
@@ -106,11 +107,12 @@ public abstract class ScenarioBase<T extends IBaseResource> {
     /**
      * Creates the id to be used to store scenario resources.
      *
-     * @param resourceType The resource type (will always be "List").
      * @param id The resource id.
      * @return The newly created id.
      */
-    protected abstract IIdType _createScenarioId(String resourceType, String id);
+    protected IIdType _createScenarioId(String id) {
+        return new IdDt("List", id);
+    }
 
     /**
      * Loads resources associated with the scenario.
@@ -118,7 +120,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
      * @param resources Consumer function for receiving resources.
      * @return The newly created List resource.
      */
-    protected abstract T _loadResources(Consumer<IBaseResource> resources);
+    protected abstract LIST _loadResources(Consumer<IBaseResource> resources);
 
     /**
      * Packages scenario resources into a List resource.
@@ -126,7 +128,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
      * @param resources List of resources to package.
      * @return The newly created List resource.
      */
-    protected abstract T _packageResources(Collection<IBaseResource> resources);
+    protected abstract LIST _packageResources(Collection<IBaseResource> resources);
 
     /**
      * Deletes a resource.
@@ -275,7 +277,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
     public final synchronized int load() {
         isLoaded = true;
         resourcesById.clear();
-        scenarioResources = _loadResources(resource -> addResource(resource));
+        scenarioResources = _loadResources(this::addResource);
         return resourcesById.size();
     }
 
@@ -411,7 +413,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
     }
 
     public final IBaseResource parseResource(String source, Map<String, String> params) {
-        source = addExtension(source, "json");
+        source = addExtension(source);
         IParser parser = source.endsWith(".xml") ? fhirContext.newXmlParser() : fhirContext.newJsonParser();
         StringBuilder sb = new StringBuilder();
 
@@ -457,11 +459,10 @@ public abstract class ScenarioBase<T extends IBaseResource> {
      * Add default extension if one is not present.
      *
      * @param source File resource path.
-     * @param dflt The default extension.
      * @return File resource path with extension.
      */
-    private String addExtension(String source, String dflt) {
-        return source.contains(".") ? source : source + "." + dflt;
+    private String addExtension(String source) {
+        return source.contains(".") ? source : source + ".json";
     }
 
     /**
@@ -475,7 +476,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
      *            previously defined. Possible values for <code>type</code> are:
      *            <ul>
      *            <li>value - A literal value; inserted as is</li>
-     *            <li>date - A date value; can be a relative date (T+n, for example)</li>
+     *            <li>date - A date value; can be a relative date (LIST+n, for example)</li>
      *            <li>image - A file containing an image</li>
      *            <li>snippet - A file containing a snippet to be inserted</li>
      *            </ul>
@@ -526,7 +527,7 @@ public abstract class ScenarioBase<T extends IBaseResource> {
     }
 
     private String doSnippet(String value) {
-        value = addExtension(value, "json");
+        value = addExtension(value);
 
         try (InputStream is = getResourceAsStream(value)) {
             return IOUtils.toString(is, StandardCharsets.UTF_8);

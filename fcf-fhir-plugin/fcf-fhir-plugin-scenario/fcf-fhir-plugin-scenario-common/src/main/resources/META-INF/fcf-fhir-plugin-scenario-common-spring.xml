@@ -34,7 +34,7 @@
 		</bean>
 
 		<bean id="scenarioContext" parent="managedContext"
-			  class="org.fujionclinical.fhir.plugin.scenario.${fhir.context.version}.api.ScenarioContext">
+			  class="org.fujionclinical.fhir.scenario.${fhir.context.version}.api.ScenarioContext">
 			<constructor-arg ref="fcfScenarioRegistry" />
 		</bean>
 

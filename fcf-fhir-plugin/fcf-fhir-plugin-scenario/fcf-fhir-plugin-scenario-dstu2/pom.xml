@@ -16,6 +16,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-plugin-scenario-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-scenario-dstu2</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
