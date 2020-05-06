@@ -96,5 +96,18 @@
                 </dependency>
             </dependencies>
         </profile>
+        <profile>
+            <id>fhir-r5</id>
+            <properties>
+                <fhir-spec>r5</fhir-spec>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.fujionclinical</groupId>
+                    <artifactId>fcf-fhir-webapp-profile-r5</artifactId>
+                    <version>${fcf.core.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 </project>
