@@ -17,6 +17,5 @@
 	<modules>
 		<module>fcf-fhir-security-common</module>
 		<module>fcf-fhir-security-mock</module>
-		<module>fcf-fhir-security-profile</module>
 	</modules>
 </project>

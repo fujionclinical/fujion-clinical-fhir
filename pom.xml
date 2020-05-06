@@ -34,6 +34,6 @@
 		<module>fcf-fhir-subscription</module>
 		<module>fcf-fhir-lib</module>
 		<module>fcf-fhir-scenario</module>
-		<module>fcf-fhir-webapp</module>
+		<module>fcf-fhir-demo</module>
 	</modules>
 </project>
