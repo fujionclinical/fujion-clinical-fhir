@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.fujionclinical</groupId>
+        <artifactId>fcf-fhir-demo-profile-fhir</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>fcf-fhir-demo-profile-fhir-dstu2</artifactId>
+    <packaging>jar</packaging>
+	<name>FHIR Demonstration Web App DSTU2 Dependency Profile</name>
+	
+    <dependencies>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-demo-profile-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- FHIR-specific Artifacts -->
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-lib-patientselection-v1-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-patientheader-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-encounters-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-patientphoto-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-documents-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-conditions-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-diagnosticreports-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-adversereactions-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-familyhistory-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-medicationorders-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-orders-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-procedures-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-observations-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-scenario-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- Epic Emulation -->
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-mockepic-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- SMART Support -->
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-smart-dstu2</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.fujionclinical</groupId>
+        <artifactId>fcf-fhir-demo-profile-fhir</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>fcf-fhir-demo-profile-fhir-r4</artifactId>
+    <packaging>jar</packaging>
+	<name>FHIR Demonstration Web App R4 Dependency Profile</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-demo-profile-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- FHIR-specific Artifacts -->
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-lib-patientselection-v1-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-patientheader-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-encounters-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-patientphoto-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-documents-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-conditions-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-diagnosticreports-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-adversereactions-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-familyhistory-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-medicationorders-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-orders-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-procedures-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-observations-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-plugin-scenario-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- Epic Emulation -->
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-mockepic-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- SMART Support -->
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-smart-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+</project>

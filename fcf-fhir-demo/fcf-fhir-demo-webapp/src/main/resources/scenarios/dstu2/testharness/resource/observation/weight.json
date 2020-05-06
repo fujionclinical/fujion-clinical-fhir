@@ -1,0 +1,44 @@
+{
+  "resourceType": "Observation",
+  "status": "final",
+  "category": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/observation-category",
+        "code": "vital-signs",
+        "display": "Vital Signs"
+      }
+    ],
+    "text": "Vital Signs"
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "29463-7",
+        "display": "Body weight"
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "3141-9",
+        "display": "Body weight Measured"
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8716-3",
+        "display": "Vital signs"
+      }
+    ],
+    "text": "Weight"
+  },
+  "subject": {
+    "reference": "${patient}"
+  },
+  "effectiveDateTime": "${date}",
+  "valueQuantity": {
+    "value": "${value}",
+    "unit": "kg",
+    "system": "http://unitsofmeasure.org",
+    "code": "kg"
+  }
+}

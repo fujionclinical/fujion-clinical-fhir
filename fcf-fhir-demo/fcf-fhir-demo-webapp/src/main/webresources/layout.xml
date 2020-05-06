@@ -1,0 +1,65 @@
+<layout name="@project.artifactId@" title="@project.description@" version="1.0">
+	<_menubar/>
+	<_toolbar/>
+	<splitterview orientation="vertical">
+		<splitterpane relative="false" size="71">
+			<splitterview orientation="horizontal">
+				<splitterpane relative="false" size="39">
+					<fcfPatientPhoto/>
+				</splitterpane>
+				<splitterpane relative="true" size="1000">
+					<fcfPatientHeader/>
+				</splitterpane>
+			</splitterview>
+		</splitterpane>
+		<splitterpane relative="false" size="1000">
+			<tabview orientation="top">
+				<tabpane label="Patient Chart">
+					<treeview>
+						<treepane label="Scenario Builder">
+							<fcfScenarioBuilder/>
+						</treepane>
+						<!--
+						<treepane label="TEST">
+							<smart_test/>
+						</treepane>
+						-->
+						<treepane label="DMD">
+							<smart_test/>
+						</treepane>
+						<treepane label="Encounters">
+							<fcfEncounters/>
+						</treepane>
+						<treepane label="Family History">
+							<fcfFamilyHistory/>
+						</treepane>
+						<treepane label="Adverse Reactions">
+							<fcfAdverseReactions/>
+						</treepane>
+						<treepane label="Conditions">
+							<fcfConditions/>
+						</treepane>
+						<treepane label="Diagnostic Reports">
+							<fcfDiagnosticReports/>
+						</treepane>
+						<treepane label="All Orders">
+							<fcfOrders/>
+						</treepane>
+						<treepane label="Medication Orders">
+							<fcfMedicationOrders/>
+						</treepane>
+						<treepane label="Observation Results">
+							<fcfObservations/>
+						</treepane>
+						<treepane label="Procedures">
+							<fcfProcedures/>
+						</treepane>
+					</treeview>
+				</tabpane>
+			</tabview>
+		</splitterpane>
+		<splitterpane relative="false" size="40">
+			<fcfStatusPanel/>
+		</splitterpane>
+	</splitterview>
+</layout>

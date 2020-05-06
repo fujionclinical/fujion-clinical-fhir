@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fujionclinical</groupId>
+		<artifactId>fcf-fhir-demo-profile</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>fcf-fhir-demo-profile-fhir</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>FHIR Demonstration Web App FHIR Dependency Profiles</name>
+
+	<modules>
+		<module>fcf-fhir-demo-profile-fhir-dstu2</module>
+		<module>fcf-fhir-demo-profile-fhir-stu3</module>
+		<module>fcf-fhir-demo-profile-fhir-r4</module>
+		<module>fcf-fhir-demo-profile-fhir-r5</module>
+	</modules>
+</project>

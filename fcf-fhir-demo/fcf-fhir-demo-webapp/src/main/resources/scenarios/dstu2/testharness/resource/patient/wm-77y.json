@@ -1,0 +1,167 @@
+{
+  "resourceType": "Patient",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/us-core-race",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.5.104",
+            "code": "2106-3",
+            "display": "White"
+          }
+        ],
+        "text": "White"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/us-core-ethnicity",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.5.50",
+            "code": "2186-5",
+            "display": "Not Hispanic or Latino"
+          }
+        ],
+        "text": "Not Hispanic or Latino"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/us-core-birth-sex",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v3/AdministrativeGender",
+            "code": "M",
+            "display": "Male"
+          }
+        ],
+        "text": "Male"
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.0",
+      "value": "29819932"
+    },
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.1",
+      "value": "29819933"
+    },
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.11",
+      "value": "29819934"
+    },
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.2",
+      "value": "29819935"
+    },
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.3",
+      "value": "29819936"
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/rendered-value",
+          "valueString": "xxx-xx-5640"
+        }
+      ],
+      "use": "usual",
+      "system": "urn:oid:2.16.840.1.113883.4.1"
+    }
+  ],
+  "active": true,
+  "name": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/humanname-partner-name",
+          "valueString": "WILFGP"
+        }
+      ],
+      "use": "usual",
+      "text": "Luzw X WILFGP",
+      "family": [
+        "WILFGP"
+      ],
+      "given": [
+        "Luzw",
+        "X"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "498-222-2453",
+      "use": "home"
+    },
+    {
+      "system": "phone",
+      "value": "498-222-2453",
+      "use": "work"
+    },
+    {
+      "system": "phone",
+      "value": "498-222-2453",
+      "use": "mobile"
+    },
+    {
+      "system": "email",
+      "value": "scramble@scramble.epic.invalid"
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1942-12-05",
+  "deceasedBoolean": false,
+  "photo": [
+    {
+      "contentType": "image/png",
+      "url": "web/image/X1000000.png"
+    }
+  ],
+  "address": [
+    {
+      "use": "home",
+      "line": [
+        "100 Any Street"
+      ],
+      "city": "Anytown",
+      "state": "AL",
+      "postalCode": "91106",
+      "country": "USA"
+    }
+  ],
+  "maritalStatus": {
+    "text": "Married"
+  },
+  "communication": [
+    {
+      "language": {
+        "coding": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.6.99",
+            "code": "en",
+            "display": "English"
+          }
+        ],
+        "text": "English"
+      },
+      "preferred": true
+    }
+  ],
+  "careProvider": [
+    {
+      "display": "Kelly Patrick Murnin, MD",
+      "reference": "https://epiciccode1.med.utah.edu/Interconnect-KMM-CODE/api/FHIR/DSTU2/Practitioner/TrJPMe9eLRNDoV9DYdflkJQB"
+    }
+  ]
+}
