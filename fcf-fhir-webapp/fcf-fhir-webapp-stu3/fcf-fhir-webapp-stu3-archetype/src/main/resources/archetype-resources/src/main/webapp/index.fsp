@@ -1,4 +1,0 @@
-<page title="${displayName}">
-    <?import src="web/org/fujionclinical/ui/fcf/sessionMonitor.fsp"?>
-    <fcfShell name="webapp_template" height="100%" width="100%" layout="/layout.xml" />
-</page>

@@ -1,5 +1,0 @@
-<fsp>
-	<fcfShellEx name="testHarness" height="100%" width="100%" layout="/layout.xml"
-				controller="org.fujionclinical.testharness.TestHarnessController" />
-	<import src="web/org/fujionclinical/ui/fcf/sessionMonitor.fsp" />
-</fsp>

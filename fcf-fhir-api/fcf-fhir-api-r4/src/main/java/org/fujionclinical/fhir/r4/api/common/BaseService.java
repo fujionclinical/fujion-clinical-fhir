@@ -30,7 +30,6 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.fhir.api.common.core.BaseFhirService;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.springframework.util.Assert;
 
@@ -39,7 +38,7 @@ import java.util.List;
 /**
  * Base service for accessing FHIR-based services.
  */
-public class BaseService extends BaseFhirService {
+public class BaseService extends BaseFhirService<Patient, Identifier, Reference> {
 
     /**
      * Inject FHIR client.
@@ -50,24 +49,6 @@ public class BaseService extends BaseFhirService {
         super(client);
     }
 
-    @Override
-    protected void validateClient() {
-        FhirUtil.assertFhirVersion(getClient());
-    }
-
-    /**
-     * FHIR request to update the given resource.
-     *
-     * @param <T> Resource type.
-     * @param resource Resource to update.
-     * @return The updated resource.
-     */
-    @Override
-    public <T extends IBaseResource> T updateResource(T resource) {
-        MethodOutcome outcome = getClient().update().resource(FhirUtil.stripVersion(resource)).execute();
-        return FhirUtil.processMethodOutcome(outcome, resource);
-    }
-    
     /**
      * FHIR request to create the given resource.
      *
@@ -89,76 +70,26 @@ public class BaseService extends BaseFhirService {
      * @param identifier The resource identifier.
      * @return The outcome of the operation.
      */
+    @Override
     public MethodOutcome createResourceIfNotExist(IBaseResource resource, Identifier identifier) {
         return getClient().create().resource(resource).conditional()
                 .where(PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .execute();
     }
-    
+
     /**
-     * Returns a resource of the specified type given a resource reference. If the resource has not
-     * been previously fetched, it will be fetched from the server. If the referenced resource is
-     * not of the specified type, null is returned.
+     * Deletes all resources of the given class that contain the identifier.
      *
      * @param <T> Resource type.
-     * @param reference A resource reference.
-     * @param clazz The desired resource class.
-     * @return The corresponding resource.
+     * @param identifier Resources with this identifier will be deleted.
+     * @param clazz Class of the resources to be searched.
+     * @return Count of deleted resources.
      */
-    @SuppressWarnings("unchecked")
-    public <T extends IBaseResource> T getResource(Reference reference, Class<T> clazz) {
-        IBaseResource resource = getResource(reference);
-        return clazz.isInstance(resource) ? (T) resource : null;
-    }
-
-    /**
-     * Returns a resource given a resource reference. If the resource has not been previously
-     * fetched, it will be fetched from the server.
-     *
-     * @param reference A resource reference.
-     * @return The corresponding resource.
-     */
-    public IBaseResource getResource(Reference reference) {
-        if (reference == null || reference.isEmpty()) {
-            return null;
-        }
-
-        if (reference.getResource() != null) {
-            return reference.getResource();
-        }
-
-        Assert.state(reference.hasReference(), "Reference has no resource ID defined");
-        IBaseResource resource = getResource(reference.getReferenceElement());
-        reference.setResource(resource);
-        return resource;
-    }
-
-    /**
-     * Search for patient-based resources of the given class.
-     *
-     * @param <T> Resource type.
-     * @param patient Patient to be searched.
-     * @param clazz Class of the resources to be returned.
-     * @return List of matching resources.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesForPatient(Patient patient, Class<T> clazz) {
-        return searchResourcesForPatient(patient, clazz, DEFAULT_COUNT);
-    }
-    
-    /**
-     * Search for patient-based resources of the given class.
-     *
-     * @param <T> Resource type.
-     * @param patient Patient to be searched.
-     * @param clazz Class of the resources to be returned.
-     * @param maxCount Maximum entries to return.
-     * @return List of matching resources.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesForPatient(Patient patient, Class<T> clazz, int maxCount) {
-        Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
-        
-        return FhirUtil.getEntries(bundle, clazz);
+    @Override
+    public <T extends IBaseResource> int deleteResourcesByIdentifier(Identifier identifier, Class<T> clazz) {
+        List<T> resources = searchResourcesByIdentifier(identifier, clazz, MAX_COUNT);
+        deleteResources(resources);
+        return resources.size();
     }
 
     /**
@@ -181,19 +112,45 @@ public class BaseService extends BaseFhirService {
     }
 
     /**
-     * Returns all resources of the given class.
+     * Returns a resource of the specified type given a resource reference. If the resource has not
+     * been previously fetched, it will be fetched from the server. If the referenced resource is
+     * not of the specified type, null is returned.
      *
      * @param <T> Resource type.
-     * @param clazz Class of the resources to be searched.
-     * @param maxCount Maximum entries to return.
-     * @return List of resources containing the identifier.
+     * @param reference A resource reference.
+     * @param clazz The desired resource class.
+     * @return The corresponding resource.
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends IBaseResource> T getResource(Reference reference, Class<T> clazz) {
+        IBaseResource resource = getResource(reference);
+        return clazz.isInstance(resource) ? (T) resource : null;
+    }
+
+    /**
+     * Returns a resource given a resource reference. If the resource has not been previously
+     * fetched, it will be fetched from the server.
+     *
+     * @param reference A resource reference.
+     * @return The corresponding resource.
      */
     @Override
-    public <T extends IBaseResource> List<T> searchResourcesByType(Class<T> clazz, int maxCount) {
-        Bundle bundle = getClient().search().forResource(clazz).count(maxCount).returnBundle(Bundle.class).execute();
-        return FhirUtil.getEntries(bundle, clazz);
+    public IBaseResource getResource(Reference reference) {
+        if (reference == null || reference.isEmpty()) {
+            return null;
+        }
+
+        if (reference.getResource() != null) {
+            return reference.getResource();
+        }
+
+        Assert.state(reference.hasReference(), "Reference has no resource ID defined");
+        IBaseResource resource = getResource(reference.getReferenceElement());
+        reference.setResource(resource);
+        return resource;
     }
-    
+
     /**
      * Returns all resources of the given class that contain the identifier.
      *
@@ -216,21 +173,10 @@ public class BaseService extends BaseFhirService {
      * @param <T> Resource type.
      * @param identifier Resources with this identifier will be returned.
      * @param clazz Class of the resources to be searched.
-     * @return List of resources containing the identifier.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesByIdentifier(Identifier identifier, Class<T> clazz) {
-        return searchResourcesByIdentifier(identifier, clazz, DEFAULT_COUNT);
-    }
-    
-    /**
-     * Returns all resources of the given class that contain the identifier.
-     *
-     * @param <T> Resource type.
-     * @param identifier Resources with this identifier will be returned.
-     * @param clazz Class of the resources to be searched.
      * @param maxCount Maximum entries to return.
      * @return List of resources containing the identifier.
      */
+    @Override
     public <T extends IBaseResource> List<T> searchResourcesByIdentifier(Identifier identifier, Class<T> clazz,
                                                                          int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
@@ -271,19 +217,54 @@ public class BaseService extends BaseFhirService {
         
         return FhirUtil.getEntries(bundle, clazz);
     }
-    
+
     /**
-     * Deletes all resources of the given class that contain the identifier.
+     * Returns all resources of the given class.
      *
      * @param <T> Resource type.
-     * @param identifier Resources with this identifier will be deleted.
      * @param clazz Class of the resources to be searched.
-     * @return Count of deleted resources.
+     * @param maxCount Maximum entries to return.
+     * @return List of resources containing the identifier.
      */
-    public <T extends IBaseResource> int deleteResourcesByIdentifier(Identifier identifier, Class<T> clazz) {
-        List<T> resources = searchResourcesByIdentifier(identifier, clazz, MAX_COUNT);
-        deleteResources(resources);
-        return resources.size();
+    @Override
+    public <T extends IBaseResource> List<T> searchResourcesByType(Class<T> clazz, int maxCount) {
+        Bundle bundle = getClient().search().forResource(clazz).count(maxCount).returnBundle(Bundle.class).execute();
+        return FhirUtil.getEntries(bundle, clazz);
     }
-    
+
+    /**
+     * Search for patient-based resources of the given class.
+     *
+     * @param <T> Resource type.
+     * @param patient Patient to be searched.
+     * @param clazz Class of the resources to be returned.
+     * @param maxCount Maximum entries to return.
+     * @return List of matching resources.
+     */
+    @Override
+    public <T extends IBaseResource> List<T> searchResourcesForPatient(Patient patient, Class<T> clazz, int maxCount) {
+        Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
+                .where(PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
+
+        return FhirUtil.getEntries(bundle, clazz);
+    }
+
+    /**
+     * FHIR request to update the given resource.
+     *
+     * @param <T> Resource type.
+     * @param resource Resource to update.
+     * @return The updated resource.
+     */
+    @Override
+    public <T extends IBaseResource> T updateResource(T resource) {
+        MethodOutcome outcome = getClient().update().resource(FhirUtil.stripVersion(resource)).execute();
+        return FhirUtil.processMethodOutcome(outcome, resource);
+    }
+
+    @Override
+    protected void validateClient() {
+        FhirUtil.assertFhirVersion(getClient());
+    }
+
 }

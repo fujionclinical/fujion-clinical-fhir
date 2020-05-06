@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.fujionclinical</groupId>
+        <artifactId>fcf-fhir-webapp-profile</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+
+    <artifactId>fcf-fhir-webapp-profile-common</artifactId>
+    <packaging>jar</packaging>
+
+	<dependencies>
+		<!-- Fujion Clinical Framework components -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-ui-popupsupport</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-hibernate-h2</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-hibernate-property</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-testharness</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<!-- FCF Plugins -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-chat</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-currentdatetime</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-infopanel</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-sandbox</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-sessiontracker</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-statuspanel</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-userheader</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<!-- CDSHooks Support -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-cdshooks</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- SMART Support -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-smart-launch-oidc</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+		</dependency>
+	</dependencies>
+</project>

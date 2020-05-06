@@ -1,0 +1,31 @@
+{
+  "resourceType": "Condition",
+  "onsetDateTime": "${onset}",
+  "dateRecorded": "${recorded:date/T-10d}",
+  "clinicalStatus": "${status:value/active}",
+  "patient": {
+    "reference": "${patient}"
+  },
+  "code": {
+    "text": "Vaccination",
+    "coding": [
+      {
+        "system": "urn:oid:2.16.840.1.113883.6.90",
+        "code": "Z23"
+      },
+      {
+        "system": "http://hl7.org/fhir/sid/icd-9-cm",
+        "code": "V05.9"
+      }
+    ]
+  },
+  "category": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/condition-category",
+        "code": "encounter-diagnosis"
+      }
+    ]
+  }
+}
+

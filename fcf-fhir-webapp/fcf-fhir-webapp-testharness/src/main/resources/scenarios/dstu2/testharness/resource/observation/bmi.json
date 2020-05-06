@@ -1,0 +1,36 @@
+{
+  "resourceType": "Observation",
+  "status": "final",
+  "category": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/observation-category",
+        "code": "vital-signs",
+        "display": "Vital Signs"
+      }
+    ],
+    "text": "Vital Signs"
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "39156-5",
+        "display": "Body mass index"
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "8716-3",
+        "display": "Vital signs"
+      }
+    ],
+    "text": "BMI"
+  },
+  "subject": {
+    "reference": "${patient}"
+  },
+  "effectiveDateTime": "${date}",
+  "valueQuantity": {
+    "value": "${value}"
+  }
+}

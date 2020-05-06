@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.parser.DataFormatException;
+import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * Version-agnostic base service for FHIR services.
  */
-public abstract class BaseFhirService {
+public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
 
     public static final String SP_IDENTIFIER = "identifier";
 
@@ -68,99 +69,6 @@ public abstract class BaseFhirService {
     }
 
     /**
-     * Validates that the client is of the expected FHIR version.
-     */
-    protected abstract void validateClient();
-
-    /**
-     * FHIR request to update the given resource.
-     *
-     * @param <T>      Resource type.
-     * @param resource Resource to update.
-     * @return The updated resource.
-     */
-    protected abstract <T extends IBaseResource> T updateResource(T resource);
-
-    /**
-     * FHIR request to create the given resource.
-     *
-     * @param <T>      Resource type.
-     * @param resource Resource to create.
-     * @return The created resource.
-     */
-    protected abstract <T extends IBaseResource> T createResource(T resource);
-
-    /**
-     * Returns a list of all resources related to the specified resource (i.e., the $everything operation).
-     *
-     * @param resource The reference resource.
-     * @return The resources related to the reference resource.
-     */
-    protected abstract List<IBaseResource> everything(IBaseResource resource);
-
-    /**
-     * Returns all resources of the given class that contain the identifier.
-     *
-     * @param <T>      Resource type.
-     * @param system   The identifier's system.
-     * @param value    The identifier's value.
-     * @param clazz    Class of the resources to be searched.
-     * @param maxCount Maximum entries to return.
-     * @return List of resources containing the identifier.
-     */
-    protected abstract <T extends IBaseResource> List<T> searchResourcesByIdentifier(
-            String system,
-            String value,
-            Class<T> clazz,
-            int maxCount);
-
-    /**
-     * Returns all resources of the given class.
-     *
-     * @param <T>      Resource type.
-     * @param clazz    Class of the resources to be searched.
-     * @param maxCount Maximum entries to return.
-     * @return List of resources containing the identifier.
-     */
-    protected abstract <T extends IBaseResource> List<T> searchResourcesByType(
-            Class<T> clazz,
-            int maxCount);
-
-    /**
-     * Returns all resources that contain the tag.
-     *
-     * @param tag      Resources with this tag will be returned.
-     * @param maxCount Maximum entries to return.
-     * @return List of resources containing the tag.
-     */
-    protected abstract List<IBaseResource> searchResourcesByTag(
-            IBaseCoding tag,
-            int maxCount);
-
-    /**
-     * Returns all resources of the given class that contain the tag.
-     *
-     * @param <T>      Resource type.
-     * @param tag      Resources with this tag will be returned.
-     * @param clazz    Class of the resources to be searched.
-     * @param maxCount Maximum entries to return.
-     * @return List of resources containing the tag.
-     */
-    protected abstract <T extends IBaseResource> List<T> searchResourcesByTag(
-            IBaseCoding tag,
-            Class<T> clazz,
-            int maxCount);
-
-    /**
-     * Returns the FHIR client.
-     *
-     * @return The FHIR client.
-     */
-    public IGenericClient getClient() {
-        return client;
-    }
-
-    /**
      * FHIR request to create or update the given resource. If the resource has no logical
      * identifier, a create operation is requested. Otherwise, an update operation is requested.
      *
@@ -173,65 +81,57 @@ public abstract class BaseFhirService {
     }
 
     /**
-     * Returns the resource corresponding to the given id.
+     * FHIR request to create the given resource.
      *
-     * @param id The resource id.
-     * @return The corresponding resource, if found.
+     * @param <T>      Resource type.
+     * @param resource Resource to create.
+     * @return The created resource.
      */
-    public IBaseResource getResource(IIdType id) {
-        return getClient().read().resource(id.getResourceType()).withId(id).execute();
+    protected abstract <T extends IBaseResource> T createResource(T resource);
+
+    /**
+     * Method creates a resource only if the resource with that identifier does not already exist.
+     * At this time, the call appears to create the resource even when it already exists.
+     *
+     * @param resource   A FHIR resource.
+     * @param identifier The resource identifier.
+     * @return The outcome of the operation.
+     */
+    protected abstract MethodOutcome createResourceIfNotExist(
+            IBaseResource resource,
+            IDENTIFIER identifier);
+
+    /**
+     * Deletes a resource.
+     *
+     * @param resource Resource to delete.
+     */
+    public IBaseOperationOutcome deleteResource(IBaseResource resource) {
+        return getClient().delete().resource(resource).execute();
     }
 
     /**
-     * Returns all resources of the given class.
+     * Deletes all resources in the provided list.
      *
-     * @param <T>   Resource type.
-     * @param clazz Class of the resources to be searched.
-     * @return List of resources containing the identifier.
+     * @param resources Resources to delete.
      */
-    public <T extends IBaseResource> List<T> searchResourcesByType(Class<T> clazz) {
-        return searchResourcesByType(clazz, DEFAULT_COUNT);
+    public void deleteResources(List<? extends IBaseResource> resources) {
+        for (IBaseResource resource : resources) {
+            deleteResource(resource);
+        }
     }
 
     /**
-     * Returns all resources of the given class that contain the identifier.
+     * Deletes all resources of the given class that contain the identifier.
      *
-     * @param <T>    Resource type.
-     * @param system The identifier's system.
-     * @param value  The identifier's value.
-     * @param clazz  Class of the resources to be searched.
-     * @return List of resources containing the identifier.
+     * @param <T>        Resource type.
+     * @param identifier Resources with this identifier will be deleted.
+     * @param clazz      Class of the resources to be searched.
+     * @return Count of deleted resources.
      */
-    public <T extends IBaseResource> List<T> searchResourcesByIdentifier(
-            String system,
-            String value,
-            Class<T> clazz) {
-        return searchResourcesByIdentifier(system, value, clazz, DEFAULT_COUNT);
-    }
-
-    /**
-     * Returns all resources that contain the tag.
-     *
-     * @param tag Resources with this tag will be returned.
-     * @return List of resources containing the tag.
-     */
-    public List<IBaseResource> searchResourcesByTag(IBaseCoding tag) {
-        return searchResourcesByTag(tag, DEFAULT_COUNT);
-    }
-
-    /**
-     * Returns all resources of the given class that contain the tag.
-     *
-     * @param <T>   Resource type.
-     * @param tag   Resources with this tag will be returned.
-     * @param clazz Class of the resources to be searched.
-     * @return List of resources containing the tag.
-     */
-    public <T extends IBaseResource> List<T> searchResourcesByTag(
-            IBaseCoding tag,
-            Class<T> clazz) {
-        return searchResourcesByTag(tag, clazz, DEFAULT_COUNT);
-    }
+    protected abstract <T extends IBaseResource> int deleteResourcesByIdentifier(
+            IDENTIFIER identifier,
+            Class<T> clazz);
 
     /**
      * Deletes all resources contain the tag.
@@ -261,33 +161,12 @@ public abstract class BaseFhirService {
     }
 
     /**
-     * Deletes all resources in the provided list.
+     * Returns a list of all resources related to the specified resource (i.e., the $everything operation).
      *
-     * @param resources Resources to delete.
+     * @param resource The reference resource.
+     * @return The resources related to the reference resource.
      */
-    public void deleteResources(List<? extends IBaseResource> resources) {
-        for (IBaseResource resource : resources) {
-            deleteResource(resource);
-        }
-    }
-
-    /**
-     * Deletes a resource.
-     *
-     * @param resource Resource to delete.
-     */
-    public IBaseOperationOutcome deleteResource(IBaseResource resource) {
-        return getClient().delete().resource(resource).execute();
-    }
-
-    /**
-     * Returns the default FHIR service root url.
-     *
-     * @return Default FHIR service root url.
-     */
-    public String getServiceRoot() {
-        return ((GenericClient) getClient()).getUrlBase();
-    }
+    protected abstract List<IBaseResource> everything(IBaseResource resource);
 
     /**
      * For urls without a service root, prepends the default service root.
@@ -300,22 +179,54 @@ public abstract class BaseFhirService {
     }
 
     /**
-     * Package a resource into a message for transport via the messaging subsystem.
+     * Returns the FHIR client.
      *
-     * @param resource The resource to package.
-     * @param asJSON   If true, serialize to JSON format; otherwise, to XML format;
-     * @return The newly created message.
+     * @return The FHIR client.
      */
-    public Message resourceToMessage(
-            IBaseResource resource,
-            boolean asJSON) {
-        if (asJSON) {
-            String data = client.getFhirContext().newJsonParser().encodeResourceToString(resource);
-            return new Message("application/json+fhir", data);
-        } else {
-            String data = client.getFhirContext().newXmlParser().encodeResourceToString(resource);
-            return new Message("application/xml+fhir", data);
-        }
+    public IGenericClient getClient() {
+        return client;
+    }
+
+    /**
+     * Returns the resource corresponding to the given id.
+     *
+     * @param id The resource id.
+     * @return The corresponding resource, if found.
+     */
+    public IBaseResource getResource(IIdType id) {
+        return getClient().read().resource(id.getResourceType()).withId(id).execute();
+    }
+
+    /**
+     * Returns a resource of the specified type given a resource reference. If the resource has not
+     * been previously fetched, it will be fetched from the server. If the referenced resource is
+     * not of the specified type, null is returned.
+     *
+     * @param <T>       Resource type.
+     * @param reference A resource reference.
+     * @param clazz     The desired resource class.
+     * @return The corresponding resource.
+     */
+    protected abstract <T extends IBaseResource> T getResource(
+            REFERENCE reference,
+            Class<T> clazz);
+
+    /**
+     * Returns a resource given a resource reference. If the resource has not been previously
+     * fetched, it will be fetched from the server.
+     *
+     * @param reference A resource reference.
+     * @return The corresponding resource.
+     */
+    protected abstract IBaseResource getResource(REFERENCE reference);
+
+    /**
+     * Returns the default FHIR service root url.
+     *
+     * @return Default FHIR service root url.
+     */
+    public String getServiceRoot() {
+        return ((GenericClient) getClient()).getUrlBase();
     }
 
     /**
@@ -353,5 +264,198 @@ public abstract class BaseFhirService {
             throw new DataFormatException(message.getType());
         }
     }
+
+    /**
+     * Package a resource into a message for transport via the messaging subsystem.
+     *
+     * @param resource The resource to package.
+     * @param asJSON   If true, serialize to JSON format; otherwise, to XML format;
+     * @return The newly created message.
+     */
+    public Message resourceToMessage(
+            IBaseResource resource,
+            boolean asJSON) {
+        if (asJSON) {
+            String data = client.getFhirContext().newJsonParser().encodeResourceToString(resource);
+            return new Message("application/json+fhir", data);
+        } else {
+            String data = client.getFhirContext().newXmlParser().encodeResourceToString(resource);
+            return new Message("application/xml+fhir", data);
+        }
+    }
+
+    /**
+     * Returns all resources of the given class that contain the identifier.
+     *
+     * @param <T>      Resource type.
+     * @param system   The identifier's system.
+     * @param value    The identifier's value.
+     * @param clazz    Class of the resources to be searched.
+     * @param maxCount Maximum entries to return.
+     * @return List of resources containing the identifier.
+     */
+    protected abstract <T extends IBaseResource> List<T> searchResourcesByIdentifier(
+            String system,
+            String value,
+            Class<T> clazz,
+            int maxCount);
+
+    /**
+     * Returns all resources of the given class that contain the identifier.
+     *
+     * @param <T>        Resource type.
+     * @param identifier Resources with this identifier will be returned.
+     * @param clazz      Class of the resources to be searched.
+     * @return List of resources containing the identifier.
+     */
+    public <T extends IBaseResource> List<T> searchResourcesByIdentifier(
+            IDENTIFIER identifier,
+            Class<T> clazz) {
+        return searchResourcesByIdentifier(identifier, clazz, DEFAULT_COUNT);
+    }
+
+    /**
+     * Returns all resources of the given class that contain the identifier.
+     *
+     * @param <T>        Resource type.
+     * @param identifier Resources with this identifier will be returned.
+     * @param clazz      Class of the resources to be searched.
+     * @param maxCount   Maximum entries to return.
+     * @return List of resources containing the identifier.
+     */
+    protected abstract <T extends IBaseResource> List<T> searchResourcesByIdentifier(
+            IDENTIFIER identifier,
+            Class<T> clazz,
+            int maxCount);
+
+    /**
+     * Returns all resources of the given class that contain the identifier.
+     *
+     * @param <T>    Resource type.
+     * @param system The identifier's system.
+     * @param value  The identifier's value.
+     * @param clazz  Class of the resources to be searched.
+     * @return List of resources containing the identifier.
+     */
+    public <T extends IBaseResource> List<T> searchResourcesByIdentifier(
+            String system,
+            String value,
+            Class<T> clazz) {
+        return searchResourcesByIdentifier(system, value, clazz, DEFAULT_COUNT);
+    }
+
+    /**
+     * Returns all resources that contain the tag.
+     *
+     * @param tag      Resources with this tag will be returned.
+     * @param maxCount Maximum entries to return.
+     * @return List of resources containing the tag.
+     */
+    protected abstract List<IBaseResource> searchResourcesByTag(
+            IBaseCoding tag,
+            int maxCount);
+
+    /**
+     * Returns all resources of the given class that contain the tag.
+     *
+     * @param <T>      Resource type.
+     * @param tag      Resources with this tag will be returned.
+     * @param clazz    Class of the resources to be searched.
+     * @param maxCount Maximum entries to return.
+     * @return List of resources containing the tag.
+     */
+    protected abstract <T extends IBaseResource> List<T> searchResourcesByTag(
+            IBaseCoding tag,
+            Class<T> clazz,
+            int maxCount);
+
+    /**
+     * Returns all resources that contain the tag.
+     *
+     * @param tag Resources with this tag will be returned.
+     * @return List of resources containing the tag.
+     */
+    public List<IBaseResource> searchResourcesByTag(IBaseCoding tag) {
+        return searchResourcesByTag(tag, DEFAULT_COUNT);
+    }
+
+    /**
+     * Returns all resources of the given class that contain the tag.
+     *
+     * @param <T>   Resource type.
+     * @param tag   Resources with this tag will be returned.
+     * @param clazz Class of the resources to be searched.
+     * @return List of resources containing the tag.
+     */
+    public <T extends IBaseResource> List<T> searchResourcesByTag(
+            IBaseCoding tag,
+            Class<T> clazz) {
+        return searchResourcesByTag(tag, clazz, DEFAULT_COUNT);
+    }
+
+    /**
+     * Returns all resources of the given class.
+     *
+     * @param <T>      Resource type.
+     * @param clazz    Class of the resources to be searched.
+     * @param maxCount Maximum entries to return.
+     * @return List of resources containing the identifier.
+     */
+    protected abstract <T extends IBaseResource> List<T> searchResourcesByType(
+            Class<T> clazz,
+            int maxCount);
+
+    /**
+     * Returns all resources of the given class.
+     *
+     * @param <T>   Resource type.
+     * @param clazz Class of the resources to be searched.
+     * @return List of resources containing the identifier.
+     */
+    public <T extends IBaseResource> List<T> searchResourcesByType(Class<T> clazz) {
+        return searchResourcesByType(clazz, DEFAULT_COUNT);
+    }
+
+    /**
+     * Search for patient-based resources of the given class.
+     *
+     * @param <T>     Resource type.
+     * @param patient Patient to be searched.
+     * @param clazz   Class of the resources to be returned.
+     * @return List of matching resources.
+     */
+    public <T extends IBaseResource> List<T> searchResourcesForPatient(
+            PATIENT patient,
+            Class<T> clazz) {
+        return searchResourcesForPatient(patient, clazz, DEFAULT_COUNT);
+    }
+
+    /**
+     * Search for patient-based resources of the given class.
+     *
+     * @param <T>      Resource type.
+     * @param patient  Patient to be searched.
+     * @param clazz    Class of the resources to be returned.
+     * @param maxCount Maximum entries to return.
+     * @return List of matching resources.
+     */
+    protected abstract <T extends IBaseResource> List<T> searchResourcesForPatient(
+            PATIENT patient,
+            Class<T> clazz,
+            int maxCount);
+
+    /**
+     * FHIR request to update the given resource.
+     *
+     * @param <T>      Resource type.
+     * @param resource Resource to update.
+     * @return The updated resource.
+     */
+    protected abstract <T extends IBaseResource> T updateResource(T resource);
+
+    /**
+     * Validates that the client is of the expected FHIR version.
+     */
+    protected abstract void validateClient();
 
 }

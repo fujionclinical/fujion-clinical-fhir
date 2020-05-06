@@ -1,0 +1,51 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
+	<display-name>@project.artifactId@-@fhir-spec@</display-name>
+	<description>@project.description@ (@fhir-spec@)</description>
+
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.fujion.servlet.FujionServlet</servlet-class>
+
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:/META-INF/fujion-dispatcher-servlet.xml
+				/WEB-INF/security-spring.xml
+			</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>contextClass</param-name>
+			<param-value>org.fujionclinical.ui.spring.FrameworkAppContext</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>contextInitializerClasses</param-name>
+			<param-value>org.fujionclinical.ui.spring.AppContextInitializer</param-value>
+		</init-param>
+
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>fujion.debug</param-name>
+		<param-value>@fujion.debug@</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<servlet-name>dispatcher</servlet-name>
+	</filter-mapping>
+
+</web-app>
