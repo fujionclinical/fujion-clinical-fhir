@@ -19,5 +19,6 @@
 		<module>fcf-fhir-webapp-profile-dstu2</module>
 		<module>fcf-fhir-webapp-profile-stu3</module>
 		<module>fcf-fhir-webapp-profile-r4</module>
+		<module>fcf-fhir-webapp-profile-r5</module>
 	</modules>
 </project>

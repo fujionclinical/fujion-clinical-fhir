@@ -38,8 +38,6 @@ public class IdTokenValidator {
 
     /**
      * see http://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
-     *
-     * @return token is valid
      */
     public boolean validate(IdToken idToken, String issuerUrl, String clientId) {
 

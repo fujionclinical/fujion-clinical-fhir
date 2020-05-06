@@ -17,7 +17,8 @@
 	<modules>
 		<module>fcf-fhir-lib-patientselection-v1-common</module>
 		<module>fcf-fhir-lib-patientselection-v1-dstu2</module>
-		<module>fcf-fhir-lib-patientselection-v1-r4</module>
 		<module>fcf-fhir-lib-patientselection-v1-stu3</module>
+		<module>fcf-fhir-lib-patientselection-v1-r4</module>
+		<module>fcf-fhir-lib-patientselection-v1-r5</module>
 	</modules>
 </project>

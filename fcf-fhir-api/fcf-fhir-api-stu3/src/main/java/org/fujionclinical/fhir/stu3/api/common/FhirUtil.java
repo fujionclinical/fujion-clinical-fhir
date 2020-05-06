@@ -45,7 +45,6 @@ import org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity;
 import org.hl7.fhir.dstu3.model.OperationOutcome.OperationOutcomeIssueComponent;
 import org.hl7.fhir.dstu3.model.Timing.TimingRepeatComponent;
 import org.hl7.fhir.dstu3.model.Timing.UnitsOfTime;
-import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 
@@ -69,7 +68,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
         private final IssueSeverity severity;
 
-        private OperationOutcomeException(String message, IssueSeverity severity, OperationOutcome operationOutcome) {
+        private OperationOutcomeException(
+                String message,
+                IssueSeverity severity,
+                OperationOutcome operationOutcome) {
             super(message);
             this.severity = severity;
             this.operationOutcome = operationOutcome;
@@ -94,7 +96,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param ref2 The second resource.
      * @return True if the two references have equal id's.
      */
-    public static <T extends Reference> boolean areEqual(T ref1, T ref2) {
+    public static <T extends Reference> boolean areEqual(
+            T ref1,
+            T ref2) {
         return areEqual(ref1, ref2, false);
     }
 
@@ -107,7 +111,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param ignoreVersion If true, ignore any version qualifiers in the comparison.
      * @return True if the two resources have equal id's.
      */
-    public static <T extends Reference> boolean areEqual(T ref1, T ref2, boolean ignoreVersion) {
+    public static <T extends Reference> boolean areEqual(
+            T ref1,
+            T ref2,
+            boolean ignoreVersion) {
         if (ref1 == null || ref2 == null) {
             return false;
         }
@@ -124,7 +131,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param ref The reference.
      * @return True if the two inputs have equal id's.
      */
-    public static <T extends IBaseResource, R extends Reference> boolean areEqual(T res, R ref) {
+    public static <T extends IBaseResource, R extends Reference> boolean areEqual(
+            T res,
+            R ref) {
         return areEqual(res, ref, false);
     }
 
@@ -138,7 +147,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param ignoreVersion If true, ignore any version qualifiers in the comparison.
      * @return True if the two inputs have equal id's.
      */
-    public static <T extends IBaseResource, R extends Reference> boolean areEqual(T res, R ref, boolean ignoreVersion) {
+    public static <T extends IBaseResource, R extends Reference> boolean areEqual(
+            T res,
+            R ref,
+            boolean ignoreVersion) {
         if (res == null || ref == null) {
             return false;
         }
@@ -212,7 +224,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param displayName The concept's display name.
      * @return A CodeableConcept instance.
      */
-    public static CodeableConcept createCodeableConcept(String system, String code, String displayName) {
+    public static CodeableConcept createCodeableConcept(
+            String system,
+            String code,
+            String displayName) {
         CodeableConcept codeableConcept = new CodeableConcept();
         Coding coding = new Coding(system, code, displayName);
         codeableConcept.addCoding(coding);
@@ -226,7 +241,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param value  The value.
      * @return An identifier.
      */
-    public static Identifier createIdentifier(String system, String value) {
+    public static Identifier createIdentifier(
+            String system,
+            String value) {
         Identifier identifier = new Identifier();
         identifier.setSystem(system);
         identifier.setValue(value);
@@ -240,7 +257,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param endDate   The ending date.
      * @return A period object, or null if both dates are null.
      */
-    public static Period createPeriod(Date startDate, Date endDate) {
+    public static Period createPeriod(
+            Date startDate,
+            Date endDate) {
         Period period = null;
 
         if (startDate != null) {
@@ -263,7 +282,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param qty2 The second quantity
      * @return True if the two quantities are equal.
      */
-    public static boolean equalQuantities(Quantity qty1, Quantity qty2) {
+    public static boolean equalQuantities(
+            Quantity qty1,
+            Quantity qty2) {
         if (qty1 == null || qty2 == null || qty1.getUnit() == null || qty2.getUnit() == null || qty1.getValue() == null
                 || qty2.getValue() == null) {
             return false;
@@ -305,7 +326,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param uses  Use categories (use categories to search).
      * @return A formatted name.
      */
-    public static String formatName(List<HumanName> names, NameUse... uses) {
+    public static String formatName(
+            List<HumanName> names,
+            NameUse... uses) {
         return formatName(getName(names, uses));
     }
 
@@ -317,7 +340,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      *             null value matches any use category.
      * @return An address with a matching use category, or null if none found.
      */
-    public static Address getAddress(List<Address> list, AddressUse... uses) {
+    public static Address getAddress(
+            List<Address> list,
+            AddressUse... uses) {
         for (AddressUse use : uses) {
             for (Address address : list) {
                 if (use == null || use.equals(address.getUse())) {
@@ -347,7 +372,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      *                found. A null value matches any system.
      * @return An coding with a matching system, or null if none found.
      */
-    public static Coding getCoding(List<Coding> list, String... systems) {
+    public static Coding getCoding(
+            List<Coding> list,
+            String... systems) {
         for (String system : systems) {
             for (Coding coding : list) {
                 if (system == null || system.equals(coding.getSystem())) {
@@ -366,7 +393,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param type Contact type to find (e.g., "home:phone").
      * @return A contact with a matching type, or null if none found.
      */
-    public static ContactPoint getContact(List<ContactPoint> list, String type) {
+    public static ContactPoint getContact(
+            List<ContactPoint> list,
+            String type) {
         String[] pcs = type.split(":", 2);
 
         for (ContactPoint contact : list) {
@@ -635,18 +664,20 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * Returns a concatenation of displayable values from a list of values separated by
      * the specified delimiter.
      *
-     * @param values The values to display.
+     * @param values    The values to display.
      * @param delimiter The delimiter for separating values.
      * @return A concatenation of displayable values (possibly null).
      */
-    public static String getDisplayValueForTypes(List<?> values, String delimiter) {
+    public static String getDisplayValueForTypes(
+            List<?> values,
+            String delimiter) {
         if (values == null || values.isEmpty()) {
             return null;
         }
 
         StringBuilder sb = new StringBuilder();
 
-        for (Object value: values) {
+        for (Object value : values) {
             String display = getDisplayValueForType(value);
 
             if (display != null) {
@@ -670,72 +701,80 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     /**
      * Extracts resources of the specified class from a bundle.
      *
-     * @param <T> Resource type.
+     * @param <T>    Resource type.
      * @param bundle The bundle.
-     * @param clazz Class of resource to extract.
+     * @param clazz  Class of resource to extract.
      * @return The list of extracted resources.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends IBaseResource> List<T> getEntries(Bundle bundle, Class<T> clazz) {
+    public static <T extends IBaseResource> List<T> getEntries(
+            Bundle bundle,
+            Class<T> clazz) {
         return (List<T>) getEntries(bundle, Collections.singletonList(clazz), null);
     }
-    
+
     /**
      * Extracts resources from a bundle according to the inclusion and exclusion criteria.
      *
-     * @param <T> Resource type.
-     * @param bundle The bundle.
+     * @param <T>        Resource type.
+     * @param bundle     The bundle.
      * @param inclusions List of resource classes to extract. May be null to indicate all classes
-     *            should be extracted.
+     *                   should be extracted.
      * @param exclusions List of resource classes to be excluded. May be null to indicate no classes
-     *            should be excluded. Exclusions take precedence over inclusions.
+     *                   should be excluded. Exclusions take precedence over inclusions.
      * @return The list of extracted resources.
      */
-    public static <T extends IBaseResource> List<IBaseResource> getEntries(Bundle bundle, List<Class<T>> inclusions,
-                                                                           List<Class<T>> exclusions) {
+    public static <T extends IBaseResource> List<IBaseResource> getEntries(
+            Bundle bundle,
+            List<Class<T>> inclusions,
+            List<Class<T>> exclusions) {
         List<IBaseResource> entries = new ArrayList<>();
-        
+
         if (bundle != null) {
             for (BundleEntryComponent entry : bundle.getEntry()) {
                 IBaseResource resource = entry.getResource();
                 boolean exclude = exclusions != null && classMatches(exclusions, resource);
                 boolean include = !exclude && (inclusions == null || classMatches(inclusions, resource));
-                
+
                 if (include) {
                     entries.add(resource);
                 }
             }
         }
-        
+
         return entries;
     }
-    
+
     /**
      * Returns the string representation of the reference's resource id.
      *
-     * @param reference The reference.
+     * @param reference    The reference.
      * @param stripVersion If true and the id has a version qualifier, remove it.
      * @return The string representation of the id.
      */
-    public static String getIdAsString(Reference reference, boolean stripVersion) {
+    public static String getIdAsString(
+            Reference reference,
+            boolean stripVersion) {
         IBaseResource res = reference == null ? null : reference.getResource();
-        
+
         if (res != null) {
             return getIdAsString(res, stripVersion);
         }
         String result = reference == null ? null : reference.getReference();
         return result == null ? "" : stripVersion ? stripVersion(result) : result;
     }
-    
+
     /**
      * Returns the first identifier from the list that matches one of the specified types. A search
      * is performed for each specified type, returning when a match is found.
      *
-     * @param list List of identifiers to consider.
+     * @param list  List of identifiers to consider.
      * @param types Coding types to be matched.
      * @return A matching identifier, or null if not found.
      */
-    public static Identifier getIdentifierByType(List<Identifier> list, Coding... types) {
+    public static Identifier getIdentifierByType(
+            List<Identifier> list,
+            Coding... types) {
         for (Coding type : types) {
             for (Identifier id : list) {
                 for (Coding coding : id.getType().getCoding()) {
@@ -745,18 +784,20 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
 
     /**
      * Returns the first identifier from the list that matches one of the specified system.
      *
-     * @param list List of identifiers to consider.
+     * @param list   List of identifiers to consider.
      * @param system The identifier system to be matched.
      * @return A matching identifier, or null if not found.
      */
-    public static Identifier getIdentifierBySystem(List<Identifier> list, String system) {
+    public static Identifier getIdentifierBySystem(
+            List<Identifier> list,
+            String system) {
         for (Identifier id : list) {
             if (system.equals(id.getSystem())) {
                 return id;
@@ -776,7 +817,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static List<Identifier> getIdentifiers(IBaseResource resource) {
         return getProperty(resource, "getIdentifier", List.class);
     }
-    
+
     /**
      * Returns a patient's MRN. (What types should be explicitly considered?)
      *
@@ -786,7 +827,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static Identifier getMRN(Patient patient) {
         return patient == null ? null : getIdentifierByType(patient.getIdentifier(), Constants.CODING_MRN);
     }
-    
+
     /**
      * Returns a patient's MRN. (What labels should be explicitly considered?)
      *
@@ -813,10 +854,12 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      *
      * @param list List of names to consider.
      * @param uses One or more use categories. These are searched in order until one is found. A
-     *            null value matches any use category.
+     *             null value matches any use category.
      * @return A name with a matching use category, or null if none found.
      */
-    public static HumanName getName(List<HumanName> list, NameUse... uses) {
+    public static HumanName getName(
+            List<HumanName> list,
+            NameUse... uses) {
         for (NameUse use : uses) {
             for (HumanName name : list) {
                 if (use == null || use.equals(name.getUse())) {
@@ -824,10 +867,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns a list of names from a resource if one exists.
      *
@@ -837,7 +880,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static List<HumanName> getNames(IBaseResource resource) {
         return getListProperty(resource, "name", HumanName.class);
     }
-    
+
     /**
      * Returns the patient associated with a resource.
      *
@@ -850,7 +893,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         return ref == null || !ref.hasReference() ? null
                 : "Patient".equals(getResourceType(ref.getReferenceElement())) ? ref : null;
     }
-    
+
     /**
      * Method sets the FHIR repeat for the given frequency code
      *
@@ -869,7 +912,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         }
         return repeat;
     }
-    
+
     /**
      * Parses a name using the active parser.
      *
@@ -879,31 +922,33 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static HumanName parseName(String name) {
         return name == null ? null : defaultHumanNameParser.fromString(name);
     }
-    
+
     /**
      * Processes a MethodOutcome from a create or update request. If the request returns an updated
      * version of the resource, that resource is returned. If the request returns a logical id, that
      * id is set in the original resource. If the request resulted in an error, a runtime exception
      * is thrown.
      *
-     * @param <T> Resource type.
-     * @param outcome The method outcome.
+     * @param <T>      Resource type.
+     * @param outcome  The method outcome.
      * @param resource The resource upon which the method was performed.
      * @return If the method returned a new resource, that resource is returned. Otherwise, the
      *         original resource is returned, possibly with an updated logical id.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends IBaseResource> T processMethodOutcome(MethodOutcome outcome, T resource) {
+    public static <T extends IBaseResource> T processMethodOutcome(
+            MethodOutcome outcome,
+            T resource) {
         checkOutcome(outcome.getOperationOutcome());
         IIdType id = outcome.getId();
         IBaseResource newResource = outcome.getResource();
-        
+
         if (id != null) {
             resource.setId(id);
         } else if (newResource != null && newResource.getClass() == resource.getClass()) {
             resource = (T) newResource;
         }
-        
+
         return resource;
     }
 
@@ -912,7 +957,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * an exception if not.
      *
      * @param fhirClient The FHIR client.
-     * @exception IllegalStateException If the versions do not match.
+     * @throws IllegalStateException If the versions do not match.
      */
     public static void assertFhirVersion(IGenericClient fhirClient) {
         assertFhirVersion(fhirClient.getFhirContext());
@@ -923,7 +968,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * an exception if not.
      *
      * @param fhirContext The FHIR context.
-     * @exception IllegalStateException If the versions do not match.
+     * @throws IllegalStateException If the versions do not match.
      */
     public static void assertFhirVersion(FhirContext fhirContext) {
         assertFhirVersion(fhirContext, FhirVersionEnum.DSTU3);
@@ -942,12 +987,14 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     /**
      * Returns an image from a list of attachments.
      *
-     * @param attachments List of attachments.
+     * @param attachments  List of attachments.
      * @param defaultImage URL of default image to use if none found (may be null).
      * @return An image component if a suitable attachment was found, or the default image if
      *         specified, or null.
      */
-    public static Image getImage(List<Attachment> attachments, String defaultImage) {
+    public static Image getImage(
+            List<Attachment> attachments,
+            String defaultImage) {
         for (Attachment attachment : attachments) {
             String contentType = attachment.getContentType();
 

@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -56,11 +56,14 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
     /**
      * Creates an instance of this list using the specified parameters.
      *
-     * @param name The list name.
-     * @param entityName The name of the entity type associated with any filters.
+     * @param name         The list name.
+     * @param entityName   The name of the entity type associated with any filters.
      * @param propertyName The name of the property where list contents are stored.
      */
-    protected PropertyBasedPatientList(String name, String entityName, String propertyName) {
+    protected PropertyBasedPatientList(
+            String name,
+            String entityName,
+            String propertyName) {
         super(name, entityName);
         this.propertyName = propertyName;
     }
@@ -104,10 +107,12 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      * be removed (i.e., duplicates are automatically eliminated).
      *
      * @param patient Patient to be added.
-     * @param top If true, the patient is added to the beginning of the list. If false, the patient
-     *            is added to the end.
+     * @param top     If true, the patient is added to the beginning of the list. If false, the patient
+     *                is added to the end.
      */
-    protected void addPatient(Patient patient, boolean top) {
+    protected void addPatient(
+            Patient patient,
+            boolean top) {
         int max = getListSizeMax();
 
         if (max > 0 && patient != null) {
@@ -121,10 +126,12 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      * Adds a patient list item.
      *
      * @param item The item to add.
-     * @param top If true, the item is added to the beginning of the list. If false, the item is
-     *            added to the end.
+     * @param top  If true, the item is added to the beginning of the list. If false, the item is
+     *             added to the end.
      */
-    protected void addItem(PatientListItem item, boolean top) {
+    protected void addItem(
+            PatientListItem item,
+            boolean top) {
         getListItems();
 
         if (pplList.contains(item)) {
@@ -173,7 +180,8 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
 
                             try {
                                 addPatient(getPatient(patientId), false);
-                            } catch (Exception e) {}
+                            } catch (Exception e) {
+                            }
                         }
                     }
 
@@ -259,9 +267,11 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      * user level preference. This can be overridden by subclasses for different behavior.
      *
      * @param propertyName the name of the property definition to use when saving
-     * @param patids List of patient logical ids.
+     * @param patids       List of patient logical ids.
      */
-    protected void saveProperty(String propertyName, List<String> patids) {
+    protected void saveProperty(
+            String propertyName,
+            List<String> patids) {
         PropertyUtil.saveValues(propertyName, getListName(), false, patids);
     }
 

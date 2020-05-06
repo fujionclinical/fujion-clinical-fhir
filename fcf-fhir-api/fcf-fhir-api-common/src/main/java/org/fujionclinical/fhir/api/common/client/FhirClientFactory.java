@@ -41,7 +41,7 @@ public class FhirClientFactory {
     private final Map<String, IGenericClient> registry = new HashMap<>();
 
     private final FhirContext fhirContext;
-    
+
     public static FhirClientFactory getInstance() {
         return instance;
     }
@@ -51,16 +51,18 @@ public class FhirClientFactory {
         instance = this;
         this.fhirContext = fhirContext;
     }
-    
+
     public IGenericClient getClient(String category) {
         return getClient(category, false);
     }
-    
-    public IGenericClient getClient(String category, boolean acceptDefault) {
+
+    public IGenericClient getClient(
+            String category,
+            boolean acceptDefault) {
         IGenericClient client = registry.get(category);
         return acceptDefault && client == null ? registry.get("") : client;
     }
-    
+
     /**
      * Creates a generic client.
      *
@@ -71,17 +73,17 @@ public class FhirClientFactory {
         String qualifier = config.getQualifier();
         Assert.isTrue(!registry.containsKey(qualifier), () -> "A FHIR client qualifier named '" + qualifier + "' already exists");
         IGenericClient client = fhirContext.newRestfulGenericClient(config.getServerBase());
-        
+
         if (client instanceof GenericClient) {
             ((GenericClient) client).setDontValidateConformance(!config.isValidateConformance());
         }
-        
+
         IAuthInterceptor authInterceptor = config.getAuthInterceptor();
 
         if (authInterceptor != null) {
             client.registerInterceptor(authInterceptor);
         }
-        
+
         client.setPrettyPrint(config.isPrettyPrint());
         client.setEncoding(config.getEncoding());
         client.setSummary(config.getSummary());

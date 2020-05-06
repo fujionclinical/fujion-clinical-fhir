@@ -105,6 +105,7 @@ public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
      * Deletes a resource.
      *
      * @param resource Resource to delete.
+     * @return The outcome of the operation.
      */
     public IBaseOperationOutcome deleteResource(IBaseResource resource) {
         return getClient().delete().resource(resource).execute();

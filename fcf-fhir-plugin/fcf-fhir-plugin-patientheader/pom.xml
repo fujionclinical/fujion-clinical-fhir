@@ -17,7 +17,8 @@
 	<modules>
 		<module>fcf-fhir-plugin-patientheader-common</module>
 		<module>fcf-fhir-plugin-patientheader-dstu2</module>
-		<module>fcf-fhir-plugin-patientheader-r4</module>
 		<module>fcf-fhir-plugin-patientheader-stu3</module>
+		<module>fcf-fhir-plugin-patientheader-r4</module>
+		<module>fcf-fhir-plugin-patientheader-r5</module>
 	</modules>
 </project>

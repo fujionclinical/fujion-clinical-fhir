@@ -17,7 +17,8 @@
 	<modules>
 		<module>fcf-fhir-plugin-medicationorders-common</module>
 		<module>fcf-fhir-plugin-medicationorders-dstu2</module>
-		<module>fcf-fhir-plugin-medicationorders-r4</module>
 		<module>fcf-fhir-plugin-medicationorders-stu3</module>
+		<module>fcf-fhir-plugin-medicationorders-r4</module>
+		<module>fcf-fhir-plugin-medicationorders-r5</module>
 	</modules>
 </project>

@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -41,39 +41,39 @@ import java.util.Date;
 public class PatientSearchCriteria extends SearchCriteria {
 
     private static final String ERROR_MISSING_REQUIRED = "@patientsearch.error.missing.required";
-    
+
     private HumanNameDt name;
-    
+
     private IdentifierDt mrn;
-    
+
     private IdentifierDt ssn;
-    
+
     private String gender;
-    
+
     private Date birth;
-    
+
     public PatientSearchCriteria() {
         super(ERROR_MISSING_REQUIRED);
     }
-    
+
     /**
      * Creates a criteria instance with settings parsed from search text.
      *
      * @param searchText Search text to parse. Uses pattern matching to determine which criterion is
-     *            associated with a given input component. Separate multiple input components with
-     *            semicolons.
+     *                   associated with a given input component. Separate multiple input components with
+     *                   semicolons.
      */
     public PatientSearchCriteria(String searchText) {
         this();
         searchText = searchText == null ? null : searchText.trim();
-        
+
         if (!StringUtils.isEmpty(searchText)) {
             String[] pcs = searchText.split(";");
-            
+
             for (String pc : pcs) {
                 pc = pc.trim();
                 Date tempDate;
-                
+
                 if (pc.isEmpty()) {
                     continue;
                 } else if (isValid() && (pc.equalsIgnoreCase("M") || pc.equalsIgnoreCase("F"))) {
@@ -92,7 +92,7 @@ public class PatientSearchCriteria extends SearchCriteria {
             }
         }
     }
-    
+
     /**
      * Returns a date value if the input is a valid date. Otherwise, returns null. Explicitly
      * excludes some patterns that may successfully parse as a date.
@@ -104,14 +104,14 @@ public class PatientSearchCriteria extends SearchCriteria {
         if (StringUtils.isNumeric(value)) {
             return null;
         }
-        
+
         if (value.matches("^\\d+-\\d+$")) {
             return null;
         }
-        
+
         return DateUtil.parseDate(value);
     }
-    
+
     /**
      * Returns true if the current criteria settings meet the minimum requirements for a search.
      *
@@ -121,7 +121,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public boolean isValid() {
         return super.isValid() || ssn != null || mrn != null || name != null;
     }
-    
+
     /**
      * Returns the patient name criterion.
      *
@@ -130,7 +130,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public HumanNameDt getName() {
         return name;
     }
-    
+
     /**
      * Sets the patient name criterion.
      *
@@ -139,7 +139,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public void setName(String name) {
         this.name = FhirUtil.parseName(name);
     }
-    
+
     /**
      * Sets the patient name criterion.
      *
@@ -148,7 +148,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public void setName(HumanNameDt name) {
         this.name = name;
     }
-    
+
     /**
      * Returns the MRN criterion.
      *
@@ -157,7 +157,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public IdentifierDt getMRN() {
         return mrn;
     }
-    
+
     /**
      * Sets the MRN criterion.
      *
@@ -168,7 +168,7 @@ public class PatientSearchCriteria extends SearchCriteria {
         this.mrn.setType(IdentifierTypeCodesEnum.MR);
         this.mrn.setValue(mrn);
     }
-    
+
     /**
      * Returns the SSN criterion.
      *
@@ -177,7 +177,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public IdentifierDt getSSN() {
         return ssn;
     }
-    
+
     /**
      * Sets the SSN criterion.
      *
@@ -189,7 +189,7 @@ public class PatientSearchCriteria extends SearchCriteria {
         this.ssn.setValue(ssn);
         this.ssn.setSystem("http://hl7.org/fhir/sid/us-ssn");
     }
-    
+
     /**
      * Returns the gender criterion.
      *
@@ -198,7 +198,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public String getGender() {
         return gender;
     }
-    
+
     /**
      * Sets the gender criterion.
      *
@@ -207,7 +207,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public void setGender(String gender) {
         this.gender = StringUtils.trimToNull(gender);
     }
-    
+
     /**
      * Returns the date of birth criterion.
      *
@@ -216,7 +216,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public Date getBirth() {
         return birth;
     }
-    
+
     /**
      * Sets the date of birth criterion.
      *
@@ -225,7 +225,7 @@ public class PatientSearchCriteria extends SearchCriteria {
     public void setBirth(Date birth) {
         this.birth = birth;
     }
-    
+
     /**
      * Returns true if no criteria have been set.
      *

@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -52,34 +52,38 @@ import java.util.List;
 public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria> implements IResourceQueryEx<R, C> {
 
     private final IGenericClient fhirClient;
-    
+
     private final Class<R> resourceClass;
-    
-    public BaseResourceQuery(Class<R> resourceClass, IGenericClient fhirClient) {
+
+    public BaseResourceQuery(
+            Class<R> resourceClass,
+            IGenericClient fhirClient) {
         this.resourceClass = resourceClass;
         this.fhirClient = fhirClient;
     }
-    
+
     /**
      * Validates the criteria settings and then transfers them to the query object. This method
      * transfers the base criteria only. Override to transfer additional criteria that are specific
      * to the resource type.
      *
      * @param criteria Research search criteria.
-     * @param query The query object.
+     * @param query    The query object.
      */
-    protected void buildQuery(C criteria, IQuery<?> query) {
+    protected void buildQuery(
+            C criteria,
+            IQuery<?> query) {
         criteria.validate();
-        
+
         if (criteria.getMaximum() > 0) {
             query.count(criteria.getMaximum());
         }
-        
+
         if (criteria.getId() != null) {
             query.where(new StringClientParam(BaseResource.SP_RES_ID).matches().value(criteria.getId()));
         }
     }
-    
+
     /**
      * Creates an empty query object for this resource class.
      *
@@ -89,7 +93,7 @@ public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria
     public IQuery<?> createQuery() {
         return fhirClient.search().forResource(resourceClass);
     }
-    
+
     /**
      * Search for matching resources.
      *
@@ -102,7 +106,7 @@ public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria
         buildQuery(criteria, query);
         return search(query);
     }
-    
+
     /**
      * Alternative method for performing a search that allows for external configuration of the
      * query object.

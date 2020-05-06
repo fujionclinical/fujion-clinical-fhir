@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -43,13 +43,16 @@ public abstract class ResourceContext<DomainClass extends IBaseResource> extends
     /**
      * Create a shared context with a specified initial state.
      *
-     * @param contextName Unique name for this context.
-     * @param domainClass The domain class.
+     * @param contextName    Unique name for this context.
+     * @param domainClass    The domain class.
      * @param eventInterface The context change interface supported by this managed context.
      * @param initialContext The initial context state. May be null.
      */
-    protected ResourceContext(String contextName, Class<DomainClass> domainClass,
-                              Class<? extends IContextEvent> eventInterface, DomainClass initialContext) {
+    protected ResourceContext(
+            String contextName,
+            Class<DomainClass> domainClass,
+            Class<? extends IContextEvent> eventInterface,
+            DomainClass initialContext) {
         super(contextName, eventInterface, initialContext);
         this.domainClass = domainClass;
     }

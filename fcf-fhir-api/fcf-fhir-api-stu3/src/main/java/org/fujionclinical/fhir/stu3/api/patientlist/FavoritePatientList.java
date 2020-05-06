@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -34,22 +34,22 @@ import java.util.Collection;
  * list retrieval logic is essentially delegated to that of the wrapped list.
  */
 public class FavoritePatientList extends AbstractPatientList {
-    
+
     private Collection<PatientListItem> patients;
-    
+
     public FavoritePatientList() {
         super("Favorites", "Favorite");
     }
-    
+
     /**
      * Copy constructor.
-     * 
+     *
      * @param list Favorites list to copy.
      */
     public FavoritePatientList(FavoritePatientList list) {
         super(list);
     }
-    
+
     /**
      * Creates the filter manager for this list.
      */
@@ -57,10 +57,10 @@ public class FavoritePatientList extends AbstractPatientList {
     public FavoritePatientListFilterManager createFilterManager() {
         return new FavoritePatientListFilterManager(this);
     }
-    
+
     /**
      * Adds a list to the favorites.
-     * 
+     *
      * @param list The list to add.
      */
     public void addFavorite(IPatientList list) {
@@ -68,9 +68,9 @@ public class FavoritePatientList extends AbstractPatientList {
             ((FavoritePatientListFilterManager) getFilterManager()).addEntity(new Favorite(list));
         }
     }
-    
+
     /* ==================== IPatientList ==================== */
-    
+
     /**
      * Resets the patient list when the filter changes.
      */
@@ -79,7 +79,7 @@ public class FavoritePatientList extends AbstractPatientList {
         patients = null;
         super.setActiveFilter(filter);
     }
-    
+
     /**
      * Forces this list to be the first.
      */
@@ -87,7 +87,7 @@ public class FavoritePatientList extends AbstractPatientList {
     public int getSequence() {
         return Integer.MIN_VALUE;
     }
-    
+
     /**
      * Returns the list of patients for the active filter. This simply calls the getListItems method
      * on the patient list associated with the currently selected filter.
@@ -99,10 +99,10 @@ public class FavoritePatientList extends AbstractPatientList {
             Favorite favorite = (Favorite) filter.getEntity();
             patients = favorite.getPatientList().getListItems();
         }
-        
+
         return patients;
     }
-    
+
     /**
      * Resets the patient list upon refresh.
      */
@@ -111,5 +111,5 @@ public class FavoritePatientList extends AbstractPatientList {
         super.refresh();
         patients = null;
     }
-    
+
 }

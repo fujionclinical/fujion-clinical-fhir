@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -63,7 +63,9 @@ public class HttpClientProxy implements HttpClient, Closeable {
         this.defaultClient = defaultClient;
     }
 
-    public void registerHttpClient(String pattern, HttpClient client) {
+    public void registerHttpClient(
+            String pattern,
+            HttpClient client) {
         patterns.register(pattern, client);
         clients.add(client);
     }
@@ -115,40 +117,56 @@ public class HttpClientProxy implements HttpClient, Closeable {
     }
 
     @Override
-    public HttpResponse execute(HttpUriRequest request, HttpContext context) throws IOException {
+    public HttpResponse execute(
+            HttpUriRequest request,
+            HttpContext context) throws IOException {
         return getClient(request).execute(request, context);
     }
 
     @Override
-    public HttpResponse execute(HttpHost target, HttpRequest request) throws IOException {
+    public HttpResponse execute(
+            HttpHost target,
+            HttpRequest request) throws IOException {
         return getClient(request).execute(target, request);
     }
 
     @Override
-    public HttpResponse execute(HttpHost target, HttpRequest request, HttpContext context) throws IOException {
+    public HttpResponse execute(
+            HttpHost target,
+            HttpRequest request,
+            HttpContext context) throws IOException {
         return getClient(request).execute(target, request, context);
     }
 
     @Override
-    public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler) throws IOException {
+    public <T> T execute(
+            HttpUriRequest request,
+            ResponseHandler<? extends T> responseHandler) throws IOException {
         return getClient(request).execute(request, responseHandler);
     }
 
     @Override
-    public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler,
-                         HttpContext context) throws IOException {
+    public <T> T execute(
+            HttpUriRequest request,
+            ResponseHandler<? extends T> responseHandler,
+            HttpContext context) throws IOException {
         return getClient(request).execute(request, responseHandler, context);
     }
 
     @Override
-    public <T> T execute(HttpHost target, HttpRequest request,
-                         ResponseHandler<? extends T> responseHandler) throws IOException {
+    public <T> T execute(
+            HttpHost target,
+            HttpRequest request,
+            ResponseHandler<? extends T> responseHandler) throws IOException {
         return getClient(request).execute(target, request, responseHandler);
     }
 
     @Override
-    public <T> T execute(HttpHost target, HttpRequest request, ResponseHandler<? extends T> responseHandler,
-                         HttpContext context) throws IOException {
+    public <T> T execute(
+            HttpHost target,
+            HttpRequest request,
+            ResponseHandler<? extends T> responseHandler,
+            HttpContext context) throws IOException {
         return getClient(request).execute(target, request, responseHandler, context);
     }
 

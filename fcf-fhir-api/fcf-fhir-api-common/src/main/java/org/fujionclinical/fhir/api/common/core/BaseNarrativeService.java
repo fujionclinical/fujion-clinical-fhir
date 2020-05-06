@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -54,7 +54,7 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
         generator = new CustomThymeleafNarrativeGenerator();
         fhirContext.setNarrativeGenerator(generator);
     }
-    
+
     /**
      * Generate a narrative for the resource.
      *
@@ -69,14 +69,16 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
     /**
      * Returns a narrative from the resource, if one is available, or constructs one if not.
      *
-     * @param resource Resource whose narrative is sought.
+     * @param resource   Resource whose narrative is sought.
      * @param autoCreate If true, and a narrative does not exist on the resource, generate one if
-     *            possible.
+     *                   possible.
      * @return The narrative, or null if one is not available.
      */
-    public INarrative extractNarrative(IBaseResource resource, boolean autoCreate) {
+    public INarrative extractNarrative(
+            IBaseResource resource,
+            boolean autoCreate) {
         INarrative narrative = extractNarrative(resource);
-        
+
         if (autoCreate && isNarrativeEmpty(narrative)) {
             narrative = generateNarrative(resource) ? extractNarrative(resource) : null;
         }
@@ -115,7 +117,7 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
                 found |= findPropertyFiles(applicationContext, "classpath*:META-INF/" + propFile, out);
                 found |= findPropertyFiles(applicationContext, "classpath*:WEB-INF/" + propFile, out);
             }
-            
+
             generator.setPropertyFile("file:" + file.getAbsolutePath());
 
             if (!found) {
@@ -125,8 +127,11 @@ public abstract class BaseNarrativeService implements ApplicationContextAware {
             throw new RuntimeException(e);
         }
     }
-                
-    private boolean findPropertyFiles(ApplicationContext applicationContext, String path, OutputStream out) throws IOException {
+
+    private boolean findPropertyFiles(
+            ApplicationContext applicationContext,
+            String path,
+            OutputStream out) throws IOException {
         boolean found = false;
 
         for (Resource resource : applicationContext.getResources(path)) {

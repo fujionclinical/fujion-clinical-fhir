@@ -17,7 +17,8 @@
 	<modules>
 		<module>fcf-fhir-plugin-adversereactions-common</module>
 		<module>fcf-fhir-plugin-adversereactions-dstu2</module>
-		<module>fcf-fhir-plugin-adversereactions-r4</module>
 		<module>fcf-fhir-plugin-adversereactions-stu3</module>
+		<module>fcf-fhir-plugin-adversereactions-r4</module>
+		<module>fcf-fhir-plugin-adversereactions-r5</module>
 	</modules>
 </project>

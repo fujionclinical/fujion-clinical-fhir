@@ -16,9 +16,10 @@
 
 	<modules>
 		<module>fcf-fhir-smart-common</module>
-		<module>fcf-fhir-smart-dstu2</module>
-		<module>fcf-fhir-smart-r4</module>
-		<module>fcf-fhir-smart-stu3</module>
 		<module>fcf-fhir-smart-launch</module>
+		<module>fcf-fhir-smart-dstu2</module>
+		<module>fcf-fhir-smart-stu3</module>
+		<module>fcf-fhir-smart-r4</module>
+		<module>fcf-fhir-smart-r5</module>
 	</modules>
 </project>

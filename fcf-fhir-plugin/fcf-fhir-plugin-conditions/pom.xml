@@ -17,7 +17,8 @@
 	<modules>
 		<module>fcf-fhir-plugin-conditions-common</module>
 		<module>fcf-fhir-plugin-conditions-dstu2</module>
-		<module>fcf-fhir-plugin-conditions-r4</module>
 		<module>fcf-fhir-plugin-conditions-stu3</module>
+		<module>fcf-fhir-plugin-conditions-r4</module>
+		<module>fcf-fhir-plugin-conditions-r5</module>
 	</modules>
 </project>

@@ -32,6 +32,8 @@ public interface ISmartContext {
 
     /**
      * Returns the unique name of the SMART context.
+     *
+     * @return The unique name of the SMART context.
      */
     String getContextName();
     

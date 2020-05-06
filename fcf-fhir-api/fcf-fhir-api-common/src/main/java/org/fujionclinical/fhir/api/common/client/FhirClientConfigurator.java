@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -41,7 +41,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * qualifier it would be <code>fhir.client.server.base</code>.
  */
 public class FhirClientConfigurator extends SimplePropertyAwareConfigurator implements org.fujionclinical.fhir.api.common.client.IFhirClientConfigurator, ApplicationListener<ContextRefreshedEvent> {
-    
+
     @Param(property = "server.base", required = true)
     private String serverBase;
 
@@ -59,13 +59,14 @@ public class FhirClientConfigurator extends SimplePropertyAwareConfigurator impl
 
     @Param(property = "summary")
     private SummaryEnum summary;
-    
+
     private IAuthInterceptor authInterceptor;
 
     public FhirClientConfigurator() {
         this(null);
 
     }
+
     public FhirClientConfigurator(String qualifier) {
         super("fhir.client", qualifier);
     }
@@ -89,12 +90,12 @@ public class FhirClientConfigurator extends SimplePropertyAwareConfigurator impl
     public boolean isPrettyPrint() {
         return prettyPrint;
     }
-    
+
     @Override
     public SummaryEnum getSummary() {
         return summary;
     }
-    
+
     @Override
     public IAuthInterceptor getAuthInterceptor() {
         return authInterceptor;

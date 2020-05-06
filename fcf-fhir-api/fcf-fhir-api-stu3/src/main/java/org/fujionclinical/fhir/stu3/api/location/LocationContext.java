@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -46,7 +46,8 @@ public class LocationContext extends ResourceContext<Location> {
 
     private static final String PROPERTY_DEFAULT_LOCATION = "FCF LOCATION DEFAULT";
 
-    public interface ILocationContextEvent extends IContextEvent {}
+    public interface ILocationContextEvent extends IContextEvent {
+    }
 
     /**
      * Returns the managed location context.
@@ -128,7 +129,7 @@ public class LocationContext extends ResourceContext<Location> {
      * Commits or rejects the pending context change.
      *
      * @param accept If true, the pending change is committed. If false, the pending change is
-     *            canceled.
+     *               canceled.
      */
     @Override
     public void commit(boolean accept) {

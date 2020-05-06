@@ -17,7 +17,8 @@
 	<modules>
 		<module>fcf-fhir-plugin-observations-common</module>
 		<module>fcf-fhir-plugin-observations-dstu2</module>
-		<module>fcf-fhir-plugin-observations-r4</module>
 		<module>fcf-fhir-plugin-observations-stu3</module>
+		<module>fcf-fhir-plugin-observations-r4</module>
+		<module>fcf-fhir-plugin-observations-r5</module>
 	</modules>
 </project>

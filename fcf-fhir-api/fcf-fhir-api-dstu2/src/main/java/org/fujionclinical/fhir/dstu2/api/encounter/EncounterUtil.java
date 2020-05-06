@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -90,7 +90,11 @@ public class EncounterUtil {
         return null;
     }
 
-    public static Encounter create(Patient patient, Date date, Location location, String sc) {
+    public static Encounter create(
+            Patient patient,
+            Date date,
+            Location location,
+            String sc) {
         Encounter encounter = new Encounter();
         ResourceReferenceDt pat = new ResourceReferenceDt(patient);
         encounter.setPatient(pat);
@@ -108,7 +112,10 @@ public class EncounterUtil {
         return encounter;
     }
 
-    public static CodeableConceptDt createServiceCategory(String sc, String shortDx, String longDx) {
+    public static CodeableConceptDt createServiceCategory(
+            String sc,
+            String shortDx,
+            String longDx) {
         CodeableConceptDt cpt = new CodeableConceptDt();
         cpt.setText(longDx);
         CodingDt coding = new CodingDt();
@@ -187,7 +194,9 @@ public class EncounterUtil {
                 && getServiceCategory(encounter) != null;
     }
 
-    public static Encounter.Participant getParticipantByType(Encounter encounter, CodingDt participationType) {
+    public static Encounter.Participant getParticipantByType(
+            Encounter encounter,
+            CodingDt participationType) {
         for (Encounter.Participant p : encounter.getParticipant()) {
             if (hasType(p, participationType)) {
                 return p;
@@ -201,7 +210,9 @@ public class EncounterUtil {
         return hasType(participant, primaryType);
     }
 
-    public static boolean removeType(Encounter.Participant participant, CodingDt participationType) {
+    public static boolean removeType(
+            Encounter.Participant participant,
+            CodingDt participationType) {
         CodeableConceptDt cpt;
         boolean found = false;
 
@@ -213,7 +224,9 @@ public class EncounterUtil {
         return found;
     }
 
-    public static boolean addType(Encounter.Participant participant, CodingDt participationType) {
+    public static boolean addType(
+            Encounter.Participant participant,
+            CodingDt participationType) {
         if (!hasType(participant, participationType)) {
             CodeableConceptDt cpt = participant.addType();
             cpt.getCoding().add(participationType);
@@ -223,11 +236,15 @@ public class EncounterUtil {
         return false;
     }
 
-    public static boolean hasType(Encounter.Participant participant, CodingDt participationType) {
+    public static boolean hasType(
+            Encounter.Participant participant,
+            CodingDt participationType) {
         return findType(participant, participationType) != null;
     }
 
-    private static CodeableConceptDt findType(Encounter.Participant participant, CodingDt participationType) {
+    private static CodeableConceptDt findType(
+            Encounter.Participant participant,
+            CodingDt participationType) {
         if (participant != null) {
             for (CodeableConceptDt tp : participant.getType()) {
                 for (CodingDt coding : tp.getCoding()) {
@@ -278,12 +295,14 @@ public class EncounterUtil {
     /**
      * Returns an encounter location with the specified physical type.
      *
-     * @param encounter An encounter.
+     * @param encounter    An encounter.
      * @param physicalType The physical location type sought.
      * @return The encounter location corresponding to the specified physical type, or null if none
      *         found.
      */
-    public static Encounter.Location getLocationByPhysicalType(Encounter encounter, String physicalType) {
+    public static Encounter.Location getLocationByPhysicalType(
+            Encounter encounter,
+            String physicalType) {
         for (Encounter.Location encounterLocation : encounter.getLocation()) {
             Location location = ClientUtil.getResource(encounterLocation.getLocation(), Location.class);
 

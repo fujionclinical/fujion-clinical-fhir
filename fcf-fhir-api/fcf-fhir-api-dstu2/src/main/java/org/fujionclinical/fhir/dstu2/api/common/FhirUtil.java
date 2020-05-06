@@ -49,7 +49,6 @@ import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
 import org.fujion.component.Image;
 import org.fujionclinical.fhir.dstu2.api.terminology.Constants;
-import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 
@@ -64,61 +63,69 @@ import java.util.List;
  * FHIR utility methods.
  */
 public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
-    
+
     public static class OperationOutcomeException extends RuntimeException {
-        
+
         private static final long serialVersionUID = 1L;
-        
+
         private final OperationOutcome operationOutcome;
-        
+
         private final IssueSeverityEnum severity;
-        
-        private OperationOutcomeException(String message, IssueSeverityEnum severity, OperationOutcome operationOutcome) {
+
+        private OperationOutcomeException(
+                String message,
+                IssueSeverityEnum severity,
+                OperationOutcome operationOutcome) {
             super(message);
             this.severity = severity;
             this.operationOutcome = operationOutcome;
         }
-        
+
         public OperationOutcome getOperationOutcome() {
             return operationOutcome;
         }
-        
+
         public IssueSeverityEnum getSeverity() {
             return severity;
         }
     }
-    
+
     public static IHumanNameParser defaultHumanNameParser = new HumanNameParser();
-    
+
     /**
      * Performs an equality check on two references using their id's.
      *
-     * @param <T> Resource type.
+     * @param <T>  Resource type.
      * @param ref1 The first resource.
      * @param ref2 The second resource.
      * @return True if the two references have equal id's.
      */
-    public static <T extends ResourceReferenceDt> boolean areEqual(T ref1, T ref2) {
+    public static <T extends ResourceReferenceDt> boolean areEqual(
+            T ref1,
+            T ref2) {
         return areEqual(ref1, ref2, false);
     }
-    
+
     /**
      * Performs an equality check on two resources using their id's.
      *
-     * @param <T> Resource type.
-     * @param ref1 The first resource.
-     * @param ref2 The second resource.
+     * @param <T>           Resource type.
+     * @param ref1          The first resource.
+     * @param ref2          The second resource.
      * @param ignoreVersion If true, ignore any version qualifiers in the comparison.
      * @return True if the two resources have equal id's.
      */
-    public static <T extends ResourceReferenceDt> boolean areEqual(T ref1, T ref2, boolean ignoreVersion) {
+    public static <T extends ResourceReferenceDt> boolean areEqual(
+            T ref1,
+            T ref2,
+            boolean ignoreVersion) {
         if (ref1 == null || ref2 == null) {
             return false;
         }
-        
+
         return ref1 == ref2 || getIdAsString(ref1, ignoreVersion).equals(getIdAsString(ref2, ignoreVersion));
     }
-    
+
     /**
      * Performs an equality check between a resource and a reference using their id's.
      *
@@ -128,34 +135,39 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param ref The reference.
      * @return True if the two inputs have equal id's.
      */
-    public static <T extends IBaseResource, R extends ResourceReferenceDt> boolean areEqual(T res, R ref) {
+    public static <T extends IBaseResource, R extends ResourceReferenceDt> boolean areEqual(
+            T res,
+            R ref) {
         return areEqual(res, ref, false);
     }
-    
+
     /**
      * Performs an equality check between a resource and a reference using their id's.
      *
-     * @param <T> Resource type.
-     * @param <R> Reference type.
-     * @param res The resource.
-     * @param ref The reference.
+     * @param <T>           Resource type.
+     * @param <R>           Reference type.
+     * @param res           The resource.
+     * @param ref           The reference.
      * @param ignoreVersion If true, ignore any version qualifiers in the comparison.
      * @return True if the two inputs have equal id's.
      */
-    public static <T extends IBaseResource, R extends ResourceReferenceDt> boolean areEqual(T res, R ref, boolean ignoreVersion) {
+    public static <T extends IBaseResource, R extends ResourceReferenceDt> boolean areEqual(
+            T res,
+            R ref,
+            boolean ignoreVersion) {
         if (res == null || ref == null) {
             return false;
         }
-        
+
         IBaseResource res2 = ref.getResource();
-        
+
         if (res2 != null) {
             return areEqual(res, res2, ignoreVersion);
         }
-        
+
         return getIdAsString(ref, ignoreVersion).equals(getIdAsString(res, ignoreVersion));
     }
-    
+
     /**
      * Checks the response from a server request to determine if it is an OperationOutcome with a
      * severity of ERROR or FATAL. If so, it will throw a runtime exception with the diagnostics of
@@ -169,31 +181,31 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         if (resource instanceof OperationOutcome) {
             OperationOutcome outcome = (OperationOutcome) resource;
             IssueSeverityEnum severity = null;
-            
+
             if (!outcome.getIssue().isEmpty()) {
                 StringBuilder sb = new StringBuilder();
-                
+
                 for (OperationOutcome.Issue issue : outcome.getIssue()) {
                     IssueSeverityEnum theSeverity = issue.getSeverityElement().getValueAsEnum();
-                    
+
                     if (theSeverity == IssueSeverityEnum.ERROR || theSeverity == IssueSeverityEnum.FATAL) {
                         sb.append(issue.getDiagnostics()).append(" (").append(theSeverity.getCode()).append(")\n");
                         severity = theSeverity.ordinal() < severity.ordinal() ? theSeverity : severity;
                     }
                 }
-                
+
                 if (sb.length() != 0) {
                     throw new OperationOutcomeException(sb.toString(), severity, outcome);
                 }
-                
+
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Convert a string-based time unit to the corresponding enum.
      *
@@ -207,58 +219,65 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             throw new IllegalArgumentException("Unknown time unit " + timeUnit);
         }
     }
-    
+
     /**
      * Convenience method that creates a CodeableConceptDt with a single coding.
      *
-     * @param system The coding system.
-     * @param code The code.
+     * @param system      The coding system.
+     * @param code        The code.
      * @param displayName The concept's display name.
      * @return A CodeableConceptDt instance.
      */
-    public static CodeableConceptDt createCodeableConcept(String system, String code, String displayName) {
+    public static CodeableConceptDt createCodeableConcept(
+            String system,
+            String code,
+            String displayName) {
         CodeableConceptDt codeableConcept = new CodeableConceptDt();
         CodingDt coding = new CodingDt(system, code).setDisplay(displayName);
         codeableConcept.addCoding(coding);
         return codeableConcept;
     }
-    
+
     /**
      * Convenience method that creates an IdentifierDt with the specified system and value.
      *
      * @param system The system.
-     * @param value The value.
+     * @param value  The value.
      * @return An identifier.
      */
-    public static IdentifierDt createIdentifier(String system, String value) {
+    public static IdentifierDt createIdentifier(
+            String system,
+            String value) {
         IdentifierDt identifier = new IdentifierDt();
         identifier.setSystem(system);
         identifier.setValue(value);
         return identifier;
     }
-    
+
     /**
      * Creates a period object from a start and end date.
      *
      * @param startDate The starting date.
-     * @param endDate The ending date.
+     * @param endDate   The ending date.
      * @return A period object, or null if both dates are null.
      */
-    public static PeriodDt createPeriod(Date startDate, Date endDate) {
+    public static PeriodDt createPeriod(
+            Date startDate,
+            Date endDate) {
         PeriodDt period = null;
-        
+
         if (startDate != null) {
             period = new PeriodDt();
             period.setStartWithSecondsPrecision(startDate);
         }
-        
+
         if (endDate != null) {
             (period == null ? period = new PeriodDt() : period).setEndWithSecondsPrecision(endDate);
         }
-        
+
         return period;
     }
-    
+
     /**
      * Method returns true if two quantities are equal. Compares two quantities by comparing their
      * values and their units. TODO Do a comparator instead
@@ -267,7 +286,9 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param qty2 The second quantity
      * @return True if the two quantities are equal.
      */
-    public static boolean equalQuantities(QuantityDt qty1, QuantityDt qty2) {
+    public static boolean equalQuantities(
+            QuantityDt qty1,
+            QuantityDt qty2) {
         if (qty1 == null || qty2 == null || qty1.getUnit() == null || qty2.getUnit() == null || qty1.getValue() == null
                 || qty2.getValue() == null) {
             return false;
@@ -281,7 +302,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return false;
         }
     }
-    
+
     /**
      * Formats a name using the active parser.
      *
@@ -291,7 +312,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static String formatName(HumanNameDt name) {
         return name == null ? "" : defaultHumanNameParser.toString(name);
     }
-    
+
     /**
      * Format the "usual" name.
      *
@@ -301,27 +322,31 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static String formatName(List<HumanNameDt> names) {
         return formatName(names, NameUseEnum.OFFICIAL, NameUseEnum.USUAL, null);
     }
-    
+
     /**
      * Format a name of the specified use category.
      *
      * @param names List of names
-     * @param uses Use categories (use categories to search).
+     * @param uses  Use categories (use categories to search).
      * @return A formatted name.
      */
-    public static String formatName(List<HumanNameDt> names, NameUseEnum... uses) {
+    public static String formatName(
+            List<HumanNameDt> names,
+            NameUseEnum... uses) {
         return formatName(getName(names, uses));
     }
-    
+
     /**
      * Returns an address of the desired use category from a list.
      *
      * @param list List of addresses to consider.
      * @param uses One or more use categories. These are searched in order until one is found. A
-     *            null value matches any use category.
+     *             null value matches any use category.
      * @return An address with a matching use category, or null if none found.
      */
-    public static AddressDt getAddress(List<AddressDt> list, AddressUseEnum... uses) {
+    public static AddressDt getAddress(
+            List<AddressDt> list,
+            AddressUseEnum... uses) {
         for (AddressUseEnum use : uses) {
             for (AddressDt address : list) {
                 if (use == null || use.equals(address.getUseElement().getValueAsEnum())) {
@@ -329,10 +354,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns a list of addresses from a resource if one exists.
      *
@@ -342,16 +367,18 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static List<AddressDt> getAddresses(IBaseResource resource) {
         return getListProperty(resource, "address", AddressDt.class);
     }
-    
+
     /**
      * Returns a coding of the desired system from a list.
      *
-     * @param list List of codings to consider.
+     * @param list    List of codings to consider.
      * @param systems One or more systems to consider. These are searched in order until one is
-     *            found. A null value matches any system.
+     *                found. A null value matches any system.
      * @return An coding with a matching system, or null if none found.
      */
-    public static CodingDt getCoding(List<CodingDt> list, String... systems) {
+    public static CodingDt getCoding(
+            List<CodingDt> list,
+            String... systems) {
         for (String system : systems) {
             for (CodingDt coding : list) {
                 if (system == null || system.equals(coding.getSystem())) {
@@ -359,10 +386,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns an contact of the desired type category from a list.
      *
@@ -370,15 +397,17 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param type Contact type to find (e.g., "home:phone").
      * @return A contact with a matching type, or null if none found.
      */
-    public static ContactPointDt getContact(List<ContactPointDt> list, String type) {
+    public static ContactPointDt getContact(
+            List<ContactPointDt> list,
+            String type) {
         String[] pcs = type.split(":", 2);
-        
+
         for (ContactPointDt contact : list) {
             if (pcs[0].equals(contact.getUse()) && pcs[1].equals(contact.getSystem())) {
                 return contact;
             }
         }
-        
+
         return null;
     }
 
@@ -639,18 +668,20 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * Returns a concatenation of displayable values from a list of values separated by
      * the specified delimiter.
      *
-     * @param values The values to display.
+     * @param values    The values to display.
      * @param delimiter The delimiter for separating values.
      * @return A concatenation of displayable values (possibly null).
      */
-    public static String getDisplayValueForTypes(List<?> values, String delimiter) {
+    public static String getDisplayValueForTypes(
+            List<?> values,
+            String delimiter) {
         if (values == null || values.isEmpty()) {
             return null;
         }
 
         StringBuilder sb = new StringBuilder();
 
-        for (Object value: values) {
+        for (Object value : values) {
             String display = getDisplayValueForType(value);
 
             if (display != null) {
@@ -674,56 +705,62 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     /**
      * Extracts resources of the specified class from a bundle.
      *
-     * @param <T> Resource type.
+     * @param <T>    Resource type.
      * @param bundle The bundle.
-     * @param clazz Class of resource to extract.
+     * @param clazz  Class of resource to extract.
      * @return The list of extracted resources.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends IBaseResource> List<T> getEntries(Bundle bundle, Class<T> clazz) {
+    public static <T extends IBaseResource> List<T> getEntries(
+            Bundle bundle,
+            Class<T> clazz) {
         return (List<T>) getEntries(bundle, Collections.singletonList(clazz), null);
     }
 
     /**
      * Extracts resources from a bundle according to the inclusion and exclusion criteria.
      *
-     * @param <T> Resource type.
-     * @param bundle The bundle.
+     * @param <T>        Resource type.
+     * @param bundle     The bundle.
      * @param inclusions List of resource classes to extract. May be null to indicate all classes
-     *            should be extracted.
+     *                   should be extracted.
      * @param exclusions List of resource classes to be excluded. May be null to indicate no classes
-     *            should be excluded. Exclusions take precedence over inclusions.
+     *                   should be excluded. Exclusions take precedence over inclusions.
      * @return The list of extracted resources.
      */
-    public static <T extends IBaseResource> List<IBaseResource> getEntries(Bundle bundle, List<Class<T>> inclusions,
-                                                                           List<Class<T>> exclusions) {
+    public static <T extends IBaseResource> List<IBaseResource> getEntries(
+            Bundle bundle,
+            List<Class<T>> inclusions,
+            List<Class<T>> exclusions) {
         List<IBaseResource> entries = new ArrayList<>();
-        
+
         if (bundle != null) {
             for (Bundle.Entry entry : bundle.getEntry()) {
                 IBaseResource resource = entry.getResource();
                 boolean exclude = exclusions != null && classMatches(exclusions, resource);
                 boolean include = !exclude && (inclusions == null || classMatches(inclusions, resource));
-                
+
                 if (include) {
                     entries.add(resource);
                 }
             }
         }
-        
+
         return entries;
     }
-    
+
     /**
      * Returns the string representation of the reference's resource id.
      *
-     * @param reference The reference.
+     * @param reference    The reference.
      * @param stripVersion If true and the id has a version qualifier, remove it.
      * @return The string representation of the id.
      */
-    public static String getIdAsString(ResourceReferenceDt reference, boolean stripVersion) {
+    public static String getIdAsString(
+            ResourceReferenceDt reference,
+            boolean stripVersion) {
         IBaseResource res = reference == null ? null : reference.getResource();
-        
+
         if (res != null) {
             return getIdAsString(res, stripVersion);
         }
@@ -735,11 +772,13 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * Returns the first identifier from the list that matches one of the specified types. A search
      * is performed for each specified type, returning when a match is found.
      *
-     * @param list List of identifiers to consider.
+     * @param list  List of identifiers to consider.
      * @param types CodingDt types to be matched.
      * @return A matching identifier, or null if not found.
      */
-    public static IdentifierDt getIdentifierByType(List<IdentifierDt> list, CodingDt... types) {
+    public static IdentifierDt getIdentifierByType(
+            List<IdentifierDt> list,
+            CodingDt... types) {
         for (CodingDt type : types) {
             for (IdentifierDt id : list) {
                 for (CodingDt coding : id.getType().getCoding()) {
@@ -756,11 +795,13 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     /**
      * Returns the first identifier from the list that matches one of the specified system.
      *
-     * @param list List of identifiers to consider.
+     * @param list   List of identifiers to consider.
      * @param system The identifier system to be matched.
      * @return A matching identifier, or null if not found.
      */
-    public static IdentifierDt getIdentifierBySystem(List<IdentifierDt> list, String system) {
+    public static IdentifierDt getIdentifierBySystem(
+            List<IdentifierDt> list,
+            String system) {
         for (IdentifierDt id : list) {
             if (system.equals(id.getSystem())) {
                 return id;
@@ -780,7 +821,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static List<IdentifierDt> getIdentifiers(IBaseResource resource) {
         return getProperty(resource, "getIdentifier", List.class);
     }
-    
+
     /**
      * Returns a patient's MRN. (What types should be explicitly considered?)
      *
@@ -790,7 +831,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static IdentifierDt getMRN(Patient patient) {
         return patient == null ? null : getIdentifierByType(patient.getIdentifier(), Constants.CODING_MRN);
     }
-    
+
     /**
      * Returns a patient's MRN. (What labels should be explicitly considered?)
      *
@@ -817,10 +858,12 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      *
      * @param list List of names to consider.
      * @param uses One or more use categories. These are searched in order until one is found. A
-     *            null value matches any use category.
+     *             null value matches any use category.
      * @return A name with a matching use category, or null if none found.
      */
-    public static HumanNameDt getName(List<HumanNameDt> list, NameUseEnum... uses) {
+    public static HumanNameDt getName(
+            List<HumanNameDt> list,
+            NameUseEnum... uses) {
         for (NameUseEnum use : uses) {
             for (HumanNameDt name : list) {
                 if (use == null || use.equals(name.getUseElement().getValueAsEnum())) {
@@ -841,7 +884,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static List<HumanNameDt> getNames(IBaseResource resource) {
         return getListProperty(resource, "name", HumanNameDt.class);
     }
-    
+
     /**
      * Returns the patient associated with a resource.
      *
@@ -854,7 +897,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         return ref == null || ref.getReference().isEmpty() ? null
                 : "Patient".equals(getResourceType(ref.getReferenceElement())) ? ref : null;
     }
-    
+
     /**
      * Method sets the FHIR repeat for the given frequency code
      *
@@ -873,7 +916,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         }
         return repeat;
     }
-    
+
     /**
      * Parses a name using the active parser.
      *
@@ -883,31 +926,33 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     public static HumanNameDt parseName(String name) {
         return name == null ? null : defaultHumanNameParser.fromString(name);
     }
-    
+
     /**
      * Processes a MethodOutcome from a create or update request. If the request returns an updated
      * version of the resource, that resource is returned. If the request returns a logical id, that
      * id is set in the original resource. If the request resulted in an error, a runtime exception
      * is thrown.
      *
-     * @param <T> Resource type.
-     * @param outcome The method outcome.
+     * @param <T>      Resource type.
+     * @param outcome  The method outcome.
      * @param resource The resource upon which the method was performed.
      * @return If the method returned a new resource, that resource is returned. Otherwise, the
      *         original resource is returned, possibly with an updated logical id.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends IBaseResource> T processMethodOutcome(MethodOutcome outcome, T resource) {
+    public static <T extends IBaseResource> T processMethodOutcome(
+            MethodOutcome outcome,
+            T resource) {
         checkOutcome(outcome.getOperationOutcome());
         IIdType id = outcome.getId();
         IBaseResource newResource = outcome.getResource();
-        
+
         if (id != null) {
             resource.setId(id);
         } else if (newResource != null && newResource.getClass() == resource.getClass()) {
             resource = (T) newResource;
         }
-        
+
         return resource;
     }
 
@@ -916,7 +961,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * an exception if not.
      *
      * @param fhirClient The FHIR client.
-     * @exception IllegalStateException If the versions do not match.
+     * @throws IllegalStateException If the versions do not match.
      */
     public static void assertFhirVersion(IGenericClient fhirClient) {
         assertFhirVersion(fhirClient.getFhirContext());
@@ -927,7 +972,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * an exception if not.
      *
      * @param fhirContext The FHIR context.
-     * @exception IllegalStateException If the versions do not match.
+     * @throws IllegalStateException If the versions do not match.
      */
     public static void assertFhirVersion(FhirContext fhirContext) {
         assertFhirVersion(fhirContext, FhirVersionEnum.DSTU2);
@@ -946,12 +991,14 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     /**
      * Returns an image from a list of attachments.
      *
-     * @param attachments List of attachments.
+     * @param attachments  List of attachments.
      * @param defaultImage URL of default image to use if none found (may be null).
      * @return An image component if a suitable attachment was found, or the default image if
      *         specified, or null.
      */
-    public static Image getImage(List<AttachmentDt> attachments, String defaultImage) {
+    public static Image getImage(
+            List<AttachmentDt> attachments,
+            String defaultImage) {
         for (AttachmentDt attachment : attachments) {
             String contentType = attachment.getContentType();
 

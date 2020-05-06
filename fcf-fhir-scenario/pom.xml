@@ -17,8 +17,9 @@
 	<modules>
 		<module>fcf-fhir-scenario-common</module>
 		<module>fcf-fhir-scenario-dstu2</module>
-		<module>fcf-fhir-scenario-r4</module>
 		<module>fcf-fhir-scenario-stu3</module>
+		<module>fcf-fhir-scenario-r4</module>
+		<module>fcf-fhir-scenario-r5</module>
 	</modules>
 
 </project>
