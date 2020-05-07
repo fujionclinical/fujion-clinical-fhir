@@ -9,25 +9,25 @@
 
 	<Appenders>
 		<RollingFile name="exc"
-					 filePattern="${log-path}/fujion-exception-%d{yyyy-MM-dd}.log"
-					 fileName="${log-path}/fujion-exception.log">
-			<PatternLayout pattern="${pattern-layout}" />
+					 filePattern="\${log-path}/@project.artifactId@-exception-%d{yyyy-MM-dd}.log"
+					 fileName="\${log-path}/@project.artifactId@-exception.log">
+			<PatternLayout pattern="\${pattern-layout}" />
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="10 MB" />
 			</Policies>
 		</RollingFile>
 		<RollingFile name="other"
-					 filePattern="${log-path}/fujion-%d{yyyy-MM-dd}.log"
-					 fileName="${log-path}/fujion.log">
-			<PatternLayout pattern="${pattern-layout}" />
+					 filePattern="\${log-path}/@project.artifactId@-%d{yyyy-MM-dd}.log"
+					 fileName="\${log-path}/@project.artifactId@.log">
+			<PatternLayout pattern="\${pattern-layout}" />
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="10 MB" />
 			</Policies>
 		</RollingFile>
 		<Console name="stdout">
-			<PatternLayout pattern="${pattern-layout}" />
+			<PatternLayout pattern="\${pattern-layout}" />
 		</Console>
 	</Appenders>
 
