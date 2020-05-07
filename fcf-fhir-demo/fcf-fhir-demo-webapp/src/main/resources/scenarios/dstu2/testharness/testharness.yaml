@@ -1,6 +1,6 @@
-# DMD scenario
+
 scenario:
-    name: Disease Management Dashboard
+    name: Test Harness
     id: 873A9E62-DA21-4F5A-9556-259AE99E6B3E
 
 resources:

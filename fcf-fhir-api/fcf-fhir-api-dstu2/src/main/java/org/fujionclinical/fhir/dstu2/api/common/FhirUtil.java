@@ -947,10 +947,11 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         IIdType id = outcome.getId();
         IBaseResource newResource = outcome.getResource();
 
-        if (id != null) {
-            resource.setId(id);
-        } else if (newResource != null && newResource.getClass() == resource.getClass()) {
+        if (newResource != null && newResource.getClass() == resource.getClass()) {
+            resource.setId(newResource.getIdElement());
             resource = (T) newResource;
+        } else if (id != null) {
+            resource.setId(id);
         }
 
         return resource;
