@@ -19,12 +19,7 @@
 						<treepane label="Scenario Builder">
 							<fcfScenarioBuilder/>
 						</treepane>
-						<!--
 						<treepane label="TEST">
-							<smart_test/>
-						</treepane>
-						-->
-						<treepane label="DMD">
 							<smart_test/>
 						</treepane>
 						<treepane label="Encounters">

@@ -8,7 +8,7 @@
 	<beans profile="root">
 		<bean class="org.fujionclinical.fhir.demo.setup.DemoSetup">
 			<constructor-arg ref="fcfHibernateDataSource" />
-			<constructor-arg value="classpath:org/fujionclinical/fhir/demo/setup/setup.sql" />
+			<constructor-arg value="${org.fujionclinical.fhir.demo.setup.sql:classpath:org/fujionclinical/fhir/demo/setup/setup.sql}" />
 		</bean>
 	</beans>
 </beans>
