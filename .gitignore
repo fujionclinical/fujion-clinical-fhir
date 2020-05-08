@@ -47,6 +47,3 @@ Thumbs.db
 # Test output
 test-report.xml
 temp.sh
-
-# Other
-fcf.properties
