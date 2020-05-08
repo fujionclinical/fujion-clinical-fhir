@@ -7,10 +7,33 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-
 	<name>FHIR Demonstration Web App Mock OAuth2 Service</name>
 	<artifactId>fcf-fhir-demo-oauth</artifactId>
 	<packaging>war</packaging>
+
+	<properties>
+		<oauth.mock.allow_refresh>false</oauth.mock.allow_refresh>
+		<oauth.mock.expires_in>3600</oauth.mock.expires_in>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>mock-oauth-service</warName>
+					<escapeString>\</escapeString>
+					<webResources>
+						<resource>
+							<directory>src/main/webresources</directory>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
