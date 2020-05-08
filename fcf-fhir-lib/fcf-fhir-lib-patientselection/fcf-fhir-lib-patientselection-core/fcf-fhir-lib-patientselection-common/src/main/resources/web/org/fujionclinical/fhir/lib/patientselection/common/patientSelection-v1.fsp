@@ -65,8 +65,8 @@
 			<paneview orientation="vertical" width="100%" height="100%">
 				<pane height="50%" splittable="true">
 					<div height="100%" class="fujion-layout-vertical">
-						<div width="100%" class="fujion-layout-horizontal">
-							<textbox name="edtSearch" flex="1"
+						<div width="100%" class="fujion-layout-horizontal" style="padding:5px">
+							<textbox name="edtSearch" flex="1" height="100%"
 								placeholder="${@msg.patientselection.edit.search.placeholder}"
 								focus="true" class="pull-left" />
 							<button name="btnSearch"
