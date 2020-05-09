@@ -29,6 +29,8 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.api.property.PropertyUtil;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilter;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,12 +46,11 @@ import java.util.List;
  */
 public abstract class PropertyBasedPatientList extends AbstractPatientList {
 
-
     private static final Log log = LogFactory.getLog(PropertyBasedPatientList.class);
 
     private final String propertyName;
 
-    private List<PatientListItem> pplList;
+    private List<IPatientListItem<Patient>> pplList;
 
     private boolean changed;
 
@@ -85,7 +86,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      */
     protected void removePatient(Patient patient) {
         getListItems();
-        PatientListItem item;
+        IPatientListItem<Patient> item;
 
         while ((item = PatientListUtil.findListItem(patient, pplList)) != null) {
             removeItem(item);
@@ -97,7 +98,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      *
      * @param item The patient list item to remove.
      */
-    protected void removeItem(PatientListItem item) {
+    protected void removeItem(IPatientListItem<Patient> item) {
         pplList.remove(item);
         changed = true;
     }
@@ -130,7 +131,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      *             added to the end.
      */
     protected void addItem(
-            PatientListItem item,
+            IPatientListItem<Patient> item,
             boolean top) {
         getListItems();
 
@@ -162,7 +163,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      * @return Patient list.
      */
     @Override
-    public Collection<PatientListItem> getListItems() {
+    public Collection<IPatientListItem<Patient>> getListItems() {
         if (this.pplList == null) {
             this.pplList = new ArrayList<>();
 
@@ -181,6 +182,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
                             try {
                                 addPatient(getPatient(patientId), false);
                             } catch (Exception e) {
+                                // NOP
                             }
                         }
                     }
@@ -208,7 +210,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      * Sets the active filter which, for personal lists, determines the list name.
      */
     @Override
-    public void setActiveFilter(AbstractPatientListFilter filter) {
+    public void setActiveFilter(IPatientListFilter filter) {
         refresh();
         super.setActiveFilter(filter);
     }
@@ -248,7 +250,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
             List<String> patids = new ArrayList<>();
             trimList(getListSizeMax());
 
-            for (PatientListItem item : pplList) {
+            for (IPatientListItem<Patient> item : pplList) {
                 Patient pat = item.getPatient();
 
                 if (pat != null) {
@@ -280,7 +282,7 @@ public abstract class PropertyBasedPatientList extends AbstractPatientList {
      *
      * @param filter The list filter.
      */
-    protected void deleteList(AbstractPatientListFilter filter) {
+    protected void deleteList(IPatientListFilter filter) {
         if (getActiveFilter() != filter) {
             setActiveFilter(filter);
         }

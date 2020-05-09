@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.dstu2.api.patientlist;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.api.property.PropertyUtil;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class FavoritePatientListFilterManager extends AbstractPatientListFilterM
     }
 
     @Override
-    protected List<AbstractPatientListFilter> initFilters() {
+    public List<IPatientListFilter> initFilters() {
         if (filters == null) {
             filters = new ArrayList<>();
 
@@ -81,7 +82,7 @@ public class FavoritePatientListFilterManager extends AbstractPatientListFilterM
     protected void saveFilters() {
         List<String> values = new ArrayList<>();
 
-        for (AbstractPatientListFilter filter : initFilters()) {
+        for (IPatientListFilter filter : initFilters()) {
             values.add(filter.getEntity().toString());
         }
 
@@ -99,7 +100,7 @@ public class FavoritePatientListFilterManager extends AbstractPatientListFilterM
      * @return A filter appropriate for this list type.
      */
     @Override
-    public AbstractPatientListFilter createFilter(Object entity) {
+    public IPatientListFilter createFilter(Object entity) {
         return new FavoritePatientListFilter((Favorite) entity);
     }
 
@@ -110,7 +111,7 @@ public class FavoritePatientListFilterManager extends AbstractPatientListFilterM
      * @return A new filter.
      */
     @Override
-    protected AbstractPatientListFilter deserializeFilter(String serializedEntity) {
+    public IPatientListFilter deserializeFilter(String serializedEntity) {
         return createFilter(new Favorite(serializedEntity));
     }
 

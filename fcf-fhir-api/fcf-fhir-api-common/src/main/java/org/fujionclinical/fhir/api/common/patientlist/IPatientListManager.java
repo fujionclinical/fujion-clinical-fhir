@@ -23,29 +23,26 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.api.patientlist;
+package org.fujionclinical.fhir.api.common.patientlist;
+
+import org.hl7.fhir.instance.model.api.IBaseResource;
 
 /**
- * Defines methods for managing items within a user-manageable list.
+ * Defines methods for managing a user-manageable list.
  */
-public interface IPatientListItemManager {
+public interface IPatientListManager<PATIENT extends IBaseResource> {
 
-    /**
-     * Adds a patient list item to the list.
-     *
-     * @param item Patient list item to add.
-     */
-    void addItem(PatientListItem item);
+    void addItem(IPatientListItem<PATIENT> item);
 
-    /**
-     * Removes a patient list item from the list.
-     *
-     * @param item Patient list item to remove.
-     */
-    void removeItem(PatientListItem item);
+    void removeItem(IPatientListItem<PATIENT> item);
 
-    /**
-     * Saves any modifications to the list of patient items.
-     */
+    void swapItems(IPatientListItem<PATIENT> item1, IPatientListItem<PATIENT> item2);
+
+    void sortItems();
+
+    void addFilter(IPatientListFilter filter);
+
+    void removeFilter(IPatientListFilter filter);
+
     void save();
 }

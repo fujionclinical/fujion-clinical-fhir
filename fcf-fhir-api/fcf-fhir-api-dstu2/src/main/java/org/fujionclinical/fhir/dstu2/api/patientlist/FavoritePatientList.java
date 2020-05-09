@@ -25,6 +25,10 @@
  */
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
+import ca.uhn.fhir.model.dstu2.resource.Patient;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientList;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilter;
+
 import java.util.Collection;
 
 /**
@@ -63,7 +67,7 @@ public class FavoritePatientList extends AbstractPatientList {
      *
      * @param list The list to add.
      */
-    public void addFavorite(IPatientList list) {
+    public void addFavorite(IPatientList<Patient> list) {
         if (list != null) {
             ((FavoritePatientListFilterManager) getFilterManager()).addEntity(new Favorite(list));
         }
@@ -75,7 +79,7 @@ public class FavoritePatientList extends AbstractPatientList {
      * Resets the patient list when the filter changes.
      */
     @Override
-    public void setActiveFilter(AbstractPatientListFilter filter) {
+    public void setActiveFilter(IPatientListFilter filter) {
         patients = null;
         super.setActiveFilter(filter);
     }
@@ -95,7 +99,7 @@ public class FavoritePatientList extends AbstractPatientList {
     @Override
     public Collection<PatientListItem> getListItems() {
         if (patients == null && getActiveFilter() != null) {
-            AbstractPatientListFilter filter = getActiveFilter();
+            IPatientListFilter filter = getActiveFilter();
             Favorite favorite = (Favorite) filter.getEntity();
             patients = favorite.getPatientList().getListItems();
         }

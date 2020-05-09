@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.dstu2.api.patientlist;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.api.property.PropertyUtil;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
      * instance id of "@".
      */
     @Override
-    protected List<AbstractPatientListFilter> initFilters() {
+    public List<IPatientListFilter> initFilters() {
         if (filters == null) {
             log.debug("Retrieving personal list names...");
             filters = new ArrayList<>();
@@ -89,7 +90,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
     protected void saveFilters() {
         List<String> list = new ArrayList<>();
 
-        for (AbstractPatientListFilter filter : initFilters()) {
+        for (IPatientListFilter filter : initFilters()) {
             list.add(filter.serialize());
         }
 
@@ -104,7 +105,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
      * Force reload of filter property upon filter refresh.
      */
     @Override
-    protected void refreshFilters() {
+    public void refreshFilters() {
         filterProperty = null;
         super.refreshFilters();
     }
@@ -113,7 +114,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
      * Creates a filter wrapping the specified entity.
      */
     @Override
-    protected AbstractPatientListFilter createFilter(Object entity) {
+    public IPatientListFilter createFilter(Object entity) {
         return new PersonalPatientListFilter(entity);
     }
 
@@ -121,7 +122,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
      * Creates a filter from its serialized form.
      */
     @Override
-    protected AbstractPatientListFilter deserializeFilter(String serializedEntity) {
+    public IPatientListFilter deserializeFilter(String serializedEntity) {
         return createFilter(serializedEntity);
     }
 
@@ -129,7 +130,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
      * Deletes the associated personal list when a filter is removed.
      */
     @Override
-    public void removeFilter(AbstractPatientListFilter filter) {
+    public void removeFilter(IPatientListFilter filter) {
         ((PersonalPatientList) getPatientList()).deleteList(filter);
         super.removeFilter(filter);
     }

@@ -25,17 +25,15 @@
  */
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilter;
+
 import java.util.Arrays;
 
 /**
  * Represents a filter associated with a patient list. An example of a filter would a clinic
  * location (the entity) used to filter an appointment list.
  */
-public abstract class AbstractPatientListFilter implements Comparable<AbstractPatientListFilter> {
-
-    protected static final String DELIM = "|";
-
-    protected static final String REGEX_DELIM = "\\" + DELIM;
+public abstract class AbstractPatientListFilter implements IPatientListFilter {
 
     private Object entity;
 
@@ -65,7 +63,8 @@ public abstract class AbstractPatientListFilter implements Comparable<AbstractPa
      *
      * @param entity Entity object.
      */
-    protected void setEntity(Object entity) {
+    @Override
+    public void setEntity(Object entity) {
         this.entity = entity;
     }
 
@@ -76,7 +75,8 @@ public abstract class AbstractPatientListFilter implements Comparable<AbstractPa
      * @param pieces Number of delimited pieces.
      * @return An array of parsed elements.
      */
-    protected final String[] parse(
+    @Override
+    public final String[] parse(
             String value,
             int pieces) {
         String[] result = value == null ? null : value.split(REGEX_DELIM, pieces);
@@ -89,30 +89,24 @@ public abstract class AbstractPatientListFilter implements Comparable<AbstractPa
      * @param value Serialized form of entity.
      * @return Deserialized entity instance.
      */
-    protected abstract Object deserialize(String value);
+    @Override
+    public abstract Object deserialize(String value);
 
     /**
      * Returns the serialized form of the associated entity.
      *
      * @return Serialized form of the entity.
      */
-    protected abstract String serialize();
+    @Override
+    public abstract String serialize();
 
     /**
      * Returns the initial display name for this filter.
      *
      * @return Initial display name.
      */
-    protected abstract String initName();
-
-    /**
-     * Sets the display name of this filter.
-     *
-     * @param name The display name.
-     */
-    protected void setName(String name) {
-        this.name = name;
-    }
+    @Override
+    public abstract String initName();
 
     /**
      * Returns the display name of this filter.
@@ -121,6 +115,16 @@ public abstract class AbstractPatientListFilter implements Comparable<AbstractPa
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Sets the display name of this filter.
+     *
+     * @param name The display name.
+     */
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -143,8 +147,8 @@ public abstract class AbstractPatientListFilter implements Comparable<AbstractPa
      * Used to sort filters alphabetically by their name.
      */
     @Override
-    public int compareTo(AbstractPatientListFilter filter) {
-        return name.compareToIgnoreCase(filter.name);
+    public int compareTo(IPatientListFilter filter) {
+        return name.compareToIgnoreCase(filter.getName());
     }
 
     /**

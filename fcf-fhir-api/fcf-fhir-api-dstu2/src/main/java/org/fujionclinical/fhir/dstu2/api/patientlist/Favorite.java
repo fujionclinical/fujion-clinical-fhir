@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientList;
 
 /**
  * Provides serialization support for a list.

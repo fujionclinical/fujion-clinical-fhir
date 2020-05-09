@@ -23,8 +23,9 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.api.patientlist;
+package org.fujionclinical.fhir.api.common.patientlist;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,14 +44,14 @@ public interface IPatientListFilterManager {
      * @param entity The entity to be associated with the new filter.
      * @return The newly created filter.
      */
-    AbstractPatientListFilter addFilter(Object entity);
+    IPatientListFilter addFilter(Object entity);
 
     /**
      * Removes the specified filter from the filter list.
      *
      * @param filter The filter to be removed.
      */
-    void removeFilter(AbstractPatientListFilter filter);
+    void removeFilter(IPatientListFilter filter);
 
     /**
      * Moves the specified filter to the specified position within the filter list.  If the filter does not
@@ -60,7 +61,7 @@ public interface IPatientListFilterManager {
      * @param index  The position within the filter list where the filter is to be moved.
      */
     void moveFilter(
-            AbstractPatientListFilter filter,
+            IPatientListFilter filter,
             int index);
 
     /**
@@ -71,8 +72,36 @@ public interface IPatientListFilterManager {
      *                a runtime exception will be raised.
      */
     void renameFilter(
-            AbstractPatientListFilter filter,
+            IPatientListFilter filter,
             String newName);
+
+    /**
+     * Implement logic to initialize filters.
+     *
+     * @return The filter list.
+     */
+    List<IPatientListFilter> initFilters();
+
+    /**
+     * Force a refresh of the filter list.
+     */
+    void refreshFilters();
+
+    /**
+     * Override to create a filter of the desired type.
+     *
+     * @param entity Entity to be associated with the new filter.
+     * @return New filter.
+     */
+    IPatientListFilter createFilter(Object entity);
+
+    /**
+     * Override to create a filter of the desired type.
+     *
+     * @param serializedEntity Serialized form of the entity.
+     * @return Deserialized filter.
+     */
+    IPatientListFilter deserializeFilter(String serializedEntity);
 
     /**
      * Returns the set of capabilities supported by this filter manager.

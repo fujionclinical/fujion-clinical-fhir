@@ -44,7 +44,7 @@ public class PersonalPatientListFilter extends AbstractPatientListFilter {
      * Returns the serialized form of the filter entity (which is simply the list name).
      */
     @Override
-    protected String serialize() {
+    public String serialize() {
         return getEntity().toString();
     }
 
@@ -52,7 +52,7 @@ public class PersonalPatientListFilter extends AbstractPatientListFilter {
      * Returns the deserialized form of the filter entity (which is the same as its serialized form).
      */
     @Override
-    protected String deserialize(String value) {
+    public String deserialize(String value) {
         return value;
     }
 
@@ -60,7 +60,7 @@ public class PersonalPatientListFilter extends AbstractPatientListFilter {
      * Returns the initial default name for this filter.
      */
     @Override
-    protected String initName() {
+    public String initName() {
         return getEntity() == null ? "" : getEntity().toString();
     }
 
@@ -68,7 +68,7 @@ public class PersonalPatientListFilter extends AbstractPatientListFilter {
      * Sets the name for this filter, which also sets the associated entity.
      */
     @Override
-    protected void setName(String name) {
+    public void setName(String name) {
         super.setName(name);
         setEntity(name);
     }

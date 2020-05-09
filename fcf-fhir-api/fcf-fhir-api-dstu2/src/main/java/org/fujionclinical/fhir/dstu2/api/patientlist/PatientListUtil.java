@@ -29,6 +29,8 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.fujion.common.StrUtil;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientList;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListItem;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 
 import java.util.Arrays;
@@ -48,20 +50,26 @@ public class PatientListUtil {
     private static final String REGEX_DELIM = "\\" + DELIM;
 
     /**
+     * Enforce static class.
+     */
+    private PatientListUtil() {
+    }
+
+    /**
      * Finds a list item associated with the specified patient.
      *
      * @param patient Patient to find.
      * @param items   List of items to search.
      * @return The patient list item associated with the specified patient, or null if not found.
      */
-    public static PatientListItem findListItem(
+    public static IPatientListItem<Patient> findListItem(
             Patient patient,
-            Iterable<PatientListItem> items) {
+            Iterable<IPatientListItem<Patient>> items) {
         if (items == null || patient == null) {
             return null;
         }
 
-        for (PatientListItem item : items) {
+        for (IPatientListItem<Patient> item : items) {
             if (FhirUtil.areEqual(patient, item.getPatient())) {
                 return item;
             }
@@ -120,9 +128,9 @@ public class PatientListUtil {
      * @param serializedValue The serialized value.
      * @return Deserialized form.
      */
-    public static IPatientList deserializePatientList(String serializedValue) {
+    public static IPatientList<Patient> deserializePatientList(String serializedValue) {
         String[] pcs = split(serializedValue, 2);
-        IPatientList list = PatientListRegistry.getInstance().findByName(pcs[0]);
+        IPatientList<Patient> list = PatientListRegistry.getInstance().findByName(pcs[0]);
 
         if (list == null) {
             throw new PatientListException("Unable to create patient list: " + pcs[0]);
@@ -181,11 +189,5 @@ public class PatientListUtil {
         }
 
         return sb.toString();
-    }
-
-    /**
-     * Enforce static class.
-     */
-    private PatientListUtil() {
     }
 }

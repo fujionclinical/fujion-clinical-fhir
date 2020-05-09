@@ -39,22 +39,22 @@ public class FavoritePatientListFilter extends AbstractPatientListFilter {
     }
 
     @Override
-    protected String serialize() {
+    public String serialize() {
         return getEntity().toString();
     }
 
     @Override
-    protected Favorite deserialize(String value) {
+    public Favorite deserialize(String value) {
         return new Favorite(value);
     }
 
     @Override
-    protected String initName() {
+    public String initName() {
         return ((Favorite) getEntity()).getName();
     }
 
     @Override
-    protected void setName(String name) {
+    public void setName(String name) {
         super.setName(name);
         ((Favorite) getEntity()).setName(name);
     }

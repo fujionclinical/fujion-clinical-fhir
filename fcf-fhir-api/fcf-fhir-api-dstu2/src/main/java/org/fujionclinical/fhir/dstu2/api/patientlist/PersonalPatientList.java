@@ -25,10 +25,14 @@
  */
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
+import ca.uhn.fhir.model.dstu2.resource.Patient;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListItem;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListItemManager;
+
 /**
  * Maintains personal patient lists.
  */
-public class PersonalPatientList extends PropertyBasedPatientList implements IPatientListItemManager {
+public class PersonalPatientList extends PropertyBasedPatientList implements IPatientListItemManager<Patient> {
 
     /**
      * Creates an instance of a personal list.
@@ -59,12 +63,12 @@ public class PersonalPatientList extends PropertyBasedPatientList implements IPa
     /* ===================== IPatientListItemManager ===================== */
 
     @Override
-    public void addItem(PatientListItem item) {
+    public void addItem(IPatientListItem item) {
         super.addItem(item, false);
     }
 
     @Override
-    public void removeItem(PatientListItem item) {
+    public void removeItem(IPatientListItem item) {
         super.removeItem(item);
     }
 

@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.fujion.common.DateRange;
 import org.fujionclinical.api.domain.DomainFactoryRegistry;
 import org.fujionclinical.api.domain.IDomainFactory;
+import org.fujionclinical.fhir.api.common.patientlist.*;
 
 import java.util.*;
 
@@ -41,7 +42,6 @@ import java.util.*;
  * Base class for patient list implementations.
  */
 public abstract class AbstractPatientList implements IPatientList {
-
 
     private static final Log log = LogFactory.getLog(AbstractPatientList.class);
 
@@ -51,9 +51,9 @@ public abstract class AbstractPatientList implements IPatientList {
 
     private final String entityName;
 
-    private AbstractPatientListFilter activeFilter;
+    private IPatientListFilter activeFilter;
 
-    private final AbstractPatientListFilterManager filterManager;
+    private final IPatientListFilterManager filterManager;
 
     private DateRange dateRange;
 
@@ -62,11 +62,11 @@ public abstract class AbstractPatientList implements IPatientList {
      *
      * @param list Source list to copy.
      */
-    public AbstractPatientList(AbstractPatientList list) {
+    public AbstractPatientList(IPatientList list) {
         this.name = list.getName();
         this.entityName = list.getEntityName();
         this.activeFilter = list.getActiveFilter();
-        this.dateRange = list.dateRange == null ? null : new DateRange(list.dateRange);
+        this.dateRange = list.getDateRange() == null ? null : new DateRange(list.getDateRange());
         this.filterManager = createFilterManager();
     }
 
@@ -133,7 +133,7 @@ public abstract class AbstractPatientList implements IPatientList {
      *
      * @return Filter manager.
      */
-    protected AbstractPatientListFilterManager createFilterManager() {
+    protected IPatientListFilterManager createFilterManager() {
         return null;
     }
 
@@ -186,8 +186,8 @@ public abstract class AbstractPatientList implements IPatientList {
      * @see IPatientList#getFilters()
      */
     @Override
-    public Collection<AbstractPatientListFilter> getFilters() {
-        Collection<AbstractPatientListFilter> filters = filterManager == null ? null : filterManager.initFilters();
+    public Collection<IPatientListFilter> getFilters() {
+        Collection<IPatientListFilter> filters = filterManager == null ? null : filterManager.initFilters();
         return filters == null ? null : Collections.unmodifiableCollection(filters);
     }
 
@@ -207,7 +207,7 @@ public abstract class AbstractPatientList implements IPatientList {
      * @see IPatientList#getItemManager()
      */
     @Override
-    public IPatientListItemManager getItemManager() {
+    public IPatientListItemManager<Patient> getItemManager() {
         return this instanceof IPatientListItemManager ? (IPatientListItemManager) this : null;
     }
 
@@ -238,7 +238,7 @@ public abstract class AbstractPatientList implements IPatientList {
      * @see IPatientList#getActiveFilter()
      */
     @Override
-    public AbstractPatientListFilter getActiveFilter() {
+    public IPatientListFilter getActiveFilter() {
         return activeFilter;
     }
 
@@ -260,17 +260,9 @@ public abstract class AbstractPatientList implements IPatientList {
      * @see IPatientList#setActiveFilter
      */
     @Override
-    public void setActiveFilter(AbstractPatientListFilter filter) {
+    public void setActiveFilter(IPatientListFilter filter) {
         this.activeFilter = filter;
     }
-
-    /**
-     * Implement to retrieve list of patient items.
-     *
-     * @see IPatientList#getListItems()
-     */
-    @Override
-    public abstract Collection<PatientListItem> getListItems();
 
     /**
      * Returns the date range, if applicable.
@@ -330,7 +322,7 @@ public abstract class AbstractPatientList implements IPatientList {
      * @see IPatientList#copy()
      */
     @Override
-    public IPatientList copy() {
+    public IPatientList<Patient> copy() {
         try {
             return (IPatientList) ConstructorUtils.invokeConstructor(getClass(), this);
         } catch (Exception e) {
@@ -340,8 +332,8 @@ public abstract class AbstractPatientList implements IPatientList {
     }
 
     @Override
-    public IPatientList copy(String serialized) {
-        IPatientList list = copy();
+    public IPatientList<Patient> copy(String serialized) {
+        IPatientList<Patient> list = copy();
         String[] pcs = PatientListUtil.split(serialized, 4);
 
         if (list.isDateRangeRequired()) {

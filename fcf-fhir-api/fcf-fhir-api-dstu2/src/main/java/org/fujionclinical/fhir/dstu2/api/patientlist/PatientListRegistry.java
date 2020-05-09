@@ -25,71 +25,37 @@
  */
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
+import ca.uhn.fhir.model.dstu2.resource.Patient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.api.IRegisterEvent;
 import org.fujionclinical.api.spring.SpringUtil;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientList;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListRegistry;
 
 import java.util.*;
 
 /**
  * Registry for all patient lists.
  */
-public class PatientListRegistry implements IRegisterEvent, IPatientListRegistry {
-
+public class PatientListRegistry implements IRegisterEvent, IPatientListRegistry<Patient> {
 
     private static final Log log = LogFactory.getLog(PatientListRegistry.class);
-
-    /**
-     * Comparator for sorting patient lists by sequence number. Lists with the same sequence number
-     * will sort alphabetically by name.
-     */
-    private static class PatientListComparator implements Comparator<IPatientList> {
-
-
-        @Override
-        public int compare(
-                IPatientList list1,
-                IPatientList list2) {
-            if (list1 == list2) {
-                return 0;
-            }
-
-            if (list1 == null) {
-                return -1;
-            }
-
-            if (list2 == null) {
-                return 1;
-            }
-
-            if (list1.getSequence() == list2.getSequence()) {
-                return list1.getName().compareToIgnoreCase(list2.getName());
-            }
-
-            return list1.getSequence() < list2.getSequence() ? -1 : 1;
-        }
-
-    }
-
     private static final PatientListComparator patientListComparator = new PatientListComparator();
-
-    private final List<IPatientList> patientList = new ArrayList<>();
-
-    private final Map<String, IPatientList> patientListIndex = new HashMap<>();
-
+    private final List<IPatientList<Patient>> patientList = new ArrayList<>();
+    private final Map<String, IPatientList<Patient>> patientListIndex = new HashMap<>();
     private boolean needsSorting;
+
+    public PatientListRegistry() {
+    }
 
     /**
      * Returns a reference to the patient list registry.
      *
      * @return The patient list registry.
      */
-    public static IPatientListRegistry getInstance() {
+    public static IPatientListRegistry<Patient> getInstance() {
         return SpringUtil.getBean("patientListRegistry", IPatientListRegistry.class);
-    }
-
-    public PatientListRegistry() {
     }
 
     /**
@@ -99,7 +65,7 @@ public class PatientListRegistry implements IRegisterEvent, IPatientListRegistry
     @Override
     public void registerObject(Object object) {
         if (object instanceof IPatientList) {
-            IPatientList list = (IPatientList) object;
+            IPatientList<Patient> list = (IPatientList<Patient>) object;
             String name = list.getName();
 
             if (findByName(name) != null) {
@@ -119,7 +85,7 @@ public class PatientListRegistry implements IRegisterEvent, IPatientListRegistry
     @Override
     public void unregisterObject(Object object) {
         if (object instanceof IPatientList) {
-            IPatientList list = (IPatientList) object;
+            IPatientList<Patient> list = (IPatientList<Patient>) object;
             patientList.remove(list);
             patientListIndex.remove(list.getName());
         }
@@ -129,7 +95,7 @@ public class PatientListRegistry implements IRegisterEvent, IPatientListRegistry
      * Returns an iterator for iterating across all registered patient lists.
      */
     @Override
-    public Iterator<IPatientList> iterator() {
+    public Iterator<IPatientList<Patient>> iterator() {
         if (needsSorting) {
             sort();
         }
@@ -154,7 +120,39 @@ public class PatientListRegistry implements IRegisterEvent, IPatientListRegistry
      * @return Instance of a patient list, or null if none matching the specified name is found.
      */
     @Override
-    public IPatientList findByName(String name) {
+    public IPatientList<Patient> findByName(String name) {
         return patientListIndex.get(name);
+    }
+
+    /**
+     * Comparator for sorting patient lists by sequence number. Lists with the same sequence number
+     * will sort alphabetically by name.
+     */
+    private static class PatientListComparator implements Comparator<IPatientList<Patient>> {
+
+
+        @Override
+        public int compare(
+                IPatientList<Patient> list1,
+                IPatientList<Patient> list2) {
+            if (list1 == list2) {
+                return 0;
+            }
+
+            if (list1 == null) {
+                return -1;
+            }
+
+            if (list2 == null) {
+                return 1;
+            }
+
+            if (list1.getSequence() == list2.getSequence()) {
+                return list1.getName().compareToIgnoreCase(list2.getName());
+            }
+
+            return list1.getSequence() < list2.getSequence() ? -1 : 1;
+        }
+
     }
 }

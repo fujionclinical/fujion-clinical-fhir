@@ -44,9 +44,6 @@ public class MRUPatientList extends PropertyBasedPatientList {
     private static final Log log = LogFactory.getLog(MRUPatientList.class);
 
     private static final String LIST_SIZE_MAX_PROPERTY = "FCF.PATIENT.LIST.SIZE";
-
-    private int pplListSizeMax = -1;
-
     private final IPatientContextEvent contextListener = new IPatientContextEvent() {
 
         @Override
@@ -76,6 +73,7 @@ public class MRUPatientList extends PropertyBasedPatientList {
             response.accept();
         }
     };
+    private int pplListSizeMax = -1;
 
     public MRUPatientList(String propertyName) {
         super("Recent Selections", null, propertyName);

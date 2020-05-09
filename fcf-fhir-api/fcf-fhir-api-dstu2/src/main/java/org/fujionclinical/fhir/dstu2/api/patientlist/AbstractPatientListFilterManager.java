@@ -25,6 +25,10 @@
  */
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
+import org.fujionclinical.fhir.api.common.patientlist.IPatientList;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilter;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilterManager;
+
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +38,7 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
 
     private final Set<FilterCapability> filterCapabilities;
 
-    protected List<AbstractPatientListFilter> filters;
+    protected List<IPatientListFilter> filters;
 
     public AbstractPatientListFilterManager(
             IPatientList patientList,
@@ -42,29 +46,6 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
         this.patientList = patientList;
         this.filterCapabilities = filterCapabilities;
     }
-
-    /**
-     * Implement logic to initialize filters.
-     *
-     * @return The filter list.
-     */
-    protected abstract List<AbstractPatientListFilter> initFilters();
-
-    /**
-     * Override to create a filter of the desired type.
-     *
-     * @param entity Entity to be associated with the new filter.
-     * @return New filter.
-     */
-    protected abstract AbstractPatientListFilter createFilter(Object entity);
-
-    /**
-     * Override to create a filter of the desired type.
-     *
-     * @param serializedEntity Serialized form of the entity.
-     * @return Deserialized filter.
-     */
-    protected abstract AbstractPatientListFilter deserializeFilter(String serializedEntity);
 
     /**
      * Implement logic to save filters.
@@ -92,7 +73,8 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
     /**
      * Force a refresh of the filter list.
      */
-    protected void refreshFilters() {
+    @Override
+    public void refreshFilters() {
         filters = null;
     }
 
@@ -103,9 +85,9 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      * @return The associated filter.
      * @see AbstractPatientListFilterManager#getFilterByName(String)
      */
-    protected AbstractPatientListFilter getFilterByName(String filterName) {
+    protected IPatientListFilter getFilterByName(String filterName) {
         if (filterName != null && initFilters() != null) {
-            for (AbstractPatientListFilter filter : filters) {
+            for (IPatientListFilter filter : filters) {
                 if (filter.getName().equals(filterName)) {
                     return filter;
                 }
@@ -141,8 +123,8 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      * @param entity Entity to add.
      * @return The filter that was added.
      */
-    public AbstractPatientListFilter addEntity(Object entity) {
-        AbstractPatientListFilter filter = createFilter(entity);
+    public IPatientListFilter addEntity(Object entity) {
+        IPatientListFilter filter = createFilter(entity);
         initFilters().add(filter);
         saveFilters();
         return filter;
@@ -156,7 +138,7 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      * @see IPatientListFilterManager#addFilter
      */
     @Override
-    public AbstractPatientListFilter addFilter(Object entity) {
+    public IPatientListFilter addFilter(Object entity) {
         verifyCapability(FilterCapability.ADD);
         validateFilterName(entity.toString());
         return addEntity(entity);
@@ -168,7 +150,7 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      * @see IPatientListFilterManager#removeFilter
      */
     @Override
-    public void removeFilter(AbstractPatientListFilter filter) {
+    public void removeFilter(IPatientListFilter filter) {
         verifyCapability(FilterCapability.REMOVE);
 
         if (initFilters().remove(filter)) {
@@ -183,7 +165,7 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      */
     @Override
     public void moveFilter(
-            AbstractPatientListFilter filter,
+            IPatientListFilter filter,
             int index) {
         verifyCapability(FilterCapability.MOVE);
 
@@ -200,7 +182,7 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      */
     @Override
     public void renameFilter(
-            AbstractPatientListFilter filter,
+            IPatientListFilter filter,
             String newName) {
         verifyCapability(FilterCapability.RENAME);
         validateFilterName(newName);

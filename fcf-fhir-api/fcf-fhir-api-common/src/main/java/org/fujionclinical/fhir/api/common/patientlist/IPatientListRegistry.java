@@ -23,12 +23,14 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.api.patientlist;
+package org.fujionclinical.fhir.api.common.patientlist;
+
+import org.hl7.fhir.instance.model.api.IBaseResource;
 
 /**
  * Interface for patient list registry.
  */
-public interface IPatientListRegistry extends Iterable<IPatientList> {
+public interface IPatientListRegistry<PATIENT extends IBaseResource> extends Iterable<IPatientList<PATIENT>> {
 
     /**
      * Looks up a patient list by its name.
@@ -36,6 +38,6 @@ public interface IPatientListRegistry extends Iterable<IPatientList> {
      * @param name Name of the list being sought.
      * @return Instance of a patient list, or null if none matching the specified name is found.
      */
-    IPatientList findByName(String name);
+    IPatientList<PATIENT> findByName(String name);
 
 }

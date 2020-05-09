@@ -23,16 +23,17 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.dstu2.api.patientlist;
+package org.fujionclinical.fhir.api.common.patientlist;
 
 import org.fujion.common.DateRange;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.Collection;
 
 /**
  * Interface for all patient lists.
  */
-public interface IPatientList {
+public interface IPatientList<PATIENT extends IBaseResource> {
 
     /**
      * Returns the name assigned to this list. The name must be unique across all patient lists.
@@ -94,7 +95,15 @@ public interface IPatientList {
      *
      * @return The active filter.
      */
-    AbstractPatientListFilter getActiveFilter();
+    IPatientListFilter getActiveFilter();
+
+    /**
+     * Sets the active filter to the specified value. If the list does not support filters, this
+     * request should be ignored.
+     *
+     * @param filter The filter to become active.
+     */
+    void setActiveFilter(IPatientListFilter filter);
 
     /**
      * Returns the patient list item manager associated with the list. If the list does not support
@@ -102,7 +111,7 @@ public interface IPatientList {
      *
      * @return The associated list item manager, or null if not applicable.
      */
-    IPatientListItemManager getItemManager();
+    IPatientListItemManager<PATIENT> getItemManager();
 
     /**
      * Returns the filter manager associated with the list. If the list does not support filters, or
@@ -111,14 +120,6 @@ public interface IPatientList {
      * @return The associated filter manager, or null if not applicable.
      */
     IPatientListFilterManager getFilterManager();
-
-    /**
-     * Sets the active filter to the specified value. If the list does not support filters, this
-     * request should be ignored.
-     *
-     * @param filter The filter to become active.
-     */
-    void setActiveFilter(AbstractPatientListFilter filter);
 
     /**
      * Returns the date range associated with the list. If the list does not support date ranges, or
@@ -142,7 +143,7 @@ public interface IPatientList {
      *
      * @return A list of filters, or null if not applicable.
      */
-    Collection<AbstractPatientListFilter> getFilters();
+    Collection<IPatientListFilter> getFilters();
 
     /**
      * Returns a list of patient list items. The underlying logic should apply the active filter and
@@ -151,14 +152,14 @@ public interface IPatientList {
      *
      * @return A list of patient items, or null if the required parameters have not be set.
      */
-    Collection<PatientListItem> getListItems();
+    Collection<IPatientListItem<PATIENT>> getListItems();
 
     /**
      * Returns a fully cloned copy of this list.
      *
      * @return A clone of the original list.
      */
-    IPatientList copy();
+    IPatientList<PATIENT> copy();
 
     /**
      * Returns a fully cloned copy of this list, applying any serialized settings (active filter,
@@ -167,7 +168,7 @@ public interface IPatientList {
      * @param serialized Serialized settings applicable for this list.
      * @return A clone of the original list.
      */
-    IPatientList copy(String serialized);
+    IPatientList<PATIENT> copy(String serialized);
 
     /**
      * Returns the serialized form of this list, including any active settings (active filter, date

@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.dstu2.api.patientlist;
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListItem;
 import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
 import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
 
@@ -33,8 +34,7 @@ import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
  * A list item that is associates a patient object with some additional arbitrary displayable
  * information.
  */
-public class PatientListItem implements Comparable<PatientListItem> {
-
+public class PatientListItem implements IPatientListItem<Patient> {
 
     private final Patient patient;
 
@@ -93,16 +93,16 @@ public class PatientListItem implements Comparable<PatientListItem> {
     @Override
     public boolean equals(Object object) {
         return patient == null || !(object instanceof PatientListItem) ? false
-                : FhirUtil.areEqual(patient, ((PatientListItem) object).patient);
+                : FhirUtil.areEqual(patient, ((PatientListItem) object).getPatient());
     }
 
     /**
      * Used to sort patient list items alphabetically by patient name.
      */
     @Override
-    public int compareTo(PatientListItem item) {
+    public int compareTo(IPatientListItem<Patient> item) {
         String name1 = FhirUtil.formatName(patient.getName());
-        String name2 = FhirUtil.formatName(item.patient.getName());
+        String name2 = FhirUtil.formatName(item.getPatient().getName());
         return name1.compareToIgnoreCase(name2);
     }
 }
