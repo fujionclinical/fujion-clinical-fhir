@@ -33,7 +33,7 @@ import org.fujionclinical.ui.util.FCFUtil;
  */
 public class Constants {
 
-    public static final String RESOURCE_PATH = FCFUtil.getResourcePath(Constants.class);
+    public static final String RESOURCE_PATH = FCFUtil.getResourcePath(Constants.class, 1);
 
     public static final String SILHOUETTE_IMAGE = RESOURCE_PATH + "silhouette1.png";
 

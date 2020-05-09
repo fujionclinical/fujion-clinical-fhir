@@ -41,7 +41,7 @@ public class PatientSelectorFactory extends PatientSelectorFactoryBase {
     public static class PatientSelector implements IPatientSelector {
 
         private final Window dlg = (Window) PageUtil
-                .createPage(Constants.RESOURCE_PATH + "patientSelection-v1.fsp", null).get(0);
+                .createPage(Constants.RESOURCE_PATH + "v1/patientSelection.fsp", null).get(0);
 
         @Override
         public void select(IResponseCallback<Patient> callback) {
