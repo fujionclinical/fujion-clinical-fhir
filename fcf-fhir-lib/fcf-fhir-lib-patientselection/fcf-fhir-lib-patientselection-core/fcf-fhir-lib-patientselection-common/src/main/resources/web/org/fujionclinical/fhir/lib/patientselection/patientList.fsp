@@ -1,0 +1,11 @@
+<div controller="${@fcfPatientListController}">
+	<grid name="patientList" height="100%" width="100%">
+		<columns>
+			<column style="text-align:left" label="Last Name" flex="1" />
+			<column style="text-align:left" label="First Name" flex="1" />
+			<column style="text-align:center" label="MRN" width="10em" />
+			<column style="text-align:center" label="DOB" width="10em" />
+		</columns>
+		<rows name="rows" />
+	</grid>
+</div>
