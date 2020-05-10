@@ -33,7 +33,7 @@ import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.property.PropertyUtil;
 import org.fujionclinical.api.security.SecurityUtil;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.r4.api.patient.PatientContext;
+import org.fujionclinical.fhir.api.r4.patient.PatientContext;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.hl7.fhir.r4.model.Patient;
 

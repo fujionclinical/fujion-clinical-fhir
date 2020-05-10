@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.lib.patientselection.core.r5;
 
 import org.fujion.event.EventUtil;
 import org.fujion.event.IEventListener;
-import org.fujionclinical.fhir.r5.api.patient.PatientContext;
+import org.fujionclinical.fhir.api.r5.patient.PatientContext;
 import org.fujionclinical.shell.IShellStartup;
 import org.fujionclinical.shell.Shell;
 import org.fujionclinical.shell.ShellUtil;

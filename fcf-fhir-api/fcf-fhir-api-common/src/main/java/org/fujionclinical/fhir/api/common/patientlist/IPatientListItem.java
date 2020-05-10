@@ -1,14 +1,16 @@
 package org.fujionclinical.fhir.api.common.patientlist;
 
-import org.hl7.fhir.instance.model.api.IBaseResource;
-
-public interface IPatientListItem<PATIENT extends IBaseResource> extends Comparable<IPatientListItem<PATIENT>> {
-    PATIENT getPatient();
+public interface IPatientListItem extends Comparable<IPatientListItem> {
+    IPatientAdapter getPatient();
 
     String getInfo();
 
-    void select();
-
     @Override
-    boolean equals(Object object);
+    default int compareTo(IPatientListItem listItem) {
+        return getPatient().compareTo(listItem.getPatient());
+    }
+
+    default boolean equalTo(Object object) {
+        return object instanceof IPatientListItem && getPatient().equalTo(((IPatientListItem) object).getPatient());
+    }
 }

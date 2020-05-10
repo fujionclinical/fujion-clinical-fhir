@@ -2,9 +2,9 @@ package org.fujionclinical.fhir.api.common.patientlist;
 
 public interface IPatientListFilter extends Comparable<IPatientListFilter> {
 
-    static final String DELIM = "|";
+    String PIPE = "|";
 
-    static final String REGEX_DELIM = "\\" + DELIM;
+    String REGEX_DELIM = "\\" + PIPE;
 
     /**
      * Returns the entity object associated with the filter.
@@ -27,7 +27,9 @@ public interface IPatientListFilter extends Comparable<IPatientListFilter> {
      * @param pieces Number of delimited pieces.
      * @return An array of parsed elements.
      */
-    String[] parse(String value, int pieces);
+    String[] parse(
+            String value,
+            int pieces);
 
     /**
      * Returns an entity instance from its serialized form.

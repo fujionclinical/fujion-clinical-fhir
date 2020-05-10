@@ -32,9 +32,9 @@ import org.fujion.annotation.WiredComponent;
 import org.fujion.component.*;
 import org.fujion.event.DblclickEvent;
 import org.fujionclinical.api.event.IGenericEvent;
-import org.fujionclinical.fhir.dstu2.api.common.ClientUtil;
-import org.fujionclinical.fhir.dstu2.api.common.FhirUtil;
-import org.fujionclinical.fhir.dstu2.api.encounter.EncounterContext;
+import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.encounter.EncounterContext;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
 

@@ -36,9 +36,9 @@ import org.fujionclinical.api.query.AbstractQueryFilter;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
 import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.PatientQueryParameter;
-import org.fujionclinical.fhir.stu3.api.document.Document;
-import org.fujionclinical.fhir.stu3.api.document.DocumentListDataService;
-import org.fujionclinical.fhir.stu3.api.document.DocumentService;
+import org.fujionclinical.fhir.api.stu3.document.Document;
+import org.fujionclinical.fhir.api.stu3.document.DocumentListDataService;
+import org.fujionclinical.fhir.api.stu3.document.DocumentService;
 import org.fujionclinical.ui.sharedforms.controller.AbstractGridController;
 
 import java.util.*;

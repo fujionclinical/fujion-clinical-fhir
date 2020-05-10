@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.smart.r4;
 
-import org.fujionclinical.fhir.r4.api.patient.PatientContext;
+import org.fujionclinical.fhir.api.r4.patient.PatientContext;
 import org.fujionclinical.fhir.smart.common.SmartContextBase;
 import org.hl7.fhir.r4.model.Patient;
 

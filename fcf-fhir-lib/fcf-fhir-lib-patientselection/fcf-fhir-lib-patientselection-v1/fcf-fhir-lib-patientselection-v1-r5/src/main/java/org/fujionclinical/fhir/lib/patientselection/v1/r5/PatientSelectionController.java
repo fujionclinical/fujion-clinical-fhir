@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -37,11 +37,16 @@ import org.fujion.component.Rows.Selectable;
 import org.fujion.component.Window.Mode;
 import org.fujion.event.*;
 import org.fujion.model.ListModel;
+import org.fujionclinical.fhir.api.common.patientlist.*;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientListFilterManager.FilterCapability;
+import org.fujionclinical.fhir.api.r5.patient.PatientContext;
+import org.fujionclinical.fhir.api.r5.patientlist.PatientAdapter;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.lib.patientselection.core.r5.*;
-import org.fujionclinical.fhir.r5.api.patient.PatientContext;
-import org.fujionclinical.fhir.r5.api.patientlist.*;
-import org.fujionclinical.fhir.r5.api.patientlist.IPatientListFilterManager.FilterCapability;
+import org.fujionclinical.fhir.lib.patientselection.common.PatientListFilterRenderer;
+import org.fujionclinical.fhir.lib.patientselection.common.PatientListItemRenderer;
+import org.fujionclinical.fhir.lib.patientselection.core.r5.IPatientDetailRenderer;
+import org.fujionclinical.fhir.lib.patientselection.core.r5.PatientDetailRenderer;
+import org.fujionclinical.fhir.lib.patientselection.core.r5.PatientSearchUtil;
 import org.fujionclinical.shell.ShellUtil;
 import org.fujionclinical.ui.controller.FrameworkController;
 import org.fujionclinical.ui.dialog.DateRangePicker;
@@ -92,6 +97,8 @@ public class PatientSelectionController extends FrameworkController {
     private final String txtSearchMessage = StrUtil.getLabel(Constants.LBL_SEARCH_MESSAGE);
 
     private final String txtWaitMessage = StrUtil.getLabel(Constants.LBL_LIST_WAIT_MESSAGE);
+
+    private final List<IPatientListItem> pendingListItem = new ArrayList<>();
 
     @WiredComponent
     private Radiogroup rgrpLists;
@@ -187,8 +194,6 @@ public class PatientSelectionController extends FrameworkController {
 
     private Radiobutton rbFavorites;
 
-    private IPatientListRegistry registry;
-
     private IPatientList activeList;
 
     private IPatientList managedList;
@@ -199,20 +204,6 @@ public class PatientSelectionController extends FrameworkController {
 
     private IPatientListFilterManager filterManager;
 
-    private AbstractPatientListFilter activeFilter;
-
-    private FavoritePatientList favorites;
-
-    private Patient activePatient;
-
-    private boolean manageListMode;
-
-    private DateRange defaultDateRange;
-
-    private final List<PatientListItem> pendingListItem = new ArrayList<>();
-
-    private IPatientDetailRenderer patientDetailRenderer = new PatientDetailRenderer();
-
     /**
      * Handles drag/drop events for filters in filter management mode.
      */
@@ -220,9 +211,31 @@ public class PatientSelectionController extends FrameworkController {
         DropEvent dropEvent = (DropEvent) event;
         Listitem dragged = (Listitem) dropEvent.getRelatedTarget();
         Listitem target = (Listitem) dropEvent.getTarget();
-        filterManager.moveFilter((AbstractPatientListFilter) dragged.getData(), target.getIndex());
+        filterManager.moveFilter((IPatientListFilter) dragged.getData(), target.getIndex());
         dragged.getListbox().addChild(dragged, target);
     };
+
+    private IPatientListFilter activeFilter;
+
+    private Patient activePatient;
+
+    private boolean manageListMode;
+
+    private DateRange defaultDateRange;
+
+    private IPatientDetailRenderer patientDetailRenderer = new PatientDetailRenderer();
+
+    private final FavoritePatientList favorites;
+
+    private final PatientListRegistry registry;
+
+    private final IPatientAdapterFactory patientAdapterFactory;
+
+    public PatientSelectionController(PatientListRegistry registry, FavoritePatientList favorites, IPatientAdapterFactory patientAdapterFactory) {
+        this.registry = registry;
+        this.favorites = favorites;
+        this.patientAdapterFactory = patientAdapterFactory;
+    }
 
     /**
      * Initial setup.
@@ -278,7 +291,7 @@ public class PatientSelectionController extends FrameworkController {
     }
 
     private void setRenderer(Grid grid) {
-        grid.getRows().setRenderer(new PatientListItemRenderer(grid));
+        grid.getRows().setRenderer(new PatientListItemRenderer(grid, patientAdapterFactory));
     }
 
     private void setRenderer(Listbox listbox) {
@@ -341,13 +354,13 @@ public class PatientSelectionController extends FrameworkController {
 
         if (hasFilter) {
             activeFilter = activeList.getActiveFilter();
-            Collection<AbstractPatientListFilter> filters = activeList.getFilters();
+            Collection<IPatientListFilter> filters = activeList.getFilters();
 
             if (filters == null || filters.isEmpty()) {
                 lstFilter.getModelAndView().setModel(null);
                 lstFilter.addChild(new Listitem(txtNoFilters));
             } else {
-                lstFilter.getModelAndView(AbstractPatientListFilter.class).setModel(new ListModel<>(filters));
+                lstFilter.getModelAndView(IPatientListFilter.class).setModel(new ListModel<>(filters));
 
                 if (activeFilter == null) {
                     activeFilter = filters.iterator().next();
@@ -362,14 +375,16 @@ public class PatientSelectionController extends FrameworkController {
     /**
      * Selects the list box item corresponding to the specified filter.
      *
-     * @param lb List box to search.
+     * @param lb     List box to search.
      * @param filter The filter whose associated list item is to be selected.
      * @return True if the item was successfully selected.
      */
-    private boolean selectFilter(Listbox lb, AbstractPatientListFilter filter) {
+    private boolean selectFilter(
+            Listbox lb,
+            IPatientListFilter filter) {
         if (filter != null) {
             for (Listitem item : lb.getChildren(Listitem.class)) {
-                AbstractPatientListFilter flt = (AbstractPatientListFilter) item.getData();
+                IPatientListFilter flt = (IPatientListFilter) item.getData();
 
                 if (flt != null && filter.equals(flt)) {
                     lb.setSelectedItem(item);
@@ -386,7 +401,7 @@ public class PatientSelectionController extends FrameworkController {
         timer.stop();
 
         if (activeList != null) {
-            Collection<PatientListItem> items;
+            Collection<IPatientListItem> items;
 
             if (activeList.isPending()) {
                 items = pendingListItem;
@@ -395,7 +410,7 @@ public class PatientSelectionController extends FrameworkController {
                 items = activeList.getListItems();
             }
 
-            ListModel<PatientListItem> model = items == null ? new ListModel<>() : new ListModel<>(items);
+            ListModel<IPatientListItem> model = items == null ? new ListModel<>() : new ListModel<>(items);
 
             if (model.isEmpty()) {
                 model.add(new PatientListItem(null, txtNoPatients));
@@ -411,10 +426,10 @@ public class PatientSelectionController extends FrameworkController {
             lblPatientList.setLabel(txtNoList);
         }
 
-        setActivePatient((Patient) null);
+        setActivePatient((PatientAdapter) null);
     }
 
-    private void setActiveFilter(AbstractPatientListFilter filter) {
+    private void setActiveFilter(IPatientListFilter filter) {
         activeFilter = filter;
         activeList.setActiveFilter(filter);
 
@@ -443,14 +458,18 @@ public class PatientSelectionController extends FrameworkController {
         setActivePatient(pli == null ? null : pli.getPatient());
     }
 
+    private void setActivePatient(IPatientAdapter patientAdapter) {
+        setActivePatient(patientAdapter == null ? null : (Patient) patientAdapter.getResource());
+    }
+
     private void setActivePatient(Patient patient) {
         // Build the demographic display here
         activePatient = patient;
         root.setAttribute(Constants.SELECTED_PATIENT_ATTRIB, activePatient);
         pnlDemoRoot.destroyChildren();
 
-        if (patient != null && patientDetailRenderer != null) {
-            pnlDemoRoot.addChild(patientDetailRenderer.render(patient));
+        if (activePatient != null && patientDetailRenderer != null) {
+            pnlDemoRoot.addChild(patientDetailRenderer.render(activePatient));
         }
 
         btnDemoDetail.setDisabled(activePatient == null);
@@ -471,7 +490,7 @@ public class PatientSelectionController extends FrameworkController {
         grdPatientList.getRows().clearSelected();
 
         try {
-            PatientSearchUtil.execute(edtSearch.getValue(), 100, (matches) -> {
+            PatientSearchUtil.execute(edtSearch.getValue(), 100, matches -> {
                 if (matches != null) {
                     grdSearch.getRows().setModel(new ListModel<>(matches));
                     grdSearch.getRows().setSelectable(Selectable.SINGLE);
@@ -503,28 +522,10 @@ public class PatientSelectionController extends FrameworkController {
     }
 
     /**
-     * Set the patient list registry (injected by Spring).
-     *
-     * @param registry The patient list registry.
-     */
-    public void setPatientListRegistry(IPatientListRegistry registry) {
-        this.registry = registry;
-    }
-
-    /**
-     * Set a reference to the favorites list (injected by Spring).
-     *
-     * @param list The favorite patient list.
-     */
-    public void setFavoritesList(FavoritePatientList list) {
-        this.favorites = list;
-    }
-
-    /**
      * Sets list management mode.
      *
      * @param value If true, the dialog enters list management mode. If false, the dialog reverts to
-     *            patient selection mode.
+     *              patient selection mode.
      */
     private void setManageListMode(boolean value) {
         manageListMode = value;
@@ -544,9 +545,9 @@ public class PatientSelectionController extends FrameworkController {
             pnlManagedListFilters.setVisible(filterManager != null);
             btnManagedListFilterNew.setVisible(filterManager != null && filterManager.hasCapability(FilterCapability.ADD));
             btnManagedListFilterDelete
-            .setVisible(filterManager != null && filterManager.hasCapability(FilterCapability.REMOVE));
+                    .setVisible(filterManager != null && filterManager.hasCapability(FilterCapability.REMOVE));
             btnManagedListFilterRename
-            .setVisible(filterManager != null && filterManager.hasCapability(FilterCapability.RENAME));
+                    .setVisible(filterManager != null && filterManager.hasCapability(FilterCapability.RENAME));
 
             if (filterManager != null) {
                 lstManagedListFilter.setModel(new ListModel<>(managedList.getFilters()));
@@ -579,7 +580,7 @@ public class PatientSelectionController extends FrameworkController {
      *
      * @param filter The patient list filter to make active.
      */
-    private void setManagedListFilter(AbstractPatientListFilter filter) {
+    private void setManagedListFilter(IPatientListFilter filter) {
         if (itemManager != null) {
             itemManager.save();
         }
@@ -592,11 +593,14 @@ public class PatientSelectionController extends FrameworkController {
     /**
      * Adds drag/drop support to the items belonging to the specified list box.
      *
-     * @param lb The list box.
-     * @param dropId The drop id to be used.
+     * @param lb            The list box.
+     * @param dropId        The drop id to be used.
      * @param eventListener The event listener to handle the drag/drop operations.
      */
-    private void addDragDropSupport(Listbox lb, String dropId, IEventListener eventListener) {
+    private void addDragDropSupport(
+            Listbox lb,
+            String dropId,
+            IEventListener eventListener) {
         for (Listitem item : lb.getChildren(Listitem.class)) {
             item.setDragid(dropId);
             item.setDropid(dropId);
@@ -622,7 +626,7 @@ public class PatientSelectionController extends FrameworkController {
             btnManageList.setDisabled(true);
         } else {
             btnManageList.setDisabled(
-                activeList == null || (activeList.getItemManager() == null && activeList.getFilterManager() == null));
+                    activeList == null || (activeList.getItemManager() == null && activeList.getFilterManager() == null));
             btnOK.setDisabled(activePatient == null);
         }
     }
@@ -633,13 +637,17 @@ public class PatientSelectionController extends FrameworkController {
      * @param patient The patient to add.
      * @param refresh If true, refresh the display.
      */
-    private void managedListAdd(Patient patient, boolean refresh) {
+    private void managedListAdd(
+            Patient patient,
+            boolean refresh) {
         if (patient != null) {
-            managedListAdd(new PatientListItem(patient, null), refresh);
+            managedListAdd(new PatientListItem(new PatientAdapter(patient), null), refresh);
         }
     }
 
-    private void managedListAdd(PatientListItem item, boolean refresh) {
+    private void managedListAdd(
+            PatientListItem item,
+            boolean refresh) {
         if (item != null && item.getPatient() != null) {
             itemManager.addItem(item);
 
@@ -649,7 +657,9 @@ public class PatientSelectionController extends FrameworkController {
         }
     }
 
-    private void managedListRemove(PatientListItem item, boolean refresh) {
+    private void managedListRemove(
+            IPatientListItem item,
+            boolean refresh) {
         if (item != null) {
             itemManager.removeItem(item);
 
@@ -667,13 +677,13 @@ public class PatientSelectionController extends FrameworkController {
         if (itemManager != null) {
             itemManager.save();
             grdManagedList.getRows().setModel(new ListModel<>(managedList.getListItems()));
-            AbstractPatientListFilter filter = managedList.getActiveFilter();
+            IPatientListFilter filter = managedList.getActiveFilter();
             lblManagedList.setLabel(managedList.getEntityName() + (filter == null ? "" : ": " + filter.getName()));
         }
         updateControls();
     }
 
-    private AbstractPatientListFilter getFilter(Event event) {
+    private IPatientListFilter getFilter(Event event) {
         Object target = event.getTarget();
 
         if (target instanceof Listbox) {
@@ -685,12 +695,12 @@ public class PatientSelectionController extends FrameworkController {
         }
     }
 
-    private AbstractPatientListFilter getFilter(Listbox lb) {
+    private IPatientListFilter getFilter(Listbox lb) {
         return getFilter(lb.getSelectedItem());
     }
 
-    private AbstractPatientListFilter getFilter(Listitem item) {
-        return item == null ? null : (AbstractPatientListFilter) item.getData();
+    private IPatientListFilter getFilter(Listitem item) {
+        return item == null ? null : (IPatientListFilter) item.getData();
     }
 
     private PatientListItem getItem(Event event) {
@@ -710,18 +720,20 @@ public class PatientSelectionController extends FrameworkController {
     /**
      * Adds or renames a filter.
      *
-     * @param filter If not null, assumes we are renaming an existing filter. If null, assumes we
-     *            are adding a new filter.
+     * @param filter  If not null, assumes we are renaming an existing filter. If null, assumes we
+     *                are adding a new filter.
      * @param message Message to prefix to dialog prompt.
      */
-    private void addOrRenameFilter(AbstractPatientListFilter filter, String message) {
+    private void addOrRenameFilter(
+            IPatientListFilter filter,
+            String message) {
         String oldName = filter == null ? null : filter.getName();
 
         DialogUtil.input(message + txtFilterNamePrompt, filter == null ? txtNewFilterTitle : txtRenameFilterTitle, oldName,
                 (name) -> {
                     try {
                         if (!StringUtils.isEmpty(name)) {
-                            AbstractPatientListFilter afilter;
+                            IPatientListFilter afilter;
 
                             if (filter == null) {
                                 afilter = filterManager.addFilter(name);
@@ -905,7 +917,9 @@ public class PatientSelectionController extends FrameworkController {
         selectedFromList(event, grdPatientList);
     }
 
-    private void selectedFromList(ChangeEvent event, Grid otherGrid) {
+    private void selectedFromList(
+            ChangeEvent event,
+            Grid otherGrid) {
         if (event.getValue(Boolean.class)) {
             otherGrid.getRows().clearSelected();
             setActivePatient(event);
@@ -954,17 +968,17 @@ public class PatientSelectionController extends FrameworkController {
 
     @EventHandler(value = "click", target = "btnManagedListFilterDelete")
     private void onClick$btnManagedListFilterDelete() {
-        AbstractPatientListFilter filter = managedList.getActiveFilter();
+        IPatientListFilter filter = managedList.getActiveFilter();
 
         if (filter != null) {
             DialogUtil.confirm(txtDeleteFilterPrompt, MessageFormat.format(txtDeleteFilterTitle, filter.getName()),
-                (confirm) -> {
-                    if (confirm) {
-                        filterManager.removeFilter(filter);
-                        lstManagedListFilter.getSelectedItem().detach();
-                        setManagedListFilter(null);
-                    }
-                });
+                    (confirm) -> {
+                        if (confirm) {
+                            filterManager.removeFilter(filter);
+                            lstManagedListFilter.getSelectedItem().detach();
+                            setManagedListFilter(null);
+                        }
+                    });
         }
     }
 
@@ -994,7 +1008,7 @@ public class PatientSelectionController extends FrameworkController {
 
     @EventHandler(value = "click", target = "btnManagedListRemoveAll")
     private void onClick$btnManagedListRemoveAll() {
-        for (PatientListItem item : new ArrayList<>(managedList.getListItems())) {
+        for (IPatientListItem item : new ArrayList<>(managedList.getListItems())) {
             managedListRemove(item, false);
         }
 

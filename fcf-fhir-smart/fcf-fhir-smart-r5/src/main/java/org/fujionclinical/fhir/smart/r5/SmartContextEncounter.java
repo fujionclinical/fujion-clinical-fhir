@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.smart.r5;
 
-import org.fujionclinical.fhir.r5.api.encounter.EncounterContext;
+import org.fujionclinical.fhir.api.r5.encounter.EncounterContext;
 import org.fujionclinical.fhir.smart.common.SmartContextBase;
 import org.hl7.fhir.r5.model.Encounter;
 

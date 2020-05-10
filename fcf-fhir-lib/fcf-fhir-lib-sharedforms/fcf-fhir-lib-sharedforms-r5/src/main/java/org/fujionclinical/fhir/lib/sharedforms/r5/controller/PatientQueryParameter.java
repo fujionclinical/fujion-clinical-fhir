@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.lib.sharedforms.r5.controller;
 
 import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.context.ISurveyResponse;
-import org.fujionclinical.fhir.r5.api.patient.PatientContext;
+import org.fujionclinical.fhir.api.r5.patient.PatientContext;
 import org.fujionclinical.ui.sharedforms.controller.AbstractServiceController;
 import org.hl7.fhir.r5.model.Patient;
 

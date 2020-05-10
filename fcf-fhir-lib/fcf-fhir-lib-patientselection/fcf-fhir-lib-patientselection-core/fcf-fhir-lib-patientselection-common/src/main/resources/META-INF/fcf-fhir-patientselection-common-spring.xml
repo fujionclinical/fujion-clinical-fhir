@@ -21,8 +21,10 @@
 		<bean class="org.fujionclinical.fhir.lib.patientselection.core.${fhir.context.version}.Init" />
 
 		<bean id="fcfPatientListController"
-			  class="org.fujionclinical.fhir.lib.patientselection.core.${fhir.context.version}.PatientListController"
-			  scope="prototype" />
+			  class="org.fujionclinical.fhir.lib.patientselection.common.PatientListController"
+			  scope="prototype">
+			<constructor-arg ref="patientAdapterFactory" />
+		</bean>
 
 	</beans>
 

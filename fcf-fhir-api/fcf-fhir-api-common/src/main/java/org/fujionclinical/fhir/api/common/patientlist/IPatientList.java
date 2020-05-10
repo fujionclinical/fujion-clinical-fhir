@@ -26,14 +26,13 @@
 package org.fujionclinical.fhir.api.common.patientlist;
 
 import org.fujion.common.DateRange;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.Collection;
 
 /**
  * Interface for all patient lists.
  */
-public interface IPatientList<PATIENT extends IBaseResource> {
+public interface IPatientList extends Comparable<IPatientList> {
 
     /**
      * Returns the name assigned to this list. The name must be unique across all patient lists.
@@ -111,7 +110,7 @@ public interface IPatientList<PATIENT extends IBaseResource> {
      *
      * @return The associated list item manager, or null if not applicable.
      */
-    IPatientListItemManager<PATIENT> getItemManager();
+    IPatientListItemManager getItemManager();
 
     /**
      * Returns the filter manager associated with the list. If the list does not support filters, or
@@ -152,14 +151,21 @@ public interface IPatientList<PATIENT extends IBaseResource> {
      *
      * @return A list of patient items, or null if the required parameters have not be set.
      */
-    Collection<IPatientListItem<PATIENT>> getListItems();
+    Collection<IPatientListItem> getListItems();
+
+    /**
+     * Returns the factory used to create IPatientAdaptor instances.
+     *
+     * @return The patient adaptor factory.
+     */
+    IPatientAdapterFactory getPatientAdapterFactory();
 
     /**
      * Returns a fully cloned copy of this list.
      *
      * @return A clone of the original list.
      */
-    IPatientList<PATIENT> copy();
+    IPatientList copy();
 
     /**
      * Returns a fully cloned copy of this list, applying any serialized settings (active filter,
@@ -168,7 +174,7 @@ public interface IPatientList<PATIENT extends IBaseResource> {
      * @param serialized Serialized settings applicable for this list.
      * @return A clone of the original list.
      */
-    IPatientList<PATIENT> copy(String serialized);
+    IPatientList copy(String serialized);
 
     /**
      * Returns the serialized form of this list, including any active settings (active filter, date
@@ -190,4 +196,29 @@ public interface IPatientList<PATIENT extends IBaseResource> {
      */
     boolean isPending();
 
+    /**
+     * Collates patient lists by sequence number, then name.
+     *
+     * @param list Patient list to compare.
+     * @return Result of the comparison.
+     */
+    default int compareTo(IPatientList list) {
+        if (this == list) {
+            return 0;
+        }
+
+        if (this == null) {
+            return -1;
+        }
+
+        if (list == null) {
+            return 1;
+        }
+
+        if (this.getSequence() == list.getSequence()) {
+            return this.getName().compareToIgnoreCase(list.getName());
+        }
+
+        return this.getSequence() < list.getSequence() ? -1 : 1;
+    }
 }

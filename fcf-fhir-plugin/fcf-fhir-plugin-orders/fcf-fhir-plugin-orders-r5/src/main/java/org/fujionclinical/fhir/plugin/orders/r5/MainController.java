@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.plugin.orders.r5;
 
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
-import org.fujionclinical.fhir.r5.api.common.FhirUtil;
+import org.fujionclinical.fhir.api.r5.common.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.*;

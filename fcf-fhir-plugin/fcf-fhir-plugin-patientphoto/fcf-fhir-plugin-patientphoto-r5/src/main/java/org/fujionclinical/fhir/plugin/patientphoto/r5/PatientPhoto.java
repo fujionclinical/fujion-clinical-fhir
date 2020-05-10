@@ -33,8 +33,8 @@ import org.fujion.component.Label;
 import org.fujion.component.Popup;
 import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.r5.api.common.FhirUtil;
-import org.fujionclinical.fhir.r5.api.patient.PatientContext;
+import org.fujionclinical.fhir.api.r5.common.FhirUtil;
+import org.fujionclinical.fhir.api.r5.patient.PatientContext;
 import org.fujionclinical.ui.controller.FrameworkController;
 import org.hl7.fhir.r5.model.Patient;
 

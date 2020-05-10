@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.lib.sharedforms.dstu2.controller;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import org.fujionclinical.api.FrameworkUtil;
 import org.fujionclinical.api.context.ISurveyResponse;
-import org.fujionclinical.fhir.dstu2.api.patient.PatientContext;
+import org.fujionclinical.fhir.api.dstu2.patient.PatientContext;
 import org.fujionclinical.ui.sharedforms.controller.AbstractServiceController;
 
 /**

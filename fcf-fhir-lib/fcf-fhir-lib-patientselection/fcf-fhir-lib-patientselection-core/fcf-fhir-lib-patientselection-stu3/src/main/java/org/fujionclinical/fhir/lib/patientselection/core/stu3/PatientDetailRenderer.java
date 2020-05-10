@@ -33,7 +33,7 @@ import org.fujion.component.Div;
 import org.fujion.component.Image;
 import org.fujion.component.Label;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
 

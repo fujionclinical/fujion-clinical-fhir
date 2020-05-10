@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.plugin.familyhistory.stu3;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
 import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
-import org.fujionclinical.fhir.stu3.api.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
 import org.hl7.fhir.dstu3.model.FamilyMemberHistory;
 import org.hl7.fhir.dstu3.model.FamilyMemberHistory.FamilyMemberHistoryConditionComponent;
 

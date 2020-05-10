@@ -33,7 +33,7 @@ import org.fujion.component.Grid;
 import org.fujion.component.Row;
 import org.fujion.event.DblclickEvent;
 import org.fujion.model.IComponentRenderer;
-import org.fujionclinical.fhir.r5.api.document.Document;
+import org.fujionclinical.fhir.api.r5.document.Document;
 
 /**
  * Renderer for the document list.

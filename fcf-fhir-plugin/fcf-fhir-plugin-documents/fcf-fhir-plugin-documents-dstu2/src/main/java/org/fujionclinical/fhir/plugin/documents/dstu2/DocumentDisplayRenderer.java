@@ -28,8 +28,8 @@ package org.fujionclinical.fhir.plugin.documents.dstu2;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.component.*;
 import org.fujion.model.IComponentRenderer;
-import org.fujionclinical.fhir.dstu2.api.document.Document;
-import org.fujionclinical.fhir.dstu2.api.document.DocumentContent;
+import org.fujionclinical.fhir.api.dstu2.document.Document;
+import org.fujionclinical.fhir.api.dstu2.document.DocumentContent;
 import org.fujionclinical.ui.sharedforms.common.FormConstants;
 
 /**
