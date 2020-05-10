@@ -26,6 +26,8 @@
 package org.fujionclinical.fhir.lib.patientselection.common;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.ui.util.FCFUtil;
 
 /**
@@ -78,6 +80,20 @@ public class Constants {
     public static final String LBL_FILTER_DELETE_PROMPT = "patientselection.filter.deletion.confirm.prompt";
 
     public static final String LBL_SEARCH_MESSAGE = "patientselection.search.message";
+
+    public static final String ERROR_PATIENT_NOT_FOUND = "@patientsearch.error.patient.not.found";
+
+    public static final String UNEXPECTED_ERROR = "@patientsearch.error.unknown";
+
+    public static final String TEXT_TOO_MANY_MATCHES = "@patientsearch.warn.too.many.matches.text";
+
+    public static final String TITLE_TOO_MANY_MATCHES = "@patientsearch.warn.too.many.matches.title";
+
+    public static final String BTN_REFINE_LABEL = "@patientsearch.btn.refine.label";
+
+    public static final String BTN_CONTINUE_LABEL = "@patientsearch.btn.continue_.label";
+
+    public static final String REFINE_BUTTONS = BTN_REFINE_LABEL + "|" + BTN_CONTINUE_LABEL;
 
     /**
      * Enforce static class.

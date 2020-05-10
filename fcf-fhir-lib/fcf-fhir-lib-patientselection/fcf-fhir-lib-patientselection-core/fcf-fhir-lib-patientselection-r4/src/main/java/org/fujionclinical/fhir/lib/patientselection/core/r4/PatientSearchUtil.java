@@ -41,26 +41,14 @@ import org.hl7.fhir.r4.model.Patient;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.fujionclinical.fhir.lib.patientselection.common.Constants.*;
+
 /**
  * Patient search services.
  */
 public class PatientSearchUtil {
     
     private static final Log log = LogFactory.getLog(PatientSearchUtil.class);
-    
-    private static final String ERROR_PATIENT_NOT_FOUND = "@patientsearch.error.patient.not.found";
-    
-    private static final String UNEXPECTED_ERROR = "@patientsearch.error.unknown";
-    
-    private static final String TEXT_TOO_MANY_MATCHES = "@patientsearch.warn.too.many.matches.text";
-    
-    private static final String TITLE_TOO_MANY_MATCHES = "@patientsearch.warn.too.many.matches.title";
-    
-    private static final String BTN_REFINE_LABEL = "@patientsearch.btn.refine.label";
-    
-    private static final String BTN_CONTINUE_LABEL = "@patientsearch.btn.continue_.label";
-    
-    private static final String REFINE_BUTTONS = BTN_REFINE_LABEL + "|" + BTN_CONTINUE_LABEL;
     
     private static final Comparator<Patient> patientComparator = new Comparator<Patient>() {
         
