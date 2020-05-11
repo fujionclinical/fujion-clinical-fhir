@@ -30,8 +30,8 @@ import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.Window;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.lib.patientselection.core.dstu2.IPatientSelector;
-import org.fujionclinical.fhir.lib.patientselection.core.dstu2.PatientSelectorFactoryBase;
+import org.fujionclinical.fhir.lib.patientselection.dstu2.IPatientSelector;
+import org.fujionclinical.fhir.lib.patientselection.dstu2.PatientSelectorFactoryBase;
 import org.fujionclinical.fhir.lib.patientselection.v1.common.PatientSelectionUtil;
 
 /**

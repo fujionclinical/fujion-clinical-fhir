@@ -47,7 +47,7 @@ import org.fujionclinical.api.event.IGenericEvent;
 import org.fujionclinical.api.security.SecurityUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.patient.PatientContext;
-import org.fujionclinical.fhir.lib.patientselection.core.dstu2.PatientSelection;
+import org.fujionclinical.fhir.lib.patientselection.dstu2.PatientSelection;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.shell.plugins.PluginController;
 

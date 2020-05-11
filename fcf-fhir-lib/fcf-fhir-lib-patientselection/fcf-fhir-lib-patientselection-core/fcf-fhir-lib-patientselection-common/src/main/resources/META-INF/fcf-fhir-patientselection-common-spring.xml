@@ -8,7 +8,7 @@
 
 		<!-- Patient Selector Registry -->
 		<bean id="patientSelectorRegistry" factory-method="getInstance" destroy-method="clear"
-			  class="org.fujionclinical.fhir.lib.patientselection.core.${fhir.context.version}.PatientSelectorRegistry" />
+			  class="org.fujionclinical.fhir.lib.patientselection.${fhir.context.version}.PatientSelectorRegistry" />
 
 	</beans>
 
@@ -18,7 +18,7 @@
 			<constructor-arg value="PATIENT.SELECTION.SHOW." />
 		</bean>
 
-		<bean class="org.fujionclinical.fhir.lib.patientselection.core.${fhir.context.version}.Init" />
+		<bean class="org.fujionclinical.fhir.lib.patientselection.${fhir.context.version}.Init" />
 
 		<bean id="fcfPatientListController"
 			  class="org.fujionclinical.fhir.lib.patientselection.common.PatientListController"

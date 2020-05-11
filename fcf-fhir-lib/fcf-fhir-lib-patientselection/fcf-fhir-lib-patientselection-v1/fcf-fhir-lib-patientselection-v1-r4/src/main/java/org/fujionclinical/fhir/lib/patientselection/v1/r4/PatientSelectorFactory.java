@@ -29,8 +29,8 @@ import org.fujion.ancillary.IResponseCallback;
 import org.fujion.component.Window;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
-import org.fujionclinical.fhir.lib.patientselection.core.r4.IPatientSelector;
-import org.fujionclinical.fhir.lib.patientselection.core.r4.PatientSelectorFactoryBase;
+import org.fujionclinical.fhir.lib.patientselection.r4.IPatientSelector;
+import org.fujionclinical.fhir.lib.patientselection.r4.PatientSelectorFactoryBase;
 import org.fujionclinical.fhir.lib.patientselection.v1.common.PatientSelectionUtil;
 import org.hl7.fhir.r4.model.Patient;
 
