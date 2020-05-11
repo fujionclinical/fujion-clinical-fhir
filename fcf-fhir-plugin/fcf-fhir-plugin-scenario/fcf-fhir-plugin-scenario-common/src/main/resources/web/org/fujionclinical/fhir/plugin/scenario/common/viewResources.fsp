@@ -1,6 +1,6 @@
 <window title="${@msg.fcf.scenario.view.title}"
 		height="500px" width="800px" closable="true" sizable="true"
-		controller="${@fcfScenarioViewResourcesController}">
+		controller="${@scenarioViewResourcesController}">
 	<paneview width="100%" height="100%">
 		<pane splittable="true" width="30%" style="overflow-x:hidden;overflow-y:auto">
 			<grid name="grdResources" width="100%">

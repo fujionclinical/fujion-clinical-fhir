@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:fcp="http://www.fujionclinical.org/schema/plugin"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
-		http://www.fujionclinical.org/schema/plugin
-		http://www.fujionclinical.org/schema/plugin/plugin-extensions.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 	<beans profile="root">
 		
-		<bean id="fcfScenarioRegistry" factory-method="getInstance"
-			  class="org.fujionclinical.fhir.scenario.api.${fhir.context.version}.ScenarioRegistry" />
-
-		<bean id="fcfScenarioFinder"
-			  class="org.fujionclinical.fhir.scenario.api.${fhir.context.version}.ScenarioFinder">
+		<bean id="scenarioFinder"
+			  class="org.fujionclinical.fhir.scenario.common.ScenarioFinder">
+			<constructor-arg value="org.fujionclinical.fhir.scenario.${fhir.context.version}.Scenario" />
 			<constructor-arg value="classpath*:scenarios/${fhir.context.version}/**" />
-			<constructor-arg ref="fcfScenarioRegistry" />
+			<constructor-arg ref="patientAdapterFactory" />
 			<constructor-arg ref="fhirService" />
 		</bean>
 
 	</beans>
-	
+
+	<beans profile="child">
+
+		<bean id="scenarioRegistry"
+			  class="org.fujionclinical.fhir.scenario.common.ScenarioRegistry">
+			<constructor-arg ref="scenarioFinder" />
+		</bean>
+
+		<bean id="scenarioContext" parent="managedContext"
+			  class="org.fujionclinical.fhir.scenario.common.ScenarioContext" />
+	</beans>
 </beans>

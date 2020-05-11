@@ -31,6 +31,7 @@ import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.Date;
+import java.util.Map;
 
 public class ScenarioUtil {
     
@@ -123,5 +124,24 @@ public class ScenarioUtil {
     public static final IBaseCoding createScenarioTag(String scenarioId, String scenarioName) {
         return new Tag(DEMO_URN, scenarioId, "Scenario: " + scenarioName);
     }
-    
+
+    /**
+     * Returns the scenario associated with the resource.
+     *
+     * @param resource The resource to examine.
+     * @param scenarios A map of registered scenarios.
+     * @return The associated scenario, or null if none.
+     */
+    public static <SCENARIO extends ScenarioBase> SCENARIO getScenario(IBaseResource resource, Map<String, SCENARIO> scenarios) {
+        SCENARIO scenario = null;
+
+        for (IBaseCoding tag : FhirUtil.getTagsBySystem(resource, DEMO_URN)) {
+            if ((scenario = scenarios.get(tag.getCode())) != null) {
+                break;
+            }
+        }
+
+        return scenario;
+    }
+
 }

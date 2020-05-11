@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -29,7 +29,6 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.primitive.BaseDateTimeDt;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
-import ca.uhn.fhir.model.primitive.IdDt;
 import ca.uhn.fhir.parser.IParser;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -37,13 +36,13 @@ import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
+import org.fujionclinical.fhir.api.common.patientlist.*;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -63,8 +62,6 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
     private final String scenarioName;
 
-    private final Resource scenarioBase;
-
     private final IBaseCoding scenarioTag;
 
     private final IIdType scenarioId;
@@ -72,46 +69,39 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private final Map<String, IBaseResource> resourcesById = Collections.synchronizedMap(new HashMap<>());
 
     private final Map<String, IBaseResource> resourcesByName = Collections.synchronizedMap(new HashMap<>());
-    
+
     private final FhirContext fhirContext;
+
+    private final Resource root;
+
+    private final IPatientAdapterFactory patientAdapterFactory;
+
+    private final PatientListRegistry patientListRegistry;
+
+    private final String patientListName;
 
     private boolean isLoaded;
 
     private LIST scenarioResources;
 
-    protected ScenarioBase(Resource scenarioYaml, FhirContext fhirContext) {
-        this.fhirContext = fhirContext;
-        this.scenarioBase = scenarioYaml;
-
-        try (InputStream in = scenarioYaml.getInputStream()) {
-            Map<String, ?> config = new Yaml().load(in);
-            Map<String, String> meta = (Map<String, String>) getParam(config, "scenario");
-            this.scenarioConfig = (Map<String, Map<String, String>>) getParam(config, "resources");
-            this.scenarioId = _createScenarioId(getParam(meta, "id"));
-            this.scenarioName = getParam(meta, "name");
-            this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioId.getIdPart(), scenarioName);
-        } catch (Exception e) {
-            log.error(() -> "Failed to load scenario configuration: " + scenarioYaml, e);
-            throw MiscUtil.toUnchecked(e);
-        }
-
-        log.info(() -> "Loaded scenario configuration: " + scenarioName);
+    protected ScenarioBase(ScenarioFactory<?> scenarioFactory) {
+        this.fhirContext = scenarioFactory.fhirService.getClient().getFhirContext();
+        this.scenarioName = scenarioFactory.scenarioName;
+        this.scenarioTag = scenarioFactory.scenarioTag;
+        this.scenarioId = scenarioFactory.scenarioId;
+        this.scenarioConfig = scenarioFactory.scenarioConfig;
+        this.patientAdapterFactory = scenarioFactory.patientAdapterFactory;
+        this.root = scenarioFactory.scenarioYaml;
+        this.patientListRegistry = PatientListRegistry.getInstance();
+        this.patientListName = "scenario: " + getName();
     }
 
-    private <T> T getParam(Map<String, T> map, String param) {
+    private <T> T getParam(
+            Map<String, T> map,
+            String param) {
         T value = map.get(param);
         Assert.notNull(value, () -> "Missing configuration parameter: " + param);
         return value;
-    }
-
-    /**
-     * Creates the id to be used to store scenario resources.
-     *
-     * @param id The resource id.
-     * @return The newly created id.
-     */
-    protected IIdType _createScenarioId(String id) {
-        return new IdDt("List", id);
     }
 
     /**
@@ -139,6 +129,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
     /**
      * Returns resources related to the reference resource (using $everything operation).
+     *
      * @param resource The reference resource.
      * @return All resources related to the reference resource.
      */
@@ -230,7 +221,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      *
      * @return Count of resources in scenario.
      */
-    public final synchronized int initialize() {
+    public final int initialize() {
         destroy();
 
         for (String name : scenarioConfig.keySet()) {
@@ -253,7 +244,9 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param params Optional parameters to use to resolve placeholders.
      * @return The created resource.
      */
-    public final synchronized IBaseResource initialize(String source, Map<String, String> params) {
+    public final IBaseResource initialize(
+            String source,
+            Map<String, String> params) {
         return initialize(parseResource(source, params));
     }
 
@@ -263,7 +256,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param resource The resource to create
      * @return The created resource.
      */
-    public final synchronized IBaseResource initialize(IBaseResource resource) {
+    public final IBaseResource initialize(IBaseResource resource) {
         resource = createOrUpdateResource(resource);
         logAction(resource, "Created");
         return resource;
@@ -274,7 +267,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      *
      * @return Count of resources loaded for this scenario.
      */
-    public final synchronized int load() {
+    public final int load() {
         isLoaded = true;
         resourcesById.clear();
         scenarioResources = _loadResources(this::addResource);
@@ -286,7 +279,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      *
      * @return The number of resources successfully deleted.
      */
-    public final synchronized int destroy() {
+    public final int destroy() {
         load();
         int count = 0;
         boolean stop = false;
@@ -297,16 +290,16 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
             while (iterator.hasNext()) {
                 IBaseResource resource = iterator.next();
-                    int deleted = deleteResources(resource);
+                int deleted = deleteResources(resource);
 
-                    if (deleted > 0) {
-                        count++;
-                        stop = false;
-                        resourcesByName.values().remove(resource);
-                        iterator.remove();
-                        logAction(resource, "Deleted");
-                    }
-             }
+                if (deleted > 0) {
+                    count++;
+                    stop = false;
+                    resourcesByName.values().remove(resource);
+                    iterator.remove();
+                    logAction(resource, "Deleted");
+                }
+            }
         }
 
         if (scenarioResources != null) {
@@ -330,7 +323,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     public int deleteResources(IBaseResource resource) {
         int count = 0;
 
-        for (IBaseResource res: relatedResources(resource)) {
+        for (IBaseResource res : relatedResources(resource)) {
             if (deleteResource(res)) {
                 count++;
             }
@@ -395,24 +388,28 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      *
      * @param resource Scenario to add.
      */
-    public final synchronized void addResource(IBaseResource resource) {
+    public final void addResource(IBaseResource resource) {
         resourcesById.put(resource.getIdElement().getValue(), resource);
     }
 
     private InputStream getResourceAsStream(String name) {
         try {
-            return scenarioBase.createRelative(name).getInputStream();
+            return root.createRelative(name).getInputStream();
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }
     }
 
-    private void logAction(IBaseResource resource, String operation) {
+    private void logAction(
+            IBaseResource resource,
+            String operation) {
         FhirUtil.stripVersion(resource);
         log.info(operation + " resource: " + resource.getIdElement().getValue());
     }
 
-    public final IBaseResource parseResource(String source, Map<String, String> params) {
+    public final IBaseResource parseResource(
+            String source,
+            Map<String, String> params) {
         source = addExtension(source);
         IParser parser = source.endsWith(".xml") ? fhirContext.newXmlParser() : fhirContext.newJsonParser();
         StringBuilder sb = new StringBuilder();
@@ -468,22 +465,24 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     /**
      * Evaluate an expression.
      *
-     * @param exp The expression. The general format is
-     *            <p>
-     *            <code>type/value</code>
-     *            </p>
-     *            If <code>type</code> is omitted, it is assumed to be a placeholder for a resource
-     *            previously defined. Possible values for <code>type</code> are:
-     *            <ul>
-     *            <li>value - A literal value; inserted as is</li>
-     *            <li>date - A date value; can be a relative date (LIST+n, for example)</li>
-     *            <li>image - A file containing an image</li>
-     *            <li>snippet - A file containing a snippet to be inserted</li>
-     *            </ul>
+     * @param exp         The expression. The general format is
+     *                    <p>
+     *                    <code>type/value</code>
+     *                    </p>
+     *                    If <code>type</code> is omitted, it is assumed to be a placeholder for a resource
+     *                    previously defined. Possible values for <code>type</code> are:
+     *                    <ul>
+     *                    <li>value - A literal value; inserted as is</li>
+     *                    <li>date - A date value; can be a relative date (LIST+n, for example)</li>
+     *                    <li>image - A file containing an image</li>
+     *                    <li>snippet - A file containing a snippet to be inserted</li>
+     *                    </ul>
      * @param resourceMap Map of resolved resources.
      * @return The result of the evaluation.
      */
-    private String eval(String exp, Map<String, IBaseResource> resourceMap) {
+    private String eval(
+            String exp,
+            Map<String, IBaseResource> resourceMap) {
         int i = exp.indexOf('/');
 
         if (i == -1) {
@@ -536,11 +535,52 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
         }
     }
 
-    private String doDate(final String value, boolean dateOnly) {
+    private String doDate(
+            final String value,
+            boolean dateOnly) {
         Date date = DateUtil.parseDate(value);
         Assert.notNull(date, () -> "Bad date specification: " + value);
         BaseDateTimeDt dtt = dateOnly ? new DateDt(date) : new DateTimeDt(date);
         return dtt.getValueAsString();
+    }
+
+    protected IPatientList getPatientList(boolean autoCreate) {
+        IPatientList list = patientListRegistry.findByName(patientListName);
+
+        if (list == null && autoCreate) {
+            list = new PersonalPatientList(patientListName, patientAdapterFactory);
+            patientListRegistry.registerObject(list);
+        }
+
+        return list;
+    }
+
+    protected void addToPatientList(IBaseResource resource) {
+        IPatientList list = getPatientList(true);
+        IPatientAdapter patient = patientAdapterFactory.create(resource);
+        IPatientListItem item = PatientListUtil.findListItem(patient, list.getListItems());
+
+        if (item == null) {
+            item = new PatientListItem(patient);
+            list.getItemManager().addItem(item);
+        }
+    }
+
+    protected void removeFromPatientList(IBaseResource resource) {
+        IPatientList list = getPatientList(false);
+
+        if (list != null) {
+            IPatientAdapter patient = patientAdapterFactory.create(resource);
+            IPatientListItem item = PatientListUtil.findListItem(patient, list.getListItems());
+
+            if (item != null) {
+                list.getItemManager().removeItem(item);
+
+                if (list.getListItems().isEmpty()) {
+                    patientListRegistry.unregisterObject(list);
+                }
+            }
+        }
     }
 
 }

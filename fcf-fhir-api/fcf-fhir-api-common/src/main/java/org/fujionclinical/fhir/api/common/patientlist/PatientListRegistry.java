@@ -45,9 +45,6 @@ public class PatientListRegistry implements IRegisterEvent, Iterable<IPatientLis
 
     private boolean needsSorting;
 
-    public PatientListRegistry() {
-    }
-
     /**
      * Returns a reference to the patient list registry.
      *

@@ -1,4 +1,4 @@
-<div controller="${@fcfScenarioManagerController}" style="padding: 5px" flex="1"
+<div controller="${@scenarioManagerController}" style="padding: 5px" flex="1"
 	class="fujion-layout-vertical">
 	<combobox name="cboScenarios" readonly="true" width="500px"
 		placeholder="${@msg.fcf.scenario.cbox.placeholder}"/>

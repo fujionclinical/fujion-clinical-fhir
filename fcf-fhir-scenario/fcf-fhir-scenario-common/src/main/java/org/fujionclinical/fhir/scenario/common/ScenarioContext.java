@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.scenario.api.stu3;
+package org.fujionclinical.fhir.scenario.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +35,7 @@ import org.fujionclinical.api.context.ManagedContext;
 /**
  * Wrapper for shared scenario context.
  */
-public class ScenarioContext extends ManagedContext<Scenario> {
+public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedContext<SCENARIO> {
     
     private static final String SUBJECT_NAME = "Scenario";
     
@@ -44,13 +44,13 @@ public class ScenarioContext extends ManagedContext<Scenario> {
     public interface IScenarioContextEvent extends IContextEvent {}
 
     private final ScenarioRegistry registry;
-    
+
     /**
      * Returns the managed scenario context.
      *
      * @return Scenario context.
      */
-    public static ScenarioContext getScenarioContext() {
+    public static <SCENARIO extends ScenarioBase> ScenarioContext<SCENARIO> getScenarioContext() {
         return (ScenarioContext) ContextManager.getInstance().getSharedContext(ScenarioContext.class.getName());
     }
     
@@ -59,7 +59,7 @@ public class ScenarioContext extends ManagedContext<Scenario> {
      *
      * @param scenario New scenario.
      */
-    public static void changeScenario(Scenario scenario) {
+    public static <SCENARIO extends ScenarioBase> void changeScenario(SCENARIO scenario) {
         try {
             getScenarioContext().requestContextChange(scenario);
         } catch (Exception e) {
@@ -82,8 +82,8 @@ public class ScenarioContext extends ManagedContext<Scenario> {
      *
      * @return Scenario object (may be null).
      */
-    public static Scenario getActiveScenario() {
-        return getScenarioContext().getContextObject(false);
+    public static <SCENARIO extends ScenarioBase> SCENARIO getActiveScenario() {
+        return (SCENARIO) getScenarioContext().getContextObject(false);
     }
     
     /**
@@ -100,7 +100,7 @@ public class ScenarioContext extends ManagedContext<Scenario> {
      * Not implemented
      */
     @Override
-    public ContextItems toCCOWContext(Scenario scenario) {
+    public ContextItems toCCOWContext(SCENARIO scenario) {
         return null;
     }
     
@@ -108,7 +108,7 @@ public class ScenarioContext extends ManagedContext<Scenario> {
      * Not implemented
      */
     @Override
-    public Scenario fromCCOWContext(ContextItems contextItems) {
+    public SCENARIO fromCCOWContext(ContextItems contextItems) {
         return null;
     }
     

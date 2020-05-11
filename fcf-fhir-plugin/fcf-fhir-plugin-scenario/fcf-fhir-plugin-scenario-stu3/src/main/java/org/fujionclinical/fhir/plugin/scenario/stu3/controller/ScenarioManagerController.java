@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -36,9 +36,9 @@ import org.fujion.model.IComponentRenderer;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujionclinical.api.context.ISurveyResponse;
-import org.fujionclinical.fhir.scenario.api.stu3.Scenario;
-import org.fujionclinical.fhir.scenario.api.stu3.ScenarioContext;
-import org.fujionclinical.fhir.scenario.api.stu3.ScenarioRegistry;
+import org.fujionclinical.fhir.scenario.common.ScenarioContext;
+import org.fujionclinical.fhir.scenario.common.ScenarioRegistry;
+import org.fujionclinical.fhir.scenario.stu3.Scenario;
 import org.fujionclinical.shell.plugins.PluginController;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.fujionclinical.ui.util.FCFUtil;
@@ -50,15 +50,15 @@ import java.util.Comparator;
  * This controller is only intended to be used for demo purposes in order to stage and unstage data.
  */
 public class ScenarioManagerController extends PluginController implements ScenarioContext.IScenarioContextEvent {
-    
+
     private static final Comparator<Scenario> scenarioComparator = (s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName());
-    
+
     @WiredComponent
     private Combobox cboScenarios;
-    
+
     @WiredComponent
     private Label lblMessage;
-    
+
     @WiredComponent
     private BaseComponent scenarioButtons;
 
@@ -66,56 +66,56 @@ public class ScenarioManagerController extends PluginController implements Scena
     private Toolbar toolbar;
 
     private Scenario activeScenario;
-    
+
     private final ScenarioRegistry scenarioRegistry;
-    
+
     private final ListModel<Scenario> model = new ListModel<>();
-    
+
     private IModelAndView<Comboitem, Scenario> mv;
-    
+
     private final IComponentRenderer<Comboitem, Scenario> scenarioRenderer = (scenario) -> {
         boolean active = activeScenario == scenario;
         Comboitem item = new Comboitem();
         item.setLabel(scenario.getName() + (active ? " (active)" : ""));
         item.setData(scenario);
-        
+
         if (active) {
             item.addStyles("font-weight: bold; color: blue!important");
             EventUtil.post(ChangeEvent.TYPE, cboScenarios, item);
         }
-        
+
         return item;
-        
+
     };
-    
+
     private enum Action {
         LOAD("Loading scenario"), RELOAD("Reloading scenario"), RESET("Resetting scenario"), DELETE(
                 "Deleting scenario"), DELETEALL("Deleting resources across all scenarios");
-        
+
         private final String label;
-        
+
         Action(String label) {
             this.label = label;
         }
-        
+
         @Override
         public String toString() {
             return label;
         }
     }
-    
+
     /**
      * Demonstration Configuration Helper Class.
      */
     public static void show() {
         DialogUtil.popup("web/org/fujionclinical/fhir/plugin/scenario/common/scenarioManagerWin.fsp", true, true, true);
     }
-    
+
     public ScenarioManagerController(ScenarioRegistry scenarioRegistry) {
         super();
         this.scenarioRegistry = scenarioRegistry;
     }
-    
+
     @Override
     public void afterInitialized(BaseComponent comp) {
         super.afterInitialized(comp);
@@ -125,7 +125,7 @@ public class ScenarioManagerController extends PluginController implements Scena
         mv.setModel(model);
         refreshScenarios();
     }
-    
+
     private void refreshScenarios() {
         cboScenarios.setSelectedItem(null);
         model.clear();
@@ -135,7 +135,7 @@ public class ScenarioManagerController extends PluginController implements Scena
         Collections.sort(model, scenarioComparator);
         disableButtons(true, false);
     }
-    
+
     private void rerenderScenarios() {
         activeScenario = ScenarioContext.getActiveScenario();
         mv.rerender();
@@ -161,12 +161,12 @@ public class ScenarioManagerController extends PluginController implements Scena
             doAction(Action.LOAD);
         }
     }
-    
+
     @EventHandler(value = "click", target = "btnReload")
     private void onClick$btnReload() {
         doAction(Action.RELOAD);
     }
-    
+
     @EventHandler(value = "click", target = "btnDelete")
     private void onClick$btnDelete() {
         DialogUtil.confirm("Delete all resources for this scenario?", getSelectedScenario().getName(), (confirm) -> {
@@ -175,7 +175,7 @@ public class ScenarioManagerController extends PluginController implements Scena
             }
         });
     }
-    
+
     @EventHandler(value = "click", target = "btnReset")
     private void onClick$btnReset() {
         DialogUtil.confirm("Reset this scenario to its baseline state?", getSelectedScenario().getName(), (confirm) -> {
@@ -184,7 +184,7 @@ public class ScenarioManagerController extends PluginController implements Scena
             }
         });
     }
-    
+
     @EventHandler(value = "click", target = "btnDeleteAll")
     private void onClick$btnDeleteAll() {
         DialogUtil.confirm("Delete resources across all scenarios?", "All Scenarios", (confirm) -> {
@@ -193,7 +193,7 @@ public class ScenarioManagerController extends PluginController implements Scena
             }
         });
     }
-    
+
     @EventHandler(value = "click", target = "btnView")
     private void onClick$btnView() {
         ViewResourcesController.show(getSelectedScenario(), (changed) -> {
@@ -202,12 +202,12 @@ public class ScenarioManagerController extends PluginController implements Scena
             }
         });
     }
-    
+
     @EventHandler(value = "click", target = "btnContext")
     private void onClick$btnContext() {
         ScenarioContext.changeScenario(getSelectedScenario());
     }
-    
+
     /**
      * Queues an action to be performed.
      *
@@ -219,7 +219,7 @@ public class ScenarioManagerController extends PluginController implements Scena
         root.addMask(action + "...");
         EventUtil.post(event);
     }
-    
+
     /**
      * Invokes the action specified in the event data.
      *
@@ -233,49 +233,49 @@ public class ScenarioManagerController extends PluginController implements Scena
         setMessage(action.label + "...");
         String result = null;
         disableButtons(true, true);
-        
+
         if (action == Action.DELETEALL || scenario != null) {
             try {
-                
+
                 switch (action) {
                     case LOAD:
                         if (scenario.isLoaded()) {
                             result = "Scenario contains " + scenario.getResourceCount() + " resource(s)";
                             break;
                         }
-                        
+
                         // Fall through intended here.
-                        
+
                     case RELOAD:
                         result = "Loaded " + scenario.load() + " resource(s)";
                         break;
-                        
+
                     case RESET:
                         result = "Created " + scenario.initialize() + " resource(s)";
                         break;
-                        
+
                     case DELETE:
                         result = "Deleted " + scenario.destroy() + " resource(s)";
                         break;
-                        
+
                     case DELETEALL:
                         int count = 0;
-                        
+
                         for (Scenario ascenario : model) {
                             count += ascenario.destroy();
                         }
-                        
+
                         result = "Deleted " + count + " resource(s) across " + model.size() + " scenario(s)";
                 }
             } catch (Exception e) {
                 result = FCFUtil.formatExceptionForDisplay(e);
             }
         }
-        
+
         setMessage(result);
         disableButtons(false, true);
     }
-    
+
     /**
      * Returns the currently selected scenario, or null if none.
      *
@@ -285,7 +285,7 @@ public class ScenarioManagerController extends PluginController implements Scena
         Comboitem item = cboScenarios.getSelectedItem();
         return item == null ? null : (Scenario) item.getData();
     }
-    
+
     /**
      * Displays the specified message;
      *
@@ -294,25 +294,25 @@ public class ScenarioManagerController extends PluginController implements Scena
     private void setMessage(String msg) {
         lblMessage.setLabel(msg);
     }
-    
+
     // Scenario context change events
-    
+
     @Override
     public void pending(ISurveyResponse response) {
         response.accept();
     }
-    
+
     @Override
     public void committed() {
         rerenderScenarios();
-        
+
         if (activeScenario == null) {
             setMessage("No scenario is currently active.");
         } else {
             setMessage("Active scenario set to: " + activeScenario.getName());
         }
     }
-    
+
     @Override
     public void canceled() {
     }

@@ -40,7 +40,6 @@ import org.fujionclinical.fhir.api.dstu2.common.ResourceContext;
  */
 public class PatientContext extends ResourceContext<Patient> {
 
-
     private static final Log log = LogFactory.getLog(PatientContext.class);
 
     protected static final String SUBJECT_NAME = "Patient";

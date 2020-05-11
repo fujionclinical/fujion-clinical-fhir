@@ -112,6 +112,10 @@
 			<constructor-arg ref="fhirClient" />
 		</bean>
 
+		<!-- Patient adapter factory -->
+		<bean id="patientAdapterFactory"
+			  class="org.fujionclinical.fhir.api.${fhir.context.version}.patientlist.PatientAdapterFactory" />
+
 	</beans>
 	
 	<beans profile="child">
@@ -143,9 +147,6 @@
 		<bean id="patientListRegistry"
 			  class="org.fujionclinical.fhir.api.common.patientlist.PatientListRegistry"
 			depends-on="userContext" />
-
-		<bean id="patientAdapterFactory"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.patientlist.PatientAdapterFactory" />
 
 		<bean id="patientList" abstract="true">
 		</bean>

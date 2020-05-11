@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -23,42 +23,67 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.scenario.api.r5;
+package org.fujionclinical.fhir.scenario.common;
 
 import org.fujion.common.Logger;
-import org.fujionclinical.fhir.api.r5.common.BaseService;
+import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.patientlist.IPatientAdapterFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Registry that detects and automatically registers scenario definitions.
  */
-public class ScenarioFinder implements ApplicationContextAware {
+public class ScenarioFinder<SCENARIO extends ScenarioBase>
+        implements ApplicationContextAware, Iterable<ScenarioFactory<SCENARIO>> {
 
     private static final Logger log = Logger.create(ScenarioFinder.class);
 
     private final String scenarioBase;
 
-    private final BaseService fhirService;
+    private final Class<SCENARIO> scenarioClass;
 
-    private final ScenarioRegistry scenarioRegistry;
+    private final BaseFhirService fhirService;
 
-    public ScenarioFinder(String scenarioBase, ScenarioRegistry scenarioRegistry, BaseService fhirService) {
+    private final IPatientAdapterFactory patientAdapterFactory;
+
+    private final Map<String, ScenarioFactory<SCENARIO>> scenarioFactories = new HashMap<>();
+
+    public ScenarioFinder(
+            Class<SCENARIO> scenarioClass,
+            String scenarioBase,
+            IPatientAdapterFactory patientAdapterFactory,
+            BaseFhirService fhirService) {
+        this.scenarioClass = scenarioClass;
         this.scenarioBase = scenarioBase;
-        this.scenarioRegistry = scenarioRegistry;
+        this.patientAdapterFactory = patientAdapterFactory;
         this.fhirService = fhirService;
+    }
+
+    public ScenarioFactory<SCENARIO> getScenarioFactory(String name) {
+        return scenarioFactories.get(name);
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
             for (Resource yaml : applicationContext.getResources(scenarioBase + "/*.yaml")) {
-                scenarioRegistry.register(new Scenario(yaml, fhirService));
+                ScenarioFactory<SCENARIO> factory = new ScenarioFactory(scenarioClass, yaml, patientAdapterFactory, fhirService);
+                scenarioFactories.put(factory.getName(), factory);
             }
         } catch (Exception e) {
             log.warn("Error loading scenarios from folder " + scenarioBase + ":\n" + e.getMessage());
         }
+    }
+
+    @Override
+    public Iterator<ScenarioFactory<SCENARIO>> iterator() {
+        return scenarioFactories.values().iterator();
     }
 }

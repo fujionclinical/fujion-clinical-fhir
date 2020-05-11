@@ -23,17 +23,18 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.scenario.api.stu3;
+package org.fujionclinical.fhir.scenario.r4;
 
+import org.fujionclinical.fhir.api.r4.common.BaseService;
+import org.fujionclinical.fhir.api.r4.common.FhirUtil;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
-import org.fujionclinical.fhir.api.stu3.common.BaseService;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.ListResource;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.core.io.Resource;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.ListResource;
+import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Reference;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,9 +44,9 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     private final BaseService fhirService;
 
-    public Scenario(Resource scenarioYaml, BaseService fhirService) {
-        super(scenarioYaml, fhirService.getClient().getFhirContext());
-        this.fhirService = fhirService;
+    public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
+        super(scenarioFactory);
+        this.fhirService = (BaseService) scenarioFactory.fhirService;
     }
 
     @Override
@@ -58,16 +59,21 @@ public class Scenario extends ScenarioBase<ListResource> {
             for (ListResource.ListEntryComponent entry : list.getEntry()) {
                 try {
                     resources.accept(fhirService.getResource(entry.getItem()));
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    // NOP
+                }
             }
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            // NOP
+        }
 
         return list;
     }
 
     @Override
     protected void _deleteResource(IBaseResource resource) {
+        removeFromPatientList(resource);
         fhirService.deleteResource(resource);
     }
 
@@ -75,7 +81,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     protected ListResource _packageResources(Collection<IBaseResource> resources) {
         ListResource list = new ListResource();
 
-        for (IBaseResource resource: resources) {
+        for (IBaseResource resource : resources) {
             Reference ref = new Reference(resource.getIdElement());
             list.addEntry().setItem(ref);
         }
@@ -95,7 +101,22 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected IBaseResource _createOrUpdateResource(IBaseResource resource) {
+        addToPatientList(resource);
         return fhirService.createOrUpdateResource(resource);
     }
 
+
+    @Override
+    protected void addToPatientList(IBaseResource resource) {
+        if (resource instanceof Patient) {
+            super.addToPatientList(resource);
+        }
+    }
+
+    @Override
+    protected void removeFromPatientList(IBaseResource resource) {
+        if (resource instanceof Patient) {
+            super.removeFromPatientList(resource);
+        }
+    }
 }
