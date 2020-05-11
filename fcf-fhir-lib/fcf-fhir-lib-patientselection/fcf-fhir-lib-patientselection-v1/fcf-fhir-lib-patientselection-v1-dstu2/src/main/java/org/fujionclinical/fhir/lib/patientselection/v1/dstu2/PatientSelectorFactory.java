@@ -32,6 +32,7 @@ import org.fujion.page.PageUtil;
 import org.fujionclinical.fhir.lib.patientselection.common.Constants;
 import org.fujionclinical.fhir.lib.patientselection.core.dstu2.IPatientSelector;
 import org.fujionclinical.fhir.lib.patientselection.core.dstu2.PatientSelectorFactoryBase;
+import org.fujionclinical.fhir.lib.patientselection.v1.common.PatientSelectionUtil;
 
 /**
  * This is the patient selection factory.
@@ -40,8 +41,7 @@ public class PatientSelectorFactory extends PatientSelectorFactoryBase {
 
     public static class PatientSelector implements IPatientSelector {
 
-        private final Window dlg = (Window) PageUtil
-                .createPage(Constants.RESOURCE_PATH + "v1/patientSelection.fsp", null).get(0);
+        private final Window dlg = PatientSelectionUtil.createSelectionDialog();
 
         @Override
         public void select(IResponseCallback<Patient> callback) {

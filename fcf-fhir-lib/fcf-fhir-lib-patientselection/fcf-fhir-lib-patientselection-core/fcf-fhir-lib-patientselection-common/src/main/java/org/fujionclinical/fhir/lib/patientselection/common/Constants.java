@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.lib.patientselection.common;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fujion.common.StrUtil;
 import org.fujionclinical.ui.util.FCFUtil;
 
 /**
@@ -48,6 +49,10 @@ public class Constants {
     public static final String SELECTOR_ATTRIB = PROP_PREFIX + "selector";
 
     public static final String SELECTED_PATIENT_ATTRIB = PROP_PREFIX + "patient";
+
+    public static final String PATIENT_LIST_ATTRIB = PROP_PREFIX + "list";
+
+    public static final String FILTER_DROP_ID = "patientselection.filter.drop.id";
 
     public static final String LBL_CANNOT_SELECT_TITLE = "patientselection.error.noselect.title";
 
