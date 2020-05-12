@@ -13,7 +13,7 @@
 
     <import resource="classpath:/META-INF/fcf-fhir-security-mock-spring.xml" />
 
-    <context:property-placeholder location="classpath:src/main/webresources/WEB-INF/classes/oauth.properties" />
+    <context:property-placeholder location="classpath:oauth.properties" />
 
     <mvc:cors>
         <mvc:mapping path="/**"
