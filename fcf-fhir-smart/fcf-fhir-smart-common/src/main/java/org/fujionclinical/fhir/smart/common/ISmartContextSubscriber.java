@@ -31,8 +31,7 @@ import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
  * Interface to be implemented by every SMART context subscriber.
  */
 public interface ISmartContextSubscriber {
-    
-    
+
     /**
      * Allows a SMART context to notify a subscriber of a context change.
      * 

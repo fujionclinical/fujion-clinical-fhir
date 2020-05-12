@@ -35,7 +35,6 @@ import org.fujionclinical.shell.plugins.IPluginResource;
  */
 public class SmartResource implements IPluginResource {
 
-
     private final SmartManifest manifest;
 
     protected SmartResource(SmartManifest manifest) {

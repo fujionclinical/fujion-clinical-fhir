@@ -45,7 +45,6 @@ import org.fujionclinical.api.domain.IUser;
  */
 public class SmartContextUser extends SmartContextBase {
 
-
     public SmartContextUser() {
         super("user", "CONTEXT.CHANGED.User");
     }

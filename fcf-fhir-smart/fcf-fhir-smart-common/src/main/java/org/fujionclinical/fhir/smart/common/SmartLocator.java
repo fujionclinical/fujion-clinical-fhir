@@ -43,7 +43,6 @@ import java.io.IOException;
  */
 public class SmartLocator implements ApplicationContextAware {
 
-
     private static final Log log = LogFactory.getLog(SmartLocator.class);
 
     private static final String SMART_MANIFEST_PATTERN = "*.smart";
