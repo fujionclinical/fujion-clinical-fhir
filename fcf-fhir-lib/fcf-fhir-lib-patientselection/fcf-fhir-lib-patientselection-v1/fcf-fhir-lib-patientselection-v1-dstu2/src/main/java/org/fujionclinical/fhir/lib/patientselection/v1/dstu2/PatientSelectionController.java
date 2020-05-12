@@ -196,7 +196,7 @@ public class PatientSelectionController extends FrameworkController {
      */
     private final IEventListener filterDropListener = event -> {
         DropEvent dropEvent = (DropEvent) event;
-        Listitem dragged = (Listitem) dropEvent.getRelatedTarget();
+        Listitem dragged = (Listitem) dropEvent.getDraggable();
         Listitem target = (Listitem) dropEvent.getTarget();
         filterManager.moveFilter((IPatientListFilter) dragged.getData(), target.getIndex());
         dragged.getListbox().addChild(dragged, target);

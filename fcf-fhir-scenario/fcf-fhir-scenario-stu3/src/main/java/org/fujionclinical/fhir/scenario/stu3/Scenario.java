@@ -29,11 +29,11 @@ import org.fujionclinical.fhir.api.stu3.common.BaseService;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.ListResource;
+import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Reference;
 
 import java.util.Collection;
@@ -58,7 +58,9 @@ public class Scenario extends ScenarioBase<ListResource> {
 
             for (ListResource.ListEntryComponent entry : list.getEntry()) {
                 try {
-                    resources.accept(fhirService.getResource(entry.getItem()));
+                    IBaseResource resource = fhirService.getResource(entry.getItem());
+                    addToPatientList(resource);
+                    resources.accept(resource);
                 } catch (Exception e) {
                     // NOP
                 }
@@ -73,7 +75,6 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected void _deleteResource(IBaseResource resource) {
-        removeFromPatientList(resource);
         fhirService.deleteResource(resource);
     }
 
@@ -101,7 +102,6 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected IBaseResource _createOrUpdateResource(IBaseResource resource) {
-        addToPatientList(resource);
         return fhirService.createOrUpdateResource(resource);
     }
 
@@ -111,12 +111,4 @@ public class Scenario extends ScenarioBase<ListResource> {
             super.addToPatientList(resource);
         }
     }
-
-    @Override
-    protected void removeFromPatientList(IBaseResource resource) {
-        if (resource instanceof Patient) {
-            super.removeFromPatientList(resource);
-        }
-    }
-
 }

@@ -58,7 +58,9 @@ public class Scenario extends ScenarioBase<ListResource> {
 
             for (ListResource.ListEntryComponent entry : list.getEntry()) {
                 try {
-                    resources.accept(fhirService.getResource(entry.getItem()));
+                    IBaseResource resource = fhirService.getResource(entry.getItem());
+                    addToPatientList(resource);
+                    resources.accept(resource);
                 } catch (Exception e) {
                     // NOP
                 }
@@ -73,7 +75,6 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected void _deleteResource(IBaseResource resource) {
-        removeFromPatientList(resource);
         fhirService.deleteResource(resource);
     }
 
@@ -101,22 +102,13 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected IBaseResource _createOrUpdateResource(IBaseResource resource) {
-        addToPatientList(resource);
         return fhirService.createOrUpdateResource(resource);
     }
-
 
     @Override
     protected void addToPatientList(IBaseResource resource) {
         if (resource instanceof Patient) {
             super.addToPatientList(resource);
-        }
-    }
-
-    @Override
-    protected void removeFromPatientList(IBaseResource resource) {
-        if (resource instanceof Patient) {
-            super.removeFromPatientList(resource);
         }
     }
 }

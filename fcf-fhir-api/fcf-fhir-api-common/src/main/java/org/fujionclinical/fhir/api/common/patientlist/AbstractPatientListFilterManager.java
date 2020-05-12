@@ -61,7 +61,7 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
             throw new PatientListException("The filter named '" + name + "' already exists.");
         }
 
-        if (name == null || name.trim().isEmpty() || !name.matches("^[^\\^\\|]+$")) {
+        if (name == null || name.trim().isEmpty() || !name.matches("^[^\\^|]+$")) {
             throw new PatientListException("A name may not contain a '^' or '|' character.");
         }
     }
@@ -79,9 +79,10 @@ public abstract class AbstractPatientListFilterManager implements IPatientListFi
      *
      * @param filterName The filter name.
      * @return The associated filter.
-     * @see AbstractPatientListFilterManager#getFilterByName(String)
+     * @see IPatientListFilterManager#getFilterByName(String)
      */
-    protected IPatientListFilter getFilterByName(String filterName) {
+    @Override
+    public IPatientListFilter getFilterByName(String filterName) {
         if (filterName != null && initFilters() != null) {
             for (IPatientListFilter filter : filters) {
                 if (filter.getName().equals(filterName)) {

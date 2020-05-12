@@ -76,9 +76,9 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
     private final IPatientAdapterFactory patientAdapterFactory;
 
-    private final PatientListRegistry patientListRegistry;
+    private final IPatientList personalPatientList;
 
-    private final String patientListName;
+    private final String patientListFilterName;
 
     private boolean isLoaded;
 
@@ -92,8 +92,8 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
         this.scenarioConfig = scenarioFactory.scenarioConfig;
         this.patientAdapterFactory = scenarioFactory.patientAdapterFactory;
         this.root = scenarioFactory.scenarioYaml;
-        this.patientListRegistry = PatientListRegistry.getInstance();
-        this.patientListName = "scenario: " + getName();
+        this.personalPatientList = PatientListRegistry.getInstance().findByName("Personal Lists");
+        this.patientListFilterName = "scenario: " + getName();
     }
 
     private <T> T getParam(
@@ -270,6 +270,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     public final int load() {
         isLoaded = true;
         resourcesById.clear();
+        deletePatientListFilter();
         scenarioResources = _loadResources(this::addResource);
         return resourcesById.size();
     }
@@ -544,42 +545,33 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
         return dtt.getValueAsString();
     }
 
-    protected IPatientList getPatientList(boolean autoCreate) {
-        IPatientList list = patientListRegistry.findByName(patientListName);
+    protected IPatientListFilter getPatientListFilter() {
+        IPatientListFilter filter = personalPatientList.getFilterManager().getFilterByName(patientListFilterName);
 
-        if (list == null && autoCreate) {
-            list = new PersonalPatientList(patientListName, patientAdapterFactory);
-            patientListRegistry.registerObject(list);
+        if (filter == null) {
+            filter = personalPatientList.getFilterManager().addFilter(patientListFilterName);
         }
 
-        return list;
+        personalPatientList.setActiveFilter(filter);
+        return filter;
+    }
+
+    protected void deletePatientListFilter() {
+        IPatientListFilter filter = personalPatientList.getFilterManager().getFilterByName(patientListFilterName);
+
+        if (filter != null) {
+            personalPatientList.getFilterManager().removeFilter(filter);
+        }
     }
 
     protected void addToPatientList(IBaseResource resource) {
-        IPatientList list = getPatientList(true);
+        getPatientListFilter();
         IPatientAdapter patient = patientAdapterFactory.create(resource);
-        IPatientListItem item = PatientListUtil.findListItem(patient, list.getListItems());
+        IPatientListItem item = PatientListUtil.findListItem(patient, personalPatientList.getListItems());
 
         if (item == null) {
             item = new PatientListItem(patient);
-            list.getItemManager().addItem(item);
-        }
-    }
-
-    protected void removeFromPatientList(IBaseResource resource) {
-        IPatientList list = getPatientList(false);
-
-        if (list != null) {
-            IPatientAdapter patient = patientAdapterFactory.create(resource);
-            IPatientListItem item = PatientListUtil.findListItem(patient, list.getListItems());
-
-            if (item != null) {
-                list.getItemManager().removeItem(item);
-
-                if (list.getListItems().isEmpty()) {
-                    patientListRegistry.unregisterObject(list);
-                }
-            }
+            personalPatientList.getItemManager().addItem(item);
         }
     }
 

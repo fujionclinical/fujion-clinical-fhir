@@ -112,7 +112,7 @@
 					<div name="pnlManagedListFilters" flex="1" width="100%"
 						class="fujion-layout-horizontal">
 						<listbox name="lstManagedListFilter" size="100"
-							flex="1" />
+							flex="1" height="100%" />
 						<toolbar alignment="center" orientation="vertical" 
 							class="fcf-patientselection-toolbar1">
 							<button name="btnManagedListFilterNew"
@@ -127,12 +127,12 @@
 					</div>
 					<label name="lblManagedList"
 						label="${@msg.patientselection.lbl.managed.label}" />
-					<div name="pnlManagedListItems" flex="2"
+					<div name="pnlManagedListItems" flex="2" width="100%"
 						class="fujion-layout-horizontal">
-						<div style="overflow:auto" flex="1">
-							<grid name="grdManagedList" 
+						<div style="overflow:auto;background:white" flex="1" height="100%">
+							<grid name="grdManagedList"
 								class="table-condensed table-striped">
-								<columns>
+								<columns style="display:none">
 									<column />
 									<column />
 								</columns>

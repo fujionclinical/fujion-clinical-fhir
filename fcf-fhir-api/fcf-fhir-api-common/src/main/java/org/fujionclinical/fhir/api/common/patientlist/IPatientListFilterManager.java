@@ -78,7 +78,7 @@ public interface IPatientListFilterManager {
     /**
      * Implement logic to initialize filters.
      *
-     * @return The filter list.
+     * @return The filter list (never null).
      */
     List<IPatientListFilter> initFilters();
 
@@ -86,6 +86,14 @@ public interface IPatientListFilterManager {
      * Force a refresh of the filter list.
      */
     void refreshFilters();
+
+    /**
+     * Returns the filter matching the specified name, or null if not found.
+     *
+     * @param filterName The filter name.
+     * @return The associated filter.
+     */
+    IPatientListFilter getFilterByName(String filterName);
 
     /**
      * Override to create a filter of the desired type.

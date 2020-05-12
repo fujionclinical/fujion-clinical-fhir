@@ -62,7 +62,7 @@ public class PersonalPatientListFilterManager extends AbstractPatientListFilterM
 
     /**
      * Initialize the filter list. This is pulled from the same property using an application
-     * instance id of "@".
+     * instance id of "$".
      */
     @Override
     public List<IPatientListFilter> initFilters() {
