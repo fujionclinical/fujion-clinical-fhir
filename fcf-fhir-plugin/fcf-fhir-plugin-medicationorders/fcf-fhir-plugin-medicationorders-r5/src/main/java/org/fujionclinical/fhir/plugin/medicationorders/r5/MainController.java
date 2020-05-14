@@ -28,10 +28,7 @@ package org.fujionclinical.fhir.plugin.medicationorders.r5;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.fujionclinical.fhir.api.r5.medication.MedicationService;
-import org.hl7.fhir.r5.model.Dosage;
-import org.hl7.fhir.r5.model.Medication;
-import org.hl7.fhir.r5.model.MedicationRequest;
-import org.hl7.fhir.r5.model.Reference;
+import org.hl7.fhir.r5.model.*;
 
 import java.util.List;
 
@@ -54,17 +51,19 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
 
     @Override
     protected void render(MedicationRequest script, List<Object> columns) {
-        Object med = null;
+        CodeableReference med = script.hasMedication() ? script.getMedication() : null;
+        CodeableConcept code = null;
 
-        if (script.hasMedicationCodeableConcept()) {
-            med = script.getMedication();
-        } else if (script.hasMedicationReference()) {
-            Medication medObject;
-            medObject = getFhirService().getResource((Reference) script.getMedication(), Medication.class);
-            med = medObject.getCode();
+        if (med != null) {
+            if (med.hasConcept()) {
+                code = med.getConcept();
+            } else if (med.hasReference()) {
+                Medication medObject = getFhirService().getResource(script.getMedication().getReference(), Medication.class);
+                code = medObject.getCode();
+            }
         }
 
-        columns.add(med);
+        columns.add(code);
         columns.add(script.getAuthoredOn());
         columns.add(script.getStatus());
         columns.add(getSig(script.getDosageInstruction()));

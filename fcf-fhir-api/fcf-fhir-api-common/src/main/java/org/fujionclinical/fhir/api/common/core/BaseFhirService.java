@@ -33,7 +33,6 @@ import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
-import org.hl7.fhir.instance.model.api.IBaseOperationOutcome;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 
@@ -107,7 +106,7 @@ public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
      * @param resource Resource to delete.
      * @return The outcome of the operation.
      */
-    public IBaseOperationOutcome deleteResource(IBaseResource resource) {
+    public MethodOutcome deleteResource(IBaseResource resource) {
         return getClient().delete().resource(resource).execute();
     }
 

@@ -40,9 +40,8 @@ import org.fujionclinical.api.messaging.ProducerService;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.CodeableConcept;
 import org.hl7.fhir.r5.model.Coding;
+import org.hl7.fhir.r5.model.Enumerations;
 import org.hl7.fhir.r5.model.Subscription;
-import org.hl7.fhir.r5.model.Subscription.SubscriptionChannelComponent;
-import org.hl7.fhir.r5.model.Subscription.SubscriptionStatus;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -237,15 +236,15 @@ public class ResourceSubscriptionService {
         if (wrapper == null) {
             Subscription subscription = new Subscription();
             wrapper = new SubscriptionWrapper(paramIndex);
-            SubscriptionChannelComponent channel = new SubscriptionChannelComponent();
-            channel.setType(subscriptionChannelType);
-            channel.setEndpoint(callbackUrl + wrapper.getSubscriptionId());
+            //SubscriptionChannelComponent channel = new SubscriptionChannelComponent();
+            //channel.setType(subscriptionChannelType);
+            //channel.setEndpoint(callbackUrl + wrapper.getSubscriptionId());
             //TODO: subscription.setPayload(payloadType.mimeType);
             //TODO: subscription.setCriteria(criteria);
             //TODO: subscription.setTopic(?);
             subscription.setReason("Fujion Subscriber");
-            subscription.setChannel(channel);
-            subscription.setStatus(SubscriptionStatus.REQUESTED);
+            //subscription.setChannel(channel);
+            subscription.setStatus(Enumerations.SubscriptionState.REQUESTED);
             subscription.getMeta().setTag(Collections.singletonList(subscriptionTag));
             subscription = (Subscription) client.create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION)
                     .execute().getResource();
