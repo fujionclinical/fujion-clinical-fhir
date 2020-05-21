@@ -13,6 +13,7 @@
 
     <properties>
         <fhir-spec>no-fhir-profile-specified</fhir-spec>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <build>
