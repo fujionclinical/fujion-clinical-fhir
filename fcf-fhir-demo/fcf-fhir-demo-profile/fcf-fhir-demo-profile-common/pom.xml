@@ -89,29 +89,6 @@
 			<artifactId>fcf-plugin-userheader</artifactId>
 			<version>${fcf.core.version}</version>
 		</dependency>
-		<!-- CDSHooks Support -->
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-cdshooks</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<!-- SMART Support -->
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-smart-launch-oidc</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-smart-common</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		<!-- Epic Emulation -->
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-mockepic-common</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 		<!-- Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -127,4 +104,45 @@
 			<artifactId>log4j-jcl</artifactId>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<!-- Epic Emulation -->
+			<id>mockepic</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.fujionclinical</groupId>
+					<artifactId>fcf-mockepic-common</artifactId>
+					<version>${project.parent.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<!-- CDSHooks Support -->
+			<id>opencds</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.fujionclinical</groupId>
+					<artifactId>fcf-cdshooks</artifactId>
+					<version>${project.parent.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<!-- SMART Support -->
+			<id>smart</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.fujionclinical</groupId>
+					<artifactId>fcf-fhir-smart-launch-oidc</artifactId>
+					<version>${project.parent.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.fujionclinical</groupId>
+					<artifactId>fcf-fhir-smart-common</artifactId>
+					<version>${project.parent.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
