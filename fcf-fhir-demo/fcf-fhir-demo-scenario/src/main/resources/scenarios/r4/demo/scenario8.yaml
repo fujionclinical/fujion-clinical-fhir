@@ -1,6 +1,6 @@
 # DMD scenario
 scenario:
-    name: Scenario 08
+    name: FCF Demo Scenario 08
     id: 41A2A2FF-DCA9-4DE0-8F1A-D44D6B32D394
     activation: encounter1
 
