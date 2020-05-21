@@ -2,7 +2,7 @@ package org.fujionclinical.fhir.smart.common;
 
 import org.fujionclinical.api.event.EventManager;
 import org.fujionclinical.api.event.IEventManager;
-import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.api.event.IEventSubscriber;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class SmartCdsHookMessageHandler extends SmartMessageHandler {
 
     private final IEventManager eventManager = EventManager.getInstance();
 
-    private final IGenericEvent cdsHookResponseHandler = ((eventName, cdsHookResponse) -> {
+    private final IEventSubscriber cdsHookResponseHandler = ((eventName, cdsHookResponse) -> {
         String pcs[] = eventName.split("\\.");
 
         if (pcs.length > 3) {
@@ -35,7 +35,7 @@ public class SmartCdsHookMessageHandler extends SmartMessageHandler {
         }
     });
 
-    private final IGenericEvent cdsHookInitHandler = ((eventName, eventData) -> {
+    private final IEventSubscriber cdsHookInitHandler = ((eventName, eventData) -> {
         cdsHookResponses.clear();
         pendingResponses.clear();
     });

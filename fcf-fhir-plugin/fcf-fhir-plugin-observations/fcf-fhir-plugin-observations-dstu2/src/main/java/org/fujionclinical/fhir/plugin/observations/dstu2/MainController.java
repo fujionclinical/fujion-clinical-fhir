@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.plugin.observations.dstu2;
 
 import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
@@ -68,7 +69,7 @@ public class MainController extends ResourceListView<Observation, MainController
 
     @Override
     protected void setup() {
-        setup(Observation.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
+        setup(Observation.class, Bundle.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
                 "Status", "Result", "Ref Range");
     }
 

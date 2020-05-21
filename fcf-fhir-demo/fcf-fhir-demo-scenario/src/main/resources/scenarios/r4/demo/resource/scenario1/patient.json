@@ -1,0 +1,34 @@
+{
+  "resourceType": "Patient",
+  "id": "X1000000",
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v2/0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "http://edu.utah.health/mrn",
+      "value": "X1000000"
+    }
+  ],
+  "name": [
+    {
+      "family": "GesunderMann",
+      "given": [
+        "Ari"
+      ]
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1967-05-13",
+  "photo": [
+    {
+      "contentType": "image/png",
+      "url": "web/image/X1000000.png"
+    }
+  ]
+}

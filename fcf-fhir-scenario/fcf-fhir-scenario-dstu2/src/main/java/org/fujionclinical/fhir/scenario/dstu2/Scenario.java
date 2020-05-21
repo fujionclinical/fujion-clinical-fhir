@@ -27,10 +27,16 @@ package org.fujionclinical.fhir.scenario.dstu2;
 
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.ListResource;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
+import org.fujionclinical.api.encounter.EncounterContext;
+import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.patient.PatientContext;
 import org.fujionclinical.fhir.api.dstu2.common.BaseService;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.encounter.EncounterWrapper;
+import org.fujionclinical.fhir.api.dstu2.patient.PatientWrapper;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -47,6 +53,17 @@ public class Scenario extends ScenarioBase<ListResource> {
     public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
         super(scenarioFactory);
         this.fhirService = (BaseService) scenarioFactory.fhirService;
+    }
+
+    @Override
+    protected void activate() {
+        IBaseResource activationResource = getActivationResource();
+
+        if (activationResource instanceof Encounter) {
+            EncounterContext.changeEncounter(new EncounterWrapper((Encounter) activationResource));
+        } else if (activationResource instanceof Patient) {
+            PatientContext.changePatient(new PatientWrapper((Patient) activationResource));
+        }
     }
 
     @Override
@@ -106,9 +123,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected void addToPatientList(IBaseResource resource) {
-        if (resource instanceof Patient) {
-            super.addToPatientList(resource);
-        }
+    protected IPatient toPatient(IBaseResource resource) {
+        return resource instanceof Patient ? new PatientWrapper((Patient) resource) : null;
     }
 }

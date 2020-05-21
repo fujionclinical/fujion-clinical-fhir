@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.smart.common;
 
 import org.fujion.common.WeakList;
 import org.fujionclinical.api.event.IEventManager;
-import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.api.event.IEventSubscriber;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.List;
  * [context name] is the name of the SMART context as passed to the constructor (e.g.,
  * "smart.context.user").
  */
-public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartContext {
+public abstract class SmartContextBase implements IEventSubscriber<Object>, ISmartContext {
 
     public static class ContextMap extends HashMap<String, String> {
 
@@ -68,7 +68,7 @@ public abstract class SmartContextBase implements IGenericEvent<Object>, ISmartC
 
     private final List<ISmartContextSubscriber> subscribers = new WeakList<>();
 
-    private final IGenericEvent<String> refreshListener = (eventName, eventData) -> notifySubscribers();
+    private final IEventSubscriber<String> refreshListener = (eventName, eventData) -> notifySubscribers();
 
     /**
      * Main constructor.

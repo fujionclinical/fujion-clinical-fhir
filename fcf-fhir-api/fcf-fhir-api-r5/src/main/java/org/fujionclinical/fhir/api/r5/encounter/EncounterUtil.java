@@ -25,6 +25,8 @@
  */
 package org.fujionclinical.fhir.api.r5.encounter;
 
+import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
+import org.fujionclinical.api.encounter.search.EncounterSearchCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.fujionclinical.fhir.api.r5.common.ClientUtil;
@@ -65,7 +67,7 @@ public class EncounterUtil {
      * @return Resources matching the search criteria.
      */
     public static List<Encounter> search(EncounterSearchCriteria criteria) {
-        return getSearchEngine().search(criteria);
+        return getSearchEngine().query(criteria);
     }
 
     /**
@@ -99,10 +101,10 @@ public class EncounterUtil {
         Reference pat = new Reference(patient);
         encounter.setSubject(pat);
         Period period = new Period();
-        period.setStart(date);
+        period.setStart(date, TemporalPrecisionEnum.SECOND);
         encounter.setPeriod(period);
         Reference loc = new Reference(location);
-        EncounterLocationComponent encloc = encounter.addLocation();
+        Encounter.EncounterLocationComponent encloc = encounter.addLocation();
         encloc.setPeriod(period);
         encloc.setLocation(loc);
         CodeableConcept type = encounter.addType();

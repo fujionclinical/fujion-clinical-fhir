@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.plugin.conditions.stu3;
 
 import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
+import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Condition;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class MainController extends ResourceListView<Condition, Condition> {
     
     @Override
     protected void setup() {
-        setup(Condition.class, "Conditions", "Condition Detail", "Condition?patient=#", 1, "Condition", "Onset", "Status",
+        setup(Condition.class, Bundle.class, "Conditions", "Condition Detail", "Condition?patient=#", 1, "Condition", "Onset", "Status",
                 "Notes");
     }
     

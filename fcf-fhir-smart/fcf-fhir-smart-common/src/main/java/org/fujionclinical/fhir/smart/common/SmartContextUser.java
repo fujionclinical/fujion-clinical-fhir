@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import org.fujionclinical.api.context.UserContext;
-import org.fujionclinical.api.domain.IUser;
+import org.fujionclinical.api.model.user.IUser;
+import org.fujionclinical.api.model.user.UserContext;
 
 /**
  * Implements the SMART "user" context. This also demonstrates the basic requirements for
@@ -54,7 +54,7 @@ public class SmartContextUser extends SmartContextBase {
         IUser user = UserContext.getActiveUser();
 
         if (user != null) {
-            context.put("user", user.getLogicalId());
+            context.put("user", user.getId());
         }
     }
 

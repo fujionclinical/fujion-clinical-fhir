@@ -29,8 +29,6 @@ import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
-import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
-import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -42,14 +40,6 @@ import java.util.List;
  * Version-agnostic base service for FHIR services.
  */
 public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
-
-    public static final String SP_IDENTIFIER = "identifier";
-
-    public static final String SP_PATIENT = "patient";
-
-    public static final TokenClientParam PARAM_IDENTIFIER = new TokenClientParam(SP_IDENTIFIER);
-
-    public static final ReferenceClientParam PARAM_PATIENT = new ReferenceClientParam(SP_PATIENT);
 
     protected static final int DEFAULT_COUNT = 100;
 
@@ -207,7 +197,7 @@ public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
      * @param clazz     The desired resource class.
      * @return The corresponding resource.
      */
-    protected abstract <T extends IBaseResource> T getResource(
+    public abstract <T extends IBaseResource> T getResource(
             REFERENCE reference,
             Class<T> clazz);
 

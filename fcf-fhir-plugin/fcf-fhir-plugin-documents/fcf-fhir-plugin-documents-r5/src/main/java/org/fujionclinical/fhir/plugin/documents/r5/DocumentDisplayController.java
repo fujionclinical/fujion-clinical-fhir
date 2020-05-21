@@ -34,10 +34,10 @@ import org.fujion.event.EventUtil;
 import org.fujion.model.IListModel;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.PatientQueryParameter;
 import org.fujionclinical.fhir.api.r5.document.Document;
 import org.fujionclinical.fhir.api.r5.document.DocumentDisplayDataService;
 import org.fujionclinical.fhir.api.r5.document.DocumentService;
+import org.fujionclinical.fhir.lib.sharedforms.common.PatientQueryParameter;
 import org.fujionclinical.ui.sharedforms.controller.AbstractGridController;
 
 import java.util.Date;

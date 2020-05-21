@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.conditions.dstu2;
 
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Condition;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
@@ -37,7 +38,7 @@ public class MainController extends ResourceListView<Condition, Condition> {
     
     @Override
     protected void setup() {
-        setup(Condition.class, "Conditions", "Condition Detail", "Condition?patient=#", 1, "Condition", "Onset", "Status",
+        setup(Condition.class, Bundle.class, "Conditions", "Condition Detail", "Condition?patient=#", 1, "Condition", "Onset", "Status",
                 "Notes");
     }
     

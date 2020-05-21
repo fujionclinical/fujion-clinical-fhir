@@ -33,6 +33,7 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.core.Constants;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.util.Assert;
@@ -79,7 +80,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
             IBaseResource resource,
             IdentifierDt identifier) {
         return getClient().create().resource(resource).conditional()
-                .where(PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
+                .where(Constants.PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .execute();
     }
 
@@ -195,7 +196,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
+                .where(Constants.PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .returnBundle(Bundle.class).execute();
 
         return FhirUtil.getEntries(bundle, clazz);
@@ -269,7 +270,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
+                .where(Constants.PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
 
         return FhirUtil.getEntries(bundle, clazz);
     }

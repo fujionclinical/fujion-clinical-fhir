@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.security.common;
 
 import org.apache.commons.codec.binary.Base64;
-import org.fujionclinical.api.domain.IUser;
+import org.fujionclinical.api.model.user.IUser;
 import org.fujionclinical.api.security.SecurityUtil;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator.Param;

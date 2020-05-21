@@ -18,8 +18,28 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-patient</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-encounter</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-location</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-practitioner</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-api-common</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${fcf.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ca.uhn.hapi.fhir</groupId>
@@ -34,6 +54,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 </project>

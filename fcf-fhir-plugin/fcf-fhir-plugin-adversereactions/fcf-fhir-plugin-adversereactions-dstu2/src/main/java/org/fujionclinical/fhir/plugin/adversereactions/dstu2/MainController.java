@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.plugin.adversereactions.dstu2;
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance;
 import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance.Reaction;
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.valueset.AllergyIntoleranceStatusEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
@@ -41,8 +42,6 @@ import java.util.Set;
  */
 public class MainController extends ResourceListView<AllergyIntolerance, Reaction> {
 
-    private static final long serialVersionUID = 1L;
-    
     private static final Set<AllergyIntoleranceStatusEnum> exclusions = new HashSet<>();
     
     static {
@@ -53,7 +52,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Reactio
     
     @Override
     protected void setup() {
-        setup(AllergyIntolerance.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
+        setup(AllergyIntolerance.class, Bundle.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
             "Date^^min", "Agent", "Reaction");
     }
     

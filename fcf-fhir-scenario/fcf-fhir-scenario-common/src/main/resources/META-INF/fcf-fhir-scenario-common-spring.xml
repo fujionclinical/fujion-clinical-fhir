@@ -11,7 +11,6 @@
 			  class="org.fujionclinical.fhir.scenario.common.ScenarioFinder">
 			<constructor-arg value="org.fujionclinical.fhir.scenario.${fhir.context.version}.Scenario" />
 			<constructor-arg value="classpath*:scenarios/${fhir.context.version}/**" />
-			<constructor-arg ref="patientAdapterFactory" />
 			<constructor-arg ref="fhirService" />
 		</bean>
 
@@ -25,6 +24,8 @@
 		</bean>
 
 		<bean id="scenarioContext" parent="managedContext"
-			  class="org.fujionclinical.fhir.scenario.common.ScenarioContext" />
+			  class="org.fujionclinical.fhir.scenario.common.ScenarioContext">
+			<constructor-arg ref="scenarioRegistry" />
+		</bean>
 	</beans>
 </beans>

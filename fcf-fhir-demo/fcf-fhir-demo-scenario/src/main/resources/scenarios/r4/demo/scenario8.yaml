@@ -1,0 +1,26 @@
+# DMD scenario
+scenario:
+    name: Scenario 08
+    id: 41A2A2FF-DCA9-4DE0-8F1A-D44D6B32D394
+    activation: encounter1
+
+resources:
+    # Scenario 08
+    
+    patient1:
+        source: resource/scenario8/patient.json
+
+    encounter1:
+        source: resource/scenario8/encounter.json
+
+    observation1:
+        source: resource/scenario8/observation1.json
+        
+    observation2:
+        source: resource/scenario8/observation2.json
+        
+    observation3:
+        source: resource/scenario8/observation3.json
+        
+    medication-request1:
+        source: resource/scenario8/medication-request1.json

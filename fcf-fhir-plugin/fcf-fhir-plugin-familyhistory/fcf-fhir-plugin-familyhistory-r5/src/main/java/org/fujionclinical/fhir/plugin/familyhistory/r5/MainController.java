@@ -27,8 +27,9 @@ package org.fujionclinical.fhir.plugin.familyhistory.r5;
 
 import org.fujion.component.Div;
 import org.fujion.component.Label;
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.fujionclinical.fhir.api.r5.common.FhirUtil;
+import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
+import org.hl7.fhir.r5.model.Bundle;
 import org.hl7.fhir.r5.model.FamilyMemberHistory;
 import org.hl7.fhir.r5.model.FamilyMemberHistory.FamilyMemberHistoryConditionComponent;
 
@@ -41,7 +42,7 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
 
     @Override
     protected void setup() {
-        setup(FamilyMemberHistory.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
+        setup(FamilyMemberHistory.class, Bundle.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
             "Relation", "Condition", "Outcome", "Notes");
     }
 

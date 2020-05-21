@@ -15,6 +15,11 @@
 		<!-- Fujion Clinical Framework components -->
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-ui-patientselection-v1</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-ui-popupsupport</artifactId>
 			<version>${fcf.core.version}</version>
 		</dependency>
@@ -31,6 +36,11 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-testharness</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-demo-scenario</artifactId>
 			<version>${fcf.core.version}</version>
 		</dependency>
 		<!-- FCF Plugins -->
@@ -52,6 +62,16 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-plugin-sandbox</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-patientphoto</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-patientheader</artifactId>
 			<version>${fcf.core.version}</version>
 		</dependency>
 		<dependency>
@@ -79,6 +99,17 @@
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-fhir-smart-launch-oidc</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-smart-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<!-- Epic Emulation -->
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-mockepic-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<!-- Security -->

@@ -29,6 +29,7 @@ import ca.uhn.fhir.model.api.Tag;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.Map;
@@ -142,6 +143,21 @@ public class ScenarioUtil {
         }
 
         return scenario;
+    }
+
+    public static <T> T getParam(
+            Map<String, T> map,
+            String param) {
+        return getParam(map, param, true);
+    }
+
+    public static <T> T getParam(
+            Map<String, T> map,
+            String param,
+            boolean required) {
+        T value = map.get(param);
+        Assert.isTrue(!required || value != null, () -> "Missing configuration parameter: " + param);
+        return value;
     }
 
 }

@@ -44,6 +44,6 @@ public interface IResourceQuery<R extends IBaseResource, C> {
      * @param criteria Search criteria.
      * @return List of matching resources. May return null to indicate no matches.
      */
-    List<R> search(C criteria);
+    List<R> query(C criteria);
 
 }

@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.patient;
 
+import org.fujionclinical.api.patient.search.PatientSearchCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.hl7.fhir.r5.model.Patient;
@@ -54,7 +55,7 @@ public class PatientUtil {
      * @return Resources matching the search criteria.
      */
     public static List<Patient> search(PatientSearchCriteria criteria) {
-        return getSearchEngine().search(criteria);
+        return getSearchEngine().query(criteria);
     }
 
     /**

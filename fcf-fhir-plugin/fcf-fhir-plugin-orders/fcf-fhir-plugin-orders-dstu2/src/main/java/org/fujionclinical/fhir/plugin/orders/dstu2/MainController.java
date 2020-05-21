@@ -53,7 +53,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
     
     @Override
     protected void setup() {
-        setup(IBaseResource.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
+        setup(IBaseResource.class, Bundle.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
     }
     
     @Override

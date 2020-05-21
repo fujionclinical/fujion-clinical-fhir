@@ -25,15 +25,15 @@
  */
 package org.fujionclinical.fhir.plugin.documents.r5;
 
+import org.fujionclinical.api.context.IContextSubscriber;
 import org.fujionclinical.api.context.ISurveyResponse;
-import org.fujionclinical.fhir.api.r5.patient.PatientContext;
-import org.fujionclinical.fhir.api.r5.patient.PatientContext.IPatientContextEvent;
+import org.fujionclinical.api.patient.PatientContext;
 import org.fujionclinical.shell.plugins.PluginStatus;
 
 /**
  * Updates the enabled status of the plugin.
  */
-public class ActionStatus extends PluginStatus implements IPatientContextEvent {
+public class ActionStatus extends PluginStatus implements PatientContext.IPatientContextSubscriber {
     
     /**
      * Returns true if there is no current patient or the current patient has no documents.
@@ -44,7 +44,7 @@ public class ActionStatus extends PluginStatus implements IPatientContextEvent {
     }
     
     /**
-     * @see org.fujionclinical.api.context.IContextEvent#canceled()
+     * @see IContextSubscriber#canceled()
      */
     @Override
     public void canceled() {
@@ -59,7 +59,7 @@ public class ActionStatus extends PluginStatus implements IPatientContextEvent {
     }
     
     /**
-     * @see org.fujionclinical.api.context.IContextEvent#pending(ISurveyResponse)
+     * @see IContextSubscriber#pending(ISurveyResponse)
      */
     @Override
     public void pending(ISurveyResponse response) {

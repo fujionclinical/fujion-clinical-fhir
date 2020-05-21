@@ -1,0 +1,34 @@
+{
+  "resourceType": "Patient",
+  "id": "X10000010",
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v2/0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "http://edu.utah.health/mrn",
+      "value": "X10000010"
+    }
+  ],
+  "name": [
+    {
+      "family": "ZdarovyaNyetu",
+      "given": [
+        "Igor"
+      ]
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1955-05-13",
+  "photo": [
+    {
+      "contentType": "image/png",
+      "url": "web/image/X10000010.png"
+    }
+  ]
+}

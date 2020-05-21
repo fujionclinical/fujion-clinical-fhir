@@ -27,10 +27,11 @@ package org.fujionclinical.fhir.api.r5.practitioner;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
+import org.fujionclinical.api.model.Identifier;
+import org.fujionclinical.api.model.PersonName;
+import org.fujionclinical.api.practitioner.search.PractitionerSearchCriteria;
 import org.fujionclinical.fhir.api.r5.common.FhirUtil;
 import org.fujionclinical.fhir.api.r5.query.BaseResourceQuery;
-import org.hl7.fhir.r5.model.HumanName;
-import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Practitioner;
 
 /**
@@ -64,14 +65,14 @@ public class PractitionerSearch extends BaseResourceQuery<Practitioner, Practiti
         }
 
         if (criteria.getName() != null) {
-            HumanName name = criteria.getName();
+            PersonName name = criteria.getName();
 
-            if (!name.getFamily().isEmpty()) {
-                query.where(Practitioner.FAMILY.matches().value(name.getFamily()));
+            if (name.hasFamilyName()) {
+                query.where(Practitioner.FAMILY.matches().value(name.getFamilyName()));
             }
 
-            if (!name.getGiven().isEmpty()) {
-                query.where(Practitioner.GIVEN.matches().values(FhirUtil.toStringList(name.getGiven())));
+            if (name.hasGivenName()) {
+                query.where(Practitioner.GIVEN.matches().values(FhirUtil.toStringList(name.getGivenNames())));
             }
 
         }

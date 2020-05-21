@@ -26,12 +26,9 @@
 package org.fujionclinical.fhir.plugin.medicationorders.stu3;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.fujionclinical.fhir.api.stu3.medication.MedicationService;
-import org.hl7.fhir.dstu3.model.Dosage;
-import org.hl7.fhir.dstu3.model.Medication;
-import org.hl7.fhir.dstu3.model.MedicationRequest;
-import org.hl7.fhir.dstu3.model.Reference;
+import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
+import org.hl7.fhir.dstu3.model.*;
 
 import java.util.List;
 
@@ -48,7 +45,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
 
     @Override
     protected void setup() {
-        setup(MedicationRequest.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
+        setup(MedicationRequest.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
             "Date", "Status", "Sig");
     }
 

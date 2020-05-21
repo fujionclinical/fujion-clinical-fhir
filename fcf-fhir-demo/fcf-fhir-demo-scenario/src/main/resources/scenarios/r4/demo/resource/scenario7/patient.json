@@ -1,0 +1,34 @@
+{
+  "resourceType": "Patient",
+  "id": "X1000006",
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v2/0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "http://edu.utah.health/mrn",
+      "value": "X1000006"
+    }
+  ],
+  "name": [
+    {
+      "family": "TropTendu",
+      "given": [
+        "Pendaeli"
+      ]
+    }
+  ],
+  "gender": "male",
+  "birthDate": "1958-05-13",
+  "photo": [
+    {
+      "contentType": "image/png",
+      "url": "web/image/X1000006.png"
+    }
+  ]
+}

@@ -25,13 +25,34 @@
  */
 package org.fujionclinical.fhir.api.dstu2.terminology;
 
+import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 
 public class Constants {
 
+    public static final String SYS_RXNORM = "http://www.nlm.nih.gov/research/umls/rxnorm";
+
+    public static final String SYS_UCUM = "http://unitsofmeasure.org";
+
+    public static final String SYS_SNOMED = "http://snomed.info/sct";
+
     public static final String SYS_IDENTIFIER_TYPE = "http://hl7.org/fhir/v2/0203";
 
     public static final CodingDt CODING_MRN = new CodingDt(SYS_IDENTIFIER_TYPE, "MR").setDisplay("MRN");
+
+    public static final CodingDt CODING_SSN = new CodingDt(SYS_IDENTIFIER_TYPE, "SS").setDisplay("SSN");
+
+    public static final CodingDt CODING_DEA = new CodingDt(SYS_IDENTIFIER_TYPE, "DEA").setDisplay("DEA");
+
+    public static final CodeableConceptDt IDENT_MRN = new CodeableConceptDt().addCoding(CODING_MRN);
+
+    public static final CodeableConceptDt IDENT_SSN = new CodeableConceptDt().addCoding(CODING_SSN);
+
+    public static final CodeableConceptDt IDENT_DEA = new CodeableConceptDt().addCoding(CODING_DEA);
+
+    public static final String VS_SNOMED = SYS_SNOMED + "?fhir_vs=refset/";
+
+    public static final String VS_SNOMED_CLINICAL = VS_SNOMED + "32570581000036105";
 
     private Constants() {
     }

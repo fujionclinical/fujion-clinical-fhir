@@ -30,6 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.primitive.BoundCodeDt;
 import ca.uhn.fhir.model.primitive.UriDt;
+import org.fujionclinical.api.encounter.search.EncounterSearchCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;
@@ -49,6 +50,12 @@ public class EncounterUtil {
     private static volatile Map<String, CodeableConceptDt> serviceCategories;
 
     /**
+     * Enforces static class.
+     */
+    protected EncounterUtil() {
+    }
+
+    /**
      * Returns a reference to the encounter search engine.
      *
      * @return Encounter search engine.
@@ -65,7 +72,7 @@ public class EncounterUtil {
      * @return Resources matching the search criteria.
      */
     public static List<Encounter> search(EncounterSearchCriteria criteria) {
-        return getSearchEngine().search(criteria);
+        return getSearchEngine().query(criteria);
     }
 
     /**
@@ -312,12 +319,6 @@ public class EncounterUtil {
         }
 
         return null;
-    }
-
-    /**
-     * Enforces static class.
-     */
-    protected EncounterUtil() {
     }
 
 }

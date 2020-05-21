@@ -30,7 +30,7 @@ import org.fujion.event.Event;
 import org.fujion.event.IEventListener;
 import org.fujionclinical.api.event.EventManager;
 import org.fujionclinical.api.event.IEventManager;
-import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.api.event.IEventSubscriber;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
@@ -71,7 +71,7 @@ public class SmartMessageBroker {
         handleRequest(event);
     };
 
-    private final IGenericEvent<Map<String, Object>> responseListener = (eventName, eventData) -> {
+    private final IEventSubscriber<Map<String, Object>> responseListener = (eventName, eventData) -> {
         handleResponse(eventData);
     };
 

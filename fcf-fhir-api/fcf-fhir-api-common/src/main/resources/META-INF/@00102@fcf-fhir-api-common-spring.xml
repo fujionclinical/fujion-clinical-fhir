@@ -44,7 +44,7 @@
 		</bean>
 		
 		<bean id="fhirNarrativeService"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.common.NarrativeService">
+			  class="org.fujionclinical.fhir.api.common.core.NarrativeService">
 			<constructor-arg ref="fhirContext" />
 		</bean>
 		
@@ -79,15 +79,15 @@
 			</property>
 		</bean>
 		
-		<!-- Domain factory  -->
-		<bean factory-method="getInstance"
-				class="org.fujionclinical.fhir.api.${fhir.context.version}.common.DomainFactory">
-			<property name="fhirClient" ref="fhirClient" />
+		<!-- Resource factories  -->
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientFactory">
+			<constructor-arg ref="fhirClient" />
 		</bean>
-		
-		<!-- Register a context serializer for names. -->
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.HumanNameSerializer" />
-		
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterFactory">
+			<constructor-arg ref="fhirClient" />
+		</bean>
+
 		<!-- Patient search engine -->
 		<bean id="patientSearchEngine"
 			  class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientSearch">
@@ -110,62 +110,6 @@
 		<bean id="locationSearchEngine"
 			  class="org.fujionclinical.fhir.api.${fhir.context.version}.location.LocationSearch">
 			<constructor-arg ref="fhirClient" />
-		</bean>
-
-		<!-- Patient adapter factory -->
-		<bean id="patientAdapterFactory"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.patientlist.PatientAdapterFactory" />
-
-	</beans>
-	
-	<beans profile="child">
-		
-		<!-- Shared clinical contexts. -->
-		
-		<bean id="managedResourceContext" parent="managedContext" abstract="true">
-			<property name="fhirService" ref="fhirService" />
-		</bean>
-		
-		<bean id="patientContext" parent="managedResourceContext"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientContext">
-		</bean>
-		
-		<bean id="encounterContext" parent="managedResourceContext"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterContext">
-		</bean>
-		
-		<bean id="locationContext" parent="managedResourceContext"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.location.LocationContext" depends-on="userContext">
-		</bean>
-		
-		<bean id="encounterParticipantContext" parent="managedContext"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterParticipantContext">
-		</bean>
-
-		<!-- Patient lists -->
-
-		<bean id="patientListRegistry"
-			  class="org.fujionclinical.fhir.api.common.patientlist.PatientListRegistry"
-			depends-on="userContext" />
-
-		<bean id="patientList" abstract="true">
-		</bean>
-		
-		<bean id="patientListMRU" parent="patientList"
-			  class="org.fujionclinical.fhir.api.common.patientlist.MRUPatientList">
-			<constructor-arg type="java.lang.String" value="FCF.PATIENT.LIST.MRU" />
-			<constructor-arg ref="patientAdapterFactory" />
-		</bean>
-		
-		<bean id="patientListPersonal" parent="patientList"
-			  class="org.fujionclinical.fhir.api.common.patientlist.PersonalPatientList">
-			<constructor-arg type="java.lang.String" value="FCF.PATIENT.LIST.PERSONAL" />
-			<constructor-arg ref="patientAdapterFactory" />
-		</bean>
-		
-		<bean id="patientListFavorites" parent="patientList"
-			  class="org.fujionclinical.fhir.api.common.patientlist.FavoritePatientList">
-			<constructor-arg ref="patientAdapterFactory" />
 		</bean>
 
 	</beans>

@@ -1,0 +1,32 @@
+# DMD scenario
+scenario:
+    name: Scenario 11
+    id: 34471F31-6D15-4C4D-8320-9F0D4DCD12B5
+    activation: encounter1
+
+resources:
+    # Scenario 11
+    
+    patient1:
+        source: resource/scenario11/patient.json
+
+    encounter1:
+        source: resource/scenario11/encounter.json
+
+    condition1:
+        source: resource/scenario11/condition1.json
+        
+    condition2:
+        source: resource/scenario11/condition2.json
+        
+    observation1:
+        source: resource/scenario11/observation1.json
+        
+    observation2:
+        source: resource/scenario11/observation2.json
+        
+    observation3:
+        source: resource/scenario11/observation3.json
+        
+    medication-request1:
+        source: resource/scenario11/medication-request1.json

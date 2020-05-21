@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.smart.common;
 
 import org.fujionclinical.api.event.EventManager;
 import org.fujionclinical.api.event.IEventManager;
-import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.api.event.IEventSubscriber;
 import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public abstract class SmartMessageHandler {
 
     private String messageType;
 
-    private final IGenericEvent<Map<String, Object>> requestHandler = (eventName, request) -> {
+    private final IEventSubscriber<Map<String, Object>> requestHandler = (eventName, request) -> {
         String type = (String) request.get("messageType");
 
         if (messageType.equals(type)) {

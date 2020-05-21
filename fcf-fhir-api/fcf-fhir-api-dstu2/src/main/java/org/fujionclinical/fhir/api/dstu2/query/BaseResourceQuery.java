@@ -25,13 +25,12 @@
  */
 package org.fujionclinical.fhir.api.dstu2.query;
 
-import ca.uhn.fhir.model.dstu2.resource.BaseResource;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
+import org.fujionclinical.api.query.SearchCriteria;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
-import org.fujionclinical.fhir.api.common.query.SearchCriteria;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
@@ -80,7 +79,7 @@ public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria
         }
 
         if (criteria.getId() != null) {
-            query.where(new StringClientParam(BaseResource.SP_RES_ID).matches().value(criteria.getId()));
+            query.where(new StringClientParam("_id").matches().value(criteria.getId()));
         }
     }
 
@@ -101,10 +100,10 @@ public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria
      * @return List of matching resources. May return null to indicate no matches.
      */
     @Override
-    public List<R> search(C criteria) {
+    public List<R> query(C criteria) {
         IQuery<?> query = createQuery();
         buildQuery(criteria, query);
-        return search(query);
+        return query(query);
     }
 
     /**
@@ -115,7 +114,7 @@ public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria
      * @return List of matching resources. May return null to indicate no matches.
      */
     @Override
-    public List<R> search(IQuery<?> query) {
+    public List<R> query(IQuery<?> query) {
         return FhirUtil.getEntries(query.returnBundle(Bundle.class).execute(), resourceClass);
     }
 }

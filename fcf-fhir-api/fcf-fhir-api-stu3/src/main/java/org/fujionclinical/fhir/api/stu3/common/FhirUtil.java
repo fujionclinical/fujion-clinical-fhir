@@ -35,7 +35,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
-import org.fujion.component.Image;
+import org.fujionclinical.api.model.PersonName;
+import org.fujionclinical.api.model.PersonNameParser;
 import org.fujionclinical.fhir.api.stu3.terminology.Constants;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
@@ -60,33 +61,11 @@ import java.util.List;
  */
 public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
-    public static class OperationOutcomeException extends RuntimeException {
-
-        private static final long serialVersionUID = 1L;
-
-        private final OperationOutcome operationOutcome;
-
-        private final IssueSeverity severity;
-
-        private OperationOutcomeException(
-                String message,
-                IssueSeverity severity,
-                OperationOutcome operationOutcome) {
-            super(message);
-            this.severity = severity;
-            this.operationOutcome = operationOutcome;
-        }
-
-        public OperationOutcome getOperationOutcome() {
-            return operationOutcome;
-        }
-
-        public IssueSeverity getSeverity() {
-            return severity;
-        }
+    /**
+     * Enforce static class.
+     */
+    private FhirUtil() {
     }
-
-    public static IHumanNameParser defaultHumanNameParser = new HumanNameParser();
 
     /**
      * Performs an equality check on two references using their id's.
@@ -300,39 +279,6 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
-     * Formats a name using the active parser.
-     *
-     * @param name HumanName instance.
-     * @return Formatted name.
-     */
-    public static String formatName(HumanName name) {
-        return name == null ? "" : defaultHumanNameParser.toString(name);
-    }
-
-    /**
-     * Format the "usual" name.
-     *
-     * @param names List of names
-     * @return A formatted name.
-     */
-    public static String formatName(List<HumanName> names) {
-        return formatName(names, NameUse.OFFICIAL, NameUse.USUAL, null);
-    }
-
-    /**
-     * Format a name of the specified use category.
-     *
-     * @param names List of names
-     * @param uses  Use categories (use categories to search).
-     * @return A formatted name.
-     */
-    public static String formatName(
-            List<HumanName> names,
-            NameUse... uses) {
-        return formatName(getName(names, uses));
-    }
-
-    /**
      * Returns an address of the desired use category from a list.
      *
      * @param list List of addresses to consider.
@@ -432,7 +378,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return The displayable value (possibly null).
      */
     public static String getDisplayValue(HumanName value) {
-        return value == null ? null : formatName(value);
+        return value == null ? null : ConversionUtil.personName(value).toString();
     }
 
     /**
@@ -642,7 +588,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      */
     public static String getDisplayValueForType(Object value) {
         try {
-            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) org.apache.commons.lang.reflect.MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
+            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
         } catch (Exception e) {
             log.error("Cannot convert type '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
             Method method = MethodUtils.getAccessibleMethod(value.getClass(), "toString", ArrayUtils.EMPTY_CLASS_ARRAY);
@@ -772,7 +718,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @param types Coding types to be matched.
      * @return A matching identifier, or null if not found.
      */
-    public static Identifier getIdentifierByType(
+    public static Identifier getIdentifierBySystem(
             List<Identifier> list,
             Coding... types) {
         for (Coding type : types) {
@@ -825,7 +771,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return MRN identifier
      */
     public static Identifier getMRN(Patient patient) {
-        return patient == null ? null : getIdentifierByType(patient.getIdentifier(), Constants.CODING_MRN);
+        return patient == null ? null : getIdentifierBySystem(patient.getIdentifier(), Constants.CODING_MRN);
     }
 
     /**
@@ -920,7 +866,12 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return Parsed name.
      */
     public static HumanName parseName(String name) {
-        return name == null ? null : defaultHumanNameParser.fromString(name);
+        PersonName personName = name == null ? null : PersonNameParser.instance.fromString(name);
+        return ConversionUtil.personName(personName);
+    }
+
+    public static String formatName(HumanName name) {
+        return name == null ? null : ConversionUtil.personName(name).toString();
     }
 
     /**
@@ -976,53 +927,46 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
-     * Returns an image from a list of attachments.
+     * Returns the MimeContent of an attachment.
      *
-     * @param attachments List of attachments.
-     * @return An image component if a suitable attachment was found, or null.
+     * @param attachment An attachment.
+     * @return The MimeContent of the attachment.
      */
-    public static Image getImage(List<Attachment> attachments) {
-        return getImage(attachments, null);
+    public static MimeContent getContent(Attachment attachment) {
+        String contentType = attachment.getContentType();
+
+        if (!attachment.getDataElement().isEmpty()) {
+            return new MimeContent(contentType, attachment.getData());
+        } else if (!attachment.getUrlElement().isEmpty()) {
+            return new MimeContent(contentType, attachment.getUrl());
+        } else {
+            return null;
+        }
     }
 
-    /**
-     * Returns an image from a list of attachments.
-     *
-     * @param attachments  List of attachments.
-     * @param defaultImage URL of default image to use if none found (may be null).
-     * @return An image component if a suitable attachment was found, or the default image if
-     *         specified, or null.
-     */
-    public static Image getImage(
-            List<Attachment> attachments,
-            String defaultImage) {
-        for (Attachment attachment : attachments) {
-            String contentType = attachment.getContentType();
+    public static class OperationOutcomeException extends RuntimeException {
 
-            if (contentType.startsWith("image/")) {
-                try {
-                    String url = attachment.getUrl();
-                    return url != null ? getImage(url) : new Image(new MimeContent(contentType, attachment.getData()));
-                } catch (Exception e) {
+        private static final long serialVersionUID = 1L;
 
-                }
-            }
+        private final OperationOutcome operationOutcome;
+
+        private final IssueSeverity severity;
+
+        private OperationOutcomeException(
+                String message,
+                IssueSeverity severity,
+                OperationOutcome operationOutcome) {
+            super(message);
+            this.severity = severity;
+            this.operationOutcome = operationOutcome;
         }
 
-        if (defaultImage != null) {
-            try {
-                return getImage(defaultImage);
-            } catch (Exception e) {
-
-            }
+        public OperationOutcome getOperationOutcome() {
+            return operationOutcome;
         }
 
-        return null;
-    }
-
-    /**
-     * Enforce static class.
-     */
-    private FhirUtil() {
+        public IssueSeverity getSeverity() {
+            return severity;
+        }
     }
 }

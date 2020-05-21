@@ -27,6 +27,16 @@
 			<version>${fcf.core.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-patient</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-encounter</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>

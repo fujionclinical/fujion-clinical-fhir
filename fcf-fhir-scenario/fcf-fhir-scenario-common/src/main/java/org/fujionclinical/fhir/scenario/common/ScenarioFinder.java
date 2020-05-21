@@ -27,7 +27,6 @@ package org.fujionclinical.fhir.scenario.common;
 
 import org.fujion.common.Logger;
 import org.fujionclinical.fhir.api.common.core.BaseFhirService;
-import org.fujionclinical.fhir.api.common.patientlist.IPatientAdapterFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -51,18 +50,14 @@ public class ScenarioFinder<SCENARIO extends ScenarioBase>
 
     private final BaseFhirService fhirService;
 
-    private final IPatientAdapterFactory patientAdapterFactory;
-
     private final Map<String, ScenarioFactory<SCENARIO>> scenarioFactories = new HashMap<>();
 
     public ScenarioFinder(
             Class<SCENARIO> scenarioClass,
             String scenarioBase,
-            IPatientAdapterFactory patientAdapterFactory,
             BaseFhirService fhirService) {
         this.scenarioClass = scenarioClass;
         this.scenarioBase = scenarioBase;
-        this.patientAdapterFactory = patientAdapterFactory;
         this.fhirService = fhirService;
     }
 
@@ -74,7 +69,7 @@ public class ScenarioFinder<SCENARIO extends ScenarioBase>
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
             for (Resource yaml : applicationContext.getResources(scenarioBase + "/*.yaml")) {
-                ScenarioFactory<SCENARIO> factory = new ScenarioFactory(scenarioClass, yaml, patientAdapterFactory, fhirService);
+                ScenarioFactory<SCENARIO> factory = new ScenarioFactory(scenarioClass, yaml, fhirService);
                 scenarioFactories.put(factory.getName(), factory);
             }
         } catch (Exception e) {

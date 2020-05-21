@@ -18,6 +18,7 @@
 		<module>fcf-fhir-demo-oauth</module>
 		<module>fcf-fhir-demo-setup</module>
 		<module>fcf-fhir-demo-profile</module>
+		<module>fcf-fhir-demo-scenario</module>
 		<module>fcf-fhir-demo-webapp</module>
 	</modules>
 </project>

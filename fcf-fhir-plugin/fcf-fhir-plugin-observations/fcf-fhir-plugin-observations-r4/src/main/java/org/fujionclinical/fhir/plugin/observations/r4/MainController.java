@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.plugin.observations.r4;
 
 import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Observation;
 import org.hl7.fhir.r4.model.Type;
@@ -68,7 +69,7 @@ public class MainController extends ResourceListView<Observation, MainController
 
     @Override
     protected void setup() {
-        setup(Observation.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
+        setup(Observation.class, Bundle.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
                 "Status", "Result", "Ref Range");
     }
 

@@ -88,7 +88,7 @@ public class Document implements Comparable<Document> {
     public String getAuthorName() {
         Reference reference = documentReference.hasAuthor() ? FhirUtil.getFirst(documentReference.getAuthor()) : null;
         Practitioner author = DocumentService.getInstance().getResource(reference, Practitioner.class);
-        return author == null ? "" : FhirUtil.formatName(author.getName());
+        return author == null ? "" : FhirUtil.formatName(author.getNameFirstRep());
     }
 
     public String getStatus() {

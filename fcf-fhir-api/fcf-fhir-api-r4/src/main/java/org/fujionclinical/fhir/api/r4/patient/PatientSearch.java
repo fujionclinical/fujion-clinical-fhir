@@ -27,16 +27,23 @@ package org.fujionclinical.fhir.api.r4.patient;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
+import org.fujionclinical.api.model.PersonName;
+import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.patient.search.IPatientSearchEngine;
+import org.fujionclinical.api.patient.search.PatientSearchCriteria;
 import org.fujionclinical.fhir.api.r4.common.FhirUtil;
 import org.fujionclinical.fhir.api.r4.query.BaseResourceQuery;
-import org.hl7.fhir.r4.model.HumanName;
-import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.fujionclinical.fhir.api.common.core.Constants.SSN_SYSTEM;
 
 /**
  * Patient search implementation using FHIR.
  */
-public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCriteria> {
+public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCriteria> implements IPatientSearchEngine {
 
     public PatientSearch(IGenericClient fhirClient) {
         super(Patient.class, fhirClient);
@@ -47,20 +54,16 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
             PatientSearchCriteria criteria,
             IQuery<?> query) {
         super.buildQuery(criteria, query);
-        Identifier id = criteria.getMRN();
+        String id = criteria.getMRN();
 
         if (id != null) {
-            if (id.hasSystem()) {
-                query.where(Patient.IDENTIFIER.exactly().systemAndIdentifier(id.getSystem(), id.getValue()));
-            } else {
-                query.where(Patient.IDENTIFIER.exactly().identifier(id.getValue()));
-            }
+            query.where(Patient.IDENTIFIER.exactly().identifier(id));
         }
 
         id = criteria.getSSN();
 
         if (id != null) {
-            query.where(Patient.IDENTIFIER.exactly().systemAndIdentifier(id.getSystem(), id.getValue()));
+            query.where(Patient.IDENTIFIER.exactly().systemAndIdentifier(SSN_SYSTEM, id));
         }
 
         if (criteria.getBirth() != null) {
@@ -72,17 +75,21 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
         }
 
         if (criteria.getName() != null) {
-            HumanName name = criteria.getName();
+            PersonName name = criteria.getName();
 
-            if (!name.getFamily().isEmpty()) {
-                query.where(Patient.FAMILY.matches().value(name.getFamily()));
+            if (name.hasFamilyName()) {
+                query.where(Patient.FAMILY.matches().value(name.getFamilyName()));
             }
 
-            if (!name.getGiven().isEmpty()) {
-                query.where(Patient.GIVEN.matches().values(FhirUtil.toStringList(name.getGiven())));
+            if (name.hasGivenName()) {
+                query.where(Patient.GIVEN.matches().values(FhirUtil.toStringList(name.getGivenNames())));
             }
 
         }
     }
 
+    @Override
+    public List<IPatient> search(PatientSearchCriteria criteria) {
+        return query(criteria).stream().map(patient -> new PatientWrapper(patient)).collect(Collectors.toList());
+    }
 }

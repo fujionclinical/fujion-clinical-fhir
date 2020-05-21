@@ -25,11 +25,12 @@
  */
 package org.fujionclinical.fhir.plugin.adversereactions.stu3;
 
-import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
+import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.AllergyIntolerance;
 import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
 import org.hl7.fhir.dstu3.model.AllergyIntolerance.AllergyIntoleranceVerificationStatus;
+import org.hl7.fhir.dstu3.model.Bundle;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +50,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Allergy
     
     @Override
     protected void setup() {
-        setup(AllergyIntolerance.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
+        setup(AllergyIntolerance.class, Bundle.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
             "Date^^min", "Agent", "Reaction");
     }
     

@@ -26,7 +26,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-lib-patientselection-dstu2</artifactId>
+			<artifactId>fcf-ui-patientselection-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

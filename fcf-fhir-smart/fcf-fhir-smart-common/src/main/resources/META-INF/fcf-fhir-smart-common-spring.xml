@@ -42,10 +42,10 @@
 		<bean class="org.fujionclinical.fhir.smart.common.SmartCdsHookMessageHandler" />
 
 		<bean parent="smartContextBase" depends-on="patientContext"
-			  class="org.fujionclinical.fhir.smart.${fhir.context.version}.SmartContextPatient" />
+			  class="org.fujionclinical.fhir.smart.common.SmartContextPatient" />
 
 		<bean parent="smartContextBase" depends-on="encounterContext"
-			  class="org.fujionclinical.fhir.smart.${fhir.context.version}.SmartContextEncounter" />
+			  class="org.fujionclinical.fhir.smart.common.SmartContextEncounter" />
 
 	</beans>
 

@@ -24,8 +24,6 @@
 		<module>fcf-fhir-plugin-medicationorders</module>
 		<module>fcf-fhir-plugin-observations</module>
 		<module>fcf-fhir-plugin-orders</module>
-		<module>fcf-fhir-plugin-patientheader</module>
-		<module>fcf-fhir-plugin-patientphoto</module>
 		<module>fcf-fhir-plugin-procedures</module>
 		<module>fcf-fhir-plugin-scenario</module>
 	</modules>

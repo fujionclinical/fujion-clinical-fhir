@@ -35,7 +35,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
-import org.fujion.component.Image;
+import org.fujionclinical.api.model.PersonName;
+import org.fujionclinical.api.model.PersonNameParser;
 import org.fujionclinical.fhir.api.r4.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -85,8 +86,6 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return severity;
         }
     }
-
-    public static IHumanNameParser defaultHumanNameParser = new HumanNameParser();
 
     /**
      * Performs an equality check on two references using their id's.
@@ -300,39 +299,6 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
-     * Formats a name using the active parser.
-     *
-     * @param name HumanName instance.
-     * @return Formatted name.
-     */
-    public static String formatName(HumanName name) {
-        return name == null ? "" : defaultHumanNameParser.toString(name);
-    }
-
-    /**
-     * Format the "usual" name.
-     *
-     * @param names List of names
-     * @return A formatted name.
-     */
-    public static String formatName(List<HumanName> names) {
-        return formatName(names, NameUse.OFFICIAL, NameUse.USUAL, null);
-    }
-
-    /**
-     * Format a name of the specified use category.
-     *
-     * @param names List of names
-     * @param uses  Use categories (use categories to search).
-     * @return A formatted name.
-     */
-    public static String formatName(
-            List<HumanName> names,
-            NameUse... uses) {
-        return formatName(getName(names, uses));
-    }
-
-    /**
      * Returns an address of the desired use category from a list.
      *
      * @param list List of addresses to consider.
@@ -432,7 +398,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return The displayable value (possibly null).
      */
     public static String getDisplayValue(HumanName value) {
-        return value == null ? null : formatName(value);
+        return value == null ? null : ConversionUtil.personName(value).toString();
     }
 
     /**
@@ -920,7 +886,12 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return Parsed name.
      */
     public static HumanName parseName(String name) {
-        return name == null ? null : defaultHumanNameParser.fromString(name);
+        PersonName personName = name == null ? null : PersonNameParser.instance.fromString(name);
+        return ConversionUtil.personName(personName);
+    }
+
+    public static String formatName(HumanName name) {
+        return name == null ? null : ConversionUtil.personName(name).toString();
     }
 
     /**
@@ -976,48 +947,21 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
     }
 
     /**
-     * Returns an image from a list of attachments.
+     * Returns the MimeContent of an attachment.
      *
-     * @param attachments List of attachments.
-     * @return An image component if a suitable attachment was found, or null.
+     * @param attachment An attachment.
+     * @return The MimeContent of the attachment.
      */
-    public static Image getImage(List<Attachment> attachments) {
-        return getImage(attachments, null);
-    }
+    public static MimeContent getContent(Attachment attachment) {
+        String contentType = attachment.getContentType();
 
-    /**
-     * Returns an image from a list of attachments.
-     *
-     * @param attachments  List of attachments.
-     * @param defaultImage URL of default image to use if none found (may be null).
-     * @return An image component if a suitable attachment was found, or the default image if
-     *         specified, or null.
-     */
-    public static Image getImage(
-            List<Attachment> attachments,
-            String defaultImage) {
-        for (Attachment attachment : attachments) {
-            String contentType = attachment.getContentType();
-
-            if (contentType.startsWith("image/")) {
-                try {
-                    String url = attachment.getUrl();
-                    return url != null ? getImage(url) : new Image(new MimeContent(contentType, attachment.getData()));
-                } catch (Exception e) {
-
-                }
-            }
+        if (!attachment.getDataElement().isEmpty()) {
+            return new MimeContent(contentType, attachment.getData());
+        } else if (!attachment.getUrlElement().isEmpty()) {
+            return new MimeContent(contentType, attachment.getUrl());
+        } else {
+            return null;
         }
-
-        if (defaultImage != null) {
-            try {
-                return getImage(defaultImage);
-            } catch (Exception e) {
-
-            }
-        }
-
-        return null;
     }
 
     /**

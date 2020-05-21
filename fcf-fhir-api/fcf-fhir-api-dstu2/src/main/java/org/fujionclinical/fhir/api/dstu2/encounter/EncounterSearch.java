@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.dstu2.encounter;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
+import org.fujionclinical.api.encounter.search.EncounterSearchCriteria;
 import org.fujionclinical.fhir.api.dstu2.query.BaseResourceQuery;
 
 import java.util.Date;
@@ -52,8 +53,8 @@ public class EncounterSearch extends BaseResourceQuery<Encounter, EncounterSearc
         }
 
         if (criteria.getPeriod() != null) {
-            Date start = criteria.getPeriod().getStart();
-            Date end = criteria.getPeriod().getEnd();
+            Date start = criteria.getPeriod().getStartDate();
+            Date end = criteria.getPeriod().getEndDate();
 
             if (start != null) {
                 if (end == null) {

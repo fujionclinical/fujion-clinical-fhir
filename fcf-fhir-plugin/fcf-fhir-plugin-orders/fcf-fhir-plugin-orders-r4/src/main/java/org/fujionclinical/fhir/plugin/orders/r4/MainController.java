@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.plugin.orders.r4;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.fujionclinical.fhir.api.r4.common.FhirUtil;
+import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.*;
@@ -50,7 +50,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
     
     @Override
     protected void setup() {
-        setup(IBaseResource.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
+        setup(IBaseResource.class, Bundle.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
     }
     
     @Override

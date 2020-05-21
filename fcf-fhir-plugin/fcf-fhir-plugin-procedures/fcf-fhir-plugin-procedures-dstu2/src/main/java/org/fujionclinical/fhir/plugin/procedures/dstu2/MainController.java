@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.procedures.dstu2;
 
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Procedure;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
@@ -37,7 +38,7 @@ public class MainController extends ResourceListView<Procedure, Procedure> {
 
     @Override
     protected void setup() {
-        setup(Procedure.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
+        setup(Procedure.class, Bundle.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
                 "Notes");
     }
 

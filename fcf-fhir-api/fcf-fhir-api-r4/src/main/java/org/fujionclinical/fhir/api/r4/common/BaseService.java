@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.r4.common;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.core.Constants;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.*;
@@ -75,7 +76,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             IBaseResource resource,
             Identifier identifier) {
         return getClient().create().resource(resource).conditional()
-                .where(PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
+                .where(Constants.PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .execute();
     }
 
@@ -87,7 +88,6 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
      * @param clazz      Class of the resources to be searched.
      * @return Count of deleted resources.
      */
-    @Override
     public <T extends IBaseResource> int deleteResourcesByIdentifier(
             Identifier identifier,
             Class<T> clazz) {
@@ -151,8 +151,9 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             return reference.getResource();
         }
 
-        Assert.state(reference.hasReference(), "Reference has no resource ID defined");
-        IBaseResource resource = getResource(reference.getReferenceElement());
+        String resourceId = reference.getId();
+        Assert.state(resourceId != null, "Reference has no resource ID defined");
+        IBaseResource resource = getResource(reference);
         reference.setResource(resource);
         return resource;
     }
@@ -191,7 +192,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
+                .where(Constants.PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .returnBundle(Bundle.class).execute();
 
         return FhirUtil.getEntries(bundle, clazz);
@@ -265,7 +266,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
+                .where(Constants.PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
 
         return FhirUtil.getEntries(bundle, clazz);
     }

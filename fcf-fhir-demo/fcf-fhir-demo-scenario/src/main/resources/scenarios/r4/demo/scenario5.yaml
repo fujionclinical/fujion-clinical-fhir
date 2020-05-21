@@ -1,0 +1,51 @@
+# DMD scenario
+scenario:
+    name: Scenario 05
+    id: 24D260D5-0943-4645-AB2E-2110B51DFF07
+    activation: encounter1
+
+resources:
+    # Scenario 05
+    
+    patient1:
+        source: resource/scenario5/patient.json
+
+    encounter1:
+        source: resource/scenario5/encounter.json
+
+    observation1:
+        source: resource/scenario5/observation1.json
+        
+    observation3:
+        source: resource/scenario5/observation3.json
+        
+    observation4:
+        source: resource/scenario5/observation4.json
+
+    observation5:
+        source: resource/scenario5/observation5.json
+
+    observation6:
+        source: resource/scenario5/observation6.json
+
+    observation7:
+        source: resource/scenario5/observation7.json
+
+    observation8:
+        source: resource/scenario5/observation8.json
+
+    observation9:
+        source: resource/scenario5/observation9.json
+
+    observation10:
+        source: resource/scenario5/observation10.json
+
+    observation11:
+        source: resource/scenario5/observation11.json
+
+    observation12:
+        source: resource/scenario5/observation12.json
+
+    observation13:
+        source: resource/scenario5/observation13.json
+

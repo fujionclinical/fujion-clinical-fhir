@@ -46,7 +46,7 @@ public interface IResourceQueryEx<R extends IBaseResource, C> extends IResourceQ
      * @param query The query object.
      * @return List of matching resources. May return null to indicate no matches.
      */
-    List<R> search(IQuery<?> query);
+    List<R> query(IQuery<?> query);
 
     /**
      * Creates an empty query object for this resource class.

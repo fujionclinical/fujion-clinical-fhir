@@ -1,0 +1,74 @@
+{
+  "resourceType": "Observation",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/MeasurementDeviceExt",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "466093008",
+            "display": "Automatic-inflation electronic sphygmomanometer, non-portable (physical object)"
+          }
+        ]
+      }
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "85354-9",
+        "display": "Blood pressure panel with all children optional"
+      }
+    ],
+    "text": "Blood pressure panel with all children optional"
+  },
+  "subject": {
+    "reference": "Patient/X1000008"
+  },
+  "effectiveDateTime": "2020-05-13T20:34:05-07:00",
+  "method": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "8359006",
+        "display": "Automated (qualifier value)"
+      }
+    ]
+  },
+  "component": [
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "8462-4",
+            "display": "Diastolic blood pressure"
+          }
+        ],
+        "text": "Diastolic blood pressure"
+      },
+      "valueQuantity": {
+        "value": 79,
+        "unit": "mmHg"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "8480-6",
+            "display": "Systolic blood pressure"
+          }
+        ],
+        "text": "Systolic blood pressure"
+      },
+      "valueQuantity": {
+        "value": 125,
+        "unit": "mmHg"
+      }
+    }
+  ]
+}

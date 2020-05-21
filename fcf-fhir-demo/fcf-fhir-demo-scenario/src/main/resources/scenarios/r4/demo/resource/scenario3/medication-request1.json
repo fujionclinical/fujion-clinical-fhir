@@ -1,0 +1,58 @@
+{
+  "resourceType": "MedicationRequest",
+  "contained": [
+    {
+      "resourceType": "Medication",
+      "id": "1",
+      "code": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "314076",
+            "display": "Lisinopril 10 MG Oral Tablet"
+          }
+        ]
+      }
+    }
+  ],
+  "status": "active",
+  "medicationReference": {
+    "reference": "#1"
+  },
+  "subject": {
+    "reference": "Patient/X1000002"
+  },
+  "authoredOn": "2019-07-13T00:00:00-07:00",
+  "dosageInstruction": [
+    {
+      "timing": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/v3/GTSAbbreviation",
+              "code": "QD",
+              "display": "Every Day at institution specified times"
+            }
+          ]
+        }
+      },
+      "route": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "26643006",
+            "display": "Oral route (qualifier value)"
+          }
+        ]
+      },
+      "doseAndRate": [
+        {
+          "doseQuantity": {
+            "value": 1,
+            "unit": "{tbl}"
+          }
+        }
+      ]
+    }
+  ]
+}

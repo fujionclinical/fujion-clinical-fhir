@@ -49,7 +49,7 @@ import java.util.Comparator;
 /**
  * This controller is only intended to be used for demo purposes in order to stage and unstage data.
  */
-public class ScenarioManagerController extends PluginController implements ScenarioContext.IScenarioContextEvent {
+public class ScenarioManagerController extends PluginController implements ScenarioContext.IScenarioContextSubscriber {
 
     private static final Comparator<Scenario> scenarioComparator = (s1, s2) -> s1.getName().compareToIgnoreCase(s2.getName());
 

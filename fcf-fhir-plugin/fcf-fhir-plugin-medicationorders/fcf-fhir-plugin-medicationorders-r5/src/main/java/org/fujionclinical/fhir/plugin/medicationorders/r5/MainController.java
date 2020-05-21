@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.plugin.medicationorders.r5;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.fujionclinical.fhir.api.r5.medication.MedicationService;
+import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.hl7.fhir.r5.model.*;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
 
     @Override
     protected void setup() {
-        setup(MedicationRequest.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
+        setup(MedicationRequest.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
             "Date", "Status", "Sig");
     }
 

@@ -26,15 +26,18 @@
 package org.fujionclinical.fhir.plugin.encounters.dstu2;
 
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.component.*;
 import org.fujion.event.DblclickEvent;
-import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.api.encounter.EncounterContext;
+import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.api.event.IEventSubscriber;
 import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
-import org.fujionclinical.fhir.api.dstu2.encounter.EncounterContext;
+import org.fujionclinical.fhir.api.dstu2.encounter.EncounterWrapper;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
 
@@ -46,7 +49,7 @@ import java.util.stream.Collectors;
  */
 public class MainController extends ResourceListView<Encounter, Encounter> {
 
-    private Encounter lastEncounter;
+    private IEncounter lastEncounter;
 
     @WiredComponent
     private Rows rows;
@@ -54,11 +57,11 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
     @WiredComponent
     private Columns columns;
 
-    private final IGenericEvent<Encounter> encounterChangeListener = (eventName, encounter) -> setEncounter(encounter);
+    private final IEventSubscriber<IEncounter> encounterChangeListener = (eventName, encounter) -> setEncounter(encounter);
 
     @Override
     protected void setup() {
-        setup(Encounter.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "Status", "Location", "Providers");
+        setup(Encounter.class, Bundle.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "Status", "Location", "Providers");
         columns.getFirstChild(Column.class).setStyles("width: 1%; min-width: 40px");
     }
     
@@ -100,7 +103,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         super.renderRow(row, encounter);
 
         row.addEventListener(DblclickEvent.class, (event) -> {
-            EncounterContext.changeEncounter(encounter);
+            EncounterContext.changeEncounter(new EncounterWrapper(encounter));
         });
     }
 
@@ -117,14 +120,14 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         EncounterContext.getEncounterContext().removeListener(encounterChangeListener);
     }
 
-    private void setEncounter(Encounter encounter) {
+    private void setEncounter(IEncounter encounter) {
         updateRowStatus(lastEncounter, false);
         updateRowStatus(encounter, true);
         lastEncounter = encounter;
     }
 
-    private void updateRowStatus(Encounter encounter, boolean activeContext) {
-        Row row = encounter == null ? null : (Row) rows.findChildByData(encounter);
+    private void updateRowStatus(IEncounter encounter, boolean activeContext) {
+        Row row = encounter == null ? null : (Row) rows.findChildByData(encounter.getNative());
 
         if (row != null) {
             Rowcell cell = row.getFirstChild(Rowcell.class);

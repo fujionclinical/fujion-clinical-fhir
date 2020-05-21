@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.plugin.medicationorders.dstu2;
 import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Medication;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder.DosageInstruction;
@@ -52,7 +53,7 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
 
     @Override
     protected void setup() {
-        setup(MedicationOrder.class, "Medication Orders", "Order Detail", "MedicationOrder?patient=#", 1, "Medication",
+        setup(MedicationOrder.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationOrder?patient=#", 1, "Medication",
             "Date", "Status", "Sig");
     }
 

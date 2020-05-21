@@ -25,23 +25,17 @@
  */
 package org.fujionclinical.fhir.scenario.common;
 
-import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.primitive.IdDt;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.fhir.api.common.core.BaseFhirService;
-import org.fujionclinical.fhir.api.common.patientlist.IPatientAdapterFactory;
-import org.fujionclinical.fhir.api.common.patientlist.PatientListRegistry;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -55,6 +49,8 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
 
     public final String scenarioName;
 
+    public final String scenarioActivation;
+
     public final IBaseCoding scenarioTag;
 
     public final IIdType scenarioId;
@@ -63,26 +59,23 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
 
     public final Resource scenarioYaml;
 
-    public final IPatientAdapterFactory patientAdapterFactory;
-
     private final Class<SCENARIO> scenarioClass;
 
     public ScenarioFactory(
             Class<SCENARIO> scenarioClass,
             Resource scenarioYaml,
-            IPatientAdapterFactory patientAdapterFactory,
             BaseFhirService fhirService) {
         this.scenarioClass = scenarioClass;
         this.scenarioYaml = scenarioYaml;
-        this.patientAdapterFactory = patientAdapterFactory;
         this.fhirService = fhirService;
 
         try (InputStream in = scenarioYaml.getInputStream()) {
             Map<String, ?> config = new Yaml().load(in);
-            Map<String, String> meta = (Map<String, String>) getParam(config, "scenario");
-            this.scenarioConfig = (Map<String, Map<String, String>>) getParam(config, "resources");
-            this.scenarioId = createScenarioId(getParam(meta, "id"));
-            this.scenarioName = getParam(meta, "name");
+            Map<String, String> meta = (Map<String, String>) ScenarioUtil.getParam(config, "scenario");
+            this.scenarioConfig = (Map<String, Map<String, String>>) ScenarioUtil.getParam(config, "resources");
+            this.scenarioId = createScenarioId(ScenarioUtil.getParam(meta, "id"));
+            this.scenarioActivation = ScenarioUtil.getParam(meta, "activation", false);
+            this.scenarioName = ScenarioUtil.getParam(meta, "name");
             this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioId.getIdPart(), scenarioName);
         } catch (Exception e) {
             log.error(() -> "Failed to load scenario configuration: " + scenarioYaml, e);
@@ -108,14 +101,6 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
      */
     private IIdType createScenarioId(String id) {
         return new IdDt("List", id);
-    }
-
-    private <T> T getParam(
-            Map<String, T> map,
-            String param) {
-        T value = map.get(param);
-        Assert.notNull(value, () -> "Missing configuration parameter: " + param);
-        return value;
     }
 
     /**

@@ -20,22 +20,7 @@
         <!-- FHIR-specific Artifacts -->
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-lib-patientselection-v1-stu3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-patientheader-stu3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-fhir-plugin-encounters-stu3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-patientphoto-stu3</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -86,18 +71,6 @@
         <dependency>
             <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-fhir-plugin-scenario-stu3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <!-- Epic Emulation -->
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-mockepic-stu3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <!-- SMART Support -->
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-smart-stu3</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

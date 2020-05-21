@@ -35,8 +35,9 @@ import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
+import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.patient.list.*;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.patientlist.*;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -62,6 +63,8 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
     private final String scenarioName;
 
+    private final String scenarioActivation;
+
     private final IBaseCoding scenarioTag;
 
     private final IIdType scenarioId;
@@ -73,8 +76,6 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private final FhirContext fhirContext;
 
     private final Resource root;
-
-    private final IPatientAdapterFactory patientAdapterFactory;
 
     private final IPatientList personalPatientList;
 
@@ -90,19 +91,24 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
         this.scenarioTag = scenarioFactory.scenarioTag;
         this.scenarioId = scenarioFactory.scenarioId;
         this.scenarioConfig = scenarioFactory.scenarioConfig;
-        this.patientAdapterFactory = scenarioFactory.patientAdapterFactory;
+        this.scenarioActivation = scenarioFactory.scenarioActivation;
         this.root = scenarioFactory.scenarioYaml;
         this.personalPatientList = PatientListRegistry.getInstance().findByName("Personal Lists");
         this.patientListFilterName = "scenario: " + getName();
     }
 
-    private <T> T getParam(
-            Map<String, T> map,
-            String param) {
-        T value = map.get(param);
-        Assert.notNull(value, () -> "Missing configuration parameter: " + param);
-        return value;
-    }
+    /**
+     * Called when the scenario is activated into the current context.
+     */
+    protected abstract void activate();
+
+    /**
+     * If the resource is a Patient resource, return a wrapped instance.  Otherwise, return null.
+     *
+     * @param resource The resource to check.
+     * @return A wrapped instance of the resource, or null if it is not a Patient resource.
+     */
+    protected abstract IPatient toPatient(IBaseResource resource);
 
     /**
      * Loads resources associated with the scenario.
@@ -150,6 +156,10 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @return The new or updated resource.
      */
     protected abstract IBaseResource _createOrUpdateResource(IBaseResource resource);
+
+    protected IBaseResource getActivationResource() {
+        return scenarioActivation == null ? null : resourcesByName.get(scenarioActivation);
+    }
 
     /**
      * Returns the name of this scenario.
@@ -226,7 +236,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
         for (String name : scenarioConfig.keySet()) {
             Map<String, String> params = scenarioConfig.get(name);
-            IBaseResource resource = initialize(getParam(params, "source"), params);
+            IBaseResource resource = initialize(ScenarioUtil.getParam(params, "source"), params);
             resourcesByName.put(name, resource);
         }
 
@@ -565,13 +575,16 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     }
 
     protected void addToPatientList(IBaseResource resource) {
-        getPatientListFilter();
-        IPatientAdapter patient = patientAdapterFactory.create(resource);
-        IPatientListItem item = PatientListUtil.findListItem(patient, personalPatientList.getListItems());
+        IPatient patient = toPatient(resource);
 
-        if (item == null) {
-            item = new PatientListItem(patient);
-            personalPatientList.getItemManager().addItem(item);
+        if (patient != null) {
+            getPatientListFilter();
+            IPatientListItem item = PatientListUtil.findListItem(patient, personalPatientList.getListItems());
+
+            if (item == null) {
+                item = new PatientListItem(patient);
+                personalPatientList.getItemManager().addItem(item);
+            }
         }
     }
 

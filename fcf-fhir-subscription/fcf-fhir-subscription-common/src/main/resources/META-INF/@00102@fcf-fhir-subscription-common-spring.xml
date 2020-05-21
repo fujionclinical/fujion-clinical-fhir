@@ -12,16 +12,20 @@
 	<beans profile="root">
 	
 		<mvc:annotation-driven/>
-		
+
+		<bean id="fhirSubFactory"
+			  class="org.fujionclinical.fhir.subscription.${fhir.context.version}.SubscriptionFactory" />
+
 		<bean id="fhirSubService" destroy-method="destroy"
-			class="org.fujionclinical.fhir.subscription.${fhir.context.version}.ResourceSubscriptionService">
+			class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService">
 			<constructor-arg ref="fhirClient" />
 			<constructor-arg ref="messageProducerService" />
 			<constructor-arg value="${fhir.service.subscription.callback.url:}" />
+			<constructor-arg ref="fhirSubFactory" />
 		</bean>
 		
 		<bean id="fhirSubEndpoint"
-			class="org.fujionclinical.fhir.subscription.${fhir.context.version}.ResourceSubscriptionEndpoint">
+			class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionEndpoint">
 			<constructor-arg ref="fhirSubService" />
 		</bean>		
 
@@ -30,7 +34,7 @@
 	<beans profile="child">
 		
 		<bean id="fhirSubManager"
-			class="org.fujionclinical.fhir.subscription.${fhir.context.version}.ResourceSubscriptionManager">
+			class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionManager">
 			<constructor-arg ref="eventManager" />
 			<constructor-arg ref="fhirSubService" />
 		</bean>

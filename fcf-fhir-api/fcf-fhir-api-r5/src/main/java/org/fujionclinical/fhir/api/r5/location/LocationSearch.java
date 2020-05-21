@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.api.r5.location;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
+import org.fujionclinical.api.location.search.LocationSearchCriteria;
 import org.fujionclinical.fhir.api.r5.query.BaseResourceQuery;
 import org.hl7.fhir.r5.model.Location;
 
@@ -46,11 +47,11 @@ public class LocationSearch extends BaseResourceQuery<Location, LocationSearchCr
         super.buildQuery(criteria, query);
 
         if (criteria.getType() != null) {
-            query.where(Location.TYPE.exactly().code(criteria.getType()));
+            query.where(Location.TYPE.exactly().code(criteria.getType().name()));
         }
 
         if (criteria.getStatus() != null) {
-            query.where(Location.STATUS.exactly().code(criteria.getStatus().toCode()));
+            query.where(Location.STATUS.exactly().code(criteria.getStatus().name()));
         }
 
         if (criteria.getName() != null) {

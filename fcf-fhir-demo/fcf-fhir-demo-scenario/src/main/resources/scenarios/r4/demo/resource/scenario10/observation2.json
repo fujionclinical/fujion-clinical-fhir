@@ -1,0 +1,118 @@
+{
+  "resourceType": "Observation",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/MeasurementDeviceExt",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "466086009",
+            "display": "Automatic-inflation electronic sphygmomanometer, portable, arm/wrist (physical object)"
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/MeasurementSettingExt",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "264362003",
+            "display": "Home (environment)"
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/AlgorithmForBloodPressureAverageExt",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/hspc/StructureDefinition/AlgorithmTypeExt",
+          "valueCodeableConcept": {
+            "text": "DEVICE_PROVIDED (Placeholder)"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/hspc/StructureDefinition/TimeWindowExt",
+          "valueQuantity": {
+            "value": 24,
+            "unit": "h"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/hspc/StructureDefinition/SetSizeExt",
+          "valueInteger": 50
+        }
+      ]
+    }
+  ],
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "314463006",
+        "display": "24 hour blood pressure (observable entity)"
+      }
+    ],
+    "text": "24hr Blood Pressure Panel"
+  },
+  "subject": {
+    "reference": "Patient/X1000009"
+  },
+  "effectiveDateTime": "2020-05-13T20:34:05-07:00",
+  "bodySite": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "17137000",
+        "display": "Structure of brachial artery (body structure)"
+      }
+    ]
+  },
+  "method": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "17146006",
+        "display": "Arterial pressure monitoring, non-invasive method (regime/therapy)"
+      }
+    ]
+  },
+  "component": [
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "314462001",
+            "display": "Average 24 hour diastolic blood pressure (observable entity)"
+          }
+        ],
+        "text": "Diastolic blood pressure"
+      },
+      "valueQuantity": {
+        "value": 79,
+        "unit": "mmHg"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "314449000",
+            "display": "Average 24 hour systolic blood pressure (observable entity)"
+          }
+        ],
+        "text": "Systolic blood pressure"
+      },
+      "valueQuantity": {
+        "value": 117,
+        "unit": "mmHg"
+      }
+    }
+  ]
+}

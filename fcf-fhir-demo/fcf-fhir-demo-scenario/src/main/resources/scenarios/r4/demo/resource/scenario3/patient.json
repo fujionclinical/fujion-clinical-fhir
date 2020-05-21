@@ -1,0 +1,34 @@
+{
+  "resourceType": "Patient",
+  "id": "X1000002",
+  "identifier": [
+    {
+      "type": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/v2/0203",
+            "code": "MR"
+          }
+        ]
+      },
+      "system": "http://edu.utah.health/mrn",
+      "value": "X1000002"
+    }
+  ],
+  "name": [
+    {
+      "family": "UncontrolledBpOnMeds",
+      "given": [
+        "Nora"
+      ]
+    }
+  ],
+  "gender": "female",
+  "birthDate": "1963-05-13",
+  "photo": [
+    {
+      "contentType": "image/png",
+      "url": "web/image/X1000002.png"
+    }
+  ]
+}

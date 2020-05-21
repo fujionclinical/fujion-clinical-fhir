@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.plugin.procedures.r5;
 
 import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
+import org.hl7.fhir.r5.model.Bundle;
 import org.hl7.fhir.r5.model.Procedure;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class MainController extends ResourceListView<Procedure, Procedure> {
 
     @Override
     protected void setup() {
-        setup(Procedure.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
+        setup(Procedure.class, Bundle.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
                 "Notes");
     }
 

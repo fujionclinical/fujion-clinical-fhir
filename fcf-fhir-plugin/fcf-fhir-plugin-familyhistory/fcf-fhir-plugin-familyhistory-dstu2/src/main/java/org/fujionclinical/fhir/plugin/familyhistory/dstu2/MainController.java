@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.familyhistory.dstu2;
 
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.FamilyMemberHistory;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
@@ -40,7 +41,7 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
 
     @Override
     protected void setup() {
-        setup(FamilyMemberHistory.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
+        setup(FamilyMemberHistory.class, Bundle.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
             "Relation", "Condition", "Outcome", "Notes");
     }
 

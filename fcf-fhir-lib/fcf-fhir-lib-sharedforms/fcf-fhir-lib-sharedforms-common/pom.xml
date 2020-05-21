@@ -16,6 +16,16 @@
 			<artifactId>fcf-ui-sharedforms</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-api-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-fhir-subscription-common</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 	</dependencies>
 
 </project>

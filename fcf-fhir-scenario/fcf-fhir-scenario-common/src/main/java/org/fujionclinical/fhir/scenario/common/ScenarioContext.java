@@ -29,20 +29,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.api.context.ContextItems;
 import org.fujionclinical.api.context.ContextManager;
-import org.fujionclinical.api.context.IContextEvent;
+import org.fujionclinical.api.context.IContextSubscriber;
 import org.fujionclinical.api.context.ManagedContext;
 
 /**
  * Wrapper for shared scenario context.
  */
 public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedContext<SCENARIO> {
-    
+
+    public interface IScenarioContextSubscriber extends IContextSubscriber {}
+
     private static final String SUBJECT_NAME = "Scenario";
     
     private static final Log log = LogFactory.getLog(ScenarioContext.class);
     
-    public interface IScenarioContextEvent extends IContextEvent {}
-
     private final ScenarioRegistry registry;
 
     /**
@@ -92,10 +92,20 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
      * @param registry Scenario registry for lookups by name.
      */
     public ScenarioContext(ScenarioRegistry registry) {
-        super(SUBJECT_NAME, IScenarioContextEvent.class);
+        super(SUBJECT_NAME, IScenarioContextSubscriber.class);
         this.registry = registry;
     }
-    
+
+    @Override
+    public void commit(boolean accept) {
+        super.commit(accept);
+        ScenarioBase scenario = getContextObject(false);
+
+        if (accept && scenario != null) {
+            scenario.activate();
+        }
+    }
+
     /**
      * Not implemented
      */

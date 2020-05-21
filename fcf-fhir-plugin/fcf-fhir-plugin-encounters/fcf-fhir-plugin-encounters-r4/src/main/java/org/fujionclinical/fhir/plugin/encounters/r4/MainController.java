@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -28,12 +28,15 @@ package org.fujionclinical.fhir.plugin.encounters.r4;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.component.*;
 import org.fujion.event.DblclickEvent;
-import org.fujionclinical.api.event.IGenericEvent;
+import org.fujionclinical.api.encounter.EncounterContext;
+import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.api.event.IEventSubscriber;
 import org.fujionclinical.fhir.api.r4.common.ClientUtil;
 import org.fujionclinical.fhir.api.r4.common.FhirUtil;
-import org.fujionclinical.fhir.api.r4.encounter.EncounterContext;
+import org.fujionclinical.fhir.api.r4.encounter.EncounterWrapper;
 import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.Location;
@@ -46,7 +49,7 @@ import java.util.stream.Collectors;
  */
 public class MainController extends ResourceListView<Encounter, Encounter> {
 
-    private Encounter lastEncounter;
+    private IEncounter lastEncounter;
 
     @WiredComponent
     private Rows rows;
@@ -54,14 +57,14 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
     @WiredComponent
     private Columns columns;
 
-    private final IGenericEvent<Encounter> encounterChangeListener = (eventName, encounter) -> setEncounter(encounter);
+    private final IEventSubscriber<IEncounter> encounterChangeListener = (eventName, encounter) -> setEncounter(encounter);
 
     @Override
     protected void setup() {
-        setup(Encounter.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "Status", "Location", "Providers");
+        setup(Encounter.class, Bundle.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "Status", "Location", "Providers");
         columns.getFirstChild(Column.class).setStyles("width: 1%; min-width: 40px");
     }
-
+    
     @Override
     protected void render(Encounter encounter, List<Object> columns) {
         columns.add(" ");
@@ -100,7 +103,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         super.renderRow(row, encounter);
 
         row.addEventListener(DblclickEvent.class, (event) -> {
-            EncounterContext.changeEncounter(encounter);
+            EncounterContext.changeEncounter(new EncounterWrapper(encounter));
         });
     }
 
@@ -117,14 +120,14 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         EncounterContext.getEncounterContext().removeListener(encounterChangeListener);
     }
 
-    private void setEncounter(Encounter encounter) {
+    private void setEncounter(IEncounter encounter) {
         updateRowStatus(lastEncounter, false);
         updateRowStatus(encounter, true);
         lastEncounter = encounter;
     }
 
-    private void updateRowStatus(Encounter encounter, boolean activeContext) {
-        Row row = encounter == null ? null : (Row) rows.findChildByData(encounter);
+    private void updateRowStatus(IEncounter encounter, boolean activeContext) {
+        Row row = encounter == null ? null : (Row) rows.findChildByData(encounter.getNative());
 
         if (row != null) {
             Rowcell cell = row.getFirstChild(Rowcell.class);

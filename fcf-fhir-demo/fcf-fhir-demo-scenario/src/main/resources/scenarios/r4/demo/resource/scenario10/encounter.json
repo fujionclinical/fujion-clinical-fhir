@@ -1,0 +1,21 @@
+{
+  "resourceType": "Encounter",
+  "identifier": [
+    {
+      "system": "http://edu.utah.health/encounter",
+      "value": "fa351db8-0d31-41df-81b8-ab0c9f50ebdb"
+    }
+  ],
+  "class": {
+    "system": "http://www.ama-assn.org/go/cpt",
+    "code": "99202",
+    "display": "Office visit"
+  },
+  "subject": {
+    "reference": "Patient/X1000009"
+  },
+  "period": {
+    "start": "2020-05-11T00:00:00-07:00",
+    "end": "2020-05-11T00:00:00-07:00"
+  }
+}

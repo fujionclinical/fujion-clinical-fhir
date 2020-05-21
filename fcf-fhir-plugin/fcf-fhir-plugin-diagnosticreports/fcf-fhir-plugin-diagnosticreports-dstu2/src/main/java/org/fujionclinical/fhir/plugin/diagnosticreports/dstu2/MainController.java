@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.diagnosticreports.dstu2;
 
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.DiagnosticReport;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
@@ -37,7 +38,7 @@ public class MainController extends ResourceListView<DiagnosticReport, Diagnosti
 
     @Override
     protected void setup() {
-        setup(DiagnosticReport.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
+        setup(DiagnosticReport.class, Bundle.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
             "Performed By", "Conclusion");
     }
 

@@ -37,6 +37,12 @@ public class ClientUtil {
 
     private static volatile BaseService fhirService;
 
+    /**
+     * Enforce static class.
+     */
+    private ClientUtil() {
+    }
+
     private static synchronized BaseService initFhirService() {
         if (fhirService == null) {
             fhirService = SpringUtil.getAppContext().getBean("fhirService", BaseService.class);
@@ -82,11 +88,5 @@ public class ClientUtil {
      */
     public static IBaseResource getResource(Reference reference) {
         return getFhirService().getResource(reference);
-    }
-
-    /**
-     * Enforce static class.
-     */
-    private ClientUtil() {
     }
 }

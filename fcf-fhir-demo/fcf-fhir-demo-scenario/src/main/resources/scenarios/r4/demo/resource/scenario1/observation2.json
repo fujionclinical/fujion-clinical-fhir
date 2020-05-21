@@ -1,0 +1,130 @@
+{
+  "resourceType": "Observation",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/BodyPositionExt",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "33586001",
+            "display": "Sitting position (finding)"
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/MeasurementDeviceExt",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "720738005",
+            "display": "Blood pressure cuff, adult size large (physical object)"
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/MeasurementSettingExt",
+      "valueCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "264362003",
+            "display": "Home (environment)"
+          }
+        ]
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/hspc/StructureDefinition/AlgorithmForBloodPressureAverageExt",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/hspc/StructureDefinition/AlgorithmTypeExt",
+          "valueCodeableConcept": {
+            "text": "IHM_AVERAGE_IHM_BP_7"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/hspc/StructureDefinition/TimeWindowExt",
+          "valueQuantity": {
+            "value": 10,
+            "unit": "d"
+          }
+        },
+        {
+          "url": "http://hl7.org/fhir/hspc/StructureDefinition/SetSizeExt",
+          "valueInteger": 30
+        }
+      ]
+    }
+  ],
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "723232008",
+        "display": "Average blood pressure (observable entity)"
+      }
+    ],
+    "text": "Average Home Blood Pressure Panel"
+  },
+  "subject": {
+    "reference": "Patient/X1000000"
+  },
+  "effectiveDateTime": "2020-05-13T13:17:34-07:00",
+  "bodySite": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "17137000",
+        "display": "Structure of brachial artery (body structure)"
+      }
+    ]
+  },
+  "method": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "17146006",
+        "display": "Arterial pressure monitoring, non-invasive method (regime/therapy)"
+      }
+    ]
+  },
+  "component": [
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "314453003",
+            "display": "Average diastolic blood pressure (observable entity)"
+          }
+        ],
+        "text": "Diastolic blood pressure"
+      },
+      "valueQuantity": {
+        "value": 76,
+        "unit": "mmHg"
+      }
+    },
+    {
+      "code": {
+        "coding": [
+          {
+            "system": "http://snomed.info/sct",
+            "code": "314440001",
+            "display": "Average systolic blood pressure (observable entity)"
+          }
+        ],
+        "text": "Systolic blood pressure"
+      },
+      "valueQuantity": {
+        "value": 118,
+        "unit": "mmHg"
+      }
+    }
+  ]
+}

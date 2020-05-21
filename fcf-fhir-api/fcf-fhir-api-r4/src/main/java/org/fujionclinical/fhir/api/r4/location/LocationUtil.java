@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.location;
 
+import org.fujionclinical.api.location.search.LocationSearchCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.hl7.fhir.r4.model.Location;
@@ -54,7 +55,7 @@ public class LocationUtil {
      * @return Resources matching the search criteria.
      */
     public static List<Location> search(LocationSearchCriteria criteria) {
-        return getSearchEngine().search(criteria);
+        return getSearchEngine().query(criteria);
     }
 
     /**
