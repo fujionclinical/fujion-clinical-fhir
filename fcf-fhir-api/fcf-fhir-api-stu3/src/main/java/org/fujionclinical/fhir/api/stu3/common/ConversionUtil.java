@@ -74,7 +74,7 @@ public class ConversionUtil {
         personName.setPrefixes(humanName.getPrefix().stream().map(StringType::toString).collect(Collectors.toList()));
         personName.setSuffixes(humanName.getSuffix().stream().map(StringType::toString).collect(Collectors.toList()));
 
-        if (humanName.getUseElement() != null) {
+        if (humanName.hasUse()) {
             personName.setCategory(personNameCategory(humanName.getUse()));
         }
 
@@ -112,10 +112,10 @@ public class ConversionUtil {
     }
 
     public static HumanName.NameUse personNameCategory(PersonName.PersonNameCategory category) {
-        return EnumUtils.getEnum(HumanName.NameUse.class, category.name());
+        return category == null ? null : EnumUtils.getEnum(HumanName.NameUse.class, category.name());
     }
 
     public static PersonName.PersonNameCategory personNameCategory(HumanName.NameUse nameUse) {
-        return EnumUtils.getEnum(PersonName.PersonNameCategory.class, nameUse.name());
+        return nameUse == null ? null : EnumUtils.getEnum(PersonName.PersonNameCategory.class, nameUse.name());
     }
 }
