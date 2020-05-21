@@ -105,44 +105,4 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<!-- Epic Emulation -->
-			<id>mockepic</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.fujionclinical</groupId>
-					<artifactId>fcf-mockepic-common</artifactId>
-					<version>${project.parent.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<!-- CDSHooks Support -->
-			<id>opencds</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.fujionclinical</groupId>
-					<artifactId>fcf-cdshooks</artifactId>
-					<version>${project.parent.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<!-- SMART Support -->
-			<id>smart</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.fujionclinical</groupId>
-					<artifactId>fcf-fhir-smart-launch-oidc</artifactId>
-					<version>${project.parent.version}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.fujionclinical</groupId>
-					<artifactId>fcf-fhir-smart-common</artifactId>
-					<version>${project.parent.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
 </project>
