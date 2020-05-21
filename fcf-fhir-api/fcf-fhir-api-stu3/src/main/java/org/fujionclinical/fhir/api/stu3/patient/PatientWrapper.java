@@ -1,5 +1,6 @@
 package org.fujionclinical.fhir.api.stu3.patient;
 
+import org.fujionclinical.api.model.Address;
 import org.fujionclinical.api.model.Identifier;
 import org.fujionclinical.api.model.PersonName;
 import org.fujionclinical.api.model.PersonPhoto;
@@ -43,6 +44,16 @@ public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient
     @Override
     public List<PersonName> getNames() {
         return getNative().getName().stream().map(name -> ConversionUtil.personName(name)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Address> getAddresses() {
+        List<org.hl7.fhir.dstu3.model.Address> addresses = getNative().getAddress();
+
+        return addresses == null || addresses.isEmpty() ? null :
+                addresses.stream()
+                        .map(address -> ConversionUtil.address(address))
+                        .collect(Collectors.toList());
     }
 
     @Override

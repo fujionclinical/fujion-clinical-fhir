@@ -1,12 +1,12 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
-import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
-import ca.uhn.fhir.model.dstu2.composite.CodingDt;
-import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
-import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
+import ca.uhn.fhir.model.dstu2.composite.*;
+import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
 import org.apache.commons.lang3.EnumUtils;
+import org.fujion.common.DateRange;
+import org.fujionclinical.api.model.Address;
 import org.fujionclinical.api.model.ConceptCode;
 import org.fujionclinical.api.model.Identifier;
 import org.fujionclinical.api.model.PersonName;
@@ -21,6 +21,23 @@ import java.util.stream.Collectors;
 public class ConversionUtil {
 
     private ConversionUtil() {
+    }
+
+    // --------------------- DateRange ---------------------
+
+    public static PeriodDt dateRange(DateRange dateRange) {
+        if (dateRange == null) {
+            return null;
+        }
+
+        PeriodDt period = new PeriodDt();
+        period.setStartWithSecondsPrecision(dateRange.getStartDate());
+        period.setEndWithSecondsPrecision(dateRange.getEndDate());
+        return period;
+    }
+
+    public static DateRange dateRange(PeriodDt period) {
+        return period == null ? null : new DateRange(period.getStart(), period.getEnd());
     }
 
     // --------------------- ConceptCode ---------------------
@@ -130,4 +147,47 @@ public class ConversionUtil {
     public static PersonName.PersonNameCategory personNameCategory(NameUseEnum nameUse) {
         return nameUse == null ? null : EnumUtils.getEnum(PersonName.PersonNameCategory.class, nameUse.name());
     }
+
+    // --------------------- Address ---------------------
+
+    public static AddressDt address(Address address) {
+        if (address == null) {
+            return null;
+        }
+
+        AddressDt addr = new AddressDt();
+        addr.setCity(address.getCity());
+        addr.setCountry(address.getCountry());
+        addr.setDistrict(address.getDistrict());
+        addr.setPostalCode(address.getPostalCode());
+        addr.setState(address.getState());
+        addr.setUse(addressCategory(address.getCategory()));
+        addr.setPeriod(dateRange(address.getPeriod()));
+        return addr;
+    }
+
+    public static Address address(AddressDt address) {
+        if (address == null) {
+            return null;
+        }
+
+        Address addr = new Address();
+        addr.setCity(address.getCity());
+        addr.setCountry(address.getCountry());
+        addr.setDistrict(address.getDistrict());
+        addr.setPostalCode(address.getPostalCode());
+        addr.setState(address.getState());
+        addr.setCategory(addressCategory(address.getUseElement().isEmpty() ? null : address.getUseElement().getValueAsEnum()));
+        addr.setPeriod(dateRange(address.getPeriod()));
+        return addr;
+    }
+
+    public static AddressUseEnum addressCategory(Address.AddressCategory category) {
+        return category == null ? null : EnumUtils.getEnum(AddressUseEnum.class, category.name());
+    }
+
+    public static Address.AddressCategory addressCategory(AddressUseEnum addressUse) {
+        return addressUse == null ? null : EnumUtils.getEnum(Address.AddressCategory.class, addressUse.name());
+    }
+
 }

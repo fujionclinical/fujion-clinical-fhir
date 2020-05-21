@@ -1,6 +1,7 @@
 package org.fujionclinical.fhir.api.r5.common;
 
 import org.apache.commons.lang3.EnumUtils;
+import org.fujion.common.DateRange;
 import org.fujionclinical.api.model.ConceptCode;
 import org.fujionclinical.api.model.PersonName;
 import org.hl7.fhir.r5.model.*;
@@ -15,6 +16,23 @@ import java.util.stream.Collectors;
 public class ConversionUtil {
 
     private ConversionUtil() {
+    }
+
+    // --------------------- DateRange ---------------------
+
+    public static Period dateRange(DateRange dateRange) {
+        if (dateRange == null) {
+            return null;
+        }
+
+        Period period = new Period();
+        period.setStart(dateRange.getStartDate());
+        period.setEnd(dateRange.getEndDate());
+        return period;
+    }
+
+    public static DateRange dateRange(Period period) {
+        return period == null ? null : new DateRange(period.getStart(), period.getEnd());
     }
 
     // --------------------- ConceptCode ---------------------
@@ -118,4 +136,47 @@ public class ConversionUtil {
     public static PersonName.PersonNameCategory personNameCategory(HumanName.NameUse nameUse) {
         return nameUse == null ? null : EnumUtils.getEnum(PersonName.PersonNameCategory.class, nameUse.name());
     }
+
+    // --------------------- Address ---------------------
+
+    public static Address address(org.fujionclinical.api.model.Address address) {
+        if (address == null) {
+            return null;
+        }
+
+        Address addr = new Address();
+        addr.setCity(address.getCity());
+        addr.setCountry(address.getCountry());
+        addr.setDistrict(address.getDistrict());
+        addr.setPostalCode(address.getPostalCode());
+        addr.setState(address.getState());
+        addr.setUse(addressCategory(address.getCategory()));
+        addr.setPeriod(dateRange(address.getPeriod()));
+        return addr;
+    }
+
+    public static org.fujionclinical.api.model.Address address(Address address) {
+        if (address == null) {
+            return null;
+        }
+
+        org.fujionclinical.api.model.Address addr = new org.fujionclinical.api.model.Address();
+        addr.setCity(address.getCity());
+        addr.setCountry(address.getCountry());
+        addr.setDistrict(address.getDistrict());
+        addr.setPostalCode(address.getPostalCode());
+        addr.setState(address.getState());
+        addr.setCategory(addressCategory(address.getUseElement().isEmpty() ? null : address.getUse()));
+        addr.setPeriod(dateRange(address.getPeriod()));
+        return addr;
+    }
+
+    public static Address.AddressUse addressCategory(org.fujionclinical.api.model.Address.AddressCategory category) {
+        return category == null ? null : EnumUtils.getEnum(Address.AddressUse.class, category.name());
+    }
+
+    public static org.fujionclinical.api.model.Address.AddressCategory addressCategory(Address.AddressUse addressUse) {
+        return addressUse == null ? null : EnumUtils.getEnum(org.fujionclinical.api.model.Address.AddressCategory.class, addressUse.name());
+    }
+
 }
