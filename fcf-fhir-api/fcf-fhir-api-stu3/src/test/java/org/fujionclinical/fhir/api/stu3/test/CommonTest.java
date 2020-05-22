@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.stu3.test;
 
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.IPersonName;
+import org.fujionclinical.api.model.PersonNameParser;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.PersonNameWrapper;
 import org.hl7.fhir.dstu3.model.*;
-import org.hl7.fhir.dstu3.model.HumanName.NameUse;
-import org.hl7.fhir.dstu3.model.Timing.UnitsOfTime;
-import org.hl7.fhir.instance.model.api.IAnyResource;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.junit.Test;
 
@@ -69,16 +69,16 @@ public class CommonTest {
 
     @Test
     public void testConvertTimeUnitToEnum() {
-        assertEquals(UnitsOfTime.A, FhirUtil.convertTimeUnitToEnum("a"));
-        assertEquals(UnitsOfTime.S, FhirUtil.convertTimeUnitToEnum("s"));
-        assertEquals(UnitsOfTime.MIN, FhirUtil.convertTimeUnitToEnum("min"));
-        assertEquals(UnitsOfTime.H, FhirUtil.convertTimeUnitToEnum("h"));
-        assertEquals(UnitsOfTime.D, FhirUtil.convertTimeUnitToEnum("d"));
-        assertEquals(UnitsOfTime.WK, FhirUtil.convertTimeUnitToEnum("wk"));
-        assertEquals(UnitsOfTime.MO, FhirUtil.convertTimeUnitToEnum("mo"));
+        assertEquals(Timing.UnitsOfTime.A, FhirUtil.convertTimeUnitToEnum("a"));
+        assertEquals(Timing.UnitsOfTime.S, FhirUtil.convertTimeUnitToEnum("s"));
+        assertEquals(Timing.UnitsOfTime.MIN, FhirUtil.convertTimeUnitToEnum("min"));
+        assertEquals(Timing.UnitsOfTime.H, FhirUtil.convertTimeUnitToEnum("h"));
+        assertEquals(Timing.UnitsOfTime.D, FhirUtil.convertTimeUnitToEnum("d"));
+        assertEquals(Timing.UnitsOfTime.WK, FhirUtil.convertTimeUnitToEnum("wk"));
+        assertEquals(Timing.UnitsOfTime.MO, FhirUtil.convertTimeUnitToEnum("mo"));
 
         try {
-            assertEquals(UnitsOfTime.NULL, FhirUtil.convertTimeUnitToEnum("bad"));
+            assertNull(FhirUtil.convertTimeUnitToEnum("bad"));
             fail("Should throw illegal argument exception.");
         } catch (IllegalArgumentException e) {
         }
@@ -121,23 +121,27 @@ public class CommonTest {
 
     @Test
     public void testNameUtils() {
-        HumanName n = FhirUtil.parseName("last, first middle");
+        HumanName n = new HumanName();
+        IPersonName wrapper = PersonNameWrapper.create(n);
+        PersonNameParser.instance.fromString("last, first middle", wrapper);
         assertEquals("last", n.getFamily());
         assertEquals("first middle", n.getGivenAsSingleString());
         assertEquals("first", n.getGiven().get(0).getValue());
         assertEquals("middle", n.getGiven().get(1).getValue());
         assertEquals("last, first middle", FhirUtil.formatName(n));
-        n.setUse(NameUse.USUAL);
-        HumanName n2 = FhirUtil.parseName(",nickname");
-        n2.setUse(NameUse.NICKNAME);
+        n.setUse(HumanName.NameUse.USUAL);
+        HumanName n2 = new HumanName();
+        IPersonName wrapper2 = PersonNameWrapper.create(n);
+        PersonNameParser.instance.fromString(",nickname", wrapper2);
+        n2.setUse(HumanName.NameUse.NICKNAME);
         List<HumanName> list = new ArrayList<>();
         list.add(n);
         list.add(n2);
-        assertSame(n, FhirUtil.getName(list, NameUse.USUAL));
-        assertSame(n, FhirUtil.getName(list, NameUse.USUAL, NameUse.NICKNAME));
-        assertSame(n2, FhirUtil.getName(list, NameUse.NICKNAME));
-        assertSame(n2, FhirUtil.getName(list, NameUse.NICKNAME, NameUse.USUAL));
-        assertNull(FhirUtil.getName(list, NameUse.OLD));
+        assertSame(n, FhirUtil.getName(list, HumanName.NameUse.USUAL));
+        assertSame(n, FhirUtil.getName(list, HumanName.NameUse.USUAL, HumanName.NameUse.NICKNAME));
+        assertSame(n2, FhirUtil.getName(list, HumanName.NameUse.NICKNAME));
+        assertSame(n2, FhirUtil.getName(list, HumanName.NameUse.NICKNAME, HumanName.NameUse.USUAL));
+        assertNull(FhirUtil.getName(list, HumanName.NameUse.OLD));
         Patient patient = new Patient();
         patient.setName(list);
         Practitioner practitioner = new Practitioner();
@@ -169,7 +173,7 @@ public class CommonTest {
         assertTrue(FhirUtil.areEqual(ref1v1, ref1v2, true));
         assertTrue(FhirUtil.areEqual(res1v1, ref1v1));
         assertFalse(FhirUtil.areEqual(res1v1, ref1v2));
-        ref1v1 = new Reference((IAnyResource) res1v1);
+        ref1v1 = new Reference((BaseResource) res1v1);
         assertFalse(FhirUtil.areEqual(ref1v1, ref1v2));
         assertTrue(FhirUtil.areEqual(ref1v1, ref1v2, true));
         assertTrue(FhirUtil.areEqual(res1v1, ref1v1));

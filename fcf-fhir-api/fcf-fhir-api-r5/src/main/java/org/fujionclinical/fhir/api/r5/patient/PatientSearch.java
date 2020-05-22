@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.r5.patient;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
-import org.fujionclinical.api.model.PersonName;
+import org.fujionclinical.api.model.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.patient.search.IPatientSearchEngine;
 import org.fujionclinical.api.patient.search.PatientSearchCriteria;
@@ -75,7 +75,7 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
         }
 
         if (criteria.getName() != null) {
-            PersonName name = criteria.getName();
+            IPersonName name = criteria.getName();
 
             if (name.hasFamilyName()) {
                 query.where(Patient.FAMILY.matches().value(name.getFamilyName()));
@@ -90,7 +90,7 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
 
     @Override
     public List<IPatient> search(PatientSearchCriteria criteria) {
-        return query(criteria).stream().map(patient -> new PatientWrapper(patient)).collect(Collectors.toList());
+        return query(criteria).stream().map(patient -> PatientWrapper.create(patient)).collect(Collectors.toList());
     }
 
 }

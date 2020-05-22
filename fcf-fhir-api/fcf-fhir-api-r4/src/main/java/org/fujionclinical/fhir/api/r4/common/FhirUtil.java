@@ -35,8 +35,6 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.api.model.PersonName;
-import org.fujionclinical.api.model.PersonNameParser;
 import org.fujionclinical.fhir.api.r4.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -61,30 +59,10 @@ import java.util.List;
  */
 public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
-    public static class OperationOutcomeException extends RuntimeException {
-
-        private static final long serialVersionUID = 1L;
-
-        private final OperationOutcome operationOutcome;
-
-        private final IssueSeverity severity;
-
-        private OperationOutcomeException(
-                String message,
-                IssueSeverity severity,
-                OperationOutcome operationOutcome) {
-            super(message);
-            this.severity = severity;
-            this.operationOutcome = operationOutcome;
-        }
-
-        public OperationOutcome getOperationOutcome() {
-            return operationOutcome;
-        }
-
-        public IssueSeverity getSeverity() {
-            return severity;
-        }
+    /**
+     * Enforce static class.
+     */
+    private FhirUtil() {
     }
 
     /**
@@ -398,7 +376,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return The displayable value (possibly null).
      */
     public static String getDisplayValue(HumanName value) {
-        return value == null ? null : ConversionUtil.personName(value).toString();
+        return formatName(value);
     }
 
     /**
@@ -879,19 +857,8 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         return repeat;
     }
 
-    /**
-     * Parses a name using the active parser.
-     *
-     * @param name String form of name.
-     * @return Parsed name.
-     */
-    public static HumanName parseName(String name) {
-        PersonName personName = name == null ? null : PersonNameParser.instance.fromString(name);
-        return ConversionUtil.personName(personName);
-    }
-
     public static String formatName(HumanName name) {
-        return name == null ? null : ConversionUtil.personName(name).toString();
+        return name == null ? null : PersonNameWrapper.create(name).toString();
     }
 
     /**
@@ -964,9 +931,29 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         }
     }
 
-    /**
-     * Enforce static class.
-     */
-    private FhirUtil() {
+    public static class OperationOutcomeException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+
+        private final OperationOutcome operationOutcome;
+
+        private final IssueSeverity severity;
+
+        private OperationOutcomeException(
+                String message,
+                IssueSeverity severity,
+                OperationOutcome operationOutcome) {
+            super(message);
+            this.severity = severity;
+            this.operationOutcome = operationOutcome;
+        }
+
+        public OperationOutcome getOperationOutcome() {
+            return operationOutcome;
+        }
+
+        public IssueSeverity getSeverity() {
+            return severity;
+        }
     }
 }

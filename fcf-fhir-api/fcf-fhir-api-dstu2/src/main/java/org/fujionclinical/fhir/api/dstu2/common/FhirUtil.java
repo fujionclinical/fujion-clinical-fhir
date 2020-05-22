@@ -47,8 +47,6 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.api.model.PersonName;
-import org.fujionclinical.api.model.PersonNameParser;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -379,7 +377,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return The displayable value (possibly null).
      */
     public static String getDisplayValue(HumanNameDt value) {
-        return value == null ? null : ConversionUtil.personName(value).toString();
+        return formatName(value);
     }
 
     /**
@@ -863,19 +861,8 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         return repeat;
     }
 
-    /**
-     * Parses a name using the active parser.
-     *
-     * @param name String form of name.
-     * @return Parsed name.
-     */
-    public static HumanNameDt parseName(String name) {
-        PersonName personName = name == null ? null : PersonNameParser.instance.fromString(name);
-        return ConversionUtil.personName(personName);
-    }
-
     public static String formatName(HumanNameDt name) {
-        return name == null ? null : ConversionUtil.personName(name).toString();
+        return name == null ? null : PersonNameWrapper.create(name).toString();
     }
 
     /**

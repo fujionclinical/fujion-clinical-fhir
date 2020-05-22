@@ -56,9 +56,9 @@ public class Scenario extends ScenarioBase<ListResource> {
         IBaseResource activationResource = getActivationResource();
 
         if (activationResource instanceof Encounter) {
-            EncounterContext.changeEncounter(new EncounterWrapper((Encounter) activationResource));
+            EncounterContext.changeEncounter(EncounterWrapper.create((Encounter) activationResource));
         } else if (activationResource instanceof Patient) {
-            PatientContext.changePatient(new PatientWrapper((Patient) activationResource));
+            PatientContext.changePatient(PatientWrapper.create((Patient) activationResource));
         }
     }
 
@@ -120,6 +120,6 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected IPatient toPatient(IBaseResource resource) {
-        return resource instanceof Patient ? new PatientWrapper((Patient) resource) : null;
+        return resource instanceof Patient ? PatientWrapper.create((Patient) resource) : null;
     }
 }

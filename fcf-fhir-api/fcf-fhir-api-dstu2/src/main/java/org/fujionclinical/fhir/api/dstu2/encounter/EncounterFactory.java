@@ -13,6 +13,6 @@ public class EncounterFactory extends ResourceFactory<IEncounter, Encounter> {
 
     @Override
     protected IEncounter wrapResource(Encounter resource) {
-        return new EncounterWrapper(resource);
+        return EncounterWrapper.create(resource);
     }
 }

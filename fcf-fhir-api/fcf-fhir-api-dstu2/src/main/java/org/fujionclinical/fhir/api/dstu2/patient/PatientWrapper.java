@@ -1,73 +1,110 @@
 package org.fujionclinical.fhir.api.dstu2.patient;
 
 import ca.uhn.fhir.model.api.IDatatype;
-import ca.uhn.fhir.model.dstu2.composite.AddressDt;
-import ca.uhn.fhir.model.dstu2.composite.AttachmentDt;
+import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
+import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
-import org.fujionclinical.api.model.Address;
-import org.fujionclinical.api.model.Identifier;
-import org.fujionclinical.api.model.PersonName;
-import org.fujionclinical.api.model.PersonPhoto;
+import org.fujionclinical.api.model.*;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.ConversionUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.PersonNameWrapper;
+import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient {
+public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
-    public PatientWrapper(Patient resource) {
-        super(resource);
+    public static PatientWrapper create(Patient patient) {
+        return patient == null ? null : new PatientWrapper(patient);
+    }
+
+    private final Patient patient;
+
+    private final List<IPersonName> names;
+
+    private IdentifierWrapper mrn;
+
+    private PatientWrapper(Patient patient) {
+        this.patient = patient;
+        names = PersonNameWrapper.wrap(patient.getName());
+        mrn = IdentifierWrapper.create(FhirUtil.getMRN(patient));
     }
 
     @Override
-    public Identifier getMRN() {
-        return ConversionUtil.identifier((FhirUtil.getMRN(getNative())));
+    public IIdentifier getMRN() {
+        return mrn;
     }
 
     @Override
-    public String getGender() {
-        return getNative().getGender();
+    public IPatient setMRN(IIdentifier mrn) {
+        if (mrn == null) {
+            IdentifierDt ident = IdentifierWrapper.unwrap(mrn);
+            ident.getType().addCoding(Constants.CODING_MRN);
+            this.mrn = IdentifierWrapper.create(new IdentifierDt());
+        }
+
+        return this;
     }
 
     @Override
-    public Date getDOB() {
-        return getNative().getBirthDate();
+    public Gender getGender() {
+        return FhirUtil.convertEnum(patient.getGender(), Gender.class, Gender.OTHER);
     }
 
     @Override
-    public Date getDeceased() {
-        IDatatype value = getNative().getDeceased();
-        return value instanceof DateDt ? ((DateDt) value).getValue() : null;
+    public IPerson setGender(Gender gender) {
+        patient.setGender(FhirUtil.convertEnum(gender, AdministrativeGenderEnum.class, AdministrativeGenderEnum.OTHER));
+        return this;
     }
 
     @Override
-    public List<PersonName> getNames() {
-        return getNative().getName().stream().map(name -> ConversionUtil.personName(name)).collect(Collectors.toList());
+    public Date getBirthDate() {
+        return patient.getBirthDate();
     }
 
     @Override
-    public List<Address> getAddresses() {
-        List<AddressDt> addresses = getNative().getAddress();
-
-        return addresses == null || addresses.isEmpty() ? null :
-                addresses.stream()
-                        .map(address -> ConversionUtil.address(address))
-                        .collect(Collectors.toList());
+    public IPerson setBirthDate(Date date) {
+        patient.setBirthDateWithDayPrecision(date);
+        return this;
     }
 
     @Override
-    public List<PersonPhoto> getPhotos() {
-        List<AttachmentDt> attachments = getNative().getPhoto();
-        return attachments == null || attachments.isEmpty() ? null :
-                attachments.stream()
-                        .filter(attachment -> attachment.getContentType().startsWith("image/"))
-                        .map(attachment -> FhirUtil.getContent(attachment))
-                        .map(content -> new PersonPhoto(content, PersonPhoto.PersonPhotoCategory.USUAL))
-                        .collect(Collectors.toList());
+    public Date getDeceasedDate() {
+        IDatatype deceased = patient.getDeceased();
+        return deceased instanceof DateDt ? ((DateDt) deceased).getValue() : null;
+    }
+
+    @Override
+    public IPerson setDeceasedDate(Date date) {
+        patient.setDeceased(new DateDt(date));
+        return this;
+    }
+
+    @Override
+    public List<IPersonName> getNames() {
+        return names;
+    }
+
+    @Override
+    public List<IPostalAddress> getAddresses() {
+        return null;
+    }
+
+    @Override
+    public List<IPersonPhoto> getPhotos() {
+        return null;
+    }
+
+    @Override
+    public String getId() {
+        return patient.getId().getIdPart();
+    }
+
+    @Override
+    public Patient getWrapped() {
+        return patient;
     }
 }

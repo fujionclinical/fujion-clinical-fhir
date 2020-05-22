@@ -61,7 +61,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
 
     @Override
     protected void setup() {
-        setup(Encounter.class, Bundle.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "Status", "Location", "Providers");
+        setup(Encounter.class, Bundle.class, "Encounters", "Encounter Detail", "Encounter?patient=#", 1, "", "Date", "EncounterStatus", "Location", "Providers");
         columns.getFirstChild(Column.class).setStyles("width: 1%; min-width: 40px");
     }
     
@@ -103,7 +103,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         super.renderRow(row, encounter);
 
         row.addEventListener(DblclickEvent.class, (event) -> {
-            EncounterContext.changeEncounter(new EncounterWrapper(encounter));
+            EncounterContext.changeEncounter(EncounterWrapper.create(encounter));
         });
     }
 

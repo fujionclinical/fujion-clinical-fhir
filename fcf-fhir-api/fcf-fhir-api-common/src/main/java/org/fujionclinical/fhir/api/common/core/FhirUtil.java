@@ -32,6 +32,7 @@ import ca.uhn.fhir.util.UrlUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.Logger;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -498,6 +499,37 @@ public class FhirUtil {
 
         Assert.state(getFhirVersion(fhirContext) == expected, () ->
                 "FHIR version mismatch.  Expected " + expected + " but found " + found);
+    }
+
+    public static <S extends Enum<S>, D extends Enum<D>> D convertEnum(
+            S value,
+            Class<D> enumClass) {
+        return convertEnum(value, enumClass, null);
+    }
+
+    public static <S extends Enum<S>, D extends Enum<D>> D convertEnum(
+            S value,
+            Class<D> enumClass,
+            D deflt) {
+        return value == null ? null : convertEnum(value.name(), enumClass, deflt);
+    }
+
+    public static <D extends Enum<D>> D convertEnum(
+            String value,
+            Class<D> enumClass) {
+        return convertEnum(value, enumClass, null);
+    }
+
+    public static <D extends Enum<D>> D convertEnum(
+            String value,
+            Class<D> enumClass,
+            D deflt) {
+        if (value == null) {
+            return null;
+        }
+
+        D result = EnumUtils.getEnumIgnoreCase(enumClass, value);
+        return result == null ? deflt : result;
     }
 
     /**

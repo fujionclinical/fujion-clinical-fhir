@@ -35,8 +35,6 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.api.model.PersonName;
-import org.fujionclinical.api.model.PersonNameParser;
 import org.fujionclinical.fhir.api.stu3.terminology.Constants;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Address.AddressUse;
@@ -378,7 +376,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return The displayable value (possibly null).
      */
     public static String getDisplayValue(HumanName value) {
-        return value == null ? null : ConversionUtil.personName(value).toString();
+        return formatName(value);
     }
 
     /**
@@ -859,19 +857,8 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
         return repeat;
     }
 
-    /**
-     * Parses a name using the active parser.
-     *
-     * @param name String form of name.
-     * @return Parsed name.
-     */
-    public static HumanName parseName(String name) {
-        PersonName personName = name == null ? null : PersonNameParser.instance.fromString(name);
-        return ConversionUtil.personName(personName);
-    }
-
     public static String formatName(HumanName name) {
-        return name == null ? null : ConversionUtil.personName(name).toString();
+        return name == null ? null : PersonNameWrapper.create(name).toString();
     }
 
     /**
@@ -923,7 +910,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @throws IllegalStateException If the versions do not match.
      */
     public static void assertFhirVersion(FhirContext fhirContext) {
-        assertFhirVersion(fhirContext, FhirVersionEnum.DSTU3);
+        assertFhirVersion(fhirContext, FhirVersionEnum.R4);
     }
 
     /**

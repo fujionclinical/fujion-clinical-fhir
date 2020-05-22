@@ -1,37 +1,54 @@
 package org.fujionclinical.fhir.api.r4.encounter;
 
-import org.fujion.common.DateRange;
 import org.fujionclinical.api.encounter.IEncounter;
 import org.fujionclinical.api.location.ILocation;
-import org.fujionclinical.api.model.IPerson;
+import org.fujionclinical.api.model.IPeriod;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.r4.common.PeriodWrapper;
 import org.hl7.fhir.r4.model.Encounter;
-
-import java.util.List;
+import org.hl7.fhir.r4.model.Period;
 
 public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
 
-    public EncounterWrapper(Encounter encounter) {
+    public static EncounterWrapper create(Encounter encounter) {
+        return encounter == null ? null : new EncounterWrapper(encounter);
+    }
+
+    private PeriodWrapper period;
+
+    private EncounterWrapper(Encounter encounter) {
         super(encounter);
+        period = PeriodWrapper.create(encounter.getPeriod());
     }
 
     @Override
-    public DateRange getPeriod() {
-        return null;
+    public IPeriod getPeriod() {
+        return period;
     }
 
     @Override
-    public String getStatus() {
-        return getNative().hasStatus() ? getNative().getStatus().toCode() : null;
+    public IEncounter setPeriod(IPeriod period) {
+        if (period == null) {
+            this.period = null;
+            getNative().setPeriod(null);
+        } else {
+            Period periodDt = PeriodWrapper.unwrap(period);
+            getWrapped().setPeriod(periodDt);
+            this.period = PeriodWrapper.create(periodDt);
+        }
+
+        return this;
     }
 
     @Override
-    public List<IPerson> getParticipants() {
-        return null;
+    public IEncounter.EncounterStatus getStatus() {
+        return FhirUtil.convertEnum(getWrapped().getStatus(), IEncounter.EncounterStatus.class);
     }
 
     @Override
     public ILocation getLocation() {
         return null;
     }
+
 }

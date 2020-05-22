@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.r4.practitioner;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
-import org.fujionclinical.api.model.Identifier;
-import org.fujionclinical.api.model.PersonName;
+import org.fujionclinical.api.model.IIdentifier;
+import org.fujionclinical.api.model.IPersonName;
 import org.fujionclinical.api.practitioner.search.PractitionerSearchCriteria;
 import org.fujionclinical.fhir.api.r4.common.FhirUtil;
 import org.fujionclinical.fhir.api.r4.query.BaseResourceQuery;
@@ -48,7 +48,7 @@ public class PractitionerSearch extends BaseResourceQuery<Practitioner, Practiti
             PractitionerSearchCriteria criteria,
             IQuery<?> query) {
         super.buildQuery(criteria, query);
-        Identifier id = criteria.getDEA();
+        IIdentifier id = criteria.getDEA();
 
         if (id != null) {
             query.where(Practitioner.IDENTIFIER.exactly().systemAndIdentifier(id.getSystem(), id.getValue()));
@@ -65,7 +65,7 @@ public class PractitionerSearch extends BaseResourceQuery<Practitioner, Practiti
         }
 
         if (criteria.getName() != null) {
-            PersonName name = criteria.getName();
+            IPersonName name = criteria.getName();
 
             if (name.hasFamilyName()) {
                 query.where(Practitioner.FAMILY.matches().value(name.getFamilyName()));

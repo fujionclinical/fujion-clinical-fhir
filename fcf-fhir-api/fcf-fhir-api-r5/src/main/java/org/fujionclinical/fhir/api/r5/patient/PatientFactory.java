@@ -13,6 +13,6 @@ public class PatientFactory extends ResourceFactory<IPatient, Patient> {
 
     @Override
     protected IPatient wrapResource(Patient resource) {
-        return new PatientWrapper(resource);
+        return PatientWrapper.create(resource);
     }
 }
