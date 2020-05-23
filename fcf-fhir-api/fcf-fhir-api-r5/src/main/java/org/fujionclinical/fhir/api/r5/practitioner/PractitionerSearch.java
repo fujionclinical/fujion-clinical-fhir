@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.r5.practitioner;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IPersonName;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.practitioner.search.PractitionerSearchCriteria;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.api.r5.query.BaseResourceQuery;

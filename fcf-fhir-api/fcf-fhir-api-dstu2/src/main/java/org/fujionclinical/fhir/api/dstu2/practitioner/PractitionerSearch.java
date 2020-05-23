@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.resource.Practitioner;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IPersonName;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.practitioner.search.PractitionerSearchCriteria;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.query.BaseResourceQuery;

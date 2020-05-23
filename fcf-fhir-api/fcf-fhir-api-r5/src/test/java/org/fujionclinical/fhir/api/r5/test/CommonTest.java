@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.api.r5.test;
 
 import org.fujion.common.DateUtil;
-import org.fujionclinical.api.model.IPersonName;
-import org.fujionclinical.api.model.PersonNameParser;
+import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.api.model.person.PersonNameParser;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.api.r5.common.PersonNameWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;

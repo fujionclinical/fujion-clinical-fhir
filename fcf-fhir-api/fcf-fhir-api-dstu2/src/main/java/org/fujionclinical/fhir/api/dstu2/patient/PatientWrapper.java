@@ -6,14 +6,15 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import org.fujionclinical.api.model.*;
+import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
-import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.PersonNameWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.*;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
@@ -90,12 +91,12 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public List<IPostalAddress> getAddresses() {
-        return null;
+        return patient.getAddress().stream().map(address -> PostalAddressWrapper.create(address)).collect(Collectors.toList());
     }
 
     @Override
-    public List<IPersonPhoto> getPhotos() {
-        return null;
+    public List<IAttachment> getPhotos() {
+        return patient.getPhoto().stream().map(photo -> AttachmentWrapper.create(photo)).collect(Collectors.toList());
     }
 
     @Override

@@ -3,7 +3,7 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
-import org.fujionclinical.api.model.IPersonName;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.IWrapper;
 
 import java.util.Collections;

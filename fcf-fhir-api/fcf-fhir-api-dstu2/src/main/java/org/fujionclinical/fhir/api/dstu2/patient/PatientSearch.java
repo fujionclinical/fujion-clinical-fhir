@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.dstu2.patient;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
-import org.fujionclinical.api.model.IPersonName;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.patient.search.IPatientSearchEngine;
 import org.fujionclinical.api.patient.search.PatientSearchCriteria;

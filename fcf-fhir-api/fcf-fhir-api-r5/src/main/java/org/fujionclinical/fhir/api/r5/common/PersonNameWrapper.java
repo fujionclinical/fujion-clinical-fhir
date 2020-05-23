@@ -1,6 +1,6 @@
 package org.fujionclinical.fhir.api.r5.common;
 
-import org.fujionclinical.api.model.IPersonName;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.IWrapper;
 import org.hl7.fhir.r5.model.HumanName;
 import org.hl7.fhir.r5.model.StringType;
