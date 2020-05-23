@@ -31,7 +31,7 @@ import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IIdentifier;
 import org.fujionclinical.api.model.IPersonName;
 import org.fujionclinical.api.practitioner.search.PractitionerSearchCriteria;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.query.BaseResourceQuery;
 
 /**
@@ -72,7 +72,7 @@ public class PractitionerSearch extends BaseResourceQuery<Practitioner, Practiti
             }
 
             if (name.hasGivenName()) {
-                query.where(Practitioner.GIVEN.matches().values(FhirUtil.toStringList(name.getGivenNames())));
+                query.where(Practitioner.GIVEN.matches().values(FhirUtilDstu2.toStringList(name.getGivenNames())));
             }
 
         }

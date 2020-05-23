@@ -2,7 +2,7 @@ package org.fujionclinical.fhir.api.r5.patient;
 
 import org.fujionclinical.api.model.*;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.fhir.api.r5.common.FhirUtil;
+import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.api.r5.common.IdentifierWrapper;
 import org.fujionclinical.fhir.api.r5.common.PersonNameWrapper;
 import org.fujionclinical.fhir.api.r5.terminology.Constants;
@@ -29,7 +29,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     private PatientWrapper(Patient patient) {
         this.patient = patient;
         names = PersonNameWrapper.wrap(patient.getName());
-        mrn = IdentifierWrapper.create(FhirUtil.getMRN(patient));
+        mrn = IdentifierWrapper.create(FhirUtilR5.getMRN(patient));
     }
 
     @Override
@@ -50,12 +50,12 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public Gender getGender() {
-        return FhirUtil.convertEnum(patient.getGender(), Gender.class, Gender.OTHER);
+        return FhirUtilR5.convertEnum(patient.getGender(), Gender.class, Gender.OTHER);
     }
 
     @Override
     public IPerson setGender(Gender gender) {
-        patient.setGender(FhirUtil.convertEnum(gender, Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
+        patient.setGender(FhirUtilR5.convertEnum(gender, Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
         return this;
     }
 

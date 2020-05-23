@@ -36,7 +36,7 @@ import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.fhir.api.stu3.common.BaseService;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.fujionclinical.fhir.scenario.stu3.Scenario;
 import org.fujionclinical.ui.controller.FrameworkController;
 import org.fujionclinical.ui.dialog.DialogUtil;
@@ -51,7 +51,7 @@ public class ViewResourcesController extends FrameworkController {
     
     private static IComponentRenderer<Row, IBaseResource> resourceRenderer = (resource) -> {
         Row row = new Row();
-        row.addChild(new Cell(FhirUtil.getResourceIdPath(resource)));
+        row.addChild(new Cell(FhirUtilStu3.getResourceIdPath(resource)));
         row.setData(resource);
         return row;
     };
@@ -139,7 +139,7 @@ public class ViewResourcesController extends FrameworkController {
     private void onClick$btnDelete() {
         IBaseResource resource = getSelectedResource();
         
-        DialogUtil.confirm("Delete " + FhirUtil.getResourceIdPath(resource, true) + "?", "Delete Resource", (confirm) -> {
+        DialogUtil.confirm("Delete " + FhirUtilStu3.getResourceIdPath(resource, true) + "?", "Delete Resource", (confirm) -> {
             if (confirm) {
                 try {
                     fhirService.deleteResource(resource);

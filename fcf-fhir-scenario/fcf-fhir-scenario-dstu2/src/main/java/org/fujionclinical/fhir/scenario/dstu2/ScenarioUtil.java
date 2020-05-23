@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.scenario.dstu2;
 
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.List;
@@ -74,8 +74,8 @@ public class ScenarioUtil extends org.fujionclinical.fhir.scenario.common.Scenar
      * @return The main identifier, or null if not found.
      */
     public static IdentifierDt getMainIdentifier(IBaseResource resource) {
-        List<IdentifierDt> identifiers = FhirUtil.getIdentifiers(resource);
-        return FhirUtil.getFirst(identifiers);
+        List<IdentifierDt> identifiers = FhirUtilDstu2.getIdentifiers(resource);
+        return FhirUtilDstu2.getFirst(identifiers);
     }
 
 }

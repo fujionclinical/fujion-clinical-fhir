@@ -31,7 +31,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import org.fujionclinical.fhir.api.dstu2.common.BaseService;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 
 import java.util.*;
 
@@ -144,7 +144,7 @@ public class DocumentService extends BaseService {
         }
 
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        List<DocumentReference> list = FhirUtil.getEntries(bundle, DocumentReference.class);
+        List<DocumentReference> list = FhirUtilDstu2.getEntries(bundle, DocumentReference.class);
         List<Document> results = new ArrayList<>(list.size());
 
         for (DocumentReference ref : list) {
@@ -161,7 +161,7 @@ public class DocumentService extends BaseService {
             Bundle bundle = getClient().search().forResource(ValueSet.class)
                     .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
-            for (ValueSet vs : FhirUtil.getEntries(bundle, ValueSet.class)) {
+            for (ValueSet vs : FhirUtilDstu2.getEntries(bundle, ValueSet.class)) {
                 for (ValueSet.CodeSystemConcept concept : vs.getCodeSystem().getConcept()) {
                     results.add(concept.getDisplay());
                 }

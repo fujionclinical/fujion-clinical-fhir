@@ -64,7 +64,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
     @Override
     public <T extends IBaseResource> T createResource(T resource) {
         MethodOutcome outcome = getClient().create().resource(resource).execute();
-        return FhirUtil.processMethodOutcome(outcome, resource);
+        return FhirUtilDstu2.processMethodOutcome(outcome, resource);
     }
 
     /**
@@ -116,7 +116,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
                 .execute();
 
         Bundle bundle = (Bundle) result.getParameterFirstRep().getResource();
-        return FhirUtil.getEntries(bundle);
+        return FhirUtilDstu2.getEntries(bundle);
     }
 
     /**
@@ -178,7 +178,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
             String value,
             Class<T> clazz,
             int maxCount) {
-        return searchResourcesByIdentifier(FhirUtil.createIdentifier(system, value), clazz, maxCount);
+        return searchResourcesByIdentifier(FhirUtilDstu2.createIdentifier(system, value), clazz, maxCount);
     }
 
     /**
@@ -199,7 +199,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
                 .where(Constants.PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilDstu2.getEntries(bundle, clazz);
     }
 
     /**
@@ -216,7 +216,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
         Bundle bundle = getClient().search().forAllResources().count(maxCount).withTag(tag.getSystem(), tag.getCode())
                 .returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, null, null);
+        return FhirUtilDstu2.getEntries(bundle, null, null);
     }
 
     /**
@@ -236,7 +236,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount).withTag(tag.getSystem(), tag.getCode())
                 .returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilDstu2.getEntries(bundle, clazz);
     }
 
     /**
@@ -252,7 +252,7 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount).returnBundle(Bundle.class).execute();
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilDstu2.getEntries(bundle, clazz);
     }
 
     /**
@@ -270,9 +270,9 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(Constants.PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
+                .where(Constants.PARAM_PATIENT.hasId(FhirUtilDstu2.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilDstu2.getEntries(bundle, clazz);
     }
 
     /**
@@ -284,13 +284,13 @@ public class BaseService extends BaseFhirService<Patient, IdentifierDt, Resource
      */
     @Override
     public <T extends IBaseResource> T updateResource(T resource) {
-        MethodOutcome outcome = getClient().update().resource(FhirUtil.stripVersion(resource)).execute();
-        return FhirUtil.processMethodOutcome(outcome, resource);
+        MethodOutcome outcome = getClient().update().resource(FhirUtilDstu2.stripVersion(resource)).execute();
+        return FhirUtilDstu2.processMethodOutcome(outcome, resource);
     }
 
     @Override
     protected void validateClient() {
-        FhirUtil.assertFhirVersion(getClient());
+        FhirUtilDstu2.assertFhirVersion(getClient());
     }
 
 }

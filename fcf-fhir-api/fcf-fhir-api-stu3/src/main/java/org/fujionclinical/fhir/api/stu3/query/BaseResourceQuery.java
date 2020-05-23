@@ -30,7 +30,7 @@ import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
 import org.fujionclinical.api.query.SearchCriteria;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.hl7.fhir.dstu3.model.BaseResource;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -116,6 +116,6 @@ public class BaseResourceQuery<R extends IBaseResource, C extends SearchCriteria
      */
     @Override
     public List<R> query(IQuery<?> query) {
-        return FhirUtil.getEntries(query.returnBundle(Bundle.class).execute(), resourceClass);
+        return FhirUtilStu3.getEntries(query.returnBundle(Bundle.class).execute(), resourceClass);
     }
 }

@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.FamilyMemberHistory;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
 import java.util.List;
@@ -59,11 +59,11 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
 
                 switch (i) {
                     case 0:
-                        value = FhirUtil.getDisplayValue(condition.getCode());
+                        value = FhirUtilDstu2.getDisplayValue(condition.getCode());
                         break;
 
                     case 1:
-                        value = FhirUtil.getDisplayValue(condition.getOutcome());
+                        value = FhirUtilDstu2.getDisplayValue(condition.getOutcome());
                         break;
 
                     case 2:

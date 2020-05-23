@@ -74,12 +74,12 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanName> {
 
     @Override
     public PersonNameUse getUse() {
-        return FhirUtil.convertEnum(name.getUse(), PersonNameUse.class);
+        return FhirUtilR4.convertEnum(name.getUse(), PersonNameUse.class);
     }
 
     @Override
     public IPersonName setUse(PersonNameUse category) {
-        name.setUse(FhirUtil.convertEnum(category, HumanName.NameUse.class));
+        name.setUse(FhirUtilR4.convertEnum(category, HumanName.NameUse.class));
         return this;
     }
 

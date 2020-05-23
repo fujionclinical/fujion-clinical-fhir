@@ -30,7 +30,7 @@ import org.fujionclinical.api.encounter.search.EncounterSearchCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.fujionclinical.fhir.api.r5.common.ClientUtil;
-import org.fujionclinical.fhir.api.r5.common.FhirUtil;
+import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.*;
 import org.hl7.fhir.r5.model.CodeSystem.ConceptDefinitionComponent;
@@ -160,7 +160,7 @@ public class EncounterUtil {
             Bundle bundle = ClientUtil.getFhirClient().search().forResource(ValueSet.class)
                     .where(CodeSystem.NAME.matchesExactly().value("EncounterType")).returnBundle(Bundle.class).execute();
 
-            for (CodeSystem cs : FhirUtil.getEntries(bundle, CodeSystem.class)) {
+            for (CodeSystem cs : FhirUtilR5.getEntries(bundle, CodeSystem.class)) {
                 UriType system = cs.getUrlElement();
 
                 for (ConceptDefinitionComponent concept : cs.getConcept()) {
@@ -181,8 +181,8 @@ public class EncounterUtil {
     }
 
     public static String getServiceCategory(Encounter encounter) {
-        CodeableConcept cpt = encounter == null ? null : FhirUtil.getFirst(encounter.getType());
-        Coding coding = cpt == null ? null : FhirUtil.getFirst(cpt.getCoding());
+        CodeableConcept cpt = encounter == null ? null : FhirUtilR5.getFirst(encounter.getType());
+        Coding coding = cpt == null ? null : FhirUtilR5.getFirst(cpt.getCoding());
         return coding == null ? null : coding.getCode();
     }
 
@@ -267,8 +267,8 @@ public class EncounterUtil {
 
     public static HumanName getName(EncounterParticipantComponent participant) {
         IBaseResource resource = ClientUtil.getResource(participant.getIndividual());
-        List<HumanName> names = FhirUtil.getNames(resource);
-        return names == null ? null : FhirUtil.getName(names);
+        List<HumanName> names = FhirUtilR5.getNames(resource);
+        return names == null ? null : FhirUtilR5.getName(names);
     }
 
     public static Practitioner getPractitioner(EncounterParticipantComponent participant) {
@@ -308,7 +308,7 @@ public class EncounterUtil {
         for (EncounterLocationComponent encounterLocation : encounter.getLocation()) {
             Location location = ClientUtil.getResource(encounterLocation.getLocation(), Location.class);
 
-            if (physicalType.equals(FhirUtil.getFirst(location.getPhysicalType().getCoding()).getCode())) {
+            if (physicalType.equals(FhirUtilR5.getFirst(location.getPhysicalType().getCoding()).getCode())) {
                 return encounterLocation;
             }
         }

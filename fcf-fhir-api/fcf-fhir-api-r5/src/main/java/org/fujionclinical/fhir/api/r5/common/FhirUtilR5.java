@@ -23,7 +23,7 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.stu3.common;
+package org.fujionclinical.fhir.api.r5.common;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
@@ -35,17 +35,18 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.fhir.api.stu3.terminology.Constants;
-import org.hl7.fhir.dstu3.model.*;
-import org.hl7.fhir.dstu3.model.Address.AddressUse;
-import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.dstu3.model.HumanName.NameUse;
-import org.hl7.fhir.dstu3.model.OperationOutcome.IssueSeverity;
-import org.hl7.fhir.dstu3.model.OperationOutcome.OperationOutcomeIssueComponent;
-import org.hl7.fhir.dstu3.model.Timing.TimingRepeatComponent;
-import org.hl7.fhir.dstu3.model.Timing.UnitsOfTime;
+import org.fujionclinical.fhir.api.r5.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r5.model.*;
+import org.hl7.fhir.r5.model.Address.AddressUse;
+import org.hl7.fhir.r5.model.Bundle.BundleEntryComponent;
+import org.hl7.fhir.r5.model.HumanName.NameUse;
+import org.hl7.fhir.r5.model.OperationOutcome.IssueSeverity;
+import org.hl7.fhir.r5.model.OperationOutcome.OperationOutcomeIssueComponent;
+import org.hl7.fhir.r5.model.Timing.TimingRepeatComponent;
+import org.hl7.fhir.r5.model.Timing.UnitsOfTime;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -57,12 +58,12 @@ import java.util.List;
 /**
  * FHIR utility methods.
  */
-public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
+public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
     /**
      * Enforce static class.
      */
-    private FhirUtil() {
+    private FhirUtilR5() {
     }
 
     /**
@@ -186,12 +187,10 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      * @return The corresponding enumeration value.
      */
     public static UnitsOfTime convertTimeUnitToEnum(String timeUnit) {
-        try {
-            return UnitsOfTime.valueOf(timeUnit.toUpperCase());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Unknown time unit " + timeUnit);
-        }
-    }
+        UnitsOfTime value = convertEnum(timeUnit, UnitsOfTime.class);
+        Assert.notNull(value, () -> "Unknown time unit " + timeUnit);
+        return value;
+   }
 
     /**
      * Convenience method that creates a CodeableConcept with a single coding.
@@ -404,7 +403,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
             return value.getText();
         }
 
-        Coding coding = FhirUtil.getFirst(value.getCoding());
+        Coding coding = FhirUtilR5.getFirst(value.getCoding());
         return coding == null ? null : coding.hasDisplay() ? coding.getDisplay() : coding.getCode();
     }
 
@@ -586,7 +585,7 @@ public class FhirUtil extends org.fujionclinical.fhir.api.common.core.FhirUtil {
      */
     public static String getDisplayValueForType(Object value) {
         try {
-            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) MethodUtils.invokeExactStaticMethod(FhirUtil.class, "getDisplayValue", value);
+            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) MethodUtils.invokeExactStaticMethod(FhirUtilR5.class, "getDisplayValue", value);
         } catch (Exception e) {
             log.error("Cannot convert type '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
             Method method = MethodUtils.getAccessibleMethod(value.getClass(), "toString", ArrayUtils.EMPTY_CLASS_ARRAY);

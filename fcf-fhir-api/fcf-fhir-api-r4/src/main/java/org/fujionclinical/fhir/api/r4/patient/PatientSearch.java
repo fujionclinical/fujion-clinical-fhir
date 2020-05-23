@@ -31,7 +31,7 @@ import org.fujionclinical.api.model.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.patient.search.IPatientSearchEngine;
 import org.fujionclinical.api.patient.search.PatientSearchCriteria;
-import org.fujionclinical.fhir.api.r4.common.FhirUtil;
+import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.fujionclinical.fhir.api.r4.query.BaseResourceQuery;
 import org.hl7.fhir.r4.model.Patient;
 
@@ -82,7 +82,7 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
             }
 
             if (name.hasGivenName()) {
-                query.where(Patient.GIVEN.matches().values(FhirUtil.toStringList(name.getGivenNames())));
+                query.where(Patient.GIVEN.matches().values(FhirUtilR4.toStringList(name.getGivenNames())));
             }
 
         }

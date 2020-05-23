@@ -36,7 +36,7 @@ import ca.uhn.fhir.model.primitive.IdDt;
 import org.fujion.common.DateUtil;
 import org.fujionclinical.api.model.IPersonName;
 import org.fujionclinical.api.model.PersonNameParser;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.common.PersonNameWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.junit.Test;
@@ -51,8 +51,8 @@ public class CommonTest {
 
     @Test
     public void testCreateCodeableConcept() {
-        CodeableConceptDt cc = FhirUtil.createCodeableConcept("system", "code", "display");
-        CodingDt coding = FhirUtil.getFirst(cc.getCoding());
+        CodeableConceptDt cc = FhirUtilDstu2.createCodeableConcept("system", "code", "display");
+        CodingDt coding = FhirUtilDstu2.getFirst(cc.getCoding());
         assertEquals("system", coding.getSystem());
         assertEquals("code", coding.getCode());
         assertEquals("display", coding.getDisplay());
@@ -62,30 +62,30 @@ public class CommonTest {
     public void testCreatePeriod() {
         Date startDate = DateUtil.toDate(5, 6, 2007);
         Date endDate = DateUtil.toDate(8, 9, 2010);
-        PeriodDt p = FhirUtil.createPeriod(startDate, endDate);
+        PeriodDt p = FhirUtilDstu2.createPeriod(startDate, endDate);
         assertEquals(startDate, p.getStart());
         assertEquals(endDate, p.getEnd());
     }
 
     @Test
     public void testCreateIdentifier() {
-        IdentifierDt id = FhirUtil.createIdentifier("system", "value");
+        IdentifierDt id = FhirUtilDstu2.createIdentifier("system", "value");
         assertEquals("system", id.getSystem());
         assertEquals("value", id.getValue());
     }
 
     @Test
     public void testConvertTimeUnitToEnum() {
-        assertEquals(UnitsOfTimeEnum.A, FhirUtil.convertTimeUnitToEnum("a"));
-        assertEquals(UnitsOfTimeEnum.S, FhirUtil.convertTimeUnitToEnum("s"));
-        assertEquals(UnitsOfTimeEnum.MIN, FhirUtil.convertTimeUnitToEnum("min"));
-        assertEquals(UnitsOfTimeEnum.H, FhirUtil.convertTimeUnitToEnum("h"));
-        assertEquals(UnitsOfTimeEnum.D, FhirUtil.convertTimeUnitToEnum("d"));
-        assertEquals(UnitsOfTimeEnum.WK, FhirUtil.convertTimeUnitToEnum("wk"));
-        assertEquals(UnitsOfTimeEnum.MO, FhirUtil.convertTimeUnitToEnum("mo"));
+        assertEquals(UnitsOfTimeEnum.A, FhirUtilDstu2.convertTimeUnitToEnum("a"));
+        assertEquals(UnitsOfTimeEnum.S, FhirUtilDstu2.convertTimeUnitToEnum("s"));
+        assertEquals(UnitsOfTimeEnum.MIN, FhirUtilDstu2.convertTimeUnitToEnum("min"));
+        assertEquals(UnitsOfTimeEnum.H, FhirUtilDstu2.convertTimeUnitToEnum("h"));
+        assertEquals(UnitsOfTimeEnum.D, FhirUtilDstu2.convertTimeUnitToEnum("d"));
+        assertEquals(UnitsOfTimeEnum.WK, FhirUtilDstu2.convertTimeUnitToEnum("wk"));
+        assertEquals(UnitsOfTimeEnum.MO, FhirUtilDstu2.convertTimeUnitToEnum("mo"));
 
         try {
-            assertNull(FhirUtil.convertTimeUnitToEnum("bad"));
+            assertNull(FhirUtilDstu2.convertTimeUnitToEnum("bad"));
             fail("Should throw illegal argument exception.");
         } catch (IllegalArgumentException e) {
         }
@@ -94,16 +94,16 @@ public class CommonTest {
     @Test
     public void testFirstLast() {
         List<String> list = null;
-        assertNull(FhirUtil.getFirst(list));
-        assertNull(FhirUtil.getLast(list));
+        assertNull(FhirUtilDstu2.getFirst(list));
+        assertNull(FhirUtilDstu2.getLast(list));
         list = new ArrayList<>();
-        assertNull(FhirUtil.getFirst(list));
-        assertNull(FhirUtil.getLast(list));
+        assertNull(FhirUtilDstu2.getFirst(list));
+        assertNull(FhirUtilDstu2.getLast(list));
         list.add("first");
         list.add("second");
         list.add("last");
-        assertEquals("first", FhirUtil.getFirst(list));
-        assertEquals("last", FhirUtil.getLast(list));
+        assertEquals("first", FhirUtilDstu2.getFirst(list));
+        assertEquals("last", FhirUtilDstu2.getLast(list));
     }
 
     @Test
@@ -121,9 +121,9 @@ public class CommonTest {
         Practitioner practitioner = new Practitioner();
         practitioner.addAddress(a);
         Encounter encounter = new Encounter();
-        assertSame(a, FhirUtil.getFirst(FhirUtil.getAddresses(patient)));
-        assertSame(a, FhirUtil.getFirst(FhirUtil.getAddresses(practitioner)));
-        assertNull(FhirUtil.getFirst(FhirUtil.getAddresses(encounter)));
+        assertSame(a, FhirUtilDstu2.getFirst(FhirUtilDstu2.getAddresses(patient)));
+        assertSame(a, FhirUtilDstu2.getFirst(FhirUtilDstu2.getAddresses(practitioner)));
+        assertNull(FhirUtilDstu2.getFirst(FhirUtilDstu2.getAddresses(encounter)));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class CommonTest {
         assertEquals("first middle", n.getGivenAsSingleString());
         assertEquals("first", n.getGiven().get(0).getValue());
         assertEquals("middle", n.getGiven().get(1).getValue());
-        assertEquals("last, first middle", FhirUtil.formatName(n));
+        assertEquals("last, first middle", FhirUtilDstu2.formatName(n));
         wrapper.setUse(IPersonName.PersonNameUse.USUAL);
         HumanNameDt n2 = new HumanNameDt();
         IPersonName wrapper2 = PersonNameWrapper.create(n2);
@@ -144,19 +144,19 @@ public class CommonTest {
         List<HumanNameDt> list = new ArrayList<>();
         list.add(n);
         list.add(n2);
-        assertSame(n, FhirUtil.getName(list, NameUseEnum.USUAL));
-        assertSame(n, FhirUtil.getName(list, NameUseEnum.USUAL, NameUseEnum.NICKNAME));
-        assertSame(n2, FhirUtil.getName(list, NameUseEnum.NICKNAME));
-        assertSame(n2, FhirUtil.getName(list, NameUseEnum.NICKNAME, NameUseEnum.USUAL));
-        assertNull(FhirUtil.getName(list, NameUseEnum.OLD));
+        assertSame(n, FhirUtilDstu2.getName(list, NameUseEnum.USUAL));
+        assertSame(n, FhirUtilDstu2.getName(list, NameUseEnum.USUAL, NameUseEnum.NICKNAME));
+        assertSame(n2, FhirUtilDstu2.getName(list, NameUseEnum.NICKNAME));
+        assertSame(n2, FhirUtilDstu2.getName(list, NameUseEnum.NICKNAME, NameUseEnum.USUAL));
+        assertNull(FhirUtilDstu2.getName(list, NameUseEnum.OLD));
         Patient patient = new Patient();
         patient.setName(list);
         Practitioner practitioner = new Practitioner();
         practitioner.setName(n);
         Encounter encounter = new Encounter();
-        assertSame(list, FhirUtil.getNames(patient));
-        assertSame(n, FhirUtil.getNames(practitioner).get(0));
-        assertNull(FhirUtil.getNames(encounter));
+        assertSame(list, FhirUtilDstu2.getNames(patient));
+        assertSame(n, FhirUtilDstu2.getNames(practitioner).get(0));
+        assertNull(FhirUtilDstu2.getNames(encounter));
     }
 
     @Test
@@ -165,26 +165,26 @@ public class CommonTest {
         res1v1.setId(createId("Patient", "1234", "1"));
         IBaseResource res1v2 = new Patient();
         res1v2.setId(createId("Patient", "1234", "2"));
-        assertTrue(FhirUtil.areEqual(res1v1, res1v2, true));
-        assertFalse(FhirUtil.areEqual(res1v1, res1v2, false));
+        assertTrue(FhirUtilDstu2.areEqual(res1v1, res1v2, true));
+        assertFalse(FhirUtilDstu2.areEqual(res1v1, res1v2, false));
         IBaseResource res2v1 = new Encounter();
         res2v1.setId(createId("Resource", "1234", "1"));
         IBaseResource res2 = new Encounter();
         res2.setId(createId("Resource", "1234", null));
-        assertFalse(FhirUtil.areEqual(res1v1, res2v1));
-        assertFalse(FhirUtil.areEqual(res2v1, res2));
-        assertTrue(FhirUtil.areEqual(res2v1, res2, true));
+        assertFalse(FhirUtilDstu2.areEqual(res1v1, res2v1));
+        assertFalse(FhirUtilDstu2.areEqual(res2v1, res2));
+        assertTrue(FhirUtilDstu2.areEqual(res2v1, res2, true));
         ResourceReferenceDt ref1v1 = new ResourceReferenceDt(res1v1.getIdElement());
         ResourceReferenceDt ref1v2 = new ResourceReferenceDt(res1v2.getIdElement());
-        assertFalse(FhirUtil.areEqual(ref1v1, ref1v2));
-        assertTrue(FhirUtil.areEqual(ref1v1, ref1v2, true));
-        assertTrue(FhirUtil.areEqual(res1v1, ref1v1));
-        assertFalse(FhirUtil.areEqual(res1v1, ref1v2));
+        assertFalse(FhirUtilDstu2.areEqual(ref1v1, ref1v2));
+        assertTrue(FhirUtilDstu2.areEqual(ref1v1, ref1v2, true));
+        assertTrue(FhirUtilDstu2.areEqual(res1v1, ref1v1));
+        assertFalse(FhirUtilDstu2.areEqual(res1v1, ref1v2));
         ref1v1 = new ResourceReferenceDt((BaseResource) res1v1);
-        assertFalse(FhirUtil.areEqual(ref1v1, ref1v2));
-        assertTrue(FhirUtil.areEqual(ref1v1, ref1v2, true));
-        assertTrue(FhirUtil.areEqual(res1v1, ref1v1));
-        assertFalse(FhirUtil.areEqual(res2v1, ref1v1));
+        assertFalse(FhirUtilDstu2.areEqual(ref1v1, ref1v2));
+        assertTrue(FhirUtilDstu2.areEqual(ref1v1, ref1v2, true));
+        assertTrue(FhirUtilDstu2.areEqual(res1v1, ref1v1));
+        assertFalse(FhirUtilDstu2.areEqual(res2v1, ref1v1));
     }
 
     private IdDt createId(

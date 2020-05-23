@@ -29,7 +29,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import org.fujionclinical.fhir.api.stu3.common.BaseService;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
 import org.hl7.fhir.dstu3.model.DocumentReference.DocumentReferenceContentComponent;
@@ -145,7 +145,7 @@ public class DocumentService extends BaseService {
         }
 
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        List<DocumentReference> list = FhirUtil.getEntries(bundle, DocumentReference.class);
+        List<DocumentReference> list = FhirUtilStu3.getEntries(bundle, DocumentReference.class);
         List<Document> results = new ArrayList<>(list.size());
 
         for (DocumentReference ref : list) {
@@ -162,7 +162,7 @@ public class DocumentService extends BaseService {
             Bundle bundle = getClient().search().forResource(CodeSystem.class)
                     .where(CodeSystem.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
-            for (CodeSystem cs : FhirUtil.getEntries(bundle, CodeSystem.class)) {
+            for (CodeSystem cs : FhirUtilStu3.getEntries(bundle, CodeSystem.class)) {
                 for (ConceptDefinitionComponent concept : cs.getConcept()) {
                     results.add(concept.getDisplay());
                 }

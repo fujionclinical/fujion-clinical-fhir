@@ -33,7 +33,7 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.fhir.api.dstu2.common.BaseService;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +48,7 @@ public class MedicationService extends BaseService {
     public List<MedicationAdministration> searchMedAdminByIdentifier(
             String system,
             String code) {
-        IdentifierDt identifier = FhirUtil.createIdentifier(system, code);
+        IdentifierDt identifier = FhirUtilDstu2.createIdentifier(system, code);
         return searchMedAdminByIdentifier(identifier);
     }
 
@@ -71,7 +71,7 @@ public class MedicationService extends BaseService {
     public List<MedicationOrder> searchMedOrderByIdentifier(
             String system,
             String code) {
-        IdentifierDt identifier = FhirUtil.createIdentifier(system, code);
+        IdentifierDt identifier = FhirUtilDstu2.createIdentifier(system, code);
         return searchResourcesByIdentifier(identifier, MedicationOrder.class);
     }
 

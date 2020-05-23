@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.DocumentReference;
 import ca.uhn.fhir.model.dstu2.resource.Practitioner;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 
 import java.util.*;
 
@@ -69,7 +69,7 @@ public class Document implements Comparable<Document> {
         String title = documentReference.getDescription();
 
         if (title == null) {
-            CodingDt coding = FhirUtil.getFirst(documentReference.getType().getCoding());
+            CodingDt coding = FhirUtilDstu2.getFirst(documentReference.getType().getCoding());
             title = coding == null ? null : coding.getDisplay();
         }
 
@@ -83,19 +83,19 @@ public class Document implements Comparable<Document> {
     public String getLocationName() {
         DocumentReference.Context ctx = documentReference.getContext();
         CodeableConceptDt facilityType = ctx == null ? null : ctx.getFacilityType();
-        CodingDt coding = facilityType == null ? null : FhirUtil.getFirst(facilityType.getCoding());
+        CodingDt coding = facilityType == null ? null : FhirUtilDstu2.getFirst(facilityType.getCoding());
         return coding == null ? "" : coding.getDisplay();
     }
 
     public String getAuthorName() {
-        ResourceReferenceDt reference = FhirUtil.getFirst(documentReference.getAuthor());
+        ResourceReferenceDt reference = FhirUtilDstu2.getFirst(documentReference.getAuthor());
         Practitioner author = DocumentService.getInstance().getResource(reference, Practitioner.class);
-        return author == null ? "" : FhirUtil.formatName(author.getName());
+        return author == null ? "" : FhirUtilDstu2.formatName(author.getName());
     }
 
     public String getStatus() {
         CodeableConceptDt status = documentReference.getDocStatus();
-        return status == null ? "" : FhirUtil.getDisplayValue(status);
+        return status == null ? "" : FhirUtilDstu2.getDisplayValue(status);
     }
 
     public Collection<String> getTypes() {
@@ -125,7 +125,7 @@ public class Document implements Comparable<Document> {
     }
 
     public String getContentType() {
-        return FhirUtil.getFirst(getContent()).getContentType();
+        return FhirUtilDstu2.getFirst(getContent()).getContentType();
     }
 
     public List<DocumentContent> getContent() {

@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.document;
 
-import org.fujionclinical.fhir.api.r4.common.FhirUtil;
+import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.DocumentReference.DocumentReferenceContextComponent;
 import org.hl7.fhir.r4.model.DocumentReference.ReferredDocumentStatus;
@@ -67,7 +67,7 @@ public class Document implements Comparable<Document> {
         String title = documentReference.getDescription();
 
         if (title == null) {
-            Coding coding = FhirUtil.getFirst(documentReference.getType().getCoding());
+            Coding coding = FhirUtilR4.getFirst(documentReference.getType().getCoding());
             title = coding == null ? null : coding.getDisplay();
         }
 
@@ -81,14 +81,14 @@ public class Document implements Comparable<Document> {
     public String getLocationName() {
         DocumentReferenceContextComponent ctx = documentReference.getContext();
         CodeableConcept facilityType = ctx == null ? null : ctx.getFacilityType();
-        Coding coding = facilityType == null ? null : FhirUtil.getFirst(facilityType.getCoding());
+        Coding coding = facilityType == null ? null : FhirUtilR4.getFirst(facilityType.getCoding());
         return coding == null ? "" : coding.getDisplay();
     }
 
     public String getAuthorName() {
-        Reference reference = documentReference.hasAuthor() ? FhirUtil.getFirst(documentReference.getAuthor()) : null;
+        Reference reference = documentReference.hasAuthor() ? FhirUtilR4.getFirst(documentReference.getAuthor()) : null;
         Practitioner author = DocumentService.getInstance().getResource(reference, Practitioner.class);
-        return author == null ? "" : FhirUtil.formatName(author.getNameFirstRep());
+        return author == null ? "" : FhirUtilR4.formatName(author.getNameFirstRep());
     }
 
     public String getStatus() {
@@ -122,7 +122,7 @@ public class Document implements Comparable<Document> {
     }
 
     public String getContentType() {
-        return FhirUtil.getFirst(getContent()).getContentType();
+        return FhirUtilR4.getFirst(getContent()).getContentType();
     }
 
     public List<DocumentContent> getContent() {

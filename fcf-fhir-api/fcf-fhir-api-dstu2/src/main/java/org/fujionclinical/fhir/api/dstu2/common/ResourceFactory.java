@@ -61,7 +61,7 @@ public abstract class ResourceFactory<T extends IDomainObject, R extends IBaseRe
         }
 
         Bundle bundle = result.returnBundle(Bundle.class).execute();
-        return FhirUtil.getEntries(bundle, resourceClass).stream()
+        return FhirUtilDstu2.getEntries(bundle, resourceClass).stream()
                 .map(this::wrapResource)
                 .collect(Collectors.toList());
     }

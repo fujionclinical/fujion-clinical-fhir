@@ -7,7 +7,7 @@ import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import org.fujionclinical.api.model.*;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtil;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.PersonNameWrapper;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
@@ -30,7 +30,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     private PatientWrapper(Patient patient) {
         this.patient = patient;
         names = PersonNameWrapper.wrap(patient.getName());
-        mrn = IdentifierWrapper.create(FhirUtil.getMRN(patient));
+        mrn = IdentifierWrapper.create(FhirUtilDstu2.getMRN(patient));
     }
 
     @Override
@@ -51,12 +51,12 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public Gender getGender() {
-        return FhirUtil.convertEnum(patient.getGender(), Gender.class, Gender.OTHER);
+        return FhirUtilDstu2.convertEnum(patient.getGender(), Gender.class, Gender.OTHER);
     }
 
     @Override
     public IPerson setGender(Gender gender) {
-        patient.setGender(FhirUtil.convertEnum(gender, AdministrativeGenderEnum.class, AdministrativeGenderEnum.OTHER));
+        patient.setGender(FhirUtilDstu2.convertEnum(gender, AdministrativeGenderEnum.class, AdministrativeGenderEnum.OTHER));
         return this;
     }
 

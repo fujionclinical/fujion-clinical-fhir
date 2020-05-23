@@ -60,7 +60,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
     @Override
     public <T extends IBaseResource> T createResource(T resource) {
         MethodOutcome outcome = getClient().create().resource(resource).execute();
-        return FhirUtil.processMethodOutcome(outcome, resource);
+        return FhirUtilStu3.processMethodOutcome(outcome, resource);
     }
 
     /**
@@ -112,7 +112,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
                 .execute();
 
         Bundle bundle = (Bundle) result.getParameterFirstRep().getResource();
-        return FhirUtil.getEntries(bundle);
+        return FhirUtilStu3.getEntries(bundle);
     }
 
     /**
@@ -174,7 +174,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             String value,
             Class<T> clazz,
             int maxCount) {
-        return searchResourcesByIdentifier(FhirUtil.createIdentifier(system, value), clazz, maxCount);
+        return searchResourcesByIdentifier(FhirUtilStu3.createIdentifier(system, value), clazz, maxCount);
     }
 
     /**
@@ -195,7 +195,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
                 .where(Constants.PARAM_IDENTIFIER.exactly().systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilStu3.getEntries(bundle, clazz);
     }
 
     /**
@@ -212,7 +212,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
         Bundle bundle = getClient().search().forAllResources().count(maxCount).withTag(tag.getSystem(), tag.getCode())
                 .returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, null, null);
+        return FhirUtilStu3.getEntries(bundle, null, null);
     }
 
     /**
@@ -232,7 +232,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount).withTag(tag.getSystem(), tag.getCode())
                 .returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilStu3.getEntries(bundle, clazz);
     }
 
     /**
@@ -248,7 +248,7 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount).returnBundle(Bundle.class).execute();
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilStu3.getEntries(bundle, clazz);
     }
 
     /**
@@ -266,9 +266,9 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
             Class<T> clazz,
             int maxCount) {
         Bundle bundle = getClient().search().forResource(clazz).count(maxCount)
-                .where(Constants.PARAM_PATIENT.hasId(FhirUtil.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
+                .where(Constants.PARAM_PATIENT.hasId(FhirUtilStu3.getResourceIdPath(patient))).returnBundle(Bundle.class).execute();
 
-        return FhirUtil.getEntries(bundle, clazz);
+        return FhirUtilStu3.getEntries(bundle, clazz);
     }
 
     /**
@@ -280,13 +280,13 @@ public class BaseService extends BaseFhirService<Patient, Identifier, Reference>
      */
     @Override
     public <T extends IBaseResource> T updateResource(T resource) {
-        MethodOutcome outcome = getClient().update().resource(FhirUtil.stripVersion(resource)).execute();
-        return FhirUtil.processMethodOutcome(outcome, resource);
+        MethodOutcome outcome = getClient().update().resource(FhirUtilStu3.stripVersion(resource)).execute();
+        return FhirUtilStu3.processMethodOutcome(outcome, resource);
     }
 
     @Override
     protected void validateClient() {
-        FhirUtil.assertFhirVersion(getClient());
+        FhirUtilStu3.assertFhirVersion(getClient());
     }
 
 }

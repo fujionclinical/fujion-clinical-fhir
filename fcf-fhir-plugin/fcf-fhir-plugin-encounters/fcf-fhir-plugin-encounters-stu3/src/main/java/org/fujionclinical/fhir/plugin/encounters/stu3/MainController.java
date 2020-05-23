@@ -32,7 +32,7 @@ import org.fujionclinical.api.encounter.EncounterContext;
 import org.fujionclinical.api.encounter.IEncounter;
 import org.fujionclinical.api.event.IEventSubscriber;
 import org.fujionclinical.fhir.api.stu3.common.ClientUtil;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtil;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.fujionclinical.fhir.api.stu3.encounter.EncounterWrapper;
 import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.fujionclinical.shell.elements.ElementPlugin;
@@ -88,7 +88,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
 
         return participants.isEmpty() ? null : participants.stream()
                 .map(encpart -> ClientUtil.getResource(encpart.getIndividual()))
-                .map(individual -> FhirUtil.getProperty(individual, "getName", HumanName.class))
+                .map(individual -> FhirUtilStu3.getProperty(individual, "getName", HumanName.class))
                 .filter(name -> name != null)
                 .collect(Collectors.toList());
     }

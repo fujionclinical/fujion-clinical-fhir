@@ -29,7 +29,7 @@ import org.fujionclinical.api.encounter.EncounterContext;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.patient.PatientContext;
 import org.fujionclinical.fhir.api.r4.common.BaseService;
-import org.fujionclinical.fhir.api.r4.common.FhirUtil;
+import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.fujionclinical.fhir.api.r4.encounter.EncounterWrapper;
 import org.fujionclinical.fhir.api.r4.patient.PatientWrapper;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
@@ -110,7 +110,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected List<IBaseResource> _getEntries(IBaseBundle bundle) {
-        return FhirUtil.getEntries((Bundle) bundle, IBaseResource.class);
+        return FhirUtilR4.getEntries((Bundle) bundle, IBaseResource.class);
     }
 
     @Override

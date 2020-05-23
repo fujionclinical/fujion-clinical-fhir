@@ -36,12 +36,12 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<AddressDt>
     @Override
     public PostalAddressUse getUse() {
         AddressUseEnum use = address.getUseElement().isEmpty() ? null : address.getUseElement().getValueAsEnum();
-        return FhirUtil.convertEnum(use, PostalAddressUse.class);
+        return FhirUtilDstu2.convertEnum(use, PostalAddressUse.class);
     }
 
     @Override
     public IPostalAddress setUse(PostalAddressUse use) {
-        address.setUse(FhirUtil.convertEnum(use, AddressUseEnum.class));
+        address.setUse(FhirUtilDstu2.convertEnum(use, AddressUseEnum.class));
         return this;
     }
 

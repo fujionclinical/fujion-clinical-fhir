@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.orders.r4;
 
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.api.r4.common.FhirUtil;
+import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -63,7 +63,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
     
     @Override
     protected List<IBaseResource> processBundle(Bundle bundle) {
-        return FhirUtil.getEntries(bundle, null, Collections.singletonList(Patient.class));
+        return FhirUtilR4.getEntries(bundle, null, Collections.singletonList(Patient.class));
     }
     
     @Override
@@ -138,7 +138,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
     }
     
     private void append(StringBuilder sb, IBaseDatatype value, String delimiter) {
-        append(sb, FhirUtil.getDisplayValueForType(value), delimiter);
+        append(sb, FhirUtilR4.getDisplayValueForType(value), delimiter);
     }
     
     private void append(StringBuilder sb, String value, String delimiter) {

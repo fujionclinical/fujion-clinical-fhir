@@ -63,12 +63,12 @@ public class IdentifierWrapper implements IIdentifier {
 
     @Override
     public IdentifierCategory getCategory() {
-        return FhirUtil.convertEnum(identifier.getUse(), IdentifierCategory.class);
+        return FhirUtilR4.convertEnum(identifier.getUse(), IdentifierCategory.class);
     }
 
     @Override
     public IIdentifier setCategory(IdentifierCategory category) {
-        identifier.setUse(FhirUtil.convertEnum(category, Identifier.IdentifierUse.class));
+        identifier.setUse(FhirUtilR4.convertEnum(category, Identifier.IdentifierUse.class));
         return this;
     }
 }
