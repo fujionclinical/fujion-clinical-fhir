@@ -2,18 +2,19 @@ package org.fujionclinical.fhir.api.r5.common;
 
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import org.fujionclinical.api.model.IPeriod;
+import org.fujionclinical.api.model.IWrapper;
 import org.hl7.fhir.r5.model.Period;
 
 import java.util.Date;
 
-public class PeriodWrapper implements IPeriod {
+public class PeriodWrapper implements IPeriod, IWrapper<Period> {
 
-    public static PeriodWrapper create(Period period) {
+    public static PeriodWrapper wrap(Period period) {
         return period == null ? null : new PeriodWrapper(period);
     }
 
     public static final Period unwrap(IPeriod period) {
-        return new Period()
+        return period == null ? null : new Period()
                 .setStart(period.getStartDate())
                 .setEnd(period.getEndDate());
     }
@@ -44,5 +45,10 @@ public class PeriodWrapper implements IPeriod {
     public PeriodWrapper setEndDate(Date date) {
         period.setEnd(date, TemporalPrecisionEnum.SECOND);
         return this;
+    }
+
+    @Override
+    public Period getWrapped() {
+        return period;
     }
 }

@@ -4,21 +4,26 @@ import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
 import org.fujionclinical.api.model.IConceptCode;
 import org.fujionclinical.api.model.IIdentifier;
+import org.fujionclinical.api.model.IWrapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class IdentifierWrapper implements IIdentifier {
+public class IdentifierWrapper implements IIdentifier, IWrapper<IdentifierDt> {
 
-    public static IdentifierWrapper create(IdentifierDt identifier) {
+    public static IdentifierWrapper wrap(IdentifierDt identifier) {
         return identifier == null ? null : new IdentifierWrapper(identifier);
     }
 
     public static List<IIdentifier> wrap(List<IdentifierDt> identifiers) {
-        return identifiers.stream().map(identifier -> IdentifierWrapper.create(identifier)).collect(Collectors.toList());
+        return identifiers == null ? null : identifiers.stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
     }
 
     public static IdentifierDt unwrap(IIdentifier identifier) {
+        if (identifier == null) {
+            return null;
+        }
+
         IdentifierDt result = new IdentifierDt()
                 .setSystem(identifier.getSystem())
                 .setValue(identifier.getValue());
@@ -71,5 +76,10 @@ public class IdentifierWrapper implements IIdentifier {
     public IIdentifier setCategory(IdentifierCategory category) {
         identifier.setUse(FhirUtilDstu2.convertEnum(category, IdentifierUseEnum.class));
         return this;
+    }
+
+    @Override
+    public IdentifierDt getWrapped() {
+        return identifier;
     }
 }

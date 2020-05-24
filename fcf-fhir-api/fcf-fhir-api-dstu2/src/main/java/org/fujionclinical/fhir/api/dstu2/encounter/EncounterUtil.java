@@ -75,28 +75,6 @@ public class EncounterUtil {
         return getSearchEngine().query(criteria);
     }
 
-    /**
-     * Returns the default encounter for the current institution for the specified patient. Search
-     * is restricted to encounters belonging to the current institution, with care setting codes of
-     * 'O', 'E', or 'I'. For inpatient encounters, the discharge date must be null and the admission
-     * date must precede the current date (there are anomalous entries where the admission date is
-     * in the future). For non-inpatient encounters, the admission date must fall on the same day as
-     * the current date. If more than one encounter meets these criteria, further filtering is
-     * applied. An encounter whose location matches the current location is selected preferentially.
-     * Failing a match on location, non-inpatient encounters are given weight over inpatient
-     * encounters. Failing all that, the first matching encounter is returned.
-     *
-     * @param patient Patient whose default encounter is sought.
-     * @return The default encounter or null if one was not found.
-     */
-    public static Encounter getDefaultEncounter(Patient patient) {
-        if (patient == null) {
-            return null;
-        }
-
-        return null;
-    }
-
     public static Encounter create(
             Patient patient,
             Date date,

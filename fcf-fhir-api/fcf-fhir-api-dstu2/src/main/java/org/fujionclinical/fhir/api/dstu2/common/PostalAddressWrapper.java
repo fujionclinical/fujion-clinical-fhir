@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 
 public class PostalAddressWrapper implements IPostalAddress, IWrapper<AddressDt> {
 
-    public static PostalAddressWrapper create(AddressDt address) {
+    public static PostalAddressWrapper wrap(AddressDt address) {
         return address == null ? null : new PostalAddressWrapper(address);
     }
 
     public static List<IPostalAddress> wrap(List<AddressDt> addresses) {
-        return addresses.stream().map(address -> PostalAddressWrapper.create(address)).collect(Collectors.toList());
+        return addresses == null ? null : addresses.stream().map(address -> PostalAddressWrapper.wrap(address)).collect(Collectors.toList());
     }
 
     public static List<AddressDt> unwrap(List<IWrapper<AddressDt>> addresses) {
-        return addresses.stream().map(address -> address.getWrapped()).collect(Collectors.toList());
+        return addresses == null ? null : addresses.stream().map(address -> address.getWrapped()).collect(Collectors.toList());
     }
 
     private final AddressDt address;
@@ -30,7 +30,7 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<AddressDt>
 
     private PostalAddressWrapper(AddressDt address) {
         this.address = address;
-        this.period = PeriodWrapper.create(address.getPeriod());
+        this.period = PeriodWrapper.wrap(address.getPeriod());
     }
 
     @Override

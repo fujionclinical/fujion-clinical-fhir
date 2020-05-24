@@ -7,7 +7,7 @@ import org.hl7.fhir.r5.model.Base64BinaryType;
 
 public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
 
-    public static AttachmentWrapper create(Attachment attachment) {
+    public static AttachmentWrapper wrap(Attachment attachment) {
         return attachment == null ? null : new AttachmentWrapper(attachment);
     }
 
@@ -74,16 +74,17 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
 
     @Override
     public String getURL() {
-        return null;
+        return attachment.getUrl();
     }
 
     @Override
     public IAttachment setURL(String url) {
-        return null;
+        attachment.setUrl(url);
+        return this;
     }
 
     @Override
     public Attachment getWrapped() {
-        return null;
+        return attachment;
     }
 }

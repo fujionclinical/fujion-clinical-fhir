@@ -3,18 +3,19 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import org.fujionclinical.api.model.IPeriod;
+import org.fujionclinical.api.model.IWrapper;
 import org.springframework.security.core.parameters.P;
 
 import java.util.Date;
 
-public class PeriodWrapper implements IPeriod {
+public class PeriodWrapper implements IPeriod, IWrapper<PeriodDt> {
 
-    public static PeriodWrapper create(PeriodDt period) {
+    public static PeriodWrapper wrap(PeriodDt period) {
         return period == null ? null : new PeriodWrapper(period);
     }
 
     public static final PeriodDt unwrap(IPeriod period) {
-        return new PeriodDt()
+        return period == null ? null : new PeriodDt()
                 .setStartWithSecondsPrecision(period.getStartDate())
                 .setEndWithSecondsPrecision(period.getEndDate());
     }
@@ -45,5 +46,10 @@ public class PeriodWrapper implements IPeriod {
     public PeriodWrapper setEndDate(Date date) {
         period.setEnd(date, TemporalPrecisionEnum.SECOND);
         return this;
+    }
+
+    @Override
+    public PeriodDt getWrapped() {
+        return period;
     }
 }

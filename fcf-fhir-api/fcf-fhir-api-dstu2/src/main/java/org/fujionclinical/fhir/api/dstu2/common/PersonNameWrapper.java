@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 
 public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
 
-    public static PersonNameWrapper create(HumanNameDt name) {
+    public static PersonNameWrapper wrap(HumanNameDt name) {
         return name == null ? null : new PersonNameWrapper(name);
     }
 
     public static List<IPersonName> wrap(List<HumanNameDt> names) {
-        return names.stream().map(name -> PersonNameWrapper.create(name)).collect(Collectors.toList());
+        return names == null ? null : names.stream().map(name -> PersonNameWrapper.wrap(name)).collect(Collectors.toList());
     }
 
     public static List<HumanNameDt> unwrap(List<IWrapper<HumanNameDt>> names) {
-        return names.stream().map(name -> name.getWrapped()).collect(Collectors.toList());
+        return names == null ? null : names.stream().map(name -> name.getWrapped()).collect(Collectors.toList());
     }
 
     private final HumanNameDt name;

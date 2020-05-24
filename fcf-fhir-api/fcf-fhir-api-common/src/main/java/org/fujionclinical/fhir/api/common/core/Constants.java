@@ -9,6 +9,10 @@ public class Constants {
 
     public static final String SSN_SYSTEM = "http://hl7.org/fhir/sid/us-ssn";
 
+    public static final String MARITAL_STATUS_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus";
+
+    public static final String NULL_FLAVOR_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
+
     public static final String SP_IDENTIFIER = "identifier";
 
     public static final String SP_PATIENT = "patient";

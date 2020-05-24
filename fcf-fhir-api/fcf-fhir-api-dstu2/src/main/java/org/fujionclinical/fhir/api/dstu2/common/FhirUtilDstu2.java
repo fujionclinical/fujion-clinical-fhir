@@ -32,10 +32,7 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.resource.OperationOutcome;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
-import ca.uhn.fhir.model.dstu2.valueset.IssueSeverityEnum;
-import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
-import ca.uhn.fhir.model.dstu2.valueset.UnitsOfTimeEnum;
+import ca.uhn.fhir.model.dstu2.valueset.*;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.rest.api.MethodOutcome;
@@ -47,6 +44,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -54,20 +53,37 @@ import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * FHIR utility methods.
  */
 public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
-    /**
-     * Enforce static class.
-     */
-    private FhirUtilDstu2() {
+    public static class OperationOutcomeException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+
+        private final OperationOutcome operationOutcome;
+
+        private final IssueSeverityEnum severity;
+
+        private OperationOutcomeException(
+                String message,
+                IssueSeverityEnum severity,
+                OperationOutcome operationOutcome) {
+            super(message);
+            this.severity = severity;
+            this.operationOutcome = operationOutcome;
+        }
+
+        public OperationOutcome getOperationOutcome() {
+            return operationOutcome;
+        }
+
+        public IssueSeverityEnum getSeverity() {
+            return severity;
+        }
     }
 
     /**
@@ -861,7 +877,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
     }
 
     public static String formatName(HumanNameDt name) {
-        return name == null ? null : PersonNameWrapper.create(name).toString();
+        return name == null ? null : PersonNameWrapper.wrap(name).toString();
     }
 
     /**
@@ -934,29 +950,23 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         }
     }
 
-    public static class OperationOutcomeException extends RuntimeException {
-
-        private static final long serialVersionUID = 1L;
-
-        private final OperationOutcome operationOutcome;
-
-        private final IssueSeverityEnum severity;
-
-        private OperationOutcomeException(
-                String message,
-                IssueSeverityEnum severity,
-                OperationOutcome operationOutcome) {
-            super(message);
-            this.severity = severity;
-            this.operationOutcome = operationOutcome;
-        }
-
-        public OperationOutcome getOperationOutcome() {
-            return operationOutcome;
-        }
-
-        public IssueSeverityEnum getSeverity() {
-            return severity;
-        }
+    public static IPerson.MaritalStatus convertMaritalStatus(Set<MaritalStatusCodesEnum> maritalStatuses) {
+        return maritalStatuses == null ? null : maritalStatuses.stream()
+                .map(coding -> FhirUtil.findMaritalStatus(coding.getSystem(), coding.getCode()))
+                .filter(value -> value != null)
+                .findFirst()
+                .orElse(null);
     }
+
+    public static MaritalStatusCodesEnum convertMaritalStatus(IPerson.MaritalStatus maritalStatus) {
+        return maritalStatus == null ? null : MaritalStatusCodesEnum.forCode(maritalStatus.getCode());
+    }
+
+    /**
+     * Enforce static class.
+     */
+    private FhirUtilDstu2() {
+    }
+
+
 }

@@ -11,7 +11,7 @@ import org.hl7.fhir.dstu3.model.Period;
 
 public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
 
-    public static EncounterWrapper create(Encounter encounter) {
+    public static EncounterWrapper wrap(Encounter encounter) {
         return encounter == null ? null : new EncounterWrapper(encounter);
     }
 
@@ -19,7 +19,7 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
 
     private EncounterWrapper(Encounter encounter) {
         super(encounter);
-        period = PeriodWrapper.create(encounter.getPeriod());
+        period = PeriodWrapper.wrap(encounter.getPeriod());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
         } else {
             Period periodDt = PeriodWrapper.unwrap(period);
             getWrapped().setPeriod(periodDt);
-            this.period = PeriodWrapper.create(periodDt);
+            this.period = PeriodWrapper.wrap(periodDt);
         }
 
         return this;

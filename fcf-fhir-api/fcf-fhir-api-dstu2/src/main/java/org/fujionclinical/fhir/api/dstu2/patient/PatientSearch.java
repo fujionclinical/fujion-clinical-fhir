@@ -90,6 +90,6 @@ public class PatientSearch extends BaseResourceQuery<Patient, PatientSearchCrite
 
     @Override
     public List<IPatient> search(PatientSearchCriteria criteria) {
-        return query(criteria).stream().map(patient -> PatientWrapper.create(patient)).collect(Collectors.toList());
+        return query(criteria).stream().map(patient -> PatientWrapper.wrap(patient)).collect(Collectors.toList());
     }
 }

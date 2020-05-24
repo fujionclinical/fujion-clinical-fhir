@@ -35,6 +35,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r5.terminology.Constants;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -55,15 +57,38 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static org.fujionclinical.fhir.api.common.core.Constants.MARITAL_STATUS_SYSTEM;
+import static org.fujionclinical.fhir.api.common.core.Constants.NULL_FLAVOR_SYSTEM;
+
 /**
  * FHIR utility methods.
  */
 public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil {
 
-    /**
-     * Enforce static class.
-     */
-    private FhirUtilR5() {
+    public static class OperationOutcomeException extends RuntimeException {
+
+        private static final long serialVersionUID = 1L;
+
+        private final OperationOutcome operationOutcome;
+
+        private final IssueSeverity severity;
+
+        private OperationOutcomeException(
+                String message,
+                IssueSeverity severity,
+                OperationOutcome operationOutcome) {
+            super(message);
+            this.severity = severity;
+            this.operationOutcome = operationOutcome;
+        }
+
+        public OperationOutcome getOperationOutcome() {
+            return operationOutcome;
+        }
+
+        public IssueSeverity getSeverity() {
+            return severity;
+        }
     }
 
     /**
@@ -190,7 +215,7 @@ public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil
         UnitsOfTime value = convertEnum(timeUnit, UnitsOfTime.class);
         Assert.notNull(value, () -> "Unknown time unit " + timeUnit);
         return value;
-   }
+    }
 
     /**
      * Convenience method that creates a CodeableConcept with a single coding.
@@ -857,7 +882,7 @@ public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil
     }
 
     public static String formatName(HumanName name) {
-        return name == null ? null : PersonNameWrapper.create(name).toString();
+        return name == null ? null : PersonNameWrapper.wrap(name).toString();
     }
 
     /**
@@ -930,29 +955,26 @@ public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil
         }
     }
 
-    public static class OperationOutcomeException extends RuntimeException {
-
-        private static final long serialVersionUID = 1L;
-
-        private final OperationOutcome operationOutcome;
-
-        private final IssueSeverity severity;
-
-        private OperationOutcomeException(
-                String message,
-                IssueSeverity severity,
-                OperationOutcome operationOutcome) {
-            super(message);
-            this.severity = severity;
-            this.operationOutcome = operationOutcome;
-        }
-
-        public OperationOutcome getOperationOutcome() {
-            return operationOutcome;
-        }
-
-        public IssueSeverity getSeverity() {
-            return severity;
-        }
+    public static IPerson.MaritalStatus convertMaritalStatus(CodeableConcept concept) {
+        return concept == null ? null : concept.getCoding().stream()
+                .map(coding -> FhirUtil.findMaritalStatus(coding.getSystem(), coding.getCode()))
+                .filter(value -> value != null)
+                .findFirst()
+                .orElse(null);
     }
+
+    public static CodeableConcept convertMaritalStatus(IPerson.MaritalStatus maritalStatus) {
+        return maritalStatus == null ? null :
+                createCodeableConcept(
+                        maritalStatus == IPerson.MaritalStatus.UNKNOWN ? NULL_FLAVOR_SYSTEM : MARITAL_STATUS_SYSTEM,
+                        maritalStatus.getCode(),
+                        maritalStatus.toString());
+    }
+
+    /**
+     * Enforce static class.
+     */
+    private FhirUtilR5() {
+    }
+
 }

@@ -35,6 +35,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.Logger;
+import org.fujionclinical.api.model.person.IPerson;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -530,6 +531,24 @@ public class FhirUtil {
 
         D result = EnumUtils.getEnumIgnoreCase(enumClass, value);
         return result == null ? deflt : result;
+    }
+
+    public static IPerson.MaritalStatus findMaritalStatus(String system, String code) {
+        IPerson.MaritalStatus maritalStatus = code == null ? null : IPerson.MaritalStatus.forCode(code);
+
+        if (maritalStatus == null) {
+            return null;
+        }
+
+        if (maritalStatus == IPerson.MaritalStatus.UNKNOWN && Constants.NULL_FLAVOR_SYSTEM.equals(system)) {
+            return maritalStatus;
+        }
+
+        if (Constants.MARITAL_STATUS_SYSTEM.equals(system)) {
+            return maritalStatus;
+        }
+
+        return null;
     }
 
     /**

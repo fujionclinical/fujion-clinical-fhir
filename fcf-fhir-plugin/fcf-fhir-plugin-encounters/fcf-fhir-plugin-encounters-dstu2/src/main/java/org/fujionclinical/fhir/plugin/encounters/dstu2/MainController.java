@@ -103,7 +103,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         super.renderRow(row, encounter);
 
         row.addEventListener(DblclickEvent.class, (event) -> {
-            EncounterContext.changeEncounter(EncounterWrapper.create(encounter));
+            EncounterContext.changeEncounter(EncounterWrapper.wrap(encounter));
         });
     }
 

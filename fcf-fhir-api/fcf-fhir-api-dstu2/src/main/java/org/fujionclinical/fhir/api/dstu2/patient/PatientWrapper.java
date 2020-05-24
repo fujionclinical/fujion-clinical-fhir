@@ -5,7 +5,10 @@ import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
-import org.fujionclinical.api.model.*;
+import org.fujionclinical.api.model.IAttachment;
+import org.fujionclinical.api.model.IIdentifier;
+import org.fujionclinical.api.model.IPostalAddress;
+import org.fujionclinical.api.model.IWrapper;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
@@ -18,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
-    public static PatientWrapper create(Patient patient) {
+    public static PatientWrapper wrap(Patient patient) {
         return patient == null ? null : new PatientWrapper(patient);
     }
 
@@ -31,7 +34,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     private PatientWrapper(Patient patient) {
         this.patient = patient;
         names = PersonNameWrapper.wrap(patient.getName());
-        mrn = IdentifierWrapper.create(FhirUtilDstu2.getMRN(patient));
+        mrn = IdentifierWrapper.wrap(FhirUtilDstu2.getMRN(patient));
     }
 
     @Override
@@ -44,7 +47,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
         if (mrn == null) {
             IdentifierDt ident = IdentifierWrapper.unwrap(mrn);
             ident.getType().addCoding(Constants.CODING_MRN);
-            this.mrn = IdentifierWrapper.create(new IdentifierDt());
+            this.mrn = IdentifierWrapper.wrap(new IdentifierDt());
         }
 
         return this;
@@ -58,6 +61,17 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     @Override
     public IPerson setGender(Gender gender) {
         patient.setGender(FhirUtilDstu2.convertEnum(gender, AdministrativeGenderEnum.class, AdministrativeGenderEnum.OTHER));
+        return this;
+    }
+
+    @Override
+    public MaritalStatus getMaritalStatus() {
+        return FhirUtilDstu2.convertMaritalStatus(patient.getMaritalStatus().getValueAsEnum());
+    }
+
+    @Override
+    public IPerson setMaritalStatus(MaritalStatus maritalStatus) {
+        patient.setMaritalStatus(FhirUtilDstu2.convertMaritalStatus(maritalStatus));
         return this;
     }
 
@@ -91,12 +105,12 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public List<IPostalAddress> getAddresses() {
-        return patient.getAddress().stream().map(address -> PostalAddressWrapper.create(address)).collect(Collectors.toList());
+        return patient.getAddress().stream().map(address -> PostalAddressWrapper.wrap(address)).collect(Collectors.toList());
     }
 
     @Override
     public List<IAttachment> getPhotos() {
-        return patient.getPhoto().stream().map(photo -> AttachmentWrapper.create(photo)).collect(Collectors.toList());
+        return patient.getPhoto().stream().map(photo -> AttachmentWrapper.wrap(photo)).collect(Collectors.toList());
     }
 
     @Override
