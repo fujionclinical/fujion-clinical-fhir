@@ -1,9 +1,7 @@
 package org.fujionclinical.fhir.api.r4.patient;
 
-import org.fujionclinical.api.model.IAttachment;
-import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IPostalAddress;
-import org.fujionclinical.api.model.IWrapper;
+import org.apache.commons.lang3.BooleanUtils;
+import org.fujionclinical.api.model.*;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
@@ -21,20 +19,23 @@ import static org.fujionclinical.fhir.api.r4.terminology.Constants.CODING_MRN;
 
 public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
-    public static PatientWrapper wrap(Patient patient) {
-        return patient == null ? null : new PatientWrapper(patient);
-    }
-
     private final Patient patient;
 
     private final List<IPersonName> names;
 
+    private final List<IConcept> languages;
+
     private IdentifierWrapper mrn;
+
+    public static PatientWrapper wrap(Patient patient) {
+        return patient == null ? null : new PatientWrapper(patient);
+    }
 
     private PatientWrapper(Patient patient) {
         this.patient = patient;
         names = PersonNameWrapper.wrap(patient.getName());
         mrn = IdentifierWrapper.wrap(FhirUtilR4.getMRN(patient));
+        languages = patient.getCommunication().stream().map(comm -> ConceptWrapper.wrap(comm.getLanguage())).collect(Collectors.toList());
     }
 
     @Override
@@ -119,7 +120,22 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
+    public List<IConcept> getLanguages() {
+        return languages;
+    }
+
+    @Override
+    public IConcept getPreferredLanguage() {
+        return patient.getCommunication().stream()
+                .filter(comm -> BooleanUtils.isTrue(comm.getPreferred()))
+                .findFirst()
+                .map(comm -> ConceptWrapper.wrap(comm.getLanguage()))
+                .orElse(null);
+    }
+
+    @Override
     public Patient getWrapped() {
         return patient;
     }
+
 }

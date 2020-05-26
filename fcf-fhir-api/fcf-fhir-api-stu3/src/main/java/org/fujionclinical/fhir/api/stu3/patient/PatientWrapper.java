@@ -1,14 +1,11 @@
 package org.fujionclinical.fhir.api.stu3.patient;
 
-import org.fujionclinical.api.model.IAttachment;
-import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IPostalAddress;
-import org.fujionclinical.api.model.IWrapper;
+import org.apache.commons.lang3.BooleanUtils;
+import org.fujionclinical.api.model.*;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.fhir.api.stu3.common.*;
-import org.fujionclinical.fhir.api.stu3.terminology.Constants;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Identifier;
@@ -18,22 +15,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PatientWrapper implements IPatient, IWrapper<Patient> {
+import static org.fujionclinical.fhir.api.stu3.terminology.Constants.CODING_MRN;
 
-    public static PatientWrapper wrap(Patient patient) {
-        return patient == null ? null : new PatientWrapper(patient);
-    }
+public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     private final Patient patient;
 
     private final List<IPersonName> names;
 
+    private final List<IConcept> languages;
+
     private IdentifierWrapper mrn;
+
+    public static PatientWrapper wrap(Patient patient) {
+        return patient == null ? null : new PatientWrapper(patient);
+    }
 
     private PatientWrapper(Patient patient) {
         this.patient = patient;
         names = PersonNameWrapper.wrap(patient.getName());
         mrn = IdentifierWrapper.wrap(FhirUtilStu3.getMRN(patient));
+        languages = patient.getCommunication().stream().map(comm -> ConceptWrapper.wrap(comm.getLanguage())).collect(Collectors.toList());
     }
 
     @Override
@@ -45,7 +47,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     public IPatient setMRN(IIdentifier mrn) {
         if (mrn == null) {
             Identifier ident = IdentifierWrapper.unwrap(mrn);
-            ident.getType().addCoding(Constants.CODING_MRN);
+            ident.getType().addCoding(CODING_MRN);
             this.mrn = IdentifierWrapper.wrap(new Identifier());
         }
 
@@ -118,7 +120,22 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
+    public List<IConcept> getLanguages() {
+        return languages;
+    }
+
+    @Override
+    public IConcept getPreferredLanguage() {
+        return patient.getCommunication().stream()
+                .filter(comm -> BooleanUtils.isTrue(comm.getPreferred()))
+                .findFirst()
+                .map(comm -> ConceptWrapper.wrap(comm.getLanguage()))
+                .orElse(null);
+    }
+
+    @Override
     public Patient getWrapped() {
         return patient;
     }
+
 }

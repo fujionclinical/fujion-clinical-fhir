@@ -1,6 +1,6 @@
 package org.fujionclinical.fhir.api.r4.common;
 
-import org.fujionclinical.api.model.IConceptCode;
+import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IIdentifier;
 import org.fujionclinical.api.model.IWrapper;
 import org.hl7.fhir.r4.model.Identifier;
@@ -10,12 +10,16 @@ import java.util.stream.Collectors;
 
 public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
 
+    private final Identifier identifier;
+
+    private final IConcept type;
+
     public static IdentifierWrapper wrap(Identifier identifier) {
         return identifier == null ? null : new IdentifierWrapper(identifier);
     }
 
     public static List<IIdentifier> wrap(List<Identifier> identifiers) {
-        return identifiers == null ? null: identifiers.stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
+        return identifiers == null ? null : identifiers.stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
     }
 
     public static Identifier unwrap(IIdentifier identifier) {
@@ -26,17 +30,13 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
         Identifier result = new Identifier()
                 .setSystem(identifier.getSystem())
                 .setValue(identifier.getValue());
-        result.getType().setCoding(ConceptCodeWrapper.unwrap(identifier.getTypes()));
+        result.setType(ConceptWrapper.unwrap(identifier.getType()));
         return result;
     }
 
-    private final Identifier identifier;
-
-    private final List<IConceptCode> types;
-
     private IdentifierWrapper(Identifier identifer) {
         this.identifier = identifer;
-        types = ConceptCodeWrapper.wrap(identifer.getType().getCoding());
+        type = ConceptWrapper.wrap(identifer.getType());
     }
 
     @Override
@@ -62,8 +62,8 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
     }
 
     @Override
-    public List<IConceptCode> getTypes() {
-        return types;
+    public IConcept getType() {
+        return type;
     }
 
     @Override
@@ -81,4 +81,5 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
     public Identifier getWrapped() {
         return identifier;
     }
+
 }

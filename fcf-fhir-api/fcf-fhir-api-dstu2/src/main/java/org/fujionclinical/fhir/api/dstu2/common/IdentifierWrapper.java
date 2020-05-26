@@ -1,7 +1,9 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
+import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
+import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IConceptCode;
 import org.fujionclinical.api.model.IIdentifier;
 import org.fujionclinical.api.model.IWrapper;
@@ -27,17 +29,17 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<IdentifierDt> {
         IdentifierDt result = new IdentifierDt()
                 .setSystem(identifier.getSystem())
                 .setValue(identifier.getValue());
-        result.getType().setCoding(ConceptCodeWrapper.unwrap(identifier.getTypes()));
+        result.getType().setText(identifier.getType().getText()).setCoding(ConceptCodeWrapper.unwrap(identifier.getType().getCodes()));
         return result;
     }
 
     private final IdentifierDt identifier;
 
-    private final List<IConceptCode> types;
+    private final IConcept type;
 
     private IdentifierWrapper(IdentifierDt identifer) {
         this.identifier = identifer;
-        types = ConceptCodeWrapper.wrap(identifer.getType().getCoding());
+        type = ConceptWrapper.wrap(identifer.getType());
     }
 
     @Override
@@ -63,8 +65,8 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<IdentifierDt> {
     }
 
     @Override
-    public List<IConceptCode> getTypes() {
-        return types;
+    public IConcept getType() {
+        return type;
     }
 
     @Override

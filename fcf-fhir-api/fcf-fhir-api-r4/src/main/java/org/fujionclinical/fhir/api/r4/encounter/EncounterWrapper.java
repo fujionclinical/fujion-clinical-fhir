@@ -2,12 +2,16 @@ package org.fujionclinical.fhir.api.r4.encounter;
 
 import org.fujionclinical.api.encounter.IEncounter;
 import org.fujionclinical.api.location.ILocation;
+import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IPeriod;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.r4.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.r4.common.PeriodWrapper;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Period;
+
+import java.util.List;
 
 public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
 
@@ -17,9 +21,12 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
 
     private PeriodWrapper period;
 
+    private final List<IConcept> types;
+    
     private EncounterWrapper(Encounter encounter) {
         super(encounter);
         period = PeriodWrapper.wrap(encounter.getPeriod());
+        types = ConceptWrapper.wrap(encounter.getType());
     }
 
     @Override
@@ -33,22 +40,27 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
             this.period = null;
             getNative().setPeriod(null);
         } else {
-            Period periodDt = PeriodWrapper.unwrap(period);
-            getWrapped().setPeriod(periodDt);
-            this.period = PeriodWrapper.wrap(periodDt);
+            Period fhirPeriod = PeriodWrapper.unwrap(period);
+            getWrapped().setPeriod(fhirPeriod);
+            this.period = PeriodWrapper.wrap(fhirPeriod);
         }
 
         return this;
     }
 
     @Override
-    public IEncounter.EncounterStatus getStatus() {
-        return FhirUtil.convertEnum(getWrapped().getStatus(), IEncounter.EncounterStatus.class);
+    public EncounterStatus getStatus() {
+        return FhirUtil.convertEnum(getWrapped().getStatus(), EncounterStatus.class);
     }
 
     @Override
     public ILocation getLocation() {
         return null;
+    }
+
+    @Override
+    public List<IConcept> getTypes() {
+        return types;
     }
 
 }
