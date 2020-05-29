@@ -30,12 +30,12 @@ import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ConditionService extends BaseService {
+public class ConditionService extends BaseFhirService {
 
     public ConditionService(IGenericClient client) {
         super(client);

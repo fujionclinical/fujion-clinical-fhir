@@ -35,7 +35,7 @@ import org.fujion.model.IComponentRenderer;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujion.page.PageUtil;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.scenario.dstu2.Scenario;
 import org.fujionclinical.ui.controller.FrameworkController;
@@ -82,7 +82,7 @@ public class ViewResourcesController extends FrameworkController {
     
     private Window window;
     
-    private final BaseService fhirService;
+    private final BaseFhirService fhirService;
     
     private final ListModel<IBaseResource> model = new ListModel<>();
     
@@ -105,7 +105,7 @@ public class ViewResourcesController extends FrameworkController {
         });
     }
     
-    public ViewResourcesController(BaseService fhirService) {
+    public ViewResourcesController(BaseFhirService fhirService) {
         super();
         this.fhirService = fhirService;
     }

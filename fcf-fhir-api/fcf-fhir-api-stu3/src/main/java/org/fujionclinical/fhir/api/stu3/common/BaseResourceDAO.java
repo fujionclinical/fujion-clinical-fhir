@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.stu3.common;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IDomainObject;
-import org.fujionclinical.fhir.api.common.core.BaseResourceFactory;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceDAO;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -38,11 +38,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Factory for instantiating serialized domain objects from server.
+ * DAO for DTU3 FHIR resources..
  */
-public abstract class ResourceFactory<T extends IDomainObject, R extends IBaseResource> extends BaseResourceFactory<T, R> {
+public abstract class BaseResourceDAO<T extends IDomainObject, R extends IBaseResource> extends AbstractResourceDAO<T, R> {
 
-    protected ResourceFactory(
+    protected BaseResourceDAO(
             IGenericClient fhirClient,
             Class<T> wrapperClass,
             Class<R> resourceClass) {

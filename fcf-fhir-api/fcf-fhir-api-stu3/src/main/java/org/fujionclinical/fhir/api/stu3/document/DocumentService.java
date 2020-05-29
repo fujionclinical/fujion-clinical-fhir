@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.stu3.document;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
-import org.fujionclinical.fhir.api.stu3.common.BaseService;
+import org.fujionclinical.fhir.api.stu3.common.BaseFhirService;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
@@ -39,7 +39,7 @@ import java.util.*;
 /**
  * This is the documents api implementation.
  */
-public class DocumentService extends BaseService {
+public class DocumentService extends BaseFhirService {
 
     private static DocumentService instance;
 

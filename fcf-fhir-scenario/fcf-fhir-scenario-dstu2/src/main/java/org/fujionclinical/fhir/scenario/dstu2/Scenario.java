@@ -30,10 +30,9 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.ListResource;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.api.encounter.EncounterContext;
+import org.fujionclinical.api.model.IDomainObject;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.api.patient.PatientContext;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.encounter.EncounterWrapper;
 import org.fujionclinical.fhir.api.dstu2.patient.PatientWrapper;
@@ -48,21 +47,21 @@ import java.util.function.Consumer;
 
 public class Scenario extends ScenarioBase<ListResource> {
 
-    private final BaseService fhirService;
+    private final BaseFhirService fhirService;
 
     public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
         super(scenarioFactory);
-        this.fhirService = (BaseService) scenarioFactory.fhirService;
+        this.fhirService = (BaseFhirService) scenarioFactory.fhirService;
     }
 
     @Override
-    protected void activate() {
-        IBaseResource activationResource = getActivationResource();
-
+    protected IDomainObject _toDomainObject(IBaseResource activationResource) {
         if (activationResource instanceof Encounter) {
-            EncounterContext.changeEncounter(EncounterWrapper.wrap((Encounter) activationResource));
+            return EncounterWrapper.wrap((Encounter) activationResource);
         } else if (activationResource instanceof Patient) {
-            PatientContext.changePatient(PatientWrapper.wrap((Patient) activationResource));
+            return PatientWrapper.wrap((Patient) activationResource);
+        } else {
+            return null;
         }
     }
 
@@ -123,7 +122,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected IPatient toPatient(IBaseResource resource) {
+    protected IPatient _toPatient(IBaseResource resource) {
         return resource instanceof Patient ? PatientWrapper.wrap((Patient) resource) : null;
     }
 }

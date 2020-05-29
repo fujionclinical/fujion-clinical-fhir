@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.stu3.medication;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.stu3.common.BaseService;
+import org.fujionclinical.fhir.api.stu3.common.BaseFhirService;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MedicationService extends BaseService {
+public class MedicationService extends BaseFhirService {
 
     public MedicationService(IGenericClient client) {
         super(client);

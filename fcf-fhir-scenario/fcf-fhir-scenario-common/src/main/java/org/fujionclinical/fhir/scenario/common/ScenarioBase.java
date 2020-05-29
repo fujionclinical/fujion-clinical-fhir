@@ -35,7 +35,11 @@ import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
+import org.fujionclinical.api.encounter.EncounterContext;
+import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.api.model.IDomainObject;
 import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.patient.PatientContext;
 import org.fujionclinical.api.patient.list.*;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -98,17 +102,12 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     }
 
     /**
-     * Called when the scenario is activated into the current context.
-     */
-    protected abstract void activate();
-
-    /**
      * If the resource is a Patient resource, return a wrapped instance.  Otherwise, return null.
      *
      * @param resource The resource to check.
      * @return A wrapped instance of the resource, or null if it is not a Patient resource.
      */
-    protected abstract IPatient toPatient(IBaseResource resource);
+    protected abstract IPatient _toPatient(IBaseResource resource);
 
     /**
      * Loads resources associated with the scenario.
@@ -157,8 +156,26 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      */
     protected abstract IBaseResource _createOrUpdateResource(IBaseResource resource);
 
-    protected IBaseResource getActivationResource() {
-        return scenarioActivation == null ? null : resourcesByName.get(scenarioActivation);
+    /**
+     * Converts a FHIR resource to a domain object.
+     *
+     * @param resource The FHIR resource.
+     * @return The corresponding domain object (possibly null).
+     */
+    protected abstract IDomainObject _toDomainObject(IBaseResource resource);
+
+    /**
+     * Called when the scenario is activated into the current context.
+     */
+    public final void activate() {
+        IBaseResource activationResource = scenarioActivation == null ? null : resourcesByName.get(scenarioActivation);
+        IDomainObject target = activationResource == null ? null : _toDomainObject(activationResource);
+
+        if (target instanceof IEncounter) {
+            EncounterContext.changeEncounter((IEncounter) target);
+        } else if (target instanceof IPatient) {
+            PatientContext.changePatient((IPatient) target);
+        }
     }
 
     /**
@@ -575,7 +592,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     }
 
     protected void addToPatientList(IBaseResource resource) {
-        IPatient patient = toPatient(resource);
+        IPatient patient = _toPatient(resource);
 
         if (patient != null) {
             getPatientListFilter();

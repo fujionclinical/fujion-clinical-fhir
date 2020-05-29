@@ -1,13 +1,13 @@
-package org.fujionclinical.fhir.api.r4.encounter;
+package org.fujionclinical.fhir.api.r5.encounter;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.api.encounter.IEncounter;
-import org.fujionclinical.fhir.api.r4.common.ResourceFactory;
-import org.hl7.fhir.r4.model.Encounter;
+import org.fujionclinical.fhir.api.r5.common.BaseResourceDAO;
+import org.hl7.fhir.r5.model.Encounter;
 
-public class EncounterFactory extends ResourceFactory<IEncounter, Encounter> {
+public class EncounterDAO extends BaseResourceDAO<IEncounter, Encounter> {
 
-    public EncounterFactory(IGenericClient fhirClient) {
+    public EncounterDAO(IGenericClient fhirClient) {
         super(fhirClient, IEncounter.class, Encounter.class);
     }
 

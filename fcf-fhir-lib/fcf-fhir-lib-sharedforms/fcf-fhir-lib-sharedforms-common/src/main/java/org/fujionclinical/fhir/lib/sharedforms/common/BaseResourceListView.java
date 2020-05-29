@@ -39,7 +39,7 @@ import org.fujion.thread.ThreadedTask;
 import org.fujionclinical.api.event.IEventSubscriber;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.patient.PatientContext;
-import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.NarrativeService;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionCallback;
@@ -64,7 +64,7 @@ import java.util.Map;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class BaseResourceListView<S extends BaseFhirService, B extends IBaseBundle, R extends IBaseResource, M> extends ListFormController<M> {
+public abstract class BaseResourceListView<S extends AbstractFhirService, B extends IBaseBundle, R extends IBaseResource, M> extends ListFormController<M> {
 
     private static final Log log = LogFactory.getLog(BaseResourceListView.class);
 

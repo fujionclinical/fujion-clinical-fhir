@@ -25,10 +25,9 @@
  */
 package org.fujionclinical.fhir.scenario.r5;
 
-import org.fujionclinical.api.encounter.EncounterContext;
+import org.fujionclinical.api.model.IDomainObject;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.api.patient.PatientContext;
-import org.fujionclinical.fhir.api.r5.common.BaseService;
+import org.fujionclinical.fhir.api.r5.common.BaseFhirService;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.api.r5.encounter.EncounterWrapper;
 import org.fujionclinical.fhir.api.r5.patient.PatientWrapper;
@@ -44,21 +43,21 @@ import java.util.function.Consumer;
 
 public class Scenario extends ScenarioBase<ListResource> {
 
-    private final BaseService fhirService;
+    private final BaseFhirService fhirService;
 
     public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
         super(scenarioFactory);
-        this.fhirService = (BaseService) scenarioFactory.fhirService;
+        this.fhirService = (BaseFhirService) scenarioFactory.fhirService;
     }
 
     @Override
-    protected void activate() {
-        IBaseResource activationResource = getActivationResource();
-
+    protected IDomainObject _toDomainObject(IBaseResource activationResource) {
         if (activationResource instanceof Encounter) {
-            EncounterContext.changeEncounter(EncounterWrapper.wrap((Encounter) activationResource));
+            return EncounterWrapper.wrap((Encounter) activationResource);
         } else if (activationResource instanceof Patient) {
-            PatientContext.changePatient(PatientWrapper.wrap((Patient) activationResource));
+            return PatientWrapper.wrap((Patient) activationResource);
+        } else {
+            return null;
         }
     }
 
@@ -119,7 +118,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
   
     @Override
-    protected IPatient toPatient(IBaseResource resource) {
+    protected IPatient _toPatient(IBaseResource resource) {
         return resource instanceof Patient ? PatientWrapper.wrap((Patient) resource) : null;
     }
 }

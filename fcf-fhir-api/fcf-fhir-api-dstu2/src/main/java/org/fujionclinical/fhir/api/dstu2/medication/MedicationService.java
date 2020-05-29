@@ -32,14 +32,14 @@ import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MedicationService extends BaseService {
+public class MedicationService extends BaseFhirService {
 
     public MedicationService(IGenericClient client) {
         super(client);

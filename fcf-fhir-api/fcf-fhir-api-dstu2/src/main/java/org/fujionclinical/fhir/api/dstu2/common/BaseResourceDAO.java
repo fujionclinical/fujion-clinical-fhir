@@ -23,26 +23,26 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.r4.common;
+package org.fujionclinical.fhir.api.dstu2.common;
 
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IDomainObject;
-import org.fujionclinical.fhir.api.common.core.BaseResourceFactory;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceDAO;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r4.model.Bundle;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Factory for instantiating serialized domain objects from server.
+ * DAO for DSTU2 FHIR resources.
  */
-public abstract class ResourceFactory<T extends IDomainObject, R extends IBaseResource> extends BaseResourceFactory<T, R> {
+public abstract class BaseResourceDAO<T extends IDomainObject, R extends IBaseResource> extends AbstractResourceDAO<T, R> {
 
-    protected ResourceFactory(
+    protected BaseResourceDAO(
             IGenericClient fhirClient,
             Class<T> wrapperClass,
             Class<R> resourceClass) {
@@ -61,7 +61,7 @@ public abstract class ResourceFactory<T extends IDomainObject, R extends IBaseRe
         }
 
         Bundle bundle = result.returnBundle(Bundle.class).execute();
-        return FhirUtilR4.getEntries(bundle, resourceClass).stream()
+        return FhirUtilDstu2.getEntries(bundle, resourceClass).stream()
                 .map(this::wrapResource)
                 .collect(Collectors.toList());
     }

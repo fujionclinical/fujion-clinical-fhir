@@ -1,13 +1,13 @@
-package org.fujionclinical.fhir.api.r5.patient;
+package org.fujionclinical.fhir.api.r4.patient;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.fhir.api.r5.common.ResourceFactory;
-import org.hl7.fhir.r5.model.Patient;
+import org.fujionclinical.fhir.api.r4.common.BaseResourceDAO;
+import org.hl7.fhir.r4.model.Patient;
 
-public class PatientFactory extends ResourceFactory<IPatient, Patient> {
+public class PatientDAO extends BaseResourceDAO<IPatient, Patient> {
 
-    public PatientFactory(IGenericClient fhirClient) {
+    public PatientDAO(IGenericClient fhirClient) {
         super(fhirClient, IPatient.class, Patient.class);
     }
 

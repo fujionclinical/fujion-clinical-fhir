@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import org.fujion.common.Logger;
-import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -48,14 +48,14 @@ public class ScenarioFinder<SCENARIO extends ScenarioBase>
 
     private final Class<SCENARIO> scenarioClass;
 
-    private final BaseFhirService fhirService;
+    private final AbstractFhirService fhirService;
 
     private final Map<String, ScenarioFactory<SCENARIO>> scenarioFactories = new HashMap<>();
 
     public ScenarioFinder(
             Class<SCENARIO> scenarioClass,
             String scenarioBase,
-            BaseFhirService fhirService) {
+            AbstractFhirService fhirService) {
         this.scenarioClass = scenarioClass;
         this.scenarioBase = scenarioBase;
         this.fhirService = fhirService;

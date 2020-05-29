@@ -29,9 +29,9 @@ import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 
-public class PatientService extends BaseService {
+public class PatientService extends BaseFhirService {
 
     public PatientService(IGenericClient client) {
         super(client);

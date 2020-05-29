@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.primitive.IdDt;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;
@@ -55,7 +55,7 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
 
     public final IIdType scenarioId;
 
-    public final BaseFhirService fhirService;
+    public final AbstractFhirService fhirService;
 
     public final Resource scenarioYaml;
 
@@ -64,7 +64,7 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
     public ScenarioFactory(
             Class<SCENARIO> scenarioClass,
             Resource scenarioYaml,
-            BaseFhirService fhirService) {
+            AbstractFhirService fhirService) {
         this.scenarioClass = scenarioClass;
         this.scenarioYaml = scenarioYaml;
         this.fhirService = fhirService;

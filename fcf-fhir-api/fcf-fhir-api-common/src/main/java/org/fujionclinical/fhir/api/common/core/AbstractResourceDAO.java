@@ -29,15 +29,15 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.StringClientParam;
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.api.model.IDomainFactory;
+import org.fujionclinical.api.model.IDomainDAO;
 import org.fujionclinical.api.model.IDomainObject;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 /**
- * Factory for instantiating serialized domain objects from server.
+ * DAO for FHIR resources.
  */
-public abstract class BaseResourceFactory<T extends IDomainObject, R extends IBaseResource> implements IDomainFactory<T> {
+public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBaseResource> implements IDomainDAO<T> {
 
     private final IGenericClient fhirClient;
 
@@ -45,7 +45,7 @@ public abstract class BaseResourceFactory<T extends IDomainObject, R extends IBa
 
     protected final Class<T> wrapperClass;
 
-    protected BaseResourceFactory(
+    protected AbstractResourceDAO(
             IGenericClient fhirClient,
             Class<T> wrapperClass,
             Class<R> resourceClass) {

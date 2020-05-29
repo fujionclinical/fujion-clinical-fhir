@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.stu3.common;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.common.core.BaseFhirService;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.Constants;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -39,14 +39,14 @@ import java.util.List;
 /**
  * Base service for accessing FHIR-based services.
  */
-public class BaseService extends BaseFhirService<Patient, Identifier, Reference> {
+public class BaseFhirService extends AbstractFhirService<Patient, Identifier, Reference> {
 
     /**
      * Inject FHIR client.
      *
      * @param client The FHIR client.
      */
-    public BaseService(IGenericClient client) {
+    public BaseFhirService(IGenericClient client) {
         super(client);
     }
 

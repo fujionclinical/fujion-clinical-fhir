@@ -26,9 +26,9 @@
 package org.fujionclinical.fhir.scenario.stu3;
 
 import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
-import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.List;
 

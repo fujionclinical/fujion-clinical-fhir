@@ -49,7 +49,7 @@
 		</bean>
 		
 		<bean id="fhirService"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.common.BaseService">
+			  class="org.fujionclinical.fhir.api.${fhir.context.version}.common.BaseFhirService">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 		
@@ -80,11 +80,11 @@
 		</bean>
 		
 		<!-- Resource factories  -->
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientFactory">
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientDAO">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterFactory">
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterDAO">
 			<constructor-arg ref="fhirClient" />
 		</bean>
 

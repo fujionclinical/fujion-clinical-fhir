@@ -3,11 +3,11 @@ package org.fujionclinical.fhir.api.dstu2.patient;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.fhir.api.dstu2.common.ResourceFactory;
+import org.fujionclinical.fhir.api.dstu2.common.BaseResourceDAO;
 
-public class PatientFactory extends ResourceFactory<IPatient, Patient> {
+public class PatientDAO extends BaseResourceDAO<IPatient, Patient> {
 
-    public PatientFactory(IGenericClient fhirClient) {
+    public PatientDAO(IGenericClient fhirClient) {
         super(fhirClient, IPatient.class, Patient.class);
     }
 

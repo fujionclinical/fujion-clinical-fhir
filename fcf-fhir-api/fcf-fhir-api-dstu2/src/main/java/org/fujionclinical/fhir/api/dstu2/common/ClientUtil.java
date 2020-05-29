@@ -35,17 +35,17 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
  */
 public class ClientUtil {
 
-    private static volatile BaseService fhirService;
+    private static volatile BaseFhirService fhirService;
 
-    private static synchronized BaseService initFhirService() {
+    private static synchronized BaseFhirService initFhirService() {
         if (fhirService == null) {
-            fhirService = SpringUtil.getAppContext().getBean("fhirService", BaseService.class);
+            fhirService = SpringUtil.getAppContext().getBean("fhirService", BaseFhirService.class);
         }
 
         return fhirService;
     }
 
-    public static BaseService getFhirService() {
+    public static BaseFhirService getFhirService() {
         if (fhirService == null) {
             initFhirService();
         }

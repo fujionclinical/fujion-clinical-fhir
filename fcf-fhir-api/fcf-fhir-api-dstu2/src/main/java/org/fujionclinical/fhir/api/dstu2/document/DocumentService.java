@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
-import org.fujionclinical.fhir.api.dstu2.common.BaseService;
+import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 
 import java.util.*;
@@ -38,7 +38,7 @@ import java.util.*;
 /**
  * This is the documents api implementation.
  */
-public class DocumentService extends BaseService {
+public class DocumentService extends BaseFhirService {
 
     private static DocumentService instance;
 

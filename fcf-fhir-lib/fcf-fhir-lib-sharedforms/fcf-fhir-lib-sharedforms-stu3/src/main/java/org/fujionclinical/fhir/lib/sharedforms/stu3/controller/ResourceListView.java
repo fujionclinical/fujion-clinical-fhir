@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms.stu3.controller;
 
-import org.fujionclinical.fhir.api.stu3.common.BaseService;
+import org.fujionclinical.fhir.api.stu3.common.BaseFhirService;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.fujionclinical.fhir.lib.sharedforms.common.BaseResourceListView;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -39,7 +39,7 @@ import java.util.List;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<BaseService, Bundle, R, M> {
+public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<BaseFhirService, Bundle, R, M> {
 
     @Override
     protected Object transformData(Object data) {

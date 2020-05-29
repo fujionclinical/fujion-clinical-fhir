@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Version-agnostic base service for FHIR services.
  */
-public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
+public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
 
     protected static final int DEFAULT_COUNT = 100;
 
@@ -52,7 +52,7 @@ public abstract class BaseFhirService<PATIENT, IDENTIFIER, REFERENCE> {
      *
      * @param client The FHIR client.
      */
-    public BaseFhirService(IGenericClient client) {
+    public AbstractFhirService(IGenericClient client) {
         this.client = client;
         validateClient();
     }

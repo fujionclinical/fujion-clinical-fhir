@@ -27,11 +27,11 @@ package org.fujionclinical.fhir.api.r5.patient;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.r5.common.BaseService;
+import org.fujionclinical.fhir.api.r5.common.BaseFhirService;
 import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Patient;
 
-public class PatientService extends BaseService {
+public class PatientService extends BaseFhirService {
 
     public PatientService(IGenericClient client) {
         super(client);

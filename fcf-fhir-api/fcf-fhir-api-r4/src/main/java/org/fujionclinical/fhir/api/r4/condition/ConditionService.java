@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.r4.condition;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.r4.common.BaseService;
+import org.fujionclinical.fhir.api.r4.common.BaseFhirService;
 import org.hl7.fhir.r4.model.Condition;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
@@ -35,7 +35,7 @@ import org.hl7.fhir.r4.model.Patient;
 import java.util.Collections;
 import java.util.List;
 
-public class ConditionService extends BaseService {
+public class ConditionService extends BaseFhirService {
 
     public ConditionService(IGenericClient client) {
         super(client);
