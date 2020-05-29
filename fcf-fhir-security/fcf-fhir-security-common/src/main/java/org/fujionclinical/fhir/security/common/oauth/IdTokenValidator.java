@@ -37,7 +37,12 @@ public class IdTokenValidator {
     private static final Log log = LogFactory.getLog(IdTokenValidator.class);
 
     /**
-     * see http://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
+     * @param idToken The token id.
+     * @param issuerUrl  The issuer's URL.
+     * @param clientId  The client id.
+     * @return True if the token is valid.
+     *
+     * @see <a href="http://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation">openid-connect-core</a>
      */
     public boolean validate(IdToken idToken, String issuerUrl, String clientId) {
 

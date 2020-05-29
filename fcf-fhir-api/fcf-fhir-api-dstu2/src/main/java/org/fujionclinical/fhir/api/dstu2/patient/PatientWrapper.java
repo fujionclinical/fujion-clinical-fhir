@@ -12,6 +12,7 @@ import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.fhir.api.dstu2.common.*;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,20 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     public static PatientWrapper wrap(Patient patient) {
         return patient == null ? null : new PatientWrapper(patient);
+    }
+
+    public static Patient unwrap(IPatient patient) {
+        if (patient == null) {
+            return null;
+        }
+
+        if (patient instanceof PatientWrapper) {
+            return ((PatientWrapper) patient).getWrapped();
+        }
+
+        PatientWrapper pt = wrap(new Patient());
+        BeanUtils.copyProperties(patient, pt);
+        return pt.getWrapped();
     }
 
     private PatientWrapper(Patient patient) {

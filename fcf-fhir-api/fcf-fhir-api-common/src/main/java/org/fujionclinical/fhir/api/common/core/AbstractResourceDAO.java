@@ -25,10 +25,7 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
-import ca.uhn.fhir.rest.gclient.StringClientParam;
-import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.model.IDomainDAO;
 import org.fujionclinical.api.model.IDomainObject;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -39,65 +36,56 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
  */
 public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBaseResource> implements IDomainDAO<T> {
 
-    private final IGenericClient fhirClient;
-
     protected final Class<R> resourceClass;
 
-    protected final Class<T> wrapperClass;
+    protected final Class<T> domainClass;
+
+    private final AbstractFhirService fhirService;
 
     protected AbstractResourceDAO(
-            IGenericClient fhirClient,
-            Class<T> wrapperClass,
+            AbstractFhirService fhirService,
+            Class<T> domainClass,
             Class<R> resourceClass) {
-        this.fhirClient = fhirClient;
-        this.wrapperClass = wrapperClass;
+        this.fhirService = fhirService;
+        this.domainClass = domainClass;
         this.resourceClass = resourceClass;
-    }
-
-    /**
-     * Create a new instance of the domain class.
-     */
-    @Override
-    public T create(String id) {
-        try {
-            R instance = resourceClass.getDeclaredConstructor().newInstance();
-            instance.setId(id);
-            return wrapResource(instance);
-        } catch (Exception e) {
-            throw MiscUtil.toUnchecked(e);
-        }
     }
 
     /**
      * Fetch an instance of the domain class from the data store.
      */
     @Override
-    public T fetchObject(String id) {
-        return wrapResource(fhirClient.read().resource(resourceClass).withId(id).execute());
+    public T read(String id) {
+        return convert((R) fhirService.getResource(resourceClass, id));
     }
 
-    protected abstract T wrapResource(R resource);
+    protected abstract T convert(R resource);
+
+    protected abstract R convert(T domainResource);
+
+    @Override
+    public T create(T template) {
+        return convert((R) fhirService.createResource(convert(template)));
+    }
 
     /**
      * Fetch multiple instances of the domain class from the data store.
+     *
+     * @param ids A list of ids to fetch.
+     * @return The result of the query.
      */
-    protected IQuery<IBaseBundle> query(String[] ids) {
-        if (ids == null || ids.length == 0) {
-            return null;
-        }
-
-        StringClientParam param = new StringClientParam("_id");
-        return fhirClient.search().forResource(resourceClass).where(param.matches().values(ids));
+    protected IQuery<IBaseBundle> query(String... ids) {
+        return fhirService.searchResourcesById(resourceClass, ids);
     }
 
     /**
      * Returns the type of domain objects created by this factory.
      *
-      * @return The type of domain objects created by this factory.
+     * @return The type of domain objects created by this factory.
      */
     @Override
     public Class<T> getDomainClass() {
-        return wrapperClass;
+        return domainClass;
     }
 
 }

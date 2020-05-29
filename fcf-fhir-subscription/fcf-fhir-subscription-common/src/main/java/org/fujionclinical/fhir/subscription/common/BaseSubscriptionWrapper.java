@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
+import org.fujionclinical.api.model.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.UUID;
@@ -32,29 +33,36 @@ import java.util.UUID;
 /**
  * Wraps a FHIR subscription resource, adding necessary metadata for managing the subscription.
  */
-public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
+public abstract class BaseSubscriptionWrapper<T extends IBaseResource> implements IWrapper<T> {
 
     public static final String EVENT_ROOT = "FHIR.SUB";
-    private final String paramIndex;
-    private final String subscriptionId;
-    private final T subscription;
-    private int refCount;
 
-    /**
-     * Create the subscription wrapper.
-     *
-     * @param paramIndex The index for looking up by criteria/payload type.
-     */
-    protected BaseSubscriptionWrapper(T subscription, String paramIndex) {
-        this.subscription = subscription;
-        this.paramIndex = paramIndex;
-        this.subscriptionId = UUID.randomUUID().toString();
-    }
+    private final String paramIndex;
+
+    private final String subscriptionId;
+
+    private final T subscription;
+
+    private int refCount;
 
     protected static String getParamIndexKey(
             String criteria,
             ResourceSubscriptionService.PayloadType payloadType) {
         return payloadType.name() + "|" + criteria;
+    }
+
+    /**
+     * Create the subscription wrapper.
+     *
+     * @param subscription The subscription to wrap.
+     * @param paramIndex   The index for looking up by criteria/payload type.
+     */
+    protected BaseSubscriptionWrapper(
+            T subscription,
+            String paramIndex) {
+        this.subscription = subscription;
+        this.paramIndex = paramIndex;
+        this.subscriptionId = UUID.randomUUID().toString();
     }
 
     /**
@@ -83,15 +91,6 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
     }
 
     /**
-     * Returns the wrapped subscription resource.
-     *
-     * @return The wrapped subscription resource.
-     */
-    protected T getSubscription() {
-        return subscription;
-    }
-
-    /**
      * Returns the key that is a combination of the payload type and the criteria.
      *
      * @return Key for the parameter-based index.
@@ -117,4 +116,10 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
     protected int incRefCount() {
         return ++refCount;
     }
+
+    @Override
+    public T getWrapped() {
+        return subscription;
+    }
+
 }

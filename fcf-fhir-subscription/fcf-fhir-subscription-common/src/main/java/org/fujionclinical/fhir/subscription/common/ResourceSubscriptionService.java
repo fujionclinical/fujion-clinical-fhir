@@ -54,15 +54,39 @@ import java.util.Map;
  */
 public class ResourceSubscriptionService {
 
+    public enum PayloadType {
+        NONE(null), XML("application/fhir+xml"), JSON("application/fhir+json");
+
+        private final String mimeType;
+
+        PayloadType(String mimeType) {
+            this.mimeType = mimeType;
+        }
+
+        @Override
+        public String toString() {
+            return mimeType;
+        }
+    }
+
     private static final TokenClientParam TAG = new TokenClientParam("tag");
+
     private final Log log = LogFactory.getLog(ResourceSubscriptionService.class);
+
     private final IGenericClient client;
+
     private final ProducerService producer;
+
     private final boolean disabled;
+
     private final String callbackUrl;
+
     private final ISubscriptionFactory factory;
+
     private final ConceptCode subscriptionTag;
+
     private final Map<String, BaseSubscriptionWrapper> subscriptionsByParams = new HashMap<>();
+
     private final Map<String, BaseSubscriptionWrapper> subscriptionsById = new HashMap<>();
 
     /**
@@ -72,6 +96,7 @@ public class ResourceSubscriptionService {
      * @param producer    The message producer for delivering events to subscribers.
      * @param callbackUrl The callback URL to be associated with new subscriptions. If no callback
      *                    URL is specified, this service will be disabled.
+     * @param factory     The subscription factory.
      */
     public ResourceSubscriptionService(
             IGenericClient client,
@@ -244,22 +269,7 @@ public class ResourceSubscriptionService {
     private void deleteSubscription(BaseSubscriptionWrapper wrapper) {
         subscriptionsByParams.remove(wrapper.getParamIndex());
         subscriptionsById.remove(wrapper.getSubscriptionId());
-        client.delete().resource(wrapper.getSubscription()).execute();
-    }
-
-    public enum PayloadType {
-        NONE(null), XML("application/fhir+xml"), JSON("application/fhir+json");
-
-        private final String mimeType;
-
-        PayloadType(String mimeType) {
-            this.mimeType = mimeType;
-        }
-
-        @Override
-        public String toString() {
-            return mimeType;
-        }
+        client.delete().resource(wrapper.getWrapped()).execute();
     }
 
 }

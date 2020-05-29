@@ -29,6 +29,8 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IDomainObject;
+import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.AbstractResourceDAO;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -43,17 +45,17 @@ import java.util.stream.Collectors;
 public abstract class BaseResourceDAO<T extends IDomainObject, R extends IBaseResource> extends AbstractResourceDAO<T, R> {
 
     protected BaseResourceDAO(
-            IGenericClient fhirClient,
+            AbstractFhirService fhirService,
             Class<T> wrapperClass,
             Class<R> resourceClass) {
-        super(fhirClient, wrapperClass, resourceClass);
+        super(fhirService, wrapperClass, resourceClass);
     }
 
     /**
      * Fetch multiple instances of the domain class from the data store.
      */
     @Override
-    public List<T> fetchObjects(String[] ids) {
+    public List<T> read(String... ids) {
         IQuery<IBaseBundle> result = query(ids);
 
         if (result == null) {
@@ -62,7 +64,7 @@ public abstract class BaseResourceDAO<T extends IDomainObject, R extends IBaseRe
 
         Bundle bundle = result.returnBundle(Bundle.class).execute();
         return FhirUtilDstu2.getEntries(bundle, resourceClass).stream()
-                .map(this::wrapResource)
+                .map(this::convert)
                 .collect(Collectors.toList());
     }
 

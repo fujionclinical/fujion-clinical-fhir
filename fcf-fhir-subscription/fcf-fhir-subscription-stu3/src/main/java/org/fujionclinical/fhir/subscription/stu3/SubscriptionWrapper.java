@@ -48,7 +48,7 @@ public class SubscriptionWrapper extends BaseSubscriptionWrapper<Subscription> {
      * @return The subscription criteria.
      */
     public String getCriteria() {
-        return getSubscription().getCriteria();
+        return getWrapped().getCriteria();
     }
 
 }

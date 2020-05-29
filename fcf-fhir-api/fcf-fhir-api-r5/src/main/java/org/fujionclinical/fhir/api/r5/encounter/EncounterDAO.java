@@ -1,18 +1,24 @@
 package org.fujionclinical.fhir.api.r5.encounter;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.r5.common.BaseResourceDAO;
 import org.hl7.fhir.r5.model.Encounter;
 
 public class EncounterDAO extends BaseResourceDAO<IEncounter, Encounter> {
 
-    public EncounterDAO(IGenericClient fhirClient) {
-        super(fhirClient, IEncounter.class, Encounter.class);
+    public EncounterDAO(AbstractFhirService fhirService) {
+        super(fhirService, IEncounter.class, Encounter.class);
     }
 
     @Override
-    protected IEncounter wrapResource(Encounter resource) {
+    protected IEncounter convert(Encounter resource) {
         return EncounterWrapper.wrap(resource);
     }
+
+    @Override
+    protected Encounter convert(IEncounter domainResource) {
+        return EncounterWrapper.unwrap(domainResource);
+    }
+
 }

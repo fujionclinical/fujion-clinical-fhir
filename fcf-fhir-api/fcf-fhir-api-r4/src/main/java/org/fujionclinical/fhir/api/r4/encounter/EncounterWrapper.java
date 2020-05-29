@@ -10,19 +10,34 @@ import org.fujionclinical.fhir.api.r4.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.r4.common.PeriodWrapper;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.Period;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
 public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
 
+    private final List<IConcept> types;
+
+    private PeriodWrapper period;
+
     public static EncounterWrapper wrap(Encounter encounter) {
         return encounter == null ? null : new EncounterWrapper(encounter);
     }
 
-    private PeriodWrapper period;
+    public static Encounter unwrap(IEncounter encounter) {
+        if (encounter == null) {
+            return null;
+        }
 
-    private final List<IConcept> types;
-    
+        if (encounter instanceof EncounterWrapper) {
+            return ((EncounterWrapper) encounter).getWrapped();
+        }
+
+        EncounterWrapper enc = wrap(new Encounter());
+        BeanUtils.copyProperties(encounter, enc);
+        return enc.getWrapped();
+    }
+
     private EncounterWrapper(Encounter encounter) {
         super(encounter);
         period = PeriodWrapper.wrap(encounter.getPeriod());

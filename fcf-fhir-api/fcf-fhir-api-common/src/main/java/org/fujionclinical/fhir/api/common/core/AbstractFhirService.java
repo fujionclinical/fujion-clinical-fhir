@@ -29,7 +29,10 @@ import ca.uhn.fhir.parser.DataFormatException;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
+import ca.uhn.fhir.rest.gclient.IQuery;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
 import org.fujionclinical.api.messaging.Message;
+import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -190,6 +193,18 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
     }
 
     /**
+     * Returns the resource corresponding to the given id.
+     *
+     * @param <T> The resource type.
+     * @param clazz The resource type.
+     * @param id The resource id.
+     * @return The corresponding resource, if found.
+     */
+    public <T extends IBaseResource> T getResource(Class<T> clazz, String id) {
+        return getClient().read().resource(clazz).withId(id).execute();
+    }
+
+    /**
      * Returns a resource of the specified type given a resource reference. If the resource has not
      * been previously fetched, it will be fetched from the server. If the referenced resource is
      * not of the specified type, null is returned.
@@ -274,6 +289,23 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
             String data = client.getFhirContext().newXmlParser().encodeResourceToString(resource);
             return new Message("application/xml+fhir", data);
         }
+    }
+
+    /**
+     * Fetch multiple resources of the same type from the data store.
+     *
+     * @param <T> The resource type.
+     * @param resourceClass The type of resource.
+     * @param ids A list of logical ids.
+     * @return The result of the query.
+     */
+    protected <T extends IBaseResource> IQuery<IBaseBundle> searchResourcesById(Class<T> resourceClass, String... ids) {
+        if (ids == null || ids.length == 0) {
+            return null;
+        }
+
+        StringClientParam param = new StringClientParam("_id");
+        return getClient().search().forResource(resourceClass).where(param.matches().values(ids));
     }
 
     /**

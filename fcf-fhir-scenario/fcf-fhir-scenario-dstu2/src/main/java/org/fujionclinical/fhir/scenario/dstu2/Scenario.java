@@ -75,7 +75,6 @@ public class Scenario extends ScenarioBase<ListResource> {
             for (ListResource.Entry entry : list.getEntry()) {
                 try {
                     IBaseResource resource = fhirService.getResource(entry.getItem());
-                    addToPatientList(resource);
                     resources.accept(resource);
                 } catch (Exception e) {
                     // NOP

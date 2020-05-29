@@ -4,26 +4,39 @@ import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import org.fujionclinical.api.encounter.IEncounter;
 import org.fujionclinical.api.location.ILocation;
-import org.fujionclinical.api.model.ConceptCode;
 import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.model.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.PeriodWrapper;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
 public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
 
+    private final List<IConcept> types;
+
+    private PeriodWrapper period;
+
     public static EncounterWrapper wrap(Encounter encounter) {
         return encounter == null ? null : new EncounterWrapper(encounter);
     }
 
-    private PeriodWrapper period;
+    public static Encounter unwrap(IEncounter encounter) {
+        if (encounter == null) {
+            return null;
+        }
 
-    private final List<IConcept> types;
+        if (encounter instanceof EncounterWrapper) {
+            return ((EncounterWrapper) encounter).getWrapped();
+        }
+
+        EncounterWrapper enc = wrap(new Encounter());
+        BeanUtils.copyProperties(encounter, enc);
+        return enc.getWrapped();
+    }
 
     private EncounterWrapper(Encounter encounter) {
         super(encounter);

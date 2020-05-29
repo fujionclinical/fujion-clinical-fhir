@@ -79,13 +79,13 @@
 			</property>
 		</bean>
 		
-		<!-- Resource factories  -->
+		<!-- Resource DAOs  -->
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientDAO">
-			<constructor-arg ref="fhirClient" />
+			<constructor-arg ref="fhirService" />
 		</bean>
 
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterDAO">
-			<constructor-arg ref="fhirClient" />
+			<constructor-arg ref="fhirService" />
 		</bean>
 
 		<!-- Patient search engine -->

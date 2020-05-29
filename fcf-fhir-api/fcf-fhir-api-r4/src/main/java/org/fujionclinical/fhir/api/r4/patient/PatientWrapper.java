@@ -10,6 +10,7 @@ import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Enumerations;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Patient;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,20 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     public static PatientWrapper wrap(Patient patient) {
         return patient == null ? null : new PatientWrapper(patient);
+    }
+
+    public static Patient unwrap(IPatient patient) {
+        if (patient == null) {
+            return null;
+        }
+
+        if (patient instanceof PatientWrapper) {
+            return ((PatientWrapper) patient).getWrapped();
+        }
+
+        PatientWrapper pt = wrap(new Patient());
+        BeanUtils.copyProperties(patient, pt);
+        return pt.getWrapped();
     }
 
     private PatientWrapper(Patient patient) {
@@ -116,7 +131,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public String getId() {
-        return patient.getId();
+        return patient.getIdElement().getIdPart();
     }
 
     @Override

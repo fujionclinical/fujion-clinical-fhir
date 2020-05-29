@@ -81,7 +81,9 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
 
     private final Resource root;
 
-    private final IPatientList personalPatientList;
+    private final IPatientList patientList;
+
+    private final IPatientListFilterManager patientListFilterManager;
 
     private final String patientListFilterName;
 
@@ -97,7 +99,8 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
         this.scenarioConfig = scenarioFactory.scenarioConfig;
         this.scenarioActivation = scenarioFactory.scenarioActivation;
         this.root = scenarioFactory.scenarioYaml;
-        this.personalPatientList = PatientListRegistry.getInstance().findByName("Personal Lists");
+        this.patientList = PatientListRegistry.getInstance().findByName("Personal Lists");
+        this.patientListFilterManager = this.patientList.getFilterManager();
         this.patientListFilterName = "scenario: " + getName();
     }
 
@@ -416,8 +419,9 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      *
      * @param resource Scenario to add.
      */
-    public final void addResource(IBaseResource resource) {
+    private void addResource(IBaseResource resource) {
         resourcesById.put(resource.getIdElement().getValue(), resource);
+        addToPatientList(resource);
     }
 
     private InputStream getResourceAsStream(String name) {
@@ -573,34 +577,35 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     }
 
     protected IPatientListFilter getPatientListFilter() {
-        IPatientListFilter filter = personalPatientList.getFilterManager().getFilterByName(patientListFilterName);
+        IPatientListFilter filter = patientListFilterManager.getFilterByName(patientListFilterName);
 
         if (filter == null) {
-            filter = personalPatientList.getFilterManager().addFilter(patientListFilterName);
+            filter = patientListFilterManager.addFilter(patientListFilterName);
         }
 
-        personalPatientList.setActiveFilter(filter);
+        patientList.setActiveFilter(filter);
         return filter;
     }
 
     protected void deletePatientListFilter() {
-        IPatientListFilter filter = personalPatientList.getFilterManager().getFilterByName(patientListFilterName);
+        IPatientListFilter filter = patientListFilterManager.getFilterByName(patientListFilterName);
 
         if (filter != null) {
-            personalPatientList.getFilterManager().removeFilter(filter);
+            patientListFilterManager.removeFilter(filter);
         }
     }
 
-    protected void addToPatientList(IBaseResource resource) {
+    private void addToPatientList(IBaseResource resource) {
         IPatient patient = _toPatient(resource);
 
         if (patient != null) {
             getPatientListFilter();
-            IPatientListItem item = PatientListUtil.findListItem(patient, personalPatientList.getListItems());
+            IPatientListItem item = PatientListUtil.findListItem(patient, patientList.getListItems());
 
             if (item == null) {
                 item = new PatientListItem(patient);
-                personalPatientList.getItemManager().addItem(item);
+                patientList.getItemManager().addItem(item);
+                patientList.getItemManager().save();
             }
         }
     }
