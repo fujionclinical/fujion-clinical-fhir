@@ -33,6 +33,7 @@ import org.fujionclinical.api.messaging.Message;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -184,6 +185,7 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
      * @return The corresponding resource, if found.
      */
     public IBaseResource getResource(IIdType id) {
+        Assert.state(id != null && !id.isEmpty(), "No resource id");
         return getClient().read().resource(id.getResourceType()).withId(id).execute();
     }
 

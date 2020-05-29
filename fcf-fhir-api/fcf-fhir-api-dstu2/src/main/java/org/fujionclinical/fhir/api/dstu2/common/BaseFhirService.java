@@ -36,6 +36,7 @@ import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.Constants;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -155,8 +156,6 @@ public class BaseFhirService extends AbstractFhirService<Patient, IdentifierDt, 
             return reference.getResource();
         }
 
-        String resourceId = reference.getReference().getValue();
-        Assert.state(resourceId != null, "Reference has no resource ID defined");
         IBaseResource resource = getResource(reference.getReference());
         reference.setResource(resource);
         return resource;
