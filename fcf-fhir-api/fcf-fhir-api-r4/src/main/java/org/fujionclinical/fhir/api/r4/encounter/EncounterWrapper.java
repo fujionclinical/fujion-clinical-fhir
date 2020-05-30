@@ -4,12 +4,17 @@ import org.fujionclinical.api.encounter.IEncounter;
 import org.fujionclinical.api.location.ILocation;
 import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IPeriod;
+import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.r4.common.ConceptWrapper;
+import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.fujionclinical.fhir.api.r4.common.PeriodWrapper;
+import org.fujionclinical.fhir.api.r4.patient.PatientWrapper;
 import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Period;
+import org.hl7.fhir.r4.model.Reference;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -18,7 +23,11 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
 
     private final List<IConcept> types;
 
+    private final Reference patientRef;
+
     private PeriodWrapper period;
+
+    private PatientWrapper patient;
 
     public static EncounterWrapper wrap(Encounter encounter) {
         return encounter == null ? null : new EncounterWrapper(encounter);
@@ -42,6 +51,25 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
         super(encounter);
         period = PeriodWrapper.wrap(encounter.getPeriod());
         types = ConceptWrapper.wrap(encounter.getType());
+        patientRef = getWrapped().getSubject();
+        initPatientWrapper();
+    }
+
+    private void initPatientWrapper() {
+        patient = PatientWrapper.wrap(FhirUtilR4.getFhirService().getResource(patientRef, Patient.class));
+    }
+
+    @Override
+    public IPatient getPatient() {
+        return patient;
+    }
+
+    @Override
+    public IEncounter setPatient(IPatient patient) {
+        Patient pat = PatientWrapper.unwrap(patient);
+        patientRef.setResource(pat);
+        initPatientWrapper();
+        return this;
     }
 
     @Override

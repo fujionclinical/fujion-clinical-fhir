@@ -91,6 +91,10 @@ public class FhirUtilStu3 extends org.fujionclinical.fhir.api.common.core.FhirUt
         }
     }
 
+    public static BaseFhirService getFhirService() {
+        return (BaseFhirService) FhirUtil.getFhirService();
+    }
+
     /**
      * Performs an equality check on two references using their id's.
      *

@@ -49,7 +49,7 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
 
     public final String scenarioName;
 
-    public final String scenarioActivation;
+    public final String activationResource;
 
     public final IBaseCoding scenarioTag;
 
@@ -74,7 +74,7 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
             Map<String, String> meta = (Map<String, String>) ScenarioUtil.getParam(config, "scenario");
             this.scenarioConfig = (Map<String, Map<String, String>>) ScenarioUtil.getParam(config, "resources");
             this.scenarioId = createScenarioId(ScenarioUtil.getParam(meta, "id"));
-            this.scenarioActivation = ScenarioUtil.getParam(meta, "activation", false);
+            this.activationResource = ScenarioUtil.getParam(meta, "activation", false);
             this.scenarioName = ScenarioUtil.getParam(meta, "name");
             this.scenarioTag = ScenarioUtil.createScenarioTag(scenarioId.getIdPart(), scenarioName);
         } catch (Exception e) {

@@ -36,6 +36,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.Logger;
 import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -53,6 +54,26 @@ public class FhirUtil {
 
     protected static final Logger log = Logger.create(FhirUtil.class);
 
+    private static AbstractFhirService abstractFhirService;
+
+    public static AbstractFhirService getFhirService() {
+        return SpringUtil.getBean("fhirService", AbstractFhirService.class,
+                () -> abstractFhirService, service -> abstractFhirService = service);
+    }
+
+    /**
+     * Returns true if the resource has the specified tag.
+     *
+     * @param tag      Tag to find.
+     * @param resource Resource to search.
+     * @return True if the tag is present.
+     **/
+    public static boolean hasTag(
+            IBaseCoding tag,
+            IBaseResource resource) {
+        return resource.getMeta().getTag(tag.getSystem(), tag.getCode()) != null;
+    }
+
     /**
      * Adds a tag to a resource if not already present.
      *
@@ -63,16 +84,15 @@ public class FhirUtil {
     public static boolean addTag(
             IBaseCoding tag,
             IBaseResource resource) {
-        boolean exists = resource.getMeta().getTag(tag.getSystem(), tag.getCode()) != null;
-
-        if (!exists) {
+        if (!hasTag(tag, resource)) {
             IBaseCoding newTag = resource.getMeta().addTag();
             newTag.setCode(tag.getCode());
             newTag.setSystem(tag.getSystem());
             newTag.setDisplay(tag.getDisplay());
+            return true;
         }
 
-        return !exists;
+        return false;
     }
 
     /**
@@ -533,7 +553,9 @@ public class FhirUtil {
         return result == null ? deflt : result;
     }
 
-    public static IPerson.MaritalStatus findMaritalStatus(String system, String code) {
+    public static IPerson.MaritalStatus findMaritalStatus(
+            String system,
+            String code) {
         IPerson.MaritalStatus maritalStatus = code == null ? null : IPerson.MaritalStatus.forCode(code);
 
         if (maritalStatus == null) {
@@ -556,4 +578,5 @@ public class FhirUtil {
      */
     protected FhirUtil() {
     }
+
 }

@@ -68,10 +68,5 @@
             <artifactId>fcf-fhir-plugin-observations-stu3</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-scenario-stu3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
     </dependencies>
 </project>

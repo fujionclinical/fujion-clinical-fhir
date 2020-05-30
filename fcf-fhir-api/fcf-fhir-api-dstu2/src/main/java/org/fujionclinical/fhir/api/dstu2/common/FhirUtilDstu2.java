@@ -86,6 +86,10 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         }
     }
 
+    public static BaseFhirService getFhirService() {
+        return (BaseFhirService) FhirUtil.getFhirService();
+    }
+
     /**
      * Performs an equality check on two references using their id's.
      *
