@@ -40,9 +40,8 @@ public class ConceptWrapper implements IConcept, IWrapper<CodeableConcept> {
     }
 
     @Override
-    public IConcept setText(String text) {
+    public void setText(String text) {
         codeableConcept.setText(text);
-        return this;
     }
 
     @Override

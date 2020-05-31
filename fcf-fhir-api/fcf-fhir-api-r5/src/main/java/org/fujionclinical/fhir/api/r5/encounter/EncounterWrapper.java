@@ -65,11 +65,10 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
     }
 
     @Override
-    public IEncounter setPatient(IPatient patient) {
+    public void setPatient(IPatient patient) {
         Patient pat = PatientWrapper.unwrap(patient);
         patientRef.setResource(pat);
         initPatientWrapper();
-        return this;
     }
 
     @Override
@@ -78,17 +77,15 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
     }
 
     @Override
-    public IEncounter setPeriod(IPeriod period) {
+    public void setPeriod(IPeriod period) {
         if (period == null) {
             this.period = null;
-            getNative().setPeriod(null);
+            getWrapped().setPeriod(null);
         } else {
-            Period fhirPeriod = PeriodWrapper.unwrap(period);
-            getWrapped().setPeriod(fhirPeriod);
-            this.period = PeriodWrapper.wrap(fhirPeriod);
+            Period per = PeriodWrapper.unwrap(period);
+            getWrapped().setPeriod(per);
+            this.period = PeriodWrapper.wrap(per);
         }
-
-        return this;
     }
 
     @Override
@@ -97,7 +94,7 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
     }
 
     @Override
-    public ILocation getLocation() {
+    public List<ILocation> getLocations() {
         return null;
     }
 

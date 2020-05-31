@@ -1,7 +1,6 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
-import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IConceptCode;
 import org.fujionclinical.api.model.IWrapper;
@@ -41,9 +40,8 @@ public class ConceptWrapper implements IConcept, IWrapper<CodeableConceptDt> {
     }
 
     @Override
-    public IConcept setText(String text) {
+    public void setText(String text) {
         codeableConcept.setText(text);
-        return this;
     }
 
     @Override

@@ -3,14 +3,16 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
-import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.person.IPersonName;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
+
+    private final HumanNameDt name;
 
     public static PersonNameWrapper wrap(HumanNameDt name) {
         return name == null ? null : new PersonNameWrapper(name);
@@ -24,8 +26,6 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
         return names == null ? null : names.stream().map(name -> name.getWrapped()).collect(Collectors.toList());
     }
 
-    private final HumanNameDt name;
-
     private PersonNameWrapper(HumanNameDt name) {
         this.name = name;
     }
@@ -36,9 +36,8 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     }
 
     @Override
-    public IPersonName setFamilyName(String familyName) {
+    public void setFamilyName(String familyName) {
         name.setFamily(Collections.singletonList(new StringDt(familyName)));
-        return this;
     }
 
     @Override
@@ -47,9 +46,8 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     }
 
     @Override
-    public IPersonName setGivenNames(List<String> givenNames) {
+    public void setGivenNames(List<String> givenNames) {
         name.setGiven(givenNames.stream().map(given -> new StringDt(given)).collect(Collectors.toList()));
-        return this;
     }
 
     @Override
@@ -58,9 +56,8 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     }
 
     @Override
-    public IPersonName setPrefixes(List<String> prefixes) {
+    public void setPrefixes(List<String> prefixes) {
         name.setPrefix(prefixes.stream().map(prefix -> new StringDt(prefix)).collect(Collectors.toList()));
-        return this;
     }
 
     @Override
@@ -69,9 +66,8 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     }
 
     @Override
-    public IPersonName setSuffixes(List<String> suffixes) {
+    public void setSuffixes(List<String> suffixes) {
         name.setSuffix(suffixes.stream().map(suffix -> new StringDt(suffix)).collect(Collectors.toList()));
-        return this;
     }
 
     @Override
@@ -80,9 +76,8 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     }
 
     @Override
-    public IPersonName setUse(PersonNameUse category) {
+    public void setUse(PersonNameUse category) {
         name.setUse(FhirUtilDstu2.convertEnum(category, NameUseEnum.class));
-        return this;
     }
 
     @Override
@@ -94,4 +89,5 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     public String toString() {
         return asString();
     }
+
 }

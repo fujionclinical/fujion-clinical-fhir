@@ -46,9 +46,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
     }
 
     @Override
-    public IConceptCode setSystem(String system) {
+    public void setSystem(String system) {
         coding.setSystem(system);
-        return this;
     }
 
     @Override
@@ -57,9 +56,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
     }
 
     @Override
-    public IConceptCode setCode(String code) {
+    public void setCode(String code) {
         coding.setCode(code);
-        return this;
     }
 
     @Override
@@ -68,9 +66,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
     }
 
     @Override
-    public IConceptCode setText(String text) {
+    public void setText(String text) {
         coding.setDisplay(text);
-        return this;
     }
 
     @Override

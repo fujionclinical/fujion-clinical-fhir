@@ -68,5 +68,10 @@
             <artifactId>fcf-fhir-plugin-observations-r4</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-scenario-r4</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 </project>

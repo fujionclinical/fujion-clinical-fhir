@@ -42,6 +42,7 @@ import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView
 import org.fujionclinical.shell.elements.ElementPlugin;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -79,7 +80,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
 
         return locations.isEmpty() ? null : locations.stream()
                 .map(encloc -> ClientUtil.getResource(encloc.getLocation(), Location.class))
-                .filter(location -> location != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -89,7 +90,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
         return participants.isEmpty() ? null : participants.stream()
                 .map(encpart -> ClientUtil.getResource(encpart.getIndividual()))
                 .map(individual -> FhirUtilDstu2.getProperty(individual, "getName", HumanNameDt.class))
-                .filter(name -> name != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
@@ -102,9 +103,8 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
     protected void renderRow(Row row, Encounter encounter) {
         super.renderRow(row, encounter);
 
-        row.addEventListener(DblclickEvent.class, (event) -> {
-            EncounterContext.changeEncounter(EncounterWrapper.wrap(encounter));
-        });
+        row.addEventListener(DblclickEvent.class, (event) ->
+                EncounterContext.changeEncounter(EncounterWrapper.wrap(encounter)));
     }
 
     @Override
@@ -127,7 +127,10 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
     }
 
     private void updateRowStatus(IEncounter encounter, boolean activeContext) {
-        Row row = encounter == null ? null : (Row) rows.findChildByData(encounter.getNative());
+        Row row = encounter == null ? null : (Row) rows.findChild(child -> {
+            Encounter enc = (Encounter) child.getData();
+            return encounter.getId().equals(enc.getIdElement().getIdPart());
+        });
 
         if (row != null) {
             Rowcell cell = row.getFirstChild(Rowcell.class);

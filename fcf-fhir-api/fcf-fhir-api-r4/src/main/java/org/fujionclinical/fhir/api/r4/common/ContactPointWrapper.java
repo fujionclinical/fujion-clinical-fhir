@@ -8,13 +8,13 @@ import org.hl7.fhir.r4.model.ContactPoint;
 
 public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint> {
 
-    public static ContactPointWrapper wrap(ContactPoint contactPoint) {
-        return contactPoint == null ? null : new ContactPointWrapper(contactPoint);
-    }
-
     private final ContactPoint contactPoint;
 
     private PeriodWrapper period;
+
+    public static ContactPointWrapper wrap(ContactPoint contactPoint) {
+        return contactPoint == null ? null : new ContactPointWrapper(contactPoint);
+    }
 
     private ContactPointWrapper(ContactPoint contactPoint) {
         this.contactPoint = contactPoint;
@@ -27,9 +27,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setSystem(ContactPointSystem system) {
+    public void setSystem(ContactPointSystem system) {
         contactPoint.setSystem(FhirUtil.convertEnum(system, ContactPoint.ContactPointSystem.class));
-        return this;
     }
 
     @Override
@@ -38,9 +37,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setValue(String value) {
+    public void setValue(String value) {
         contactPoint.setValue(value);
-        return this;
     }
 
     @Override
@@ -49,9 +47,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setUse(ContactPointUse use) {
+    public void setUse(ContactPointUse use) {
         contactPoint.setUse(FhirUtil.convertEnum(use, ContactPoint.ContactPointUse.class));
-        return this;
     }
 
     @Override
@@ -60,9 +57,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setRank(Integer rank) {
+    public void setRank(Integer rank) {
         contactPoint.setRank(rank);
-        return this;
     }
 
     @Override
@@ -71,14 +67,14 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setPeriod(IPeriod period) {
+    public void setPeriod(IPeriod period) {
         this.period = PeriodWrapper.wrap(PeriodWrapper.unwrap(period));
         contactPoint.setPeriod(this.period.getWrapped());
-        return this;
     }
 
     @Override
     public ContactPoint getWrapped() {
         return contactPoint;
     }
+
 }

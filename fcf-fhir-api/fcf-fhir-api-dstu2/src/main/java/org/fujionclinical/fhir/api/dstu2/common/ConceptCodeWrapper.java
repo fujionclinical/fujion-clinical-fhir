@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class ConceptCodeWrapper implements IConceptCode, IWrapper<CodingDt> {
 
+    private final CodingDt coding;
+
     public static ConceptCodeWrapper wrap(CodingDt coding) {
         return coding == null ? null : new ConceptCodeWrapper(coding);
     }
@@ -25,16 +27,14 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<CodingDt> {
 
     public static CodingDt unwrap(IConceptCode code) {
         return code == null ? null : new CodingDt()
-        .setSystem(code.getSystem())
-        .setCode(code.getCode())
-        .setDisplay(code.getText());
+                .setSystem(code.getSystem())
+                .setCode(code.getCode())
+                .setDisplay(code.getText());
     }
 
     public static List<CodingDt> unwrap(List<IConceptCode> codes) {
         return codes == null ? Collections.emptyList() : codes.stream().map(code -> unwrap(code)).collect(Collectors.toList());
     }
-
-    private final CodingDt coding;
 
     private ConceptCodeWrapper(CodingDt coding) {
         this.coding = coding;
@@ -46,9 +46,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<CodingDt> {
     }
 
     @Override
-    public IConceptCode setSystem(String system) {
+    public void setSystem(String system) {
         coding.setSystem(system);
-        return this;
     }
 
     @Override
@@ -57,9 +56,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<CodingDt> {
     }
 
     @Override
-    public IConceptCode setCode(String code) {
+    public void setCode(String code) {
         coding.setCode(code);
-        return this;
     }
 
     @Override
@@ -68,13 +66,13 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<CodingDt> {
     }
 
     @Override
-    public IConceptCode setText(String text) {
+    public void setText(String text) {
         coding.setDisplay(text);
-        return this;
     }
 
     @Override
     public CodingDt getWrapped() {
         return coding;
     }
+
 }

@@ -2,7 +2,6 @@ package org.fujionclinical.fhir.api.r5.patient;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.fujionclinical.api.model.*;
-import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.fhir.api.r5.common.*;
@@ -59,14 +58,12 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
-    public IPatient setMRN(IIdentifier mrn) {
+    public void setMRN(IIdentifier mrn) {
         if (mrn == null) {
             Identifier ident = IdentifierWrapper.unwrap(mrn);
             ident.getType().addCoding(CODING_MRN);
             this.mrn = IdentifierWrapper.wrap(new Identifier());
         }
-
-        return this;
     }
 
     @Override
@@ -75,9 +72,8 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
-    public IPerson setGender(Gender gender) {
+    public void setGender(Gender gender) {
         patient.setGender(FhirUtilR5.convertEnum(gender, Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
-        return this;
     }
 
     @Override
@@ -86,9 +82,8 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
-    public IPerson setMaritalStatus(MaritalStatus maritalStatus) {
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
         patient.setMaritalStatus(FhirUtilR5.convertMaritalStatus(maritalStatus));
-        return this;
     }
 
     @Override
@@ -97,9 +92,8 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
-    public IPerson setBirthDate(Date date) {
+    public void setBirthDate(Date date) {
         patient.setBirthDate(date);
-        return this;
     }
 
     @Override
@@ -109,9 +103,8 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
-    public IPerson setDeceasedDate(Date date) {
+    public void setDeceasedDate(Date date) {
         patient.setDeceased(new DateTimeType(date));
-        return this;
     }
 
     @Override

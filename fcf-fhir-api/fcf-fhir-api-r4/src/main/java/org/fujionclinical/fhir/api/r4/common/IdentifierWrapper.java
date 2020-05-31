@@ -45,9 +45,8 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
     }
 
     @Override
-    public IIdentifier setSystem(String system) {
+    public void setSystem(String system) {
         identifier.setSystem(system);
-        return this;
     }
 
     @Override
@@ -56,9 +55,8 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
     }
 
     @Override
-    public IIdentifier setValue(String value) {
+    public void setValue(String value) {
         identifier.setValue(value);
-        return this;
     }
 
     @Override
@@ -72,9 +70,8 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
     }
 
     @Override
-    public IIdentifier setCategory(IdentifierCategory category) {
+    public void setCategory(IdentifierCategory category) {
         identifier.setUse(FhirUtilR4.convertEnum(category, Identifier.IdentifierUse.class));
-        return this;
     }
 
     @Override

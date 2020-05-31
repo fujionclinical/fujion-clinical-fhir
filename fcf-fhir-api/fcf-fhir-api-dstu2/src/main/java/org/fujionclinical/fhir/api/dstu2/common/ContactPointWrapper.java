@@ -1,7 +1,6 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.ContactPointDt;
-import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointUseEnum;
 import org.fujionclinical.api.model.IContactPoint;
@@ -11,13 +10,13 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
 public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPointDt> {
 
-    public static ContactPointWrapper wrap(ContactPointDt contactPoint) {
-        return contactPoint == null ? null : new ContactPointWrapper(contactPoint);
-    }
-
     private final ContactPointDt contactPoint;
 
     private PeriodWrapper period;
+
+    public static ContactPointWrapper wrap(ContactPointDt contactPoint) {
+        return contactPoint == null ? null : new ContactPointWrapper(contactPoint);
+    }
 
     private ContactPointWrapper(ContactPointDt contactPoint) {
         this.contactPoint = contactPoint;
@@ -30,9 +29,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setSystem(ContactPointSystem system) {
+    public void setSystem(ContactPointSystem system) {
         contactPoint.setSystem(FhirUtil.convertEnum(system, ContactPointSystemEnum.class));
-        return this;
     }
 
     @Override
@@ -41,9 +39,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setValue(String value) {
+    public void setValue(String value) {
         contactPoint.setValue(value);
-        return this;
     }
 
     @Override
@@ -52,9 +49,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setUse(ContactPointUse use) {
+    public void setUse(ContactPointUse use) {
         contactPoint.setUse(FhirUtil.convertEnum(use, ContactPointUseEnum.class));
-        return this;
     }
 
     @Override
@@ -63,9 +59,8 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setRank(Integer rank) {
+    public void setRank(Integer rank) {
         contactPoint.setRank(rank);
-        return this;
     }
 
     @Override
@@ -74,14 +69,14 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
     }
 
     @Override
-    public IContactPoint setPeriod(IPeriod period) {
+    public void setPeriod(IPeriod period) {
         this.period = PeriodWrapper.wrap(PeriodWrapper.unwrap(period));
         contactPoint.setPeriod(this.period.getWrapped());
-        return this;
     }
 
     @Override
     public ContactPointDt getWrapped() {
         return contactPoint;
     }
+
 }

@@ -10,6 +10,10 @@ import java.util.stream.Collectors;
 
 public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
 
+    private final Address address;
+
+    private final PeriodWrapper period;
+
     public static PostalAddressWrapper wrap(Address address) {
         return address == null ? null : new PostalAddressWrapper(address);
     }
@@ -22,10 +26,6 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
         return addresses == null ? null : addresses.stream().map(address -> address.getWrapped()).collect(Collectors.toList());
     }
 
-    private final Address address;
-
-    private final PeriodWrapper period;
-
     private PostalAddressWrapper(Address address) {
         this.address = address;
         this.period = PeriodWrapper.wrap(address.getPeriod());
@@ -37,9 +37,8 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     }
 
     @Override
-    public IPostalAddress setUse(PostalAddressUse use) {
+    public void setUse(PostalAddressUse use) {
         address.setUse(FhirUtilR5.convertEnum(use, Address.AddressUse.class));
-        return this;
     }
 
     @Override
@@ -55,9 +54,8 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     }
 
     @Override
-    public IPostalAddress setCity(String city) {
+    public void setCity(String city) {
         address.setCity(city);
-        return this;
     }
 
     @Override
@@ -66,9 +64,8 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     }
 
     @Override
-    public IPostalAddress setDistrict(String district) {
+    public void setDistrict(String district) {
         address.setDistrict(district);
-        return this;
     }
 
     @Override
@@ -77,9 +74,8 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     }
 
     @Override
-    public IPostalAddress setState(String state) {
+    public void setState(String state) {
         address.setState(state);
-        return this;
     }
 
     @Override
@@ -88,9 +84,8 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     }
 
     @Override
-    public IPostalAddress setPostalCode(String postalCode) {
+    public void setPostalCode(String postalCode) {
         address.setPostalCode(postalCode);
-        return this;
     }
 
     @Override
@@ -99,9 +94,8 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     }
 
     @Override
-    public IPostalAddress setCountry(String country) {
+    public void setCountry(String country) {
         address.setCountry(country);
-        return this;
     }
 
     @Override
@@ -113,4 +107,5 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
     public Address getWrapped() {
         return address;
     }
+
 }

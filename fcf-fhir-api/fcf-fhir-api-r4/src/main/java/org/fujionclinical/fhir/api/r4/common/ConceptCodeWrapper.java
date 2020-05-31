@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
 
+    private final Coding coding;
+
     public static ConceptCodeWrapper wrap(Coding coding) {
         return coding == null ? null : new ConceptCodeWrapper(coding);
     }
@@ -25,16 +27,14 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
 
     public static Coding unwrap(IConceptCode code) {
         return code == null ? null : new Coding()
-        .setSystem(code.getSystem())
-        .setCode(code.getCode())
-        .setDisplay(code.getText());
+                .setSystem(code.getSystem())
+                .setCode(code.getCode())
+                .setDisplay(code.getText());
     }
 
     public static List<Coding> unwrap(List<IConceptCode> codes) {
         return codes == null ? null : codes.stream().map(code -> unwrap(code)).collect(Collectors.toList());
     }
-
-    private final Coding coding;
 
     private ConceptCodeWrapper(Coding coding) {
         this.coding = coding;
@@ -46,9 +46,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
     }
 
     @Override
-    public IConceptCode setSystem(String system) {
+    public void setSystem(String system) {
         coding.setSystem(system);
-        return this;
     }
 
     @Override
@@ -57,9 +56,8 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
     }
 
     @Override
-    public IConceptCode setCode(String code) {
+    public void setCode(String code) {
         coding.setCode(code);
-        return this;
     }
 
     @Override
@@ -68,13 +66,13 @@ public class ConceptCodeWrapper implements IConceptCode, IWrapper<Coding> {
     }
 
     @Override
-    public IConceptCode setText(String text) {
+    public void setText(String text) {
         coding.setDisplay(text);
-        return this;
     }
 
     @Override
     public Coding getWrapped() {
         return coding;
     }
+
 }

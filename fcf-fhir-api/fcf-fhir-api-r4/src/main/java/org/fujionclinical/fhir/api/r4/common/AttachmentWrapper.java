@@ -23,9 +23,8 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     }
 
     @Override
-    public IAttachment setContentType(String contentType) {
+    public void setContentType(String contentType) {
         attachment.setContentType(contentType);
-        return this;
     }
 
     @Override
@@ -34,9 +33,8 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     }
 
     @Override
-    public IAttachment setTitle(String title) {
+    public void setTitle(String title) {
         attachment.setTitle(title);
-        return this;
     }
 
     @Override
@@ -46,11 +44,10 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     }
 
     @Override
-    public IAttachment setEncodedData(String encodedData) {
+    public void setEncodedData(String encodedData) {
         Base64BinaryType data = new Base64BinaryType();
         data.setValueAsString(encodedData);
         attachment.setDataElement(data);
-        return this;
     }
 
     @Override
@@ -60,11 +57,10 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     }
 
     @Override
-    public IAttachment setRawData(byte[] rawData) {
+    public void setRawData(byte[] rawData) {
         Base64BinaryType data = new Base64BinaryType();
         data.setValue(rawData);
         attachment.setDataElement(data);
-        return this;
     }
 
     @Override
@@ -78,9 +74,8 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     }
 
     @Override
-    public IAttachment setURL(String url) {
+    public void setURL(String url) {
         attachment.setUrl(url);
-        return this;
     }
 
     @Override

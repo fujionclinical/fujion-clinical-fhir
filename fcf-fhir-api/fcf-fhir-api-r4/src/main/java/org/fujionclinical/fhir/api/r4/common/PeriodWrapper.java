@@ -31,9 +31,8 @@ public class PeriodWrapper implements IPeriod, IWrapper<Period> {
     }
 
     @Override
-    public PeriodWrapper setStartDate(Date date) {
+    public void setStartDate(Date date) {
         period.setStart(date, TemporalPrecisionEnum.SECOND);
-        return this;
     }
 
     @Override
@@ -42,9 +41,8 @@ public class PeriodWrapper implements IPeriod, IWrapper<Period> {
     }
 
     @Override
-    public PeriodWrapper setEndDate(Date date) {
+    public void setEndDate(Date date) {
         period.setEnd(date, TemporalPrecisionEnum.SECOND);
-        return this;
     }
 
     @Override
