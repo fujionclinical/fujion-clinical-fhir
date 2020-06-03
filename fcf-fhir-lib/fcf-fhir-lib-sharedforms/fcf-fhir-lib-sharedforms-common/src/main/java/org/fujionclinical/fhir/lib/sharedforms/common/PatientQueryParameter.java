@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms.common;
 
-import org.fujionclinical.api.FrameworkUtil;
+import org.fujionclinical.api.core.FrameworkUtil;
 import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.patient.PatientContext;
