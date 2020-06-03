@@ -57,7 +57,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Reactio
     }
     
     @Override
-    protected void render(Reaction adr, List<Object> columns) {
+    protected void populate(Reaction adr, List<Object> columns) {
         columns.add(adr.getOnset());
         columns.add(adr.getSubstance().getCodingFirstRep().getDisplay());
         columns.add(getManifestations(adr.getManifestation()));

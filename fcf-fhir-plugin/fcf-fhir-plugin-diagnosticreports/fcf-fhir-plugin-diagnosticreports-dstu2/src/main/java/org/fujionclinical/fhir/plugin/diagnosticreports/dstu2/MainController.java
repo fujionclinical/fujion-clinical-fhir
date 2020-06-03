@@ -43,7 +43,7 @@ public class MainController extends ResourceListView<DiagnosticReport, Diagnosti
     }
 
     @Override
-    protected void render(DiagnosticReport report, List<Object> columns) {
+    protected void populate(DiagnosticReport report, List<Object> columns) {
         columns.add(report.getEffective());
         columns.add(report.getCode());
         columns.add(report.getPerformer().isEmpty() ? null : report.getPerformer().getDisplay().getValue());

@@ -33,7 +33,6 @@ import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.Bundle;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,18 +48,9 @@ public abstract class BaseResourceDAO<T extends IDomainObject, R extends IBaseRe
         super(fhirService, wrapperClass, resourceClass);
     }
 
-    /**
-     * Fetch multiple instances of the domain class from the data store.
-     */
     @Override
-    public List<T> read(String... ids) {
-        IQuery<IBaseBundle> result = query(ids);
-
-        if (result == null) {
-            return Collections.emptyList();
-        }
-
-        Bundle bundle = result.returnBundle(Bundle.class).execute();
+    public List<T> execute(IQuery<IBaseBundle> query) {
+        Bundle bundle = query.returnBundle(Bundle.class).execute();
         return FhirUtilR5.getEntries(bundle, resourceClass).stream()
                 .map(this::convert)
                 .collect(Collectors.toList());

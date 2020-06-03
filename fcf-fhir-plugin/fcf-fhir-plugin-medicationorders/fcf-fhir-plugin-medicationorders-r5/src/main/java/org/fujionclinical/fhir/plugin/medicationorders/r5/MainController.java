@@ -50,7 +50,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
     }
 
     @Override
-    protected void render(MedicationRequest script, List<Object> columns) {
+    protected void populate(MedicationRequest script, List<Object> columns) {
         CodeableReference med = script.hasMedication() ? script.getMedication() : null;
         CodeableConcept code = null;
 

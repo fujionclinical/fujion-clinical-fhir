@@ -28,8 +28,12 @@ package org.fujionclinical.fhir.api.common.core;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IDomainDAO;
 import org.fujionclinical.api.model.IDomainObject;
+import org.fujionclinical.api.query.QueryExpression;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * DAO for FHIR resources.
@@ -40,7 +44,7 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
 
     protected final Class<T> domainClass;
 
-    private final AbstractFhirService fhirService;
+    protected final AbstractFhirService fhirService;
 
     protected AbstractResourceDAO(
             AbstractFhirService fhirService,
@@ -63,19 +67,44 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
 
     protected abstract R convert(T domainResource);
 
-    @Override
-    public T create(T template) {
-        return convert((R) fhirService.createResource(convert(template)));
+    protected abstract List<T> execute(IQuery<IBaseBundle> query);
+
+    protected String toQueryString(QueryExpression query) {
+        return FhirUtil.toQueryString(query, null);
+    }
+
+    /**
+     * Performs a query, returning a list of matching domain objects.
+     *
+     * @param query The query expression.
+     * @return A list of matching domain objects.
+     */
+    protected IQuery<IBaseBundle> query(QueryExpression query) {
+        return fhirService.searchResources(resourceClass, toQueryString(query));
     }
 
     /**
      * Fetch multiple instances of the domain class from the data store.
-     *
-     * @param ids A list of ids to fetch.
-     * @return The result of the query.
      */
-    protected IQuery<IBaseBundle> query(String... ids) {
-        return fhirService.searchResourcesById(resourceClass, ids);
+    @Override
+    public List<T> read(String... ids) {
+        IQuery<IBaseBundle> result = fhirService.searchResourcesById(resourceClass, ids);
+        return result == null ? Collections.emptyList() : execute(result);
+    }
+
+    /**
+     * Performs a query, returning a list of matching domain objects.
+     *
+     * @param query The query expression.
+     * @return A list of matching domain objects.
+     */
+    public List<T> search(QueryExpression query) {
+        return execute(this.query(query));
+    }
+
+    @Override
+    public T create(T template) {
+        return convert((R) fhirService.createResource(convert(template)));
     }
 
     /**

@@ -43,7 +43,7 @@ public class MainController extends ResourceListView<Procedure, Procedure> {
     }
 
     @Override
-    protected void render(Procedure procedure, List<Object> columns) {
+    protected void populate(Procedure procedure, List<Object> columns) {
         columns.add(procedure.getCode());
         columns.add(procedure.getPerformed());
         columns.add(procedure.getStatus());

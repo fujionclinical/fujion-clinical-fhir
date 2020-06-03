@@ -70,7 +70,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
     }
     
     @Override
-    protected void render(IBaseResource resource, List<Object> columns) {
+    protected void populate(IBaseResource resource, List<Object> columns) {
         if (resource instanceof ProcedureRequest) {
             render((ProcedureRequest) resource, columns);
         } else if (resource instanceof NutritionOrder) {

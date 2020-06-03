@@ -23,7 +23,7 @@
 							<smart_test/>
 						</treepane>
 						<treepane label="Encounters">
-							<fcfEncounters/>
+							<fcfEncounters2/>
 						</treepane>
 						<treepane label="Family History">
 							<fcfFamilyHistory/>

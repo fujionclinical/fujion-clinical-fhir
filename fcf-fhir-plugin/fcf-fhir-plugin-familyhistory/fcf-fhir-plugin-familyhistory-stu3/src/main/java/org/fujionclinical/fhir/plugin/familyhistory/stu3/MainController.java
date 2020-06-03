@@ -47,7 +47,7 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
     }
 
     @Override
-    protected void render(FamilyMemberHistory relation, List<Object> columns) {
+    protected void populate(FamilyMemberHistory relation, List<Object> columns) {
         columns.add(relation.getRelationship());
 
         for (int i = 0; i < 3; i++) {

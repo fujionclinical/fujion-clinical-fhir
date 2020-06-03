@@ -56,6 +56,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-encounters</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
 			<artifactId>fcf-plugin-infopanel</artifactId>
 			<version>${fcf.core.version}</version>
 		</dependency>

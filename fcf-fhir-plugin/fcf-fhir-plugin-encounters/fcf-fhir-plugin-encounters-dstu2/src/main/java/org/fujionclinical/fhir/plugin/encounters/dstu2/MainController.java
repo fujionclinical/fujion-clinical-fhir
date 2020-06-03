@@ -67,7 +67,7 @@ public class MainController extends ResourceListView<Encounter, Encounter> {
     }
     
     @Override
-    protected void render(Encounter encounter, List<Object> columns) {
+    protected void populate(Encounter encounter, List<Object> columns) {
         columns.add(" ");
         columns.add(encounter.getPeriod());
         columns.add(encounter.getStatus());

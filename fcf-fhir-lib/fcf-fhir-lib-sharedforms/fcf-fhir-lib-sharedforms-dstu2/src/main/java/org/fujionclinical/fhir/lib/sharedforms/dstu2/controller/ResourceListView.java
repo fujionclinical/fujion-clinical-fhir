@@ -42,7 +42,7 @@ import java.util.List;
 public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<BaseFhirService, Bundle, R, M> {
 
     @Override
-    protected Object transformData(Object data) {
+    protected String transformData(Object data) {
         return FhirUtilDstu2.getDisplayValueForType(data);
     }
 

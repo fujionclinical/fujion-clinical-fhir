@@ -292,6 +292,19 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
     }
 
     /**
+     * Query for resources.
+     *
+     * @param <T> The resource type.
+     * @param resourceClass The type of resource.
+     * @param queryString The FHIR query string.
+     * @return The result of the query.
+     */
+    protected <T extends IBaseResource> IQuery<IBaseBundle> searchResources(Class<T> resourceClass, String queryString) {
+        String resource = getClient().getFhirContext().getResourceDefinition(resourceClass).getName();
+        return getClient().search().byUrl(resource + "?" + queryString);
+    }
+
+    /**
      * Fetch multiple resources of the same type from the data store.
      *
      * @param <T> The resource type.

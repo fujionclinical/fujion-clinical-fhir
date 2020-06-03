@@ -58,7 +58,7 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
     }
 
     @Override
-    protected void render(MedicationOrder script, List<Object> columns) {
+    protected void populate(MedicationOrder script, List<Object> columns) {
         String med = null;
         IDatatype medicationDt = script.getMedication();
 

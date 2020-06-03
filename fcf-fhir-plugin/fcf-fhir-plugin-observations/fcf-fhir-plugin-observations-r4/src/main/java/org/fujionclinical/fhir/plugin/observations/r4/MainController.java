@@ -74,7 +74,7 @@ public class MainController extends ResourceListView<Observation, MainController
     }
 
     @Override
-    protected void render(ObservationResult result, List<Object> columns) {
+    protected void populate(ObservationResult result, List<Object> columns) {
         columns.add(result.code);
         columns.add(result.effective);
         columns.add(result.status);

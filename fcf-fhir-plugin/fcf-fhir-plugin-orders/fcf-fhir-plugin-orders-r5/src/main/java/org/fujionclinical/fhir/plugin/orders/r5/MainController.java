@@ -67,7 +67,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
     }
 
     @Override
-    protected void render(
+    protected void populate(
             IBaseResource resource,
             List<Object> columns) {
         if (resource instanceof ServiceRequest) {
