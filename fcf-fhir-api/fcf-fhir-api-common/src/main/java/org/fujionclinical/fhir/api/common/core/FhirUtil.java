@@ -38,7 +38,6 @@ import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujionclinical.api.model.IConceptCode;
 import org.fujionclinical.api.model.person.IPerson;
-import org.fujionclinical.api.query.QueryExpression;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.fujionclinical.api.query.QueryOperator;
 import org.fujionclinical.api.spring.SpringUtil;
@@ -196,7 +195,7 @@ public class FhirUtil {
      * Concatenates a path tuple to a root path. Ensures that a single "/" character separates
      * the two parts.
      *
-     * @param root     The root path.
+     * @param root  The root path.
      * @param tuple The path tuple.
      * @return The concatenated result.
      */
@@ -576,11 +575,12 @@ public class FhirUtil {
         return null;
     }
 
-    public static String toQueryString(QueryExpression query, Map<String, String> map) {
+    public static String toQueryString(
+            List<QueryExpressionTuple> tuples,
+            Map<String, String> map) {
         StringBuilder sb = new StringBuilder();
-        List<QueryExpressionTuple> tuples = query.getTuples();
 
-        for (QueryExpressionTuple tuple: tuples) {
+        for (QueryExpressionTuple tuple : tuples) {
             sb.append(sb.length() == 0 ? "" : "&");
             sb.append(xlate(map, tuple.propertyName));
             String opr = null;
@@ -597,13 +597,13 @@ public class FhirUtil {
             sb.append('=').append(opr);
             String delim = "";
 
-            for (Object operand: tuple.operands) {
+            for (Object operand : tuple.operands) {
                 sb.append(delim);
                 delim = ",";
 
                 if (operand instanceof Date) {
                     sb.append(DateUtil.toISO((Date) operand));
-                } else if (operand instanceof IConceptCode){
+                } else if (operand instanceof IConceptCode) {
                     IConceptCode code = (IConceptCode) operand;
                     sb.append(code.getSystem()).append("|").append(code.getCode());
                 } else {
@@ -615,7 +615,9 @@ public class FhirUtil {
         return sb.toString();
     }
 
-    private static String xlate(Map<String, String> map, String value) {
+    private static String xlate(
+            Map<String, String> map,
+            String value) {
         return map != null && map.containsKey(value) ? map.get(value) : value;
     }
 

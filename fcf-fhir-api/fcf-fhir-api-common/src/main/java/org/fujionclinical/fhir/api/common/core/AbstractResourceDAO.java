@@ -29,6 +29,7 @@ import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.IDomainDAO;
 import org.fujionclinical.api.model.IDomainObject;
 import org.fujionclinical.api.query.QueryExpression;
+import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
@@ -69,18 +70,18 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
 
     protected abstract List<T> execute(IQuery<IBaseBundle> query);
 
-    protected String toQueryString(QueryExpression query) {
-        return FhirUtil.toQueryString(query, null);
+    protected String toQueryString(List<QueryExpressionTuple> tuples) {
+        return FhirUtil.toQueryString(tuples, null);
     }
 
     /**
      * Performs a query, returning a list of matching domain objects.
      *
-     * @param query The query expression.
+     * @param tuples A list of query expression tuples.
      * @return A list of matching domain objects.
      */
-    protected IQuery<IBaseBundle> query(QueryExpression query) {
-        return fhirService.searchResources(resourceClass, toQueryString(query));
+    protected IQuery<IBaseBundle> query(List<QueryExpressionTuple> tuples) {
+        return fhirService.searchResources(resourceClass, toQueryString(tuples));
     }
 
     /**
@@ -95,11 +96,12 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
     /**
      * Performs a query, returning a list of matching domain objects.
      *
-     * @param query The query expression.
+     * @param tuples A list of query expression tuples
      * @return A list of matching domain objects.
      */
-    public List<T> search(QueryExpression query) {
-        return execute(this.query(query));
+    @Override
+    public List<T> search(List<QueryExpressionTuple> tuples) {
+        return execute(this.query(tuples));
     }
 
     @Override
