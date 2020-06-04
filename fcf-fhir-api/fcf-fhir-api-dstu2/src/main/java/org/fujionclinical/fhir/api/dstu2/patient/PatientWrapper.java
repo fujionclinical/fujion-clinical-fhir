@@ -31,10 +31,7 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import org.apache.commons.lang3.BooleanUtils;
-import org.fujionclinical.api.model.IAttachment;
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IPostalAddress;
+import org.fujionclinical.api.model.*;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
@@ -140,13 +137,18 @@ public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient
     }
 
     @Override
+    public List<IContactPoint> getContactPoints() {
+        return getWrapped().getTelecom().stream().map(ContactPointWrapper::wrap).collect(Collectors.toList());
+    }
+
+    @Override
     public List<IPostalAddress> getAddresses() {
-        return getWrapped().getAddress().stream().map(address -> PostalAddressWrapper.wrap(address)).collect(Collectors.toList());
+        return getWrapped().getAddress().stream().map(PostalAddressWrapper::wrap).collect(Collectors.toList());
     }
 
     @Override
     public List<IAttachment> getPhotos() {
-        return getWrapped().getPhoto().stream().map(photo -> AttachmentWrapper.wrap(photo)).collect(Collectors.toList());
+        return getWrapped().getPhoto().stream().map(AttachmentWrapper::wrap).collect(Collectors.toList());
     }
 
     @Override

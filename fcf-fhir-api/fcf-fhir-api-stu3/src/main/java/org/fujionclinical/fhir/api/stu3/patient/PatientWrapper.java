@@ -138,13 +138,18 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     @Override
+    public List<IContactPoint> getContactPoints() {
+        return getWrapped().getTelecom().stream().map(ContactPointWrapper::wrap).collect(Collectors.toList());
+    }
+
+    @Override
     public List<IPostalAddress> getAddresses() {
-        return patient.getAddress().stream().map(address -> PostalAddressWrapper.wrap(address)).collect(Collectors.toList());
+        return patient.getAddress().stream().map(PostalAddressWrapper::wrap).collect(Collectors.toList());
     }
 
     @Override
     public List<IAttachment> getPhotos() {
-        return patient.getPhoto().stream().map(photo -> AttachmentWrapper.wrap(photo)).collect(Collectors.toList());
+        return patient.getPhoto().stream().map(AttachmentWrapper::wrap).collect(Collectors.toList());
     }
 
     @Override

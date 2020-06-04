@@ -19,7 +19,6 @@
 		<module>fcf-fhir-plugin-conditions</module>
 		<module>fcf-fhir-plugin-diagnosticreports</module>
 		<module>fcf-fhir-plugin-documents</module>
-		<module>fcf-fhir-plugin-encounters</module>
 		<module>fcf-fhir-plugin-familyhistory</module>
 		<module>fcf-fhir-plugin-medicationorders</module>
 		<module>fcf-fhir-plugin-observations</module>
