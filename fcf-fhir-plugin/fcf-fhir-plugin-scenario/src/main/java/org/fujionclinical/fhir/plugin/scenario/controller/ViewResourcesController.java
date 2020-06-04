@@ -97,7 +97,7 @@ public class ViewResourcesController extends FrameworkController {
             IResponseCallback<Boolean> callback) {
         Map<String, Object> args = new HashMap<>();
         args.put("scenario", scenario);
-        Window dlg = (Window) PageUtil.createPage("web/org/fujionclinical/fhir/plugin/scenario/common/viewResources.fsp", null, args)
+        Window dlg = (Window) PageUtil.createPage("web/org/fujionclinical/fhir/plugin/scenario/viewResources.fsp", null, args)
                 .get(0);
 
         dlg.modal((event) -> {
