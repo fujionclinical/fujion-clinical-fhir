@@ -90,13 +90,13 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<Identifier> {
     }
 
     @Override
-    public IdentifierCategory getCategory() {
-        return FhirUtilR4.convertEnum(identifier.getUse(), IdentifierCategory.class);
+    public IdentifierUse getUse() {
+        return FhirUtilR4.convertEnum(identifier.getUse(), IdentifierUse.class);
     }
 
     @Override
-    public void setCategory(IdentifierCategory category) {
-        identifier.setUse(FhirUtilR4.convertEnum(category, Identifier.IdentifierUse.class));
+    public void setUse(IdentifierUse use) {
+        identifier.setUse(FhirUtilR4.convertEnum(use, Identifier.IdentifierUse.class));
     }
 
     @Override

@@ -34,12 +34,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
-import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
-import org.fujionclinical.api.model.IConceptCode;
 import org.fujionclinical.api.model.person.IPerson;
-import org.fujionclinical.api.query.QueryExpressionTuple;
-import org.fujionclinical.api.query.QueryOperator;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -47,7 +43,9 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * FHIR utility methods.
@@ -573,52 +571,6 @@ public class FhirUtil {
         }
 
         return null;
-    }
-
-    public static String toQueryString(
-            List<QueryExpressionTuple> tuples,
-            Map<String, String> map) {
-        StringBuilder sb = new StringBuilder();
-
-        for (QueryExpressionTuple tuple : tuples) {
-            sb.append(sb.length() == 0 ? "" : "&");
-            sb.append(xlate(map, tuple.propertyName));
-            String opr = null;
-
-            if (tuple.propertyType == String.class) {
-                if (tuple.operator == QueryOperator.EQ) {
-                    sb.append(":exact");
-                    opr = "";
-                } else if (tuple.operator == QueryOperator.SW)
-                    opr = "";
-            }
-
-            opr = opr != null ? opr : tuple.operator == QueryOperator.EQ ? "" : tuple.operator.name().toLowerCase();
-            sb.append('=').append(opr);
-            String delim = "";
-
-            for (Object operand : tuple.operands) {
-                sb.append(delim);
-                delim = ",";
-
-                if (operand instanceof Date) {
-                    sb.append(DateUtil.toISO((Date) operand));
-                } else if (operand instanceof IConceptCode) {
-                    IConceptCode code = (IConceptCode) operand;
-                    sb.append(code.getSystem()).append("|").append(code.getCode());
-                } else {
-                    sb.append(operand);
-                }
-            }
-        }
-
-        return sb.toString();
-    }
-
-    private static String xlate(
-            Map<String, String> map,
-            String value) {
-        return map != null && map.containsKey(value) ? map.get(value) : value;
     }
 
     /**

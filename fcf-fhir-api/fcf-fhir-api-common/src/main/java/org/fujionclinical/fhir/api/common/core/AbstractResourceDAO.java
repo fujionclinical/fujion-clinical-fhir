@@ -71,7 +71,7 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
     protected abstract List<T> execute(IQuery<IBaseBundle> query);
 
     protected String toQueryString(List<QueryExpressionTuple> tuples) {
-        return FhirUtil.toQueryString(tuples, null);
+        return QueryBuilder.buildQueryString(tuples, null);
     }
 
     /**

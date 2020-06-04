@@ -88,28 +88,8 @@
 			<constructor-arg ref="fhirService" />
 		</bean>
 
-		<!-- Patient search engine -->
-		<bean id="patientSearchEngine"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientSearch">
-			<constructor-arg ref="fhirClient" />
-		</bean>
-		
-		<!-- Encounter search engine -->
-		<bean id="encounterSearchEngine"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterSearch">
-			<constructor-arg ref="fhirClient" />
-		</bean>
-		
-		<!-- Practitioner search engine -->
-		<bean id="practitionerSearchEngine"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerSearch">
-			<constructor-arg ref="fhirClient" />
-		</bean>
-		
-		<!-- Location search engine -->
-		<bean id="locationSearchEngine"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.location.LocationSearch">
-			<constructor-arg ref="fhirClient" />
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerDAO">
+			<constructor-arg ref="fhirService" />
 		</bean>
 
 	</beans>
