@@ -25,13 +25,10 @@
  */
 package org.fujionclinical.fhir.api.dstu2.practitioner;
 
-import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.resource.Practitioner;
-import org.fujionclinical.api.patient.IPatient;
 import org.fujionclinical.api.practitioner.IPractitioner;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.BaseResourceDAO;
-import org.fujionclinical.fhir.api.dstu2.patient.PatientWrapper;
 
 public class PractitionerDAO extends BaseResourceDAO<IPractitioner, Practitioner> {
 

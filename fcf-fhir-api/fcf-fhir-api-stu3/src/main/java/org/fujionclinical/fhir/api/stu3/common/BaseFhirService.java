@@ -32,8 +32,6 @@ import org.fujionclinical.fhir.api.common.core.Constants;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.instance.model.api.IIdType;
-import org.springframework.util.Assert;
 
 import java.util.List;
 

@@ -25,18 +25,15 @@
  */
 package org.fujionclinical.fhir.api.dstu2.location;
 
-import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.valueset.LocationStatusEnum;
 import org.fujionclinical.api.location.ILocation;
 import org.fujionclinical.api.model.IConcept;
 import org.fujionclinical.api.model.IContactPoint;
-import org.fujionclinical.api.model.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ContactPointWrapper;
-import org.fujionclinical.fhir.api.dstu2.encounter.EncounterWrapper;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Collections;

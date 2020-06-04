@@ -25,14 +25,9 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.fujionclinical.api.location.ILocation;
 import org.fujionclinical.api.model.IDomainObject;
 import org.fujionclinical.api.model.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.beans.BeanUtils;
-
-import java.util.function.Function;
 
 public class ResourceWrapper<T extends IBaseResource> implements IDomainObject, IWrapper<T> {
 
