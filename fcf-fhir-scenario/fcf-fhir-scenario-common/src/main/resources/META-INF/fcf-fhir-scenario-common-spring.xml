@@ -18,7 +18,7 @@
 
 	<beans profile="child">
 
-		<bean id="scenarioRegistry"
+		<bean id="scenarioRegistry" depends-on="patientListPersonal"
 			  class="org.fujionclinical.fhir.scenario.common.ScenarioRegistry">
 			<constructor-arg ref="scenarioFinder" />
 		</bean>

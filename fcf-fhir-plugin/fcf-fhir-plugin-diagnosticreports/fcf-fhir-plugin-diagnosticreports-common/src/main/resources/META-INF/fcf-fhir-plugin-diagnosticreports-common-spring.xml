@@ -9,7 +9,7 @@
 
 	<beans profile="root">
 
-		<fcp:plugin url="web/org/fujionclinical/ui/sharedforms/listviewForm.fsp" 
+		<fcp:plugin url="web/org/fujionclinical/sharedforms/listviewForm.fsp"
 			id="fcfDiagnosticReports" name="Patient Diagnostic Reports">
 			<fcp:serialization>
 				<fcp:property id="allowPrint" name="Allow Printing"
