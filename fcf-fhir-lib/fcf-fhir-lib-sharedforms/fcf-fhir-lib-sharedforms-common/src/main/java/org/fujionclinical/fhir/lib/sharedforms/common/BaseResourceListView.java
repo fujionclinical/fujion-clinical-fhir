@@ -46,7 +46,7 @@ import org.fujionclinical.fhir.subscription.common.ISubscriptionCallback;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionManager;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.ui.sharedforms.controller.ListFormController;
+import org.fujionclinical.sharedforms.controller.ListFormController;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;

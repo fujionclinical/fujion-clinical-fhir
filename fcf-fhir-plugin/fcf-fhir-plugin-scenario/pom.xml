@@ -21,7 +21,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-ui-patientselection-common</artifactId>
+			<artifactId>fcf-patientselection-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

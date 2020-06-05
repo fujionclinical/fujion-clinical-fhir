@@ -29,7 +29,7 @@ import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.api.core.FrameworkUtil;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.PatientContext;
-import org.fujionclinical.ui.sharedforms.controller.AbstractServiceController;
+import org.fujionclinical.sharedforms.controller.AbstractServiceController;
 
 /**
  * Use with AbstractServiceController subclasses that require an awareness of patient context.

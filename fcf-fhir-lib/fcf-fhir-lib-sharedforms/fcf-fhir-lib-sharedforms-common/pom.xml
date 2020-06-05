@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-ui-sharedforms</artifactId>
+			<artifactId>fcf-sharedforms</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

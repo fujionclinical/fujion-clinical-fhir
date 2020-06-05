@@ -23,7 +23,7 @@
 				<fcp:property id="captionStyle" name="Caption Style" type="enum"
 					description="Style of caption.">
 					<fcp:config>
-						<fcp:entry key="class">org.fujionclinical.ui.sharedforms.controller.CaptionedFormController$CaptionStyle</fcp:entry>
+						<fcp:entry key="class">org.fujionclinical.sharedforms.controller.CaptionedFormController$CaptionStyle</fcp:entry>
 					</fcp:config>
 				</fcp:property>
 				<fcp:property id="color" name="Background Color" type="color"

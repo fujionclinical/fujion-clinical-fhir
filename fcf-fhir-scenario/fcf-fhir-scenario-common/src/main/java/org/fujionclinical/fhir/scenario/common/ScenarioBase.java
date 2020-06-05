@@ -40,7 +40,7 @@ import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.PatientContext;
-import org.fujionclinical.api.patientlist.*;
+import org.fujionclinical.patientlist.*;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;

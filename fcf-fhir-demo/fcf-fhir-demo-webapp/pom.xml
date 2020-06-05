@@ -9,7 +9,8 @@
 
     <artifactId>fcf-fhir-demo-webapp</artifactId>
     <packaging>war</packaging>
-	<description>FHIR Demonstration Web App</description>
+    <name>FHIR Demonstration Web App</name>
+    <description>FHIR Demonstration Web App</description>
 
     <properties>
         <fhir-spec>no-fhir-profile-specified</fhir-spec>

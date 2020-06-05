@@ -15,13 +15,8 @@
 		<!-- Fujion Clinical Framework components -->
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-ui-patientselection-v1</artifactId>
+			<artifactId>fcf-patientselection-v1</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-ui-popupsupport</artifactId>
-			<version>${fcf.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.fujionclinical</groupId>
