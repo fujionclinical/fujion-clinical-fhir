@@ -22,17 +22,22 @@
 		
 		<bean id="fhirClient" factory-bean="fhirClientFactory" factory-method="createClient">
 			<constructor-arg>
-				<bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator"/>
+				<bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator" />
 			</constructor-arg>
 		</bean>
 		
+		<bean factory-method="getInstance"
+				class="org.fujionclinical.fhir.api.common.core.ParameterMappings">
+			<property name="fhirContext" ref="fhirContext" />
+		</bean>
+
 		<bean id="fhirAuthInterceptorRegistry" factory-method="getInstance"
-			class="org.fujionclinical.fhir.security.common.AuthInterceptorRegistry"/>
+			class="org.fujionclinical.fhir.security.common.AuthInterceptorRegistry" />
 		
 		<bean id="fhirAuthInterceptor" abstract="true" 
 			class="org.springframework.beans.factory.config.MethodInvokingBean">
-			<property name="targetObject" ref="fhirAuthInterceptorRegistry"/>
-			<property name="targetMethod" value="register"/>
+			<property name="targetObject" ref="fhirAuthInterceptorRegistry" />
+			<property name="targetMethod" value="register" />
 		</bean>
 		
 		<bean parent="fhirAuthInterceptor">

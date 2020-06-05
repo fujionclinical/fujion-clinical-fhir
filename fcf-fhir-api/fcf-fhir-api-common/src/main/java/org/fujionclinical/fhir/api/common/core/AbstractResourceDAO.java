@@ -70,11 +70,7 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
     protected abstract List<T> execute(IQuery<IBaseBundle> query);
 
     protected String toQueryString(List<QueryExpressionTuple> tuples) {
-        return QueryBuilder.buildQueryString(getTransform(), tuples);
-    }
-
-    protected QueryTransforms.PropertyPathTransform getTransform() {
-        return QueryTransforms.getTransform(getDomainClass());
+        return QueryBuilder.buildQueryString(domainClass, tuples);
     }
 
     /**

@@ -29,6 +29,7 @@ import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.IConceptCode;
+import org.fujionclinical.api.model.IDomainObject;
 import org.fujionclinical.api.model.IIdentifier;
 import org.fujionclinical.api.person.IPersonName;
 import org.fujionclinical.api.query.QueryExpressionTuple;
@@ -45,22 +46,22 @@ public class QueryBuilder {
     private static final QueryBuilder instance = new QueryBuilder();
 
     public static String buildQueryString(
-            QueryTransforms.PropertyPathTransform pathTransform,
+            Class<? extends IDomainObject> domainClass,
             List<QueryExpressionTuple> tuples) {
-        return instance.build(pathTransform, tuples);
+        return instance.build(domainClass, tuples);
     }
 
     private QueryBuilder() {
     }
 
     private String build(
-            QueryTransforms.PropertyPathTransform pathTransform,
+            Class<? extends IDomainObject> domainClass,
             List<QueryExpressionTuple> tuples) {
         StringBuilder sb = new StringBuilder();
 
         for (QueryExpressionTuple tuple : tuples) {
             sb.append(sb.length() == 0 ? "" : "&");
-            sb.append(getParamName(tuple, pathTransform));
+            sb.append(ParameterMappings.getParameterName(tuple.propertyPath, tuple.operator, domainClass));
             sb.append(xlate(tuple.operator));
             String delim = "";
 
@@ -72,20 +73,6 @@ public class QueryBuilder {
         }
 
         return sb.toString();
-    }
-
-    private String getParamName(QueryExpressionTuple tuple, QueryTransforms.PropertyPathTransform transform) {
-        String paramName = transform.apply(tuple.propertyPath.toLowerCase().replace(".", "-"));
-
-        if (paramName.endsWith(":")) {
-            if (tuple.operator == QueryOperator.EQ) {
-                paramName += "exact";
-            } else {
-                paramName = paramName.substring(0, paramName.length() -1 );
-            }
-        }
-
-        return paramName;
     }
 
     private void appendOperand(
