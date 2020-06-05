@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.r5.common;
 
-import org.fujionclinical.api.model.IContactPoint;
-import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IContactPoint;
+import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.r5.model.ContactPoint;
 

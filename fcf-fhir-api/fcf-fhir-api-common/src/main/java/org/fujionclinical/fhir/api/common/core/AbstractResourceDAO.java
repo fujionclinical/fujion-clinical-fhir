@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
-import org.fujionclinical.api.model.IDomainDAO;
-import org.fujionclinical.api.model.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainDAO;
+import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;

@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.UUID;

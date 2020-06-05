@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
-import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.model.IPostalAddress;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.core.IPostalAddress;
+import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.dstu3.model.Address;
 
 import java.util.List;

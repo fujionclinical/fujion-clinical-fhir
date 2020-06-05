@@ -26,9 +26,9 @@
 package org.fujionclinical.fhir.api.r5.patient;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.fujionclinical.api.model.*;
-import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.api.person.IPersonName;
+import org.fujionclinical.api.model.core.*;
+import org.fujionclinical.api.model.patient.IPatient;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.fhir.api.r5.common.*;
 import org.hl7.fhir.r5.model.DateTimeType;
 import org.hl7.fhir.r5.model.Enumerations;

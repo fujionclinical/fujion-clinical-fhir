@@ -27,9 +27,7 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import org.fujion.common.MiscUtil;
-import org.fujionclinical.api.model.IDomainObject;
-import org.fujionclinical.api.query.QueryExpressionTuple;
+import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.query.QueryOperator;
 
 import java.util.Arrays;

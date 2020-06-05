@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.primitive.BoundCodeDt;
 import ca.uhn.fhir.model.primitive.UriDt;
-import org.fujionclinical.api.encounter.EncounterQueryCriteria;
+import org.fujionclinical.api.model.encounter.EncounterQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;

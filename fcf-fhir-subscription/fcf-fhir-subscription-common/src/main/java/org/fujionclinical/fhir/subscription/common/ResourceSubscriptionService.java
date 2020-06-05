@@ -36,7 +36,7 @@ import org.fujionclinical.api.event.EventMessage;
 import org.fujionclinical.api.event.EventUtil;
 import org.fujionclinical.api.messaging.Message;
 import org.fujionclinical.api.messaging.ProducerService;
-import org.fujionclinical.api.model.ConceptCode;
+import org.fujionclinical.api.model.core.ConceptCode;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.Collection;

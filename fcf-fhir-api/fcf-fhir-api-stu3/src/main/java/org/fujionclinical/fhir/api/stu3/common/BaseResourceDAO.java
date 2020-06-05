@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.api.stu3.common;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
-import org.fujionclinical.api.model.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.AbstractResourceDAO;
 import org.hl7.fhir.dstu3.model.Bundle;

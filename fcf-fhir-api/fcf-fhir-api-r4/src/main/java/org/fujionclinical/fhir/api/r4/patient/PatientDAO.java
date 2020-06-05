@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.patient;
 
-import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.r4.common.BaseResourceDAO;
 import org.hl7.fhir.r4.model.Patient;

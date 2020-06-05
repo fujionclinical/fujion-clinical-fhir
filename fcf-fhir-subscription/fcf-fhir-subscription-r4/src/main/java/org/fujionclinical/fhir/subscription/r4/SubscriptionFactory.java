@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.subscription.r4;
 
 import ca.uhn.fhir.rest.api.PreferReturnEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.api.model.ConceptCode;
+import org.fujionclinical.api.model.core.ConceptCode;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;

@@ -26,9 +26,9 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IConceptCode;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IConceptCode;
+import org.fujionclinical.api.model.core.IWrapper;
 
 import java.util.Collections;
 import java.util.List;

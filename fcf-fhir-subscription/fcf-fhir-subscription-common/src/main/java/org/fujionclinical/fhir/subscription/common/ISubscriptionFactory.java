@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.subscription.common;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.api.model.ConceptCode;
+import org.fujionclinical.api.model.core.ConceptCode;
 
 public interface ISubscriptionFactory {
 

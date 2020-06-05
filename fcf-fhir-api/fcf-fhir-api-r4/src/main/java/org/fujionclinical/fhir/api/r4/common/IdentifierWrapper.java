@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.r4.common;
 
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IIdentifier;
+import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.r4.model.Identifier;
 
 import java.util.List;

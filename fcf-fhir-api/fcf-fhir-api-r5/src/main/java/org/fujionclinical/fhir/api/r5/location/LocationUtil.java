@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.location;
 
-import org.fujionclinical.api.location.LocationQueryCriteria;
+import org.fujionclinical.api.model.location.LocationQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.hl7.fhir.r5.model.Location;

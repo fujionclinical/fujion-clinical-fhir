@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.practitioner;
 
-import org.fujionclinical.api.practitioner.IPractitioner;
+import org.fujionclinical.api.model.practitioner.IPractitioner;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.r5.common.BaseResourceDAO;
 import org.hl7.fhir.r5.model.Practitioner;

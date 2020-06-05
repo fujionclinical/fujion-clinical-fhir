@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
-import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.core.IWrapper;
 
 import java.util.Date;
 

@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.api.r5.encounter;
 
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
-import org.fujionclinical.api.encounter.EncounterQueryCriteria;
+import org.fujionclinical.api.model.encounter.EncounterQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.fujionclinical.fhir.api.r5.common.ClientUtil;

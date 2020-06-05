@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.scenario.r4;
 
-import org.fujionclinical.api.model.IDomainObject;
-import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.r4.common.BaseFhirService;
 import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.fujionclinical.fhir.api.r4.encounter.EncounterWrapper;

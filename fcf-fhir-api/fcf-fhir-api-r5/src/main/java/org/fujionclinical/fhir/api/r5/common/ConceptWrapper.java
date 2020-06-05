@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.r5.common;
 
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IConceptCode;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IConceptCode;
+import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.r5.model.CodeableConcept;
 
 import java.util.Collections;

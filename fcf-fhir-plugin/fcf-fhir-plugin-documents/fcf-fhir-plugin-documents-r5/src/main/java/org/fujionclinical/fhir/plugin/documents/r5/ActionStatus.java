@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.plugin.documents.r5;
 
 import org.fujionclinical.api.context.IContextSubscriber;
 import org.fujionclinical.api.context.ISurveyResponse;
-import org.fujionclinical.api.patient.PatientContext;
+import org.fujionclinical.api.model.patient.PatientContext;
 import org.fujionclinical.shell.plugins.PluginStatus;
 
 /**

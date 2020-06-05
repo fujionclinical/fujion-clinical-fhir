@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import org.fujionclinical.api.patient.IPatient;
-import org.fujionclinical.api.patient.PatientContext;
+import org.fujionclinical.api.model.patient.IPatient;
+import org.fujionclinical.api.model.patient.PatientContext;
 
 /**
  * Implements SMART patient context.

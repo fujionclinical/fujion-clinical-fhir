@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.stu3.patient;
 
-import org.fujionclinical.api.patient.PatientQueryCriteria;
+import org.fujionclinical.api.model.patient.PatientQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.hl7.fhir.dstu3.model.Patient;

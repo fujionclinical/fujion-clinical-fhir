@@ -28,9 +28,9 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.dstu2.composite.ContactPointDt;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointUseEnum;
-import org.fujionclinical.api.model.IContactPoint;
-import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IContactPoint;
+import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
 public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPointDt> {

@@ -28,10 +28,10 @@ package org.fujionclinical.fhir.api.common.core;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.IConceptCode;
-import org.fujionclinical.api.model.IDomainObject;
-import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.person.IPersonName;
+import org.fujionclinical.api.model.core.IConceptCode;
+import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IIdentifier;
+import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.fujionclinical.api.query.QueryOperator;
 

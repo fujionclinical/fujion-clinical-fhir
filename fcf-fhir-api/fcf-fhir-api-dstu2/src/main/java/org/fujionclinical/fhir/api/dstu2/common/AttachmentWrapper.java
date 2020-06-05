@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.AttachmentDt;
 import ca.uhn.fhir.model.primitive.Base64BinaryDt;
-import org.fujionclinical.api.model.IAttachment;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IAttachment;
+import org.fujionclinical.api.model.core.IWrapper;
 
 public class AttachmentWrapper implements IAttachment, IWrapper<AttachmentDt> {
 

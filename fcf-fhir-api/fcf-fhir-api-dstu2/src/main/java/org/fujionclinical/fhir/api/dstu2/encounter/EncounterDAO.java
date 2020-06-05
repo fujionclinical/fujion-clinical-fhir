@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.api.dstu2.encounter;
 
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
-import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.BaseResourceDAO;
 

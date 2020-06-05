@@ -27,9 +27,9 @@ package org.fujionclinical.fhir.api.dstu2.location;
 
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.valueset.LocationStatusEnum;
-import org.fujionclinical.api.location.ILocation;
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IContactPoint;
+import org.fujionclinical.api.model.location.ILocation;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IContactPoint;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;

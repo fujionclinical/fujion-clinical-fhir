@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.encounter;
 
-import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.r4.common.BaseResourceDAO;
 import org.hl7.fhir.r4.model.Encounter;

@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import org.fujionclinical.api.encounter.EncounterContext;
-import org.fujionclinical.api.encounter.IEncounter;
+import org.fujionclinical.api.model.encounter.EncounterContext;
+import org.fujionclinical.api.model.encounter.IEncounter;
 
 /**
  * Implements SMART encounter context.

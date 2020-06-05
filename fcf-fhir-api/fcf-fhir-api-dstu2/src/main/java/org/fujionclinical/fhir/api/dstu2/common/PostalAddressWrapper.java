@@ -28,9 +28,9 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.api.BasePrimitive;
 import ca.uhn.fhir.model.dstu2.composite.AddressDt;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
-import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.model.IPostalAddress;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.core.IPostalAddress;
+import org.fujionclinical.api.model.core.IWrapper;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -25,11 +25,11 @@
  */
 package org.fujionclinical.fhir.api.r4.encounter;
 
-import org.fujionclinical.api.encounter.IEncounter;
-import org.fujionclinical.api.location.ILocation;
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IPeriod;
-import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.model.encounter.IEncounter;
+import org.fujionclinical.api.model.location.ILocation;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.r4.common.ConceptWrapper;

@@ -27,9 +27,9 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
-import org.fujionclinical.api.model.IConcept;
-import org.fujionclinical.api.model.IIdentifier;
-import org.fujionclinical.api.model.IWrapper;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IIdentifier;
+import org.fujionclinical.api.model.core.IWrapper;
 
 import java.util.List;
 import java.util.stream.Collectors;

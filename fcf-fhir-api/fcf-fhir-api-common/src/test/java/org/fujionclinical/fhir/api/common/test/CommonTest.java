@@ -25,10 +25,9 @@
  */
 package org.fujionclinical.fhir.api.common.test;
 
-import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import org.fujionclinical.api.model.IDomainObject;
-import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.query.QueryOperator;
 import org.fujionclinical.fhir.api.common.core.ParameterMappings;
 import org.junit.Assert;
