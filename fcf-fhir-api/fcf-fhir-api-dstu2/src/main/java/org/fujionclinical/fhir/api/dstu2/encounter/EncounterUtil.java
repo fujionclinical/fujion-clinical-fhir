@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.dstu2.valueset.EncounterStateEnum;
 import ca.uhn.fhir.model.primitive.BoundCodeDt;
 import ca.uhn.fhir.model.primitive.UriDt;
-import org.fujionclinical.api.encounter.search.EncounterSearchCriteria;
+import org.fujionclinical.api.encounter.EncounterQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;
@@ -61,7 +61,7 @@ public class EncounterUtil {
      * @return Encounter search engine.
      */
     @SuppressWarnings("unchecked")
-    public static IResourceQueryEx<Encounter, EncounterSearchCriteria> getSearchEngine() {
+    public static IResourceQueryEx<Encounter, EncounterQueryCriteria> getSearchEngine() {
         return SpringUtil.getBean("encounterSearchEngine", IResourceQueryEx.class);
     }
 
@@ -71,7 +71,7 @@ public class EncounterUtil {
      * @param criteria Search criteria.
      * @return Resources matching the search criteria.
      */
-    public static List<Encounter> search(EncounterSearchCriteria criteria) {
+    public static List<Encounter> search(EncounterQueryCriteria criteria) {
         return getSearchEngine().query(criteria);
     }
 

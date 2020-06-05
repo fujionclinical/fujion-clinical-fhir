@@ -35,7 +35,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.Logger;
-import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.api.person.IPerson;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;

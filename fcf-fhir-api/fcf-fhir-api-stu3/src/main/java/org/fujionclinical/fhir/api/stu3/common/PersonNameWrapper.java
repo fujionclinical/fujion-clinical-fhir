@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.api.stu3.common;
 
 import org.fujionclinical.api.model.IWrapper;
-import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.api.person.IPersonName;
 import org.hl7.fhir.dstu3.model.HumanName;
 import org.hl7.fhir.dstu3.model.StringType;
 

@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
 import org.fujionclinical.api.model.IWrapper;
-import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.api.person.IPersonName;
 
 import java.util.Collections;
 import java.util.List;

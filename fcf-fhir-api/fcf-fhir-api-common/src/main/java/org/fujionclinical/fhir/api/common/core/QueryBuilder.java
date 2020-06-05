@@ -29,15 +29,13 @@ import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.IConceptCode;
-import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.api.model.IIdentifier;
+import org.fujionclinical.api.person.IPersonName;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.fujionclinical.api.query.QueryOperator;
 
 import java.beans.PropertyDescriptor;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class QueryBuilder {
 
@@ -48,6 +46,7 @@ public class QueryBuilder {
     private QueryBuilder() {
         queryMap.put("id", "_id");
         queryMap.put("identifiers", "identifier");
+        queryMap.put("deceaseddate", "deceased");
     }
 
     public static String buildQueryString(
@@ -63,26 +62,49 @@ public class QueryBuilder {
 
         for (QueryExpressionTuple tuple : tuples) {
             sb.append(sb.length() == 0 ? "" : "&");
-            sb.append(xlate(map, tuple.propertyDescriptor.getName()));
+            String propertyName = tuple.propertyDescriptor.getName().toLowerCase();
+            sb.append(xlate(map, propertyName));
             sb.append(xlate(tuple.operator, tuple.propertyDescriptor));
             String delim = "";
 
             for (Object operand : tuple.operands) {
                 sb.append(delim);
                 delim = ",";
-
-                if (operand instanceof Date) {
-                    sb.append(DateUtil.toISO((Date) operand));
-                } else if (operand instanceof IConceptCode) {
-                    IConceptCode code = (IConceptCode) operand;
-                    sb.append(code.getSystem()).append("|").append(code.getCode());
-                } else {
-                    sb.append(operand);
-                }
+                appendOperand(sb, operand);
             }
         }
 
         return sb.toString();
+    }
+
+    private void appendOperand(StringBuilder sb, Object operand) {
+        if (operand instanceof Collection) {
+            appendOperands(sb, (Collection) operand);
+        } else if (operand.getClass().isArray()) {
+            appendOperands(sb, Arrays.asList((Object[]) operand));
+        } else if (operand instanceof Date) {
+            sb.append(DateUtil.toISO((Date) operand));
+        } else if (operand instanceof IConceptCode) {
+            IConceptCode code = (IConceptCode) operand;
+            sb.append(code.getSystem()).append("|").append(code.getCode());
+        } else if (operand instanceof IIdentifier) {
+            IIdentifier id = (IIdentifier) operand;
+            sb.append(id.getSystem()).append("|").append(id.getValue());
+        } else if (operand instanceof Enum) {
+            sb.append(((Enum) operand).name().toLowerCase());
+        } else {
+            sb.append(operand);
+        }
+    }
+
+    private void appendOperands(StringBuilder sb, Collection<?> operands) {
+        String delim = "";
+
+        for (Object operand: operands) {
+            sb.append(delim);
+            appendOperand(sb, operand);
+            delim = ",";
+        }
     }
 
     private String xlate(

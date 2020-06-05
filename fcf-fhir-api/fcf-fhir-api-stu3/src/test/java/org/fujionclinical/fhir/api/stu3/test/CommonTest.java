@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.api.stu3.test;
 
 import org.fujion.common.DateUtil;
-import org.fujionclinical.api.model.person.IPersonName;
-import org.fujionclinical.api.model.person.PersonNameParser;
+import org.fujionclinical.api.person.IPersonName;
+import org.fujionclinical.api.person.PersonNameParser;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.fujionclinical.fhir.api.stu3.common.PersonNameWrapper;
 import org.hl7.fhir.dstu3.model.*;

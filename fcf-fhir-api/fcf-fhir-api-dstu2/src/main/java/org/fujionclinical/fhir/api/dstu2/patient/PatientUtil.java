@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.api.dstu2.patient;
 
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.api.patient.search.PatientSearchCriteria;
+import org.fujionclinical.api.patient.PatientQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 
@@ -44,7 +44,7 @@ public class PatientUtil {
      * @return Patient search engine.
      */
     @SuppressWarnings("unchecked")
-    public static IResourceQueryEx<Patient, PatientSearchCriteria> getSearchEngine() {
+    public static IResourceQueryEx<Patient, PatientQueryCriteria> getSearchEngine() {
         return SpringUtil.getBean("patientSearchEngine", IResourceQueryEx.class);
     }
 
@@ -54,7 +54,7 @@ public class PatientUtil {
      * @param criteria Search criteria.
      * @return Resources matching the search criteria.
      */
-    public static List<Patient> search(PatientSearchCriteria criteria) {
+    public static List<Patient> search(PatientQueryCriteria criteria) {
         return getSearchEngine().query(criteria);
     }
 

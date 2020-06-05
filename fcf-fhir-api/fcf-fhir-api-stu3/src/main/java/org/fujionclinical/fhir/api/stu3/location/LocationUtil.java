@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.stu3.location;
 
-import org.fujionclinical.api.location.search.LocationSearchCriteria;
+import org.fujionclinical.api.location.LocationQueryCriteria;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.fujionclinical.fhir.api.common.query.IResourceQueryEx;
 import org.hl7.fhir.dstu3.model.Location;
@@ -44,7 +44,7 @@ public class LocationUtil {
      * @return Location search engine.
      */
     @SuppressWarnings("unchecked")
-    public static IResourceQueryEx<Location, LocationSearchCriteria> getSearchEngine() {
+    public static IResourceQueryEx<Location, LocationQueryCriteria> getSearchEngine() {
         return SpringUtil.getBean("locationSearchEngine", IResourceQueryEx.class);
     }
 
@@ -54,7 +54,7 @@ public class LocationUtil {
      * @param criteria Search criteria.
      * @return Resources matching the search criteria.
      */
-    public static List<Location> search(LocationSearchCriteria criteria) {
+    public static List<Location> search(LocationQueryCriteria criteria) {
         return getSearchEngine().query(criteria);
     }
 
