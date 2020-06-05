@@ -39,11 +39,25 @@
             <artifactId>fcf-api-patient</artifactId>
 			<version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-api-encounter</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-encounter</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-practitioner</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-api-location</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+		</dependency>
     </dependencies>
 
 </project>

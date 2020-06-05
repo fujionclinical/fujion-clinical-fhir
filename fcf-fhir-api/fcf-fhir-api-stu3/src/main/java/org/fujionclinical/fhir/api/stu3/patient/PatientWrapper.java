@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.stu3.patient;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.fujionclinical.api.model.*;
-import org.fujionclinical.api.person.IPersonName;
 import org.fujionclinical.api.patient.IPatient;
+import org.fujionclinical.api.person.IPersonName;
 import org.fujionclinical.fhir.api.stu3.common.*;
 import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Enumerations;
