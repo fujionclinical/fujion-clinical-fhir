@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -29,6 +29,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
+import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.r5.common.*;
 import org.hl7.fhir.r5.model.DateTimeType;
 import org.hl7.fhir.r5.model.Enumerations;
@@ -42,9 +44,7 @@ import java.util.stream.Collectors;
 
 import static org.fujionclinical.fhir.api.r5.terminology.Constants.CODING_MRN;
 
-public class PatientWrapper implements IPatient, IWrapper<Patient> {
-
-    private final Patient patient;
+public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient {
 
     private final List<IPersonName> names;
 
@@ -71,7 +71,7 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
     }
 
     private PatientWrapper(Patient patient) {
-        this.patient = patient;
+        super(patient);
         names = PersonNameWrapper.wrap(patient.getName());
         mrn = IdentifierWrapper.wrap(FhirUtilR5.getMRN(patient));
         languages = patient.getCommunication().stream().map(comm -> ConceptWrapper.wrap(comm.getLanguage())).collect(Collectors.toList());
@@ -93,43 +93,43 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public Gender getGender() {
-        return FhirUtilR5.convertEnum(patient.getGender(), Gender.class, Gender.OTHER);
+        return FhirUtil.convertEnum(getWrapped().getGender(), Gender.class, Gender.OTHER);
     }
 
     @Override
     public void setGender(Gender gender) {
-        patient.setGender(FhirUtilR5.convertEnum(gender, Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
+        getWrapped().setGender(FhirUtil.convertEnum(gender, Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
     }
 
     @Override
     public MaritalStatus getMaritalStatus() {
-        return FhirUtilR5.convertMaritalStatus(patient.getMaritalStatus());
+        return FhirUtilR5.convertMaritalStatus(getWrapped().getMaritalStatus());
     }
 
     @Override
     public void setMaritalStatus(MaritalStatus maritalStatus) {
-        patient.setMaritalStatus(FhirUtilR5.convertMaritalStatus(maritalStatus));
+        getWrapped().setMaritalStatus(FhirUtilR5.convertMaritalStatus(maritalStatus));
     }
 
     @Override
     public Date getBirthDate() {
-        return patient.getBirthDate();
+        return getWrapped().getBirthDate();
     }
 
     @Override
     public void setBirthDate(Date date) {
-        patient.setBirthDate(date);
+        getWrapped().setBirthDate(date);
     }
 
     @Override
     public Date getDeceasedDate() {
-        DateTimeType deceased = patient.hasDeceasedDateTimeType() ? patient.getDeceasedDateTimeType() : null;
+        DateTimeType deceased = getWrapped().hasDeceasedDateTimeType() ? getWrapped().getDeceasedDateTimeType() : null;
         return deceased == null ? null : deceased.getValue();
     }
 
     @Override
     public void setDeceasedDate(Date date) {
-        patient.setDeceased(new DateTimeType(date));
+        getWrapped().setDeceased(new DateTimeType(date));
     }
 
     @Override
@@ -144,17 +144,12 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public List<IPostalAddress> getAddresses() {
-        return patient.getAddress().stream().map(PostalAddressWrapper::wrap).collect(Collectors.toList());
+        return getWrapped().getAddress().stream().map(PostalAddressWrapper::wrap).collect(Collectors.toList());
     }
 
     @Override
     public List<IAttachment> getPhotos() {
-        return patient.getPhoto().stream().map(AttachmentWrapper::wrap).collect(Collectors.toList());
-    }
-
-    @Override
-    public String getId() {
-        return patient.getIdElement().getIdPart();
+        return getWrapped().getPhoto().stream().map(AttachmentWrapper::wrap).collect(Collectors.toList());
     }
 
     @Override
@@ -164,16 +159,11 @@ public class PatientWrapper implements IPatient, IWrapper<Patient> {
 
     @Override
     public IConcept getPreferredLanguage() {
-        return patient.getCommunication().stream()
+        return getWrapped().getCommunication().stream()
                 .filter(comm -> BooleanUtils.isTrue(comm.getPreferred()))
                 .findFirst()
                 .map(comm -> ConceptWrapper.wrap(comm.getLanguage()))
                 .orElse(null);
-    }
-
-    @Override
-    public Patient getWrapped() {
-        return patient;
     }
 
 }
