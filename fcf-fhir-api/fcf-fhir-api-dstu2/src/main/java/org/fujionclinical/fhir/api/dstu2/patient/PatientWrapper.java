@@ -78,6 +78,11 @@ public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient
     }
 
     @Override
+    public List<IIdentifier> getIdentifiers() {
+        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
+    }
+
+    @Override
     public IIdentifier getMRN() {
         return mrn;
     }

@@ -45,6 +45,11 @@ public class PractitionerWrapper extends ResourceWrapper<Practitioner> implement
     }
 
     @Override
+    public List<IIdentifier> getIdentifiers() {
+        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
+    }
+
+    @Override
     public List<IPersonName> getNames() {
         return names;
     }

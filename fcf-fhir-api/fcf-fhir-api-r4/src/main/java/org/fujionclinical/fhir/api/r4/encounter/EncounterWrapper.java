@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.encounter;
 
+import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.location.ILocation;
 import org.fujionclinical.api.model.core.IConcept;
@@ -34,6 +35,7 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.r4.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
+import org.fujionclinical.fhir.api.r4.common.IdentifierWrapper;
 import org.fujionclinical.fhir.api.r4.common.PeriodWrapper;
 import org.fujionclinical.fhir.api.r4.patient.PatientWrapper;
 import org.hl7.fhir.r4.model.Encounter;
@@ -43,6 +45,7 @@ import org.hl7.fhir.r4.model.Reference;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
 
@@ -82,6 +85,11 @@ public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEnc
 
     private void initPatientWrapper() {
         patient = PatientWrapper.wrap(FhirUtilR4.getFhirService().getResource(patientRef, Patient.class));
+    }
+
+    @Override
+    public List<IIdentifier> getIdentifiers() {
+        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
     }
 
     @Override

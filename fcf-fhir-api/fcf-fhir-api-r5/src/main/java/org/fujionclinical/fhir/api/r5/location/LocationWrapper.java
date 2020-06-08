@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.location;
 
+import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.location.ILocation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IContactPoint;
@@ -32,6 +33,7 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.r5.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.r5.common.ContactPointWrapper;
+import org.fujionclinical.fhir.api.r5.common.IdentifierWrapper;
 import org.hl7.fhir.r5.model.Location;
 import org.springframework.beans.BeanUtils;
 
@@ -60,6 +62,11 @@ public class LocationWrapper extends ResourceWrapper<Location> implements ILocat
 
     private LocationWrapper(Location location) {
         super(location);
+    }
+
+    @Override
+    public List<IIdentifier> getIdentifiers() {
+        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
     }
 
     @Override

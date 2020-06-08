@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.api.dstu2.location;
 
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.valueset.LocationStatusEnum;
+import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.location.ILocation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IContactPoint;
@@ -34,6 +35,7 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ContactPointWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Collections;
@@ -62,6 +64,11 @@ public class LocationWrapper extends ResourceWrapper<Location> implements ILocat
 
     private LocationWrapper(Location location) {
         super(location);
+    }
+
+    @Override
+    public List<IIdentifier> getIdentifiers() {
+        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
     }
 
     @Override

@@ -9,10 +9,7 @@ import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import org.fujionclinical.api.model.condition.ICondition;
-import org.fujionclinical.api.model.core.IAnnotation;
-import org.fujionclinical.api.model.core.IConcept;
-import org.fujionclinical.api.model.core.IPeriod;
-import org.fujionclinical.api.model.core.Period;
+import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPerson;
@@ -20,11 +17,13 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
+import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
 import org.fujionclinical.fhir.api.dstu2.patient.PatientWrapper;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConditionWrapper extends ResourceWrapper<Condition> implements ICondition {
 
@@ -61,6 +60,11 @@ public class ConditionWrapper extends ResourceWrapper<Condition> implements ICon
 
     private void initPatientWrapper() {
         patient = PatientWrapper.wrap(FhirUtilDstu2.getFhirService().getResource(patientRef, Patient.class));
+    }
+
+    @Override
+    public List<IIdentifier> getIdentifiers() {
+        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
     }
 
     @Override
