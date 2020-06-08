@@ -36,7 +36,7 @@ import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
@@ -47,7 +47,7 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EncounterWrapper extends ResourceWrapper<Encounter> implements IEncounter {
+public class EncounterWrapper extends AbstractResourceWrapper<Encounter> implements IEncounter {
 
     private final List<IConcept> types;
 

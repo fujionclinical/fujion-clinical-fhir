@@ -30,7 +30,7 @@ import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.r4.common.*;
 import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Enumerations;
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
 import static org.fujionclinical.fhir.api.r4.terminology.Constants.CODING_MRN;
 
-public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient {
+public class PatientWrapper extends AbstractResourceWrapper<Patient> implements IPatient {
 
     private final List<IPersonName> names;
 

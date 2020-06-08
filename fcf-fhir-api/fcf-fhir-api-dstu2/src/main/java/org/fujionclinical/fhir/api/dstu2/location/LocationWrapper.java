@@ -32,7 +32,7 @@ import org.fujionclinical.api.model.location.ILocation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IContactPoint;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ContactPointWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
@@ -42,7 +42,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LocationWrapper extends ResourceWrapper<Location> implements ILocation {
+public class LocationWrapper extends AbstractResourceWrapper<Location> implements ILocation {
 
     public static LocationWrapper wrap(Location location) {
         return location == null ? null : new LocationWrapper(location);

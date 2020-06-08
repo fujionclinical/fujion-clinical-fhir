@@ -4,7 +4,7 @@ import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.practitioner.IPractitioner;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.stu3.common.*;
 import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Practitioner;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PractitionerWrapper extends ResourceWrapper<Practitioner> implements IPractitioner {
+public class PractitionerWrapper extends AbstractResourceWrapper<Practitioner> implements IPractitioner {
 
     private final List<IPersonName> names;
 

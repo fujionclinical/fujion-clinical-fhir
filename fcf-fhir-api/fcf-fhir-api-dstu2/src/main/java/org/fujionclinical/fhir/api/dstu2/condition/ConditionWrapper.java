@@ -14,7 +14,7 @@ import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConditionWrapper extends ResourceWrapper<Condition> implements ICondition {
+public class ConditionWrapper extends AbstractResourceWrapper<Condition> implements ICondition {
 
     private final ResourceReferenceDt patientRef;
 

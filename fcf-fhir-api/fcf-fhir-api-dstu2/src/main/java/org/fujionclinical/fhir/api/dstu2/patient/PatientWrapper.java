@@ -35,7 +35,7 @@ import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.*;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
 import org.springframework.beans.BeanUtils;
@@ -44,7 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PatientWrapper extends ResourceWrapper<Patient> implements IPatient {
+public class PatientWrapper extends AbstractResourceWrapper<Patient> implements IPatient {
 
     private final List<IPersonName> names;
 

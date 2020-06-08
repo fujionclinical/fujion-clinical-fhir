@@ -1,15 +1,12 @@
 package org.fujionclinical.fhir.api.r4.practitioner;
 
 import org.fujionclinical.api.model.core.*;
-import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.practitioner.IPractitioner;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.ResourceWrapper;
+import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.r4.common.*;
-import org.fujionclinical.fhir.api.r4.patient.PatientWrapper;
 import org.hl7.fhir.r4.model.Enumerations;
-import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Practitioner;
 import org.springframework.beans.BeanUtils;
 
@@ -17,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PractitionerWrapper extends ResourceWrapper<Practitioner> implements IPractitioner {
+public class PractitionerWrapper extends AbstractResourceWrapper<Practitioner> implements IPractitioner {
 
     private final List<IPersonName> names;
 
