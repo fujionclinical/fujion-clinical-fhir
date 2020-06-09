@@ -29,8 +29,8 @@ import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.r5.common.BaseFhirService;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
-import org.fujionclinical.fhir.api.r5.encounter.EncounterWrapper;
-import org.fujionclinical.fhir.api.r5.patient.PatientWrapper;
+import org.fujionclinical.fhir.api.r5.encounter.EncounterTransform;
+import org.fujionclinical.fhir.api.r5.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -53,9 +53,9 @@ public class Scenario extends ScenarioBase<ListResource> {
     @Override
     protected IDomainObject _toDomainObject(IBaseResource activationResource) {
         if (activationResource instanceof Encounter) {
-            return EncounterWrapper.wrap((Encounter) activationResource);
+            return EncounterTransform.instance.wrap((Encounter) activationResource);
         } else if (activationResource instanceof Patient) {
-            return PatientWrapper.wrap((Patient) activationResource);
+            return PatientTransform.instance.wrap((Patient) activationResource);
         } else {
             return null;
         }
@@ -118,6 +118,6 @@ public class Scenario extends ScenarioBase<ListResource> {
   
     @Override
     protected IPatient _toPatient(IBaseResource resource) {
-        return resource instanceof Patient ? PatientWrapper.wrap((Patient) resource) : null;
+        return resource instanceof Patient ? PatientTransform.instance.wrap((Patient) resource) : null;
     }
 }
