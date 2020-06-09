@@ -42,6 +42,7 @@ public abstract class AbstractResourceWrapper<T extends IBaseResource> implement
         return resource.getIdElement().getIdPart();
     }
 
+    @Override
     public void setId(String id) {
         resource.setId(id);
     }
