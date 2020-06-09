@@ -9,13 +9,13 @@ public class PersonNameTransform implements IWrapperTransform<IPersonName, Human
     public static final PersonNameTransform instance = new PersonNameTransform();
 
     @Override
-    public HumanName _unwrap(IPersonName value) {
-        throw new UnsupportedOperationException();
+    public IPersonName _wrap(HumanName value) {
+        return new PersonNameWrapper(value);
     }
 
     @Override
-    public IPersonName _wrap(HumanName value) {
-        return new PersonNameWrapper(value);
+    public HumanName newWrapped() {
+        return new HumanName();
     }
 
 }

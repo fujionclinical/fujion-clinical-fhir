@@ -9,13 +9,13 @@ public class AttachmentTransform implements IWrapperTransform<IAttachment, Attac
     public static final AttachmentTransform instance = new AttachmentTransform();
 
     @Override
-    public Attachment _unwrap(IAttachment value) {
-        throw new UnsupportedOperationException();
+    public IAttachment _wrap(Attachment value) {
+        return new AttachmentWrapper(value);
     }
 
     @Override
-    public IAttachment _wrap(Attachment value) {
-        return new AttachmentWrapper(value);
+    public Attachment newWrapped() {
+        return new Attachment();
     }
 
 }

@@ -9,15 +9,13 @@ public class PeriodTransform implements IWrapperTransform<IPeriod, PeriodDt> {
     public static final PeriodTransform instance = new PeriodTransform();
 
     @Override
-    public PeriodDt _unwrap(IPeriod value) {
-        return new PeriodDt()
-                .setStartWithSecondsPrecision(value.getStartDate())
-                .setEndWithSecondsPrecision(value.getEndDate());
+    public IPeriod _wrap(PeriodDt value) {
+        return new PeriodWrapper(value);
     }
 
     @Override
-    public IPeriod _wrap(PeriodDt value) {
-        return new PeriodWrapper(value);
+    public PeriodDt newWrapped() {
+        return new PeriodDt();
     }
 
 }

@@ -9,17 +9,13 @@ public class IdentifierTransform implements IWrapperTransform<IIdentifier, Ident
     public static final IdentifierTransform instance = new IdentifierTransform();
 
     @Override
-    public IdentifierDt _unwrap(IIdentifier identifier) {
-        IdentifierDt result = new IdentifierDt()
-                .setSystem(identifier.getSystem())
-                .setValue(identifier.getValue());
-        result.getType().setText(identifier.getType().getText()).setCoding(ConceptCodeTransform.instance.unwrap(identifier.getType().getCodes()));
-        return result;
+    public IIdentifier _wrap(IdentifierDt identifier) {
+        return new IdentifierWrapper(identifier);
     }
 
     @Override
-    public IIdentifier _wrap(IdentifierDt identifier) {
-        return new IdentifierWrapper(identifier);
+    public IdentifierDt newWrapped() {
+        return new IdentifierDt();
     }
 
 }

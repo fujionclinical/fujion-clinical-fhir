@@ -9,13 +9,13 @@ public class PostalAddressTransform implements IWrapperTransform<IPostalAddress,
     public static final PostalAddressTransform instance = new PostalAddressTransform();
 
     @Override
-    public AddressDt _unwrap(IPostalAddress value) {
-        throw new UnsupportedOperationException();
+    public IPostalAddress _wrap(AddressDt value) {
+        return new PostalAddressWrapper(value);
     }
 
     @Override
-    public IPostalAddress _wrap(AddressDt value) {
-        return new PostalAddressWrapper(value);
+    public AddressDt newWrapped() {
+        return new AddressDt();
     }
 
 }

@@ -9,13 +9,13 @@ public class AnnotationTransform implements IWrapperTransform<IAnnotation, Annot
     public static final AnnotationTransform instance = new AnnotationTransform();
 
     @Override
-    public Annotation _unwrap(IAnnotation value) {
-        throw new UnsupportedOperationException();
+    public IAnnotation _wrap(Annotation value) {
+        return new AnnotationWrapper(value);
     }
 
     @Override
-    public IAnnotation _wrap(Annotation value) {
-        return new AnnotationWrapper(value);
+    public Annotation newWrapped() {
+        return new Annotation();
     }
 
 }

@@ -9,13 +9,13 @@ public class ContactPointTransform implements IWrapperTransform<IContactPoint, C
     public static final ContactPointTransform instance = new ContactPointTransform();
 
     @Override
-    public ContactPointDt _unwrap(IContactPoint value) {
-        throw new UnsupportedOperationException();
+    public IContactPoint _wrap(ContactPointDt value) {
+        return new ContactPointWrapper(value);
     }
 
     @Override
-    public IContactPoint _wrap(ContactPointDt value) {
-        return new ContactPointWrapper(value);
+    public ContactPointDt newWrapped() {
+        return new ContactPointDt();
     }
 
 }

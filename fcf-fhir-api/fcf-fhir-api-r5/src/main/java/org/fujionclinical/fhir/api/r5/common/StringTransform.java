@@ -9,12 +9,19 @@ public class StringTransform implements IWrapperTransform<String, StringType> {
     
     @Override
     public StringType _unwrap(String value) {
-        return new StringType(value);
+        StringType stringType = newWrapped();
+        stringType.setValue(value);
+        return stringType;
     }
 
     @Override
     public String _wrap(StringType value) {
         return value.getValue();
+    }
+
+    @Override
+    public StringType newWrapped() {
+        return new StringType();
     }
 
 }

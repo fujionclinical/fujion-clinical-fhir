@@ -9,16 +9,13 @@ public class ConceptCodeTransform implements IWrapperTransform<IConceptCode, Cod
     public static final ConceptCodeTransform instance = new ConceptCodeTransform();
 
     @Override
-    public CodingDt _unwrap(IConceptCode value) {
-        return new CodingDt()
-                .setSystem(value.getSystem())
-                .setCode(value.getCode())
-                .setDisplay(value.getText());
+    public IConceptCode _wrap(CodingDt value) {
+        return new ConceptCodeWrapper(value);
     }
 
     @Override
-    public IConceptCode _wrap(CodingDt value) {
-        return new ConceptCodeWrapper(value);
+    public CodingDt newWrapped() {
+        return new CodingDt();
     }
 
 }
