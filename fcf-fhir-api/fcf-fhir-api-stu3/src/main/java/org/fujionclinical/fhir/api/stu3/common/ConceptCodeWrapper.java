@@ -25,10 +25,10 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
-import org.fujionclinical.fhir.api.common.core.AbstractConceptCodeWrapper;
+import org.fujionclinical.fhir.api.common.core.BaseConceptCodeWrapper;
 import org.hl7.fhir.dstu3.model.Coding;
 
-public class ConceptCodeWrapper extends AbstractConceptCodeWrapper<Coding> {
+public class ConceptCodeWrapper extends BaseConceptCodeWrapper<Coding> {
 
     protected ConceptCodeWrapper(Coding coding) {
         super(coding);

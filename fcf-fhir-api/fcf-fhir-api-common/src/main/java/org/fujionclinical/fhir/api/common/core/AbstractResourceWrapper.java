@@ -25,16 +25,23 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
+import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.model.core.IWrapper;
+import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+
+import java.util.List;
 
 public abstract class AbstractResourceWrapper<T extends IBaseResource> implements IDomainObject, IWrapper<T> {
 
     private final T resource;
 
+    private final List<IConceptCode> tags;
+
     protected AbstractResourceWrapper(T resource) {
         this.resource = resource;
+        this.tags = TagTransform.instance.wrap((List<IBaseCoding>) resource.getMeta().getTag());
     }
 
     @Override
@@ -45,6 +52,11 @@ public abstract class AbstractResourceWrapper<T extends IBaseResource> implement
     @Override
     public void setId(String id) {
         resource.setId(id);
+    }
+
+    @Override
+    public List<IConceptCode> getTags() {
+        return tags;
     }
 
     @Override

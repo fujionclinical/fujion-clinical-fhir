@@ -26,9 +26,9 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
-import org.fujionclinical.fhir.api.common.core.AbstractConceptCodeWrapper;
+import org.fujionclinical.fhir.api.common.core.BaseConceptCodeWrapper;
 
-public class ConceptCodeWrapper extends AbstractConceptCodeWrapper<CodingDt> {
+public class ConceptCodeWrapper extends BaseConceptCodeWrapper<CodingDt> {
 
     protected ConceptCodeWrapper(CodingDt coding) {
         super(coding);

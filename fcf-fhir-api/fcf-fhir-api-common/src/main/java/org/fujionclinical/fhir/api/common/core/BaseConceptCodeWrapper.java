@@ -29,11 +29,11 @@ import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 
-public abstract class AbstractConceptCodeWrapper<T extends IBaseCoding> implements IConceptCode, IWrapper<T> {
+public class BaseConceptCodeWrapper<T extends IBaseCoding> implements IConceptCode, IWrapper<T> {
 
     private final T coding;
 
-    protected AbstractConceptCodeWrapper(T coding) {
+    protected BaseConceptCodeWrapper(T coding) {
         this.coding = coding;
     }
 
