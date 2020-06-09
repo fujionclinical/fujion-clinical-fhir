@@ -4,49 +4,38 @@ import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.practitioner.IPractitioner;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
 import org.fujionclinical.fhir.api.r5.common.*;
 import org.hl7.fhir.r5.model.Enumerations;
+import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Practitioner;
-import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class PractitionerWrapper extends AbstractResourceWrapper<Practitioner> implements IPractitioner {
+public class PractitionerWrapper extends BaseResourceWrapper<Practitioner> implements IPractitioner {
 
     private final List<IPersonName> names;
 
     private final List<IConcept> languages;
 
-    public static PractitionerWrapper wrap(Practitioner practitioner) {
-        return practitioner == null ? null : new PractitionerWrapper(practitioner);
-    }
+    private final List<IContactPoint> contactPoints;
 
-    public static Practitioner unwrap(IPractitioner practitioner) {
-        if (practitioner == null) {
-            return null;
-        }
+    private final List<IPostalAddress> addresses;
 
-        if (practitioner instanceof PractitionerWrapper) {
-            return ((PractitionerWrapper) practitioner).getWrapped();
-        }
+    private final List<IAttachment> photos;
 
-        PractitionerWrapper pract = wrap(new Practitioner());
-        BeanUtils.copyProperties(practitioner, pract);
-        return pract.getWrapped();
-    }
-
-    private PractitionerWrapper(Practitioner practitioner) {
+    protected PractitionerWrapper(Practitioner practitioner) {
         super(practitioner);
-        names = PersonNameWrapper.wrap(practitioner.getName());
-        languages = practitioner.getCommunication().stream().map(lang -> ConceptWrapper.wrap(lang)).collect(Collectors.toList());
+        names = PersonNameTransform.instance.wrap(practitioner.getName());
+        languages = ConceptTransform.instance.wrap(practitioner.getCommunication());
+        contactPoints = ContactPointTransform.instance.wrap(practitioner.getTelecom());
+        addresses = PostalAddressTransform.instance.wrap(practitioner.getAddress());
+        photos = AttachmentTransform.instance.wrap(practitioner.getPhoto());
     }
 
     @Override
-    public List<IIdentifier> getIdentifiers() {
-        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
+    protected List<Identifier> _getIdentifiers() {
+        return getWrapped().getIdentifier();
     }
 
     @Override
@@ -111,17 +100,17 @@ public class PractitionerWrapper extends AbstractResourceWrapper<Practitioner> i
 
     @Override
     public List<IAttachment> getPhotos() {
-        return getWrapped().getPhoto().stream().map(AttachmentWrapper::wrap).collect(Collectors.toList());
+        return photos;
     }
 
     @Override
     public List<IContactPoint> getContactPoints() {
-        return getWrapped().getTelecom().stream().map(ContactPointWrapper::wrap).collect(Collectors.toList());
+        return contactPoints;
     }
 
     @Override
     public List<IPostalAddress> getAddresses() {
-        return getWrapped().getAddress().stream().map(PostalAddressWrapper::wrap).collect(Collectors.toList());
+        return addresses;
     }
 
 }

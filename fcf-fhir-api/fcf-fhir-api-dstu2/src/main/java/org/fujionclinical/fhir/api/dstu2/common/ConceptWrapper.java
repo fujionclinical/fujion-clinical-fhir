@@ -30,9 +30,7 @@ import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IWrapper;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ConceptWrapper implements IConcept, IWrapper<CodeableConceptDt> {
 
@@ -40,23 +38,9 @@ public class ConceptWrapper implements IConcept, IWrapper<CodeableConceptDt> {
 
     private final List<IConceptCode> codes;
 
-    public static ConceptWrapper wrap(CodeableConceptDt codeableConcept) {
-        return codeableConcept == null ? null : new ConceptWrapper(codeableConcept);
-    }
-
-    public static List<IConcept> wrap(List<CodeableConceptDt> concepts) {
-        return concepts == null ? Collections.emptyList() : concepts.stream().map(concept -> ConceptWrapper.wrap(concept)).collect(Collectors.toList());
-    }
-
-    public static CodeableConceptDt unwrap(IConcept concept) {
-        return concept == null ? null : new CodeableConceptDt()
-                .setText(concept.getText())
-                .setCoding(ConceptCodeWrapper.unwrap(concept.getCodes()));
-    }
-
-    private ConceptWrapper(CodeableConceptDt codeableConcept) {
+    protected ConceptWrapper(CodeableConceptDt codeableConcept) {
         this.codeableConcept = codeableConcept;
-        this.codes = ConceptCodeWrapper.wrap(codeableConcept.getCoding());
+        this.codes = ConceptCodeTransform.instance.wrap(codeableConcept.getCoding());
     }
 
     @Override

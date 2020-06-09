@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -28,49 +28,39 @@ package org.fujionclinical.fhir.api.r5.common;
 import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.core.IPostalAddress;
 import org.fujionclinical.api.model.core.IWrapper;
+import org.fujionclinical.api.model.core.WrappedList;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.r5.model.Address;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostalAddressWrapper implements IPostalAddress, IWrapper<Address> {
 
     private final Address address;
 
-    private final PeriodWrapper period;
+    private final IPeriod period;
 
-    public static PostalAddressWrapper wrap(Address address) {
-        return address == null ? null : new PostalAddressWrapper(address);
-    }
+    private final List<String> lines;
 
-    public static List<IPostalAddress> wrap(List<Address> addresses) {
-        return addresses == null ? null : addresses.stream().map(address -> PostalAddressWrapper.wrap(address)).collect(Collectors.toList());
-    }
-
-    public static List<Address> unwrap(List<IWrapper<Address>> addresses) {
-        return addresses == null ? null : addresses.stream().map(address -> address.getWrapped()).collect(Collectors.toList());
-    }
-
-    private PostalAddressWrapper(Address address) {
+    protected PostalAddressWrapper(Address address) {
         this.address = address;
-        this.period = PeriodWrapper.wrap(address.getPeriod());
+        this.period = PeriodTransform.instance.wrap(address.getPeriod());
+        this.lines = new WrappedList<>(address.getLine(), StringTransform.instance);
     }
 
     @Override
     public PostalAddressUse getUse() {
-        return FhirUtilR5.convertEnum(address.getUse(), PostalAddressUse.class);
+        return FhirUtil.convertEnum(address.getUse(), PostalAddressUse.class);
     }
 
     @Override
     public void setUse(PostalAddressUse use) {
-        address.setUse(FhirUtilR5.convertEnum(use, Address.AddressUse.class));
+        address.setUse(FhirUtil.convertEnum(use, Address.AddressUse.class));
     }
 
     @Override
     public List<String> getLines() {
-        return address.getLine().stream()
-                .map(line -> line.toString())
-                .collect(Collectors.toList());
+        return lines;
     }
 
     @Override

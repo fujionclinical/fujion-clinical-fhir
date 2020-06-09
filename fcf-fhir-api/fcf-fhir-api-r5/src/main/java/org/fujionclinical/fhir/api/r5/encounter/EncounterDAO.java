@@ -33,17 +33,7 @@ import org.hl7.fhir.r5.model.Encounter;
 public class EncounterDAO extends BaseResourceDAO<IEncounter, Encounter> {
 
     public EncounterDAO(AbstractFhirService fhirService) {
-        super(fhirService, IEncounter.class, Encounter.class);
-    }
-
-    @Override
-    protected IEncounter convert(Encounter resource) {
-        return EncounterWrapper.wrap(resource);
-    }
-
-    @Override
-    protected Encounter convert(IEncounter domainResource) {
-        return EncounterWrapper.unwrap(domainResource);
+        super(fhirService, IEncounter.class, Encounter.class, EncounterTransform.instance);
     }
 
 }

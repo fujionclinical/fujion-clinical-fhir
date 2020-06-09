@@ -11,19 +11,15 @@ import java.util.List;
 
 public class AnnotationWrapper implements IAnnotation, IWrapper<AnnotationDt> {
 
-    public static AnnotationWrapper wrap(AnnotationDt annotation) {
-        return annotation == null ? null : new AnnotationWrapper(annotation);
-    }
-
     private final AnnotationDt annotation;
 
-    private AnnotationWrapper(AnnotationDt annotation) {
+    protected AnnotationWrapper(AnnotationDt annotation) {
         this.annotation = annotation;
     }
 
     @Override
     public List<IPerson> getAuthors() {
-        return null;
+        return null; // TODO
     }
 
     @Override

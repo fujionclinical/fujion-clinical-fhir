@@ -33,17 +33,7 @@ import org.fujionclinical.fhir.api.dstu2.common.BaseResourceDAO;
 public class PractitionerDAO extends BaseResourceDAO<IPractitioner, Practitioner> {
 
     public PractitionerDAO(AbstractFhirService fhirService) {
-        super(fhirService, IPractitioner.class, Practitioner.class);
-    }
-
-    @Override
-    protected IPractitioner convert(Practitioner resource) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected Practitioner convert(IPractitioner domainResource) {
-        throw new UnsupportedOperationException();
+        super(fhirService, IPractitioner.class, Practitioner.class, PractitionerTransform.instance);
     }
 
 }

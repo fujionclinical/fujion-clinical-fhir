@@ -37,7 +37,7 @@ import org.fujion.common.DateUtil;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.person.PersonNameParser;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
-import org.fujionclinical.fhir.api.dstu2.common.PersonNameWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.PersonNameTransform;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.junit.Test;
 
@@ -129,7 +129,7 @@ public class CommonTest {
     @Test
     public void testNameUtils() {
         HumanNameDt n = new HumanNameDt();
-        IPersonName wrapper = PersonNameWrapper.wrap(n);
+        IPersonName wrapper = PersonNameTransform.instance.wrap(n);
         PersonNameParser.instance.fromString("last, first middle", wrapper);
         assertEquals("last", n.getFamilyAsSingleString());
         assertEquals("first middle", n.getGivenAsSingleString());
@@ -138,7 +138,7 @@ public class CommonTest {
         assertEquals("last, first middle", FhirUtilDstu2.formatName(n));
         wrapper.setUse(IPersonName.PersonNameUse.USUAL);
         HumanNameDt n2 = new HumanNameDt();
-        IPersonName wrapper2 = PersonNameWrapper.wrap(n2);
+        IPersonName wrapper2 = PersonNameTransform.instance.wrap(n2);
         PersonNameParser.instance.fromString(",nickname", wrapper2);
         wrapper2.setUse(IPersonName.PersonNameUse.NICKNAME);
         List<HumanNameDt> list = new ArrayList<>();

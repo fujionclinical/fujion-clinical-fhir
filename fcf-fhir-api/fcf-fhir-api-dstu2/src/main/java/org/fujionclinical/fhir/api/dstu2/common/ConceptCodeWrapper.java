@@ -25,39 +25,10 @@
  */
 package org.fujionclinical.fhir.api.dstu2.common;
 
-import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
-import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.fhir.api.common.core.AbstractConceptCodeWrapper;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class ConceptCodeWrapper extends AbstractConceptCodeWrapper<CodingDt> {
-
-    public static ConceptCodeWrapper wrap(CodingDt coding) {
-        return coding == null ? null : new ConceptCodeWrapper(coding);
-    }
-
-    public static List<IConceptCode> wrap(List<CodingDt> codings) {
-        return codings == null ? Collections.emptyList() : codings.stream().map(coding -> ConceptCodeWrapper.wrap(coding)).collect(Collectors.toList());
-    }
-
-    public static List<IConceptCode> wrap(CodeableConceptDt codeableConcept) {
-        return codeableConcept == null ? Collections.emptyList() : wrap(codeableConcept.getCoding());
-    }
-
-    public static CodingDt unwrap(IConceptCode code) {
-        return code == null ? null : new CodingDt()
-                .setSystem(code.getSystem())
-                .setCode(code.getCode())
-                .setDisplay(code.getText());
-    }
-
-    public static List<CodingDt> unwrap(List<IConceptCode> codes) {
-        return codes == null ? Collections.emptyList() : codes.stream().map(code -> unwrap(code)).collect(Collectors.toList());
-    }
 
     protected ConceptCodeWrapper(CodingDt coding) {
         super(coding);

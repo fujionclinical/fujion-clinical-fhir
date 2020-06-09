@@ -38,6 +38,10 @@ public class Constants {
 
     public static final String NULL_FLAVOR_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-NullFlavor";
 
+    public static final String CONDITION_CLINICAL_STATUS_SYSTEM = "http://terminology.hl7.org/CodeSystem/condition-clinical";
+
+    public static final String CONDITION_VERIFICATION_STATUS_SYSTEM = "http://terminology.hl7.org/CodeSystem/condition-ver-status";
+
     public static final String SP_IDENTIFIER = "identifier";
 
     public static final String SP_PATIENT = "patient";

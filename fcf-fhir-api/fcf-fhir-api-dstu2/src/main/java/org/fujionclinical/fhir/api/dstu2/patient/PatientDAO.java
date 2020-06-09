@@ -33,17 +33,7 @@ import org.fujionclinical.fhir.api.dstu2.common.BaseResourceDAO;
 public class PatientDAO extends BaseResourceDAO<IPatient, Patient> {
 
     public PatientDAO(AbstractFhirService fhirService) {
-        super(fhirService, IPatient.class, Patient.class);
-    }
-
-    @Override
-    protected IPatient convert(Patient resource) {
-        return PatientWrapper.wrap(resource);
-    }
-
-    @Override
-    protected Patient convert(IPatient domainResource) {
-        return PatientWrapper.unwrap(domainResource);
+        super(fhirService, IPatient.class, Patient.class, PatientTransform.instance);
     }
 
 }

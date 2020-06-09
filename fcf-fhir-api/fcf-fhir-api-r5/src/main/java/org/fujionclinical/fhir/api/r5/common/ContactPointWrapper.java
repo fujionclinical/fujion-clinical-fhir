@@ -30,20 +30,17 @@ import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.r5.model.ContactPoint;
+import org.hl7.fhir.r5.model.Period;
 
 public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint> {
 
     private final ContactPoint contactPoint;
 
-    private PeriodWrapper period;
+    private IPeriod period;
 
-    public static ContactPointWrapper wrap(ContactPoint contactPoint) {
-        return contactPoint == null ? null : new ContactPointWrapper(contactPoint);
-    }
-
-    private ContactPointWrapper(ContactPoint contactPoint) {
+    protected ContactPointWrapper(ContactPoint contactPoint) {
         this.contactPoint = contactPoint;
-        period = PeriodWrapper.wrap(contactPoint.getPeriod());
+        period = PeriodTransform.instance.wrap(contactPoint.getPeriod());
     }
 
     @Override
@@ -93,8 +90,9 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
 
     @Override
     public void setPeriod(IPeriod period) {
-        this.period = PeriodWrapper.wrap(PeriodWrapper.unwrap(period));
-        contactPoint.setPeriod(this.period.getWrapped());
+        Period unwrapped = PeriodTransform.instance.unwrap(period);
+        this.period = PeriodTransform.instance.wrap(unwrapped);
+        contactPoint.setPeriod(unwrapped);
     }
 
     @Override

@@ -25,39 +25,10 @@
  */
 package org.fujionclinical.fhir.api.r5.common;
 
-import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.fhir.api.common.core.AbstractConceptCodeWrapper;
-import org.hl7.fhir.r5.model.CodeableConcept;
 import org.hl7.fhir.r5.model.Coding;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class ConceptCodeWrapper extends AbstractConceptCodeWrapper<Coding> {
-
-    public static ConceptCodeWrapper wrap(Coding coding) {
-        return coding == null ? null : new ConceptCodeWrapper(coding);
-    }
-
-    public static List<IConceptCode> wrap(List<Coding> codings) {
-        return codings == null ? Collections.emptyList() : codings.stream().map(coding -> ConceptCodeWrapper.wrap(coding)).collect(Collectors.toList());
-    }
-
-    public static List<IConceptCode> wrap(CodeableConcept codeableConcept) {
-        return codeableConcept == null ? Collections.emptyList() : wrap(codeableConcept.getCoding());
-    }
-
-    public static Coding unwrap(IConceptCode code) {
-        return code == null ? null : new Coding()
-                .setSystem(code.getSystem())
-                .setCode(code.getCode())
-                .setDisplay(code.getText());
-    }
-
-    public static List<Coding> unwrap(List<IConceptCode> codes) {
-        return codes == null ? Collections.emptyList() : codes.stream().map(code -> unwrap(code)).collect(Collectors.toList());
-    }
 
     protected ConceptCodeWrapper(Coding coding) {
         super(coding);

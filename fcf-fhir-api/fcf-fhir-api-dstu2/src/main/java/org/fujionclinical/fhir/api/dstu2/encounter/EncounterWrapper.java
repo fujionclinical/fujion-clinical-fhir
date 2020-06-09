@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -25,83 +25,53 @@
  */
 package org.fujionclinical.fhir.api.dstu2.encounter;
 
+import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
-import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.api.model.core.IIdentifier;
-import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.location.ILocation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.api.model.encounter.IEncounter;
+import org.fujionclinical.api.model.location.ILocation;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
-import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.PeriodWrapper;
-import org.fujionclinical.fhir.api.dstu2.patient.PatientWrapper;
-import org.springframework.beans.BeanUtils;
+import org.fujionclinical.fhir.api.dstu2.common.BaseResourceWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.ConceptTransform;
+import org.fujionclinical.fhir.api.dstu2.common.PeriodTransform;
+import org.fujionclinical.fhir.api.dstu2.common.ReferenceWrapper;
+import org.fujionclinical.fhir.api.dstu2.patient.PatientTransform;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class EncounterWrapper extends AbstractResourceWrapper<Encounter> implements IEncounter {
+public class EncounterWrapper extends BaseResourceWrapper<Encounter> implements IEncounter {
 
     private final List<IConcept> types;
 
-    private final ResourceReferenceDt patientRef;
+    private final ReferenceWrapper<Patient> patientRef;
 
-    private PeriodWrapper period;
+    private IPeriod period;
 
-    private PatientWrapper patient;
-
-    public static EncounterWrapper wrap(Encounter encounter) {
-        return encounter == null ? null : new EncounterWrapper(encounter);
-    }
-
-    public static Encounter unwrap(IEncounter encounter) {
-        if (encounter == null) {
-            return null;
-        }
-
-        if (encounter instanceof EncounterWrapper) {
-            return ((EncounterWrapper) encounter).getWrapped();
-        }
-
-        EncounterWrapper enc = wrap(new Encounter());
-        BeanUtils.copyProperties(encounter, enc);
-        return enc.getWrapped();
-    }
-
-    private EncounterWrapper(Encounter encounter) {
+    protected EncounterWrapper(Encounter encounter) {
         super(encounter);
-        period = PeriodWrapper.wrap(encounter.getPeriod());
-        types = ConceptWrapper.wrap(encounter.getType());
-        patientRef = getWrapped().getPatient();
-        initPatientWrapper();
-    }
-
-    private void initPatientWrapper() {
-        patient = PatientWrapper.wrap(FhirUtilDstu2.getFhirService().getResource(patientRef, Patient.class));
+        period = PeriodTransform.instance.wrap(encounter.getPeriod());
+        types = ConceptTransform.instance.wrap(encounter.getType());
+        patientRef = ReferenceWrapper.wrap(Patient.class, encounter.getPatient());
     }
 
     @Override
-    public List<IIdentifier> getIdentifiers() {
-        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
+    protected List<IdentifierDt> _getIdentifiers() {
+        return getWrapped().getIdentifier();
     }
 
     @Override
     public IPatient getPatient() {
-        return patient;
+        return PatientTransform.instance.wrap(patientRef.getWrapped());
     }
 
     @Override
     public void setPatient(IPatient patient) {
-        Patient pat = PatientWrapper.unwrap(patient);
+        Patient pat = PatientTransform.instance.unwrap(patient);
         patientRef.setResource(pat);
-        initPatientWrapper();
     }
 
     @Override
@@ -115,9 +85,9 @@ public class EncounterWrapper extends AbstractResourceWrapper<Encounter> impleme
             this.period = null;
             getWrapped().setPeriod(null);
         } else {
-            PeriodDt periodDt = PeriodWrapper.unwrap(period);
+            PeriodDt periodDt = PeriodTransform.instance.unwrap(period);
             getWrapped().setPeriod(periodDt);
-            this.period = PeriodWrapper.wrap(periodDt);
+            this.period = PeriodTransform.instance.wrap(periodDt);
         }
     }
 

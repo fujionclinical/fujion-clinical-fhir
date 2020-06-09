@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.api.r4.common;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IWrapperTransform;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.AbstractResourceDAO;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -44,15 +45,16 @@ public abstract class BaseResourceDAO<T extends IDomainObject, R extends IBaseRe
     protected BaseResourceDAO(
             AbstractFhirService fhirService,
             Class<T> wrapperClass,
-            Class<R> resourceClass) {
-        super(fhirService, wrapperClass, resourceClass);
+            Class<R> resourceClass,
+            IWrapperTransform<T, R> transform) {
+        super(fhirService, wrapperClass, resourceClass, transform);
     }
 
     @Override
     public List<T> execute(IQuery<IBaseBundle> query) {
         Bundle bundle = query.returnBundle(Bundle.class).execute();
         return FhirUtilR4.getEntries(bundle, resourceClass).stream()
-                .map(this::convert)
+                .map(transform::wrap)
                 .collect(Collectors.toList());
     }
 

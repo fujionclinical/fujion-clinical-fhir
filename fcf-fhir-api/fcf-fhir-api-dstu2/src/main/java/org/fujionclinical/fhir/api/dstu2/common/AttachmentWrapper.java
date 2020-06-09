@@ -32,13 +32,9 @@ import org.fujionclinical.api.model.core.IWrapper;
 
 public class AttachmentWrapper implements IAttachment, IWrapper<AttachmentDt> {
 
-    public static AttachmentWrapper wrap(AttachmentDt attachment) {
-        return attachment == null ? null : new AttachmentWrapper(attachment);
-    }
-
     private final AttachmentDt attachment;
 
-    private AttachmentWrapper(AttachmentDt attachment) {
+    protected AttachmentWrapper(AttachmentDt attachment) {
         this.attachment = attachment;
     }
 

@@ -84,6 +84,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         public IssueSeverityEnum getSeverity() {
             return severity;
         }
+
     }
 
     public static BaseFhirService getFhirService() {
@@ -881,7 +882,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
     }
 
     public static String formatName(HumanNameDt name) {
-        return name == null ? null : PersonNameWrapper.wrap(name).toString();
+        return name == null ? null : PersonNameTransform.instance.wrap(name).toString();
     }
 
     /**

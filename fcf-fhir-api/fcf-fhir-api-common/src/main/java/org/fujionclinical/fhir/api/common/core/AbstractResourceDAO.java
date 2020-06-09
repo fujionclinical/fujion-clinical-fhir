@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.common.core;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.core.IDomainDAO;
 import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IWrapperTransform;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -46,13 +47,17 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
 
     protected final AbstractFhirService fhirService;
 
+    protected final IWrapperTransform<T, R> transform;
+
     protected AbstractResourceDAO(
             AbstractFhirService fhirService,
             Class<T> domainClass,
-            Class<R> resourceClass) {
+            Class<R> resourceClass,
+            IWrapperTransform<T, R> transform) {
         this.fhirService = fhirService;
         this.domainClass = domainClass;
         this.resourceClass = resourceClass;
+        this.transform = transform;
     }
 
     /**
@@ -60,12 +65,8 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
      */
     @Override
     public T read(String id) {
-        return convert((R) fhirService.getResource(resourceClass, id));
+        return transform.wrap((R) fhirService.getResource(resourceClass, id));
     }
-
-    protected abstract T convert(R resource);
-
-    protected abstract R convert(T domainResource);
 
     protected abstract List<T> execute(IQuery<IBaseBundle> query);
 
@@ -105,7 +106,7 @@ public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBa
 
     @Override
     public T create(T template) {
-        return convert((R) fhirService.createResource(convert(template)));
+        return transform.wrap((R) fhirService.createResource(transform.unwrap(template)));
     }
 
     /**

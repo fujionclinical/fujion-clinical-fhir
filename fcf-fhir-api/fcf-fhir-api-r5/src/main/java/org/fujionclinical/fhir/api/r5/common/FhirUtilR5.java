@@ -89,6 +89,7 @@ public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil
         public IssueSeverity getSeverity() {
             return severity;
         }
+
     }
 
     public static BaseFhirService getFhirService() {
@@ -886,7 +887,7 @@ public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil
     }
 
     public static String formatName(HumanName name) {
-        return name == null ? null : PersonNameWrapper.wrap(name).toString();
+        return name == null ? null : PersonNameTransform.instance.wrap(name).toString();
     }
 
     /**
@@ -938,7 +939,7 @@ public class FhirUtilR5 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      * @throws IllegalStateException If the versions do not match.
      */
     public static void assertFhirVersion(FhirContext fhirContext) {
-        assertFhirVersion(fhirContext, FhirVersionEnum.R4);
+        assertFhirVersion(fhirContext, FhirVersionEnum.R5);
     }
 
     /**

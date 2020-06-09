@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -29,30 +29,28 @@ import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
 import org.fujionclinical.api.model.core.IWrapper;
+import org.fujionclinical.api.model.core.WrappedList;
 import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
 
     private final HumanNameDt name;
 
-    public static PersonNameWrapper wrap(HumanNameDt name) {
-        return name == null ? null : new PersonNameWrapper(name);
-    }
+    private final List<String> givenNames;
 
-    public static List<IPersonName> wrap(List<HumanNameDt> names) {
-        return names == null ? null : names.stream().map(name -> PersonNameWrapper.wrap(name)).collect(Collectors.toList());
-    }
+    private final List<String> prefixes;
 
-    public static List<HumanNameDt> unwrap(List<IWrapper<HumanNameDt>> names) {
-        return names == null ? null : names.stream().map(name -> name.getWrapped()).collect(Collectors.toList());
-    }
+    private final List<String> suffixes;
 
-    private PersonNameWrapper(HumanNameDt name) {
+    protected PersonNameWrapper(HumanNameDt name) {
         this.name = name;
+        this.givenNames = new WrappedList<>(name.getGiven(), StringTransform.instance);
+        this.prefixes = new WrappedList<>(name.getPrefix(), StringTransform.instance);
+        this.suffixes = new WrappedList<>(name.getSuffix(), StringTransform.instance);
     }
 
     @Override
@@ -67,42 +65,27 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
 
     @Override
     public List<String> getGivenNames() {
-        return name.getGiven().stream().map(name -> name.toString()).collect(Collectors.toList());
-    }
-
-    @Override
-    public void setGivenNames(List<String> givenNames) {
-        name.setGiven(givenNames.stream().map(given -> new StringDt(given)).collect(Collectors.toList()));
+        return givenNames;
     }
 
     @Override
     public List<String> getPrefixes() {
-        return name.getPrefix().stream().map(prefix -> prefix.toString()).collect(Collectors.toList());
-    }
-
-    @Override
-    public void setPrefixes(List<String> prefixes) {
-        name.setPrefix(prefixes.stream().map(prefix -> new StringDt(prefix)).collect(Collectors.toList()));
+        return prefixes;
     }
 
     @Override
     public List<String> getSuffixes() {
-        return name.getSuffix().stream().map(suffix -> suffix.toString()).collect(Collectors.toList());
-    }
-
-    @Override
-    public void setSuffixes(List<String> suffixes) {
-        name.setSuffix(suffixes.stream().map(suffix -> new StringDt(suffix)).collect(Collectors.toList()));
+        return suffixes;
     }
 
     @Override
     public PersonNameUse getUse() {
-        return FhirUtilDstu2.convertEnum(name.getUse(), PersonNameUse.class);
+        return FhirUtil.convertEnum(name.getUse(), PersonNameUse.class);
     }
 
     @Override
     public void setUse(PersonNameUse category) {
-        name.setUse(FhirUtilDstu2.convertEnum(category, NameUseEnum.class));
+        name.setUse(FhirUtil.convertEnum(category, NameUseEnum.class));
     }
 
     @Override

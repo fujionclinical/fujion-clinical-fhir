@@ -32,13 +32,9 @@ import org.hl7.fhir.r5.model.Base64BinaryType;
 
 public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
 
-    public static AttachmentWrapper wrap(Attachment attachment) {
-        return attachment == null ? null : new AttachmentWrapper(attachment);
-    }
-
     private final Attachment attachment;
 
-    private AttachmentWrapper(Attachment attachment) {
+    protected AttachmentWrapper(Attachment attachment) {
         this.attachment = attachment;
     }
 

@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -25,55 +25,44 @@
  */
 package org.fujionclinical.fhir.api.dstu2.common;
 
-import ca.uhn.fhir.model.api.BasePrimitive;
 import ca.uhn.fhir.model.dstu2.composite.AddressDt;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
 import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.core.IPostalAddress;
 import org.fujionclinical.api.model.core.IWrapper;
+import org.fujionclinical.api.model.core.WrappedList;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostalAddressWrapper implements IPostalAddress, IWrapper<AddressDt> {
 
     private final AddressDt address;
 
-    private final PeriodWrapper period;
+    private final IPeriod period;
 
-    public static PostalAddressWrapper wrap(AddressDt address) {
-        return address == null ? null : new PostalAddressWrapper(address);
-    }
+    private final List<String> lines;
 
-    public static List<IPostalAddress> wrap(List<AddressDt> addresses) {
-        return addresses == null ? null : addresses.stream().map(address -> PostalAddressWrapper.wrap(address)).collect(Collectors.toList());
-    }
-
-    public static List<AddressDt> unwrap(List<IWrapper<AddressDt>> addresses) {
-        return addresses == null ? null : addresses.stream().map(address -> address.getWrapped()).collect(Collectors.toList());
-    }
-
-    private PostalAddressWrapper(AddressDt address) {
+    protected PostalAddressWrapper(AddressDt address) {
         this.address = address;
-        this.period = PeriodWrapper.wrap(address.getPeriod());
+        this.period = PeriodTransform.instance.wrap(address.getPeriod());
+        this.lines = new WrappedList<>(address.getLine(), StringTransform.instance);
     }
 
     @Override
     public PostalAddressUse getUse() {
         AddressUseEnum use = address.getUseElement().isEmpty() ? null : address.getUseElement().getValueAsEnum();
-        return FhirUtilDstu2.convertEnum(use, PostalAddressUse.class);
+        return FhirUtil.convertEnum(use, PostalAddressUse.class);
     }
 
     @Override
     public void setUse(PostalAddressUse use) {
-        address.setUse(FhirUtilDstu2.convertEnum(use, AddressUseEnum.class));
+        address.setUse(FhirUtil.convertEnum(use, AddressUseEnum.class));
     }
 
     @Override
     public List<String> getLines() {
-        return address.getLine().stream()
-                .map(BasePrimitive::getValue)
-                .collect(Collectors.toList());
+        return lines;
     }
 
     @Override

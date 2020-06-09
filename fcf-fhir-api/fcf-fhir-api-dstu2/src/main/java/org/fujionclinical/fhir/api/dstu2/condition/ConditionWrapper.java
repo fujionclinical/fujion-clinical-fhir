@@ -2,106 +2,103 @@ package org.fujionclinical.fhir.api.dstu2.condition;
 
 import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
-import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
+import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
 import org.fujionclinical.api.model.condition.ICondition;
-import org.fujionclinical.api.model.core.*;
+import org.fujionclinical.api.model.core.IAnnotation;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
-import org.fujionclinical.fhir.api.common.core.AbstractResourceWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.ConceptWrapper;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
-import org.fujionclinical.fhir.api.dstu2.common.IdentifierWrapper;
-import org.fujionclinical.fhir.api.dstu2.patient.PatientWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.BaseResourceWrapper;
+import org.fujionclinical.fhir.api.dstu2.common.ConceptTransform;
+import org.fujionclinical.fhir.api.dstu2.common.ReferenceWrapper;
+import org.fujionclinical.fhir.api.dstu2.patient.PatientTransform;
+import org.hl7.fhir.instance.model.api.IDomainResource;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ConditionWrapper extends AbstractResourceWrapper<Condition> implements ICondition {
+public class ConditionWrapper extends BaseResourceWrapper<Condition> implements ICondition {
 
-    private final ResourceReferenceDt patientRef;
+    private final ReferenceWrapper<Patient> patientRef;
 
-    private final ResourceReferenceDt asserterRef;
+    private final ReferenceWrapper<Patient> asserterRef;
 
-    private PatientWrapper patient;
-
-    public static ConditionWrapper wrap(Condition condition) {
-        return condition == null ? null : new ConditionWrapper(condition);
-    }
-
-    public static Condition unwrap(ICondition condition) {
-        if (condition == null) {
-            return null;
+    private IPeriod onset = new IPeriod() {
+        @Override
+        public Date getStartDate() {
+            return toDate(getWrapped().getOnset());
         }
 
-        if (condition instanceof ConditionWrapper) {
-            return ((ConditionWrapper) condition).getWrapped();
+        @Override
+        public void setStartDate(Date startDate) {
+            getWrapped().setOnset(new DateDt(startDate));
         }
 
-        ConditionWrapper cond = wrap(new Condition());
-        BeanUtils.copyProperties(condition, cond);
-        return cond.getWrapped();
-    }
+        @Override
+        public Date getEndDate() {
+            return toDate(getWrapped().getAbatement());
+        }
 
-    private ConditionWrapper(Condition resource) {
+        @Override
+        public void setEndDate(Date endDate) {
+            getWrapped().setAbatement(new DateDt(endDate));
+        }
+
+        private Date toDate(IDatatype value) {
+            return value instanceof DateDt ? ((DateDt) value).getValue() : null;
+        }
+
+    };
+
+    private IPatient patient;
+
+    protected ConditionWrapper(Condition resource) {
         super(resource);
-        patientRef = resource.getPatient();
-        asserterRef = resource.getAsserter();
-        initPatientWrapper();
-    }
-
-    private void initPatientWrapper() {
-        patient = PatientWrapper.wrap(FhirUtilDstu2.getFhirService().getResource(patientRef, Patient.class));
+        patientRef = ReferenceWrapper.wrap(Patient.class, resource.getPatient());
+        asserterRef = ReferenceWrapper.wrap(IDomainResource.class, resource.getAsserter());
     }
 
     @Override
-    public List<IIdentifier> getIdentifiers() {
-        return getWrapped().getIdentifier().stream().map(identifier -> IdentifierWrapper.wrap(identifier)).collect(Collectors.toList());
+    protected List<IdentifierDt> _getIdentifiers() {
+        return getWrapped().getIdentifier();
     }
 
     @Override
     public IPatient getPatient() {
-        return patient;
+        return PatientTransform.instance.wrap(patientRef.getWrapped());
     }
 
     @Override
     public void setPatient(IPatient patient) {
-        Patient pat = PatientWrapper.unwrap(patient);
-        patientRef.setResource(pat);
-        initPatientWrapper();
+        patientRef.setResource(PatientTransform.instance.unwrap(patient));
     }
 
     @Override
     public IPeriod getOnset() {
-        IDatatype onset = getWrapped().getOnset();
-        IDatatype abatement = getWrapped().getOnset();
-        return new Period(toDate(onset), toDate(abatement));
+        return onset;
     }
 
     @Override
     public void setOnset(IPeriod period) {
-
-    }
-
-    private Date toDate(IDatatype value) {
-        return value instanceof DateDt ? ((DateDt) value).getValue() : null;
+        BeanUtils.copyProperties(period, this.onset);
     }
 
     @Override
-    public Date getRecorded() {
+    public Date getRecordedDate() {
         return getWrapped().getDateRecorded();
     }
 
     @Override
-    public void setRecorded(Date recorded) {
+    public void setRecordedDate(Date recorded) {
         getWrapped().setDateRecorded(recorded, TemporalPrecisionEnum.DAY);
     }
 
@@ -127,12 +124,12 @@ public class ConditionWrapper extends AbstractResourceWrapper<Condition> impleme
 
     @Override
     public IConcept getCondition() {
-        return ConceptWrapper.wrap(getWrapped().getCode());
+        return ConceptTransform.instance.wrap(getWrapped().getCode());
     }
 
     @Override
     public void setCondition(IConcept condition) {
-        getWrapped().setCode(ConceptWrapper.unwrap(condition));
+        getWrapped().setCode(ConceptTransform.instance.unwrap(condition));
     }
 
     @Override

@@ -26,19 +26,14 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import org.fujionclinical.api.model.core.IDomainObject;
-import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.instance.model.api.IDomainResource;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class AbstractResourceWrapper<T extends IBaseResource> implements IDomainObject, IWrapper<T> {
 
     private final T resource;
 
-    public AbstractResourceWrapper(T resource) {
+    protected AbstractResourceWrapper(T resource) {
         this.resource = resource;
     }
 
