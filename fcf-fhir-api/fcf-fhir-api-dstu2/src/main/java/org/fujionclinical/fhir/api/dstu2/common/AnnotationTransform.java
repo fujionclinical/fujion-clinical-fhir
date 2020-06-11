@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class AnnotationTransform implements IWrapperTransform<IAnnotation, AnnotationDt> {
 
-    public static final AnnotationTransform instance = new AnnotationTransform();
+    private static final AnnotationTransform instance = new AnnotationTransform();
+
+    public static AnnotationTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IAnnotation _wrap(AnnotationDt value) {

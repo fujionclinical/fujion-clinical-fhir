@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class PostalAddressTransform implements IWrapperTransform<IPostalAddress, AddressDt> {
 
-    public static final PostalAddressTransform instance = new PostalAddressTransform();
+    private static final PostalAddressTransform instance = new PostalAddressTransform();
+
+    public static PostalAddressTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPostalAddress _wrap(AddressDt value) {

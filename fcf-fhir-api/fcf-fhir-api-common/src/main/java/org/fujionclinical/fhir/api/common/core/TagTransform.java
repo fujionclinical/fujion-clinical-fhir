@@ -32,7 +32,11 @@ import org.hl7.fhir.instance.model.api.IBaseCoding;
 
 public class TagTransform implements IWrapperTransform<IConceptCode, IBaseCoding> {
 
-    public static final TagTransform instance = new TagTransform();
+    private static final TagTransform instance = new TagTransform();
+
+    public static TagTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IConceptCode _wrap(IBaseCoding value) {

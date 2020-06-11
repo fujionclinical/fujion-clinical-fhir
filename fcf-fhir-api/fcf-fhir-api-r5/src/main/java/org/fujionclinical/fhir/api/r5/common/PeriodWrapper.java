@@ -25,43 +25,36 @@
  */
 package org.fujionclinical.fhir.api.r5.common;
 
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IPeriod;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.r5.model.Period;
 
 import java.util.Date;
 
-public class PeriodWrapper implements IPeriod, IWrapper<Period> {
-
-    private final Period period;
+public class PeriodWrapper extends AbstractWrapper<Period> implements IPeriod {
 
     protected PeriodWrapper(Period period) {
-        this.period = period;
+        super(period);
     }
 
     @Override
     public Date getStartDate() {
-        return period.getStart();
+        return getWrapped().getStart();
     }
 
     @Override
     public void setStartDate(Date date) {
-        period.setStart(date);
+        getWrapped().setStart(date);
     }
 
     @Override
     public Date getEndDate() {
-        return period.getStart();
+        return getWrapped().getStart();
     }
 
     @Override
     public void setEndDate(Date date) {
-        period.setEnd(date);
-    }
-
-    @Override
-    public Period getWrapped() {
-        return period;
+        getWrapped().setEnd(date);
     }
 
 }

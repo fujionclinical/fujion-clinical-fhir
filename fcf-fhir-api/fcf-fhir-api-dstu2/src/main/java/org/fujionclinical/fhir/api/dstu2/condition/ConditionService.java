@@ -57,7 +57,7 @@ public class ConditionService extends BaseFhirService {
 
     public List<Condition> searchConditionsForPatient(Patient patient) {
         List<Condition> conditions = searchResourcesForPatient(patient, Condition.class);
-        Collections.sort(conditions, Comparators.CONDITION_DATE_RECORDED);
+        Collections.sort(conditions, ConditionComparators.CONDITION_DATE_RECORDED);
         return conditions;
     }
 

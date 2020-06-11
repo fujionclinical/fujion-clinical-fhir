@@ -27,37 +27,35 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.AddressDt;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.core.IPostalAddress;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.api.model.core.WrappedList;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
 import java.util.List;
 
-public class PostalAddressWrapper implements IPostalAddress, IWrapper<AddressDt> {
-
-    private final AddressDt address;
+public class PostalAddressWrapper extends AbstractWrapper<AddressDt> implements IPostalAddress {
 
     private final IPeriod period;
 
     private final List<String> lines;
 
     protected PostalAddressWrapper(AddressDt address) {
-        this.address = address;
-        this.period = PeriodTransform.instance.wrap(address.getPeriod());
-        this.lines = new WrappedList<>(address.getLine(), StringTransform.instance);
+        super(address);
+        this.period = PeriodTransform.getInstance().wrap(address.getPeriod());
+        this.lines = new WrappedList<>(address.getLine(), StringTransform.getInstance());
     }
 
     @Override
     public PostalAddressUse getUse() {
-        AddressUseEnum use = address.getUseElement().isEmpty() ? null : address.getUseElement().getValueAsEnum();
+        AddressUseEnum use = getWrapped().getUseElement().isEmpty() ? null : getWrapped().getUseElement().getValueAsEnum();
         return FhirUtil.convertEnum(use, PostalAddressUse.class);
     }
 
     @Override
     public void setUse(PostalAddressUse use) {
-        address.setUse(FhirUtil.convertEnum(use, AddressUseEnum.class));
+        getWrapped().setUse(FhirUtil.convertEnum(use, AddressUseEnum.class));
     }
 
     @Override
@@ -67,62 +65,57 @@ public class PostalAddressWrapper implements IPostalAddress, IWrapper<AddressDt>
 
     @Override
     public String getCity() {
-        return address.getCity();
+        return getWrapped().getCity();
     }
 
     @Override
     public void setCity(String city) {
-        address.setCity(city);
+        getWrapped().setCity(city);
     }
 
     @Override
     public String getDistrict() {
-        return address.getDistrict();
+        return getWrapped().getDistrict();
     }
 
     @Override
     public void setDistrict(String district) {
-        address.setDistrict(district);
+        getWrapped().setDistrict(district);
     }
 
     @Override
     public String getState() {
-        return address.getState();
+        return getWrapped().getState();
     }
 
     @Override
     public void setState(String state) {
-        address.setState(state);
+        getWrapped().setState(state);
     }
 
     @Override
     public String getPostalCode() {
-        return address.getPostalCode();
+        return getWrapped().getPostalCode();
     }
 
     @Override
     public void setPostalCode(String postalCode) {
-        address.setPostalCode(postalCode);
+        getWrapped().setPostalCode(postalCode);
     }
 
     @Override
     public String getCountry() {
-        return address.getCountry();
+        return getWrapped().getCountry();
     }
 
     @Override
     public void setCountry(String country) {
-        address.setCountry(country);
+        getWrapped().setCountry(country);
     }
 
     @Override
     public IPeriod getPeriod() {
         return period;
-    }
-
-    @Override
-    public AddressDt getWrapped() {
-        return address;
     }
 
 }

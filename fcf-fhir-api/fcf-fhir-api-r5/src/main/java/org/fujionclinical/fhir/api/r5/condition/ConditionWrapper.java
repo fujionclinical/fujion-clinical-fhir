@@ -39,7 +39,6 @@ import org.fujionclinical.fhir.api.r5.common.ConceptTransform;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.api.r5.common.ReferenceWrapper;
 import org.fujionclinical.fhir.api.r5.patient.PatientTransform;
-import org.hl7.fhir.instance.model.api.IDomainResource;
 import org.hl7.fhir.r5.model.*;
 import org.springframework.beans.BeanUtils;
 
@@ -51,9 +50,9 @@ import static org.fujionclinical.fhir.api.common.core.Constants.CONDITION_VERIFI
 
 public class ConditionWrapper extends BaseResourceWrapper<Condition> implements ICondition {
 
-    private final ReferenceWrapper<Patient> patientRef;
+    private final ReferenceWrapper<IPatient> patientRef;
 
-    private final ReferenceWrapper<IDomainResource> asserterRef;
+    private final ReferenceWrapper<IPerson> asserterRef;
 
     private IPeriod onset = new IPeriod() {
         @Override
@@ -80,8 +79,8 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     protected ConditionWrapper(Condition resource) {
         super(resource);
-        patientRef = ReferenceWrapper.wrap(Patient.class, resource.getSubject());
-        asserterRef = ReferenceWrapper.wrap(IDomainResource.class, resource.getAsserter());
+        patientRef = ReferenceWrapper.wrap(resource.getSubject());
+        asserterRef = ReferenceWrapper.wrap(resource.getAsserter());
     }
 
     @Override
@@ -91,12 +90,12 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     @Override
     public IPatient getPatient() {
-        return PatientTransform.instance.wrap(patientRef.getWrapped());
+        return patientRef.getWrapped();
     }
 
     @Override
     public void setPatient(IPatient patient) {
-        patientRef.setResource(PatientTransform.instance.unwrap(patient));
+        patientRef.setResource(PatientTransform.getInstance().unwrap(patient));
     }
 
     @Override
@@ -141,12 +140,12 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     @Override
     public IConcept getCondition() {
-        return ConceptTransform.instance.wrap(getWrapped().getCode());
+        return ConceptTransform.getInstance().wrap(getWrapped().getCode());
     }
 
     @Override
     public void setCondition(IConcept condition) {
-        getWrapped().setCode(ConceptTransform.instance.unwrap(condition));
+        getWrapped().setCode(ConceptTransform.getInstance().unwrap(condition));
     }
 
     @Override

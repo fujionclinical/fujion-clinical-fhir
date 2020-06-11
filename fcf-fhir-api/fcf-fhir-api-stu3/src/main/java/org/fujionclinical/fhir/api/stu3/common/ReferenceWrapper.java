@@ -25,37 +25,77 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
-import org.fujionclinical.api.model.core.IWrapper;
+import org.fujionclinical.api.model.core.*;
 import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
-public class ReferenceWrapper<T extends IBaseResource> implements IWrapper<T> {
+import java.util.List;
 
-    private final Reference reference;
+public class ReferenceWrapper<L extends IDomainObject> implements IWrapper<L> {
 
-    private final Class<T> resourceClass;
+    private static class ReferenceTransform<L extends IDomainObject> implements IWrapperTransform<L, Reference> {
 
-    public static <T extends IBaseResource> ReferenceWrapper wrap(
-            Class<T> resourceClass,
-            Reference reference) {
-        return reference == null ? null : new ReferenceWrapper(resourceClass, reference);
+        @Override
+        public L _wrap(Reference value) {
+            return new ReferenceWrapper<L>(value).getWrapped();
+        }
+
+        @Override
+        public Reference _unwrap(L value) {
+            IWrapperTransform transform = WrapperTransformRegistry.getInstance().get(value.getClass(), IBaseResource.class);
+            IBaseResource resource = (IBaseResource) transform.unwrap(value);
+            Reference ref = newWrapped();
+            ref.setResource(resource);
+            return ref;
+        }
+
+        @Override
+        public Reference newWrapped() {
+            return new Reference();
+        }
+
     }
 
-    private ReferenceWrapper(
-            Class<T> resourceClass,
+    private static final ReferenceTransform transform = new ReferenceTransform();
+
+    private Reference reference;
+
+    public static <L extends IDomainObject> ReferenceWrapper<L> wrap(
             Reference reference) {
-        this.resourceClass = resourceClass;
+        return reference == null ? null : new ReferenceWrapper(reference);
+    }
+
+    public static <L extends IDomainObject> List<L> wrap(List<Reference> reference) {
+        return reference == null ? null : new WrappedList(reference, transform);
+    }
+
+    private ReferenceWrapper(Reference reference) {
         this.reference = reference;
     }
 
     @Override
-    public T getWrapped() {
-        return FhirUtilStu3.getFhirService().getResource(reference, resourceClass);
+    public L getWrapped() {
+        IBaseResource resource = getResource();
+
+        if (resource == null) {
+            return null;
+        }
+
+        IWrapperTransform transform = WrapperTransformRegistry.getInstance().get(IDomainObject.class, resource.getClass());
+        return (L) transform.wrap(resource);
     }
 
-    public void setResource(T resource) {
+    public void setWrapped(L resource) {
+        reference = transform._unwrap(resource);
+    }
+
+    public IBaseResource getResource() {
+        return FhirUtilStu3.getFhirService().getResource(reference);
+    }
+
+    public void setResource(IBaseResource resource) {
         reference.setResource(resource);
-        reference.setReferenceElement(resource == null ? null : resource.getIdElement());
+        reference.setReference(resource == null ? null : resource.getIdElement().getValue());
     }
 
 }

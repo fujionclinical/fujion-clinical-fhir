@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.encounter.IEncounter;
 
 public class EncounterTransform implements IWrapperTransform<IEncounter, Encounter> {
 
-    public static final EncounterTransform instance = new EncounterTransform();
+    private static final EncounterTransform instance = new EncounterTransform();
+
+    public static EncounterTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IEncounter _wrap(Encounter value) {

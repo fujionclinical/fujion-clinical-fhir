@@ -25,20 +25,18 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.api.model.person.IPerson;
 import org.hl7.fhir.dstu3.model.Annotation;
 
 import java.util.Date;
 import java.util.List;
 
-public class AnnotationWrapper implements IAnnotation, IWrapper<Annotation> {
-
-    private final Annotation annotation;
+public class AnnotationWrapper extends AbstractWrapper<Annotation> implements IAnnotation {
 
     protected AnnotationWrapper(Annotation annotation) {
-        this.annotation = annotation;
+        super(annotation);
     }
 
     @Override
@@ -48,27 +46,22 @@ public class AnnotationWrapper implements IAnnotation, IWrapper<Annotation> {
 
     @Override
     public Date getRecorded() {
-        return annotation.getTime();
+        return getWrapped().getTime();
     }
 
     @Override
     public void setRecorded(Date recorded) {
-        annotation.setTime(recorded);
+        getWrapped().setTime(recorded);
     }
 
     @Override
     public String getText() {
-        return annotation.getText();
+        return getWrapped().getText();
     }
 
     @Override
     public void setText(String text) {
-        annotation.setText(text);
-    }
-
-    @Override
-    public Annotation getWrapped() {
-        return annotation;
+        getWrapped().setText(text);
     }
 
 }

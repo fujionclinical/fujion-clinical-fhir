@@ -94,6 +94,16 @@
 			<artifactId>fcf-fhir-plugin-scenario</artifactId>
 			<version>${fcf.core.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-conditions</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fujionclinical</groupId>
+			<artifactId>fcf-plugin-documents</artifactId>
+			<version>${fcf.core.version}</version>
+		</dependency>
 		<!-- Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>

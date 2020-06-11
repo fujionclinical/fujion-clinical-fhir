@@ -33,7 +33,7 @@ import org.fujionclinical.fhir.api.dstu2.common.BaseResourceDAO;
 public class EncounterDAO extends BaseResourceDAO<IEncounter, Encounter> {
 
     public EncounterDAO(AbstractFhirService fhirService) {
-        super(fhirService, IEncounter.class, Encounter.class, EncounterTransform.instance);
+        super(fhirService, IEncounter.class, Encounter.class, EncounterTransform.getInstance());
     }
 
 }

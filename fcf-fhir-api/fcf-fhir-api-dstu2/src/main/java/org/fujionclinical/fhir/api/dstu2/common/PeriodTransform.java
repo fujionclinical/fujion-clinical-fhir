@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class PeriodTransform implements IWrapperTransform<IPeriod, PeriodDt> {
 
-    public static final PeriodTransform instance = new PeriodTransform();
+    private static final PeriodTransform instance = new PeriodTransform();
+
+    public static PeriodTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPeriod _wrap(PeriodDt value) {

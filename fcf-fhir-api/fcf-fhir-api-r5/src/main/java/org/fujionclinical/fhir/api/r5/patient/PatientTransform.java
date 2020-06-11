@@ -31,7 +31,11 @@ import org.hl7.fhir.r5.model.Patient;
 
 public class PatientTransform implements IWrapperTransform<IPatient, Patient> {
 
-    public static final PatientTransform instance = new PatientTransform();
+    private static final PatientTransform instance = new PatientTransform();
+
+    public static PatientTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPatient _wrap(Patient value) {

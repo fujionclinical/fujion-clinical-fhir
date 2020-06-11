@@ -27,40 +27,38 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierUseEnum;
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IIdentifier;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
-public class IdentifierWrapper implements IIdentifier, IWrapper<IdentifierDt> {
-
-    private final IdentifierDt identifier;
+public class IdentifierWrapper extends AbstractWrapper<IdentifierDt> implements IIdentifier {
 
     private final IConcept type;
 
     protected IdentifierWrapper(IdentifierDt identifer) {
-        this.identifier = identifer;
-        type = ConceptTransform.instance.wrap(identifer.getType());
+        super(identifer);
+        type = ConceptTransform.getInstance().wrap(identifer.getType());
     }
 
     @Override
     public String getSystem() {
-        return identifier.getSystem();
+        return getWrapped().getSystem();
     }
 
     @Override
     public void setSystem(String system) {
-        identifier.setSystem(system);
+        getWrapped().setSystem(system);
     }
 
     @Override
     public String getValue() {
-        return identifier.getValue();
+        return getWrapped().getValue();
     }
 
     @Override
     public void setValue(String value) {
-        identifier.setValue(value);
+        getWrapped().setValue(value);
     }
 
     @Override
@@ -70,17 +68,12 @@ public class IdentifierWrapper implements IIdentifier, IWrapper<IdentifierDt> {
 
     @Override
     public IdentifierUse getUse() {
-        return FhirUtil.convertEnum(identifier.getUseElement().getValueAsEnum(), IdentifierUse.class);
+        return FhirUtil.convertEnum(getWrapped().getUseElement().getValueAsEnum(), IdentifierUse.class);
     }
 
     @Override
     public void setUse(IdentifierUse use) {
-        identifier.setUse(FhirUtil.convertEnum(use, IdentifierUseEnum.class));
-    }
-
-    @Override
-    public IdentifierDt getWrapped() {
-        return identifier;
+        getWrapped().setUse(FhirUtil.convertEnum(use, IdentifierUseEnum.class));
     }
 
 }

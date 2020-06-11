@@ -31,7 +31,11 @@ import org.hl7.fhir.r4.model.Identifier;
 
 public class IdentifierTransform implements IWrapperTransform<IIdentifier, Identifier> {
 
-    public static final IdentifierTransform instance = new IdentifierTransform();
+    private static final IdentifierTransform instance = new IdentifierTransform();
+
+    public static IdentifierTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IIdentifier _wrap(Identifier identifier) {

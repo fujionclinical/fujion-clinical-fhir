@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.patient.IPatient;
 
 public class PatientTransform implements IWrapperTransform<IPatient, Patient> {
 
-    public static final PatientTransform instance = new PatientTransform();
+    private static final PatientTransform instance = new PatientTransform();
+
+    public static PatientTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPatient _wrap(Patient value) {

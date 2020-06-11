@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class IdentifierTransform implements IWrapperTransform<IIdentifier, IdentifierDt> {
 
-    public static final IdentifierTransform instance = new IdentifierTransform();
+    private static final IdentifierTransform instance = new IdentifierTransform();
+
+    public static IdentifierTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IIdentifier _wrap(IdentifierDt identifier) {

@@ -25,33 +25,31 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainObject;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.List;
 
-public abstract class AbstractResourceWrapper<T extends IBaseResource> implements IDomainObject, IWrapper<T> {
-
-    private final T resource;
+public abstract class AbstractResourceWrapper<T extends IBaseResource> extends AbstractWrapper<T> implements IDomainObject {
 
     private final List<IConceptCode> tags;
 
     protected AbstractResourceWrapper(T resource) {
-        this.resource = resource;
-        this.tags = TagTransform.instance.wrap((List<IBaseCoding>) resource.getMeta().getTag());
+        super(resource);
+        this.tags = TagTransform.getInstance().wrap((List<IBaseCoding>) resource.getMeta().getTag());
     }
 
     @Override
     public String getId() {
-        return resource.getIdElement().getIdPart();
+        return getWrapped().getIdElement().getIdPart();
     }
 
     @Override
     public void setId(String id) {
-        resource.setId(id);
+        getWrapped().setId(id);
     }
 
     @Override
@@ -61,11 +59,7 @@ public abstract class AbstractResourceWrapper<T extends IBaseResource> implement
 
     @Override
     public T getNative() {
-        return resource;
+        return getWrapped();
     }
 
-    @Override
-    public T getWrapped() {
-        return resource;
-    }
 }

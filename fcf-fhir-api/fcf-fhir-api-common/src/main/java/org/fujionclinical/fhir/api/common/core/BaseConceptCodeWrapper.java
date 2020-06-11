@@ -25,51 +25,44 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 
-public class BaseConceptCodeWrapper<T extends IBaseCoding> implements IConceptCode, IWrapper<T> {
-
-    private final T coding;
+public class BaseConceptCodeWrapper<T extends IBaseCoding> extends AbstractWrapper<T> implements IConceptCode {
 
     protected BaseConceptCodeWrapper(T coding) {
-        this.coding = coding;
+        super(coding);
     }
 
     @Override
     public String getSystem() {
-        return coding.getSystem();
+        return getWrapped().getSystem();
     }
 
     @Override
     public void setSystem(String system) {
-        coding.setSystem(system);
+        getWrapped().setSystem(system);
     }
 
     @Override
     public String getCode() {
-        return coding.getCode();
+        return getWrapped().getCode();
     }
 
     @Override
     public void setCode(String code) {
-        coding.setCode(code);
+        getWrapped().setCode(code);
     }
 
     @Override
     public String getText() {
-        return coding.getDisplay();
+        return getWrapped().getDisplay();
     }
 
     @Override
     public void setText(String text) {
-        coding.setDisplay(text);
-    }
-
-    @Override
-    public T getWrapped() {
-        return coding;
+        getWrapped().setDisplay(text);
     }
 
 }

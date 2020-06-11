@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class ContactPointTransform implements IWrapperTransform<IContactPoint, ContactPointDt> {
 
-    public static final ContactPointTransform instance = new ContactPointTransform();
+    private static final ContactPointTransform instance = new ContactPointTransform();
+
+    public static ContactPointTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IContactPoint _wrap(ContactPointDt value) {

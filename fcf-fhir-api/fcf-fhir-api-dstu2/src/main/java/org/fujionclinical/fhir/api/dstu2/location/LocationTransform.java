@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.location.ILocation;
 
 public class LocationTransform implements IWrapperTransform<ILocation, Location> {
 
-    public static final LocationTransform instance = new LocationTransform();
+    private static final LocationTransform instance = new LocationTransform();
+
+    public static LocationTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public ILocation _wrap(Location value) {

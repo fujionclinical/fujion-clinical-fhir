@@ -31,7 +31,11 @@ import org.hl7.fhir.r5.model.Period;
 
 public class PeriodTransform implements IWrapperTransform<IPeriod, Period> {
 
-    public static final PeriodTransform instance = new PeriodTransform();
+    private static final PeriodTransform instance = new PeriodTransform();
+
+    public static PeriodTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPeriod _wrap(Period value) {

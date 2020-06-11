@@ -53,9 +53,9 @@ public class Scenario extends ScenarioBase<ListResource> {
     @Override
     protected IDomainObject _toDomainObject(IBaseResource activationResource) {
         if (activationResource instanceof Encounter) {
-            return EncounterTransform.instance.wrap((Encounter) activationResource);
+            return EncounterTransform.getInstance().wrap((Encounter) activationResource);
         } else if (activationResource instanceof Patient) {
-            return PatientTransform.instance.wrap((Patient) activationResource);
+            return PatientTransform.getInstance().wrap((Patient) activationResource);
         } else {
             return null;
         }
@@ -118,7 +118,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected IPatient _toPatient(IBaseResource resource) {
-        return resource instanceof Patient ? PatientTransform.instance.wrap((Patient) resource) : null;
+        return resource instanceof Patient ? PatientTransform.getInstance().wrap((Patient) resource) : null;
     }
 
 }

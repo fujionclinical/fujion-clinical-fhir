@@ -42,6 +42,10 @@ public class Constants {
 
     public static final String CONDITION_VERIFICATION_STATUS_SYSTEM = "http://terminology.hl7.org/CodeSystem/condition-ver-status";
 
+    public static final String DOCUMENT_REFERENCE_STATUS_SYSTEM = "http://hl7.org/fhir/document-reference-status";
+
+    public static final String DOCUMENT_COMPOSITION_STATUS_SYSTEM = "http://hl7.org/fhir/composition-status";
+
     public static final String SP_IDENTIFIER = "identifier";
 
     public static final String SP_PATIENT = "patient";

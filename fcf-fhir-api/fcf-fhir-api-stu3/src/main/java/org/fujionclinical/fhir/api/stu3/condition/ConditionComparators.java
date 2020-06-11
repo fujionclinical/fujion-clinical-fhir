@@ -33,7 +33,7 @@ import java.util.Date;
 /**
  * Comparators for sorting lists of condition-related resources.
  */
-public class Comparators {
+public class ConditionComparators {
 
     public static final Comparator<Condition> CONDITION_DATE_RECORDED = (o1, o2) -> {
         Date d1 = o1 == null ? null : o1.getAssertedDate();
@@ -41,6 +41,6 @@ public class Comparators {
         return d1 == d2 ? 0 : d1 == null ? -1 : d2 == null ? 1 : d1.compareTo(d2);
     };
 
-    private Comparators() {
+    private ConditionComparators() {
     }
 }

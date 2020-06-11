@@ -31,7 +31,11 @@ import org.hl7.fhir.dstu3.model.Annotation;
 
 public class AnnotationTransform implements IWrapperTransform<IAnnotation, Annotation> {
 
-    public static final AnnotationTransform instance = new AnnotationTransform();
+    private static final AnnotationTransform instance = new AnnotationTransform();
+
+    public static AnnotationTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IAnnotation _wrap(Annotation value) {

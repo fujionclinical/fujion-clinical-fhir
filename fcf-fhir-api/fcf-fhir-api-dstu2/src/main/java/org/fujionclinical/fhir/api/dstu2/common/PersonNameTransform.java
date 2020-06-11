@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.person.IPersonName;
 
 public class PersonNameTransform implements IWrapperTransform<IPersonName, HumanNameDt> {
 
-    public static final PersonNameTransform instance = new PersonNameTransform();
+    private static final PersonNameTransform instance = new PersonNameTransform();
+
+    public static PersonNameTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPersonName _wrap(HumanNameDt value) {

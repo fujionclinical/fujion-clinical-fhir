@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.common;
 
-import org.fujionclinical.api.model.core.IWrapper;
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.WrappedList;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
@@ -33,9 +33,7 @@ import org.hl7.fhir.r4.model.HumanName;
 
 import java.util.List;
 
-public class PersonNameWrapper implements IPersonName, IWrapper<HumanName> {
-
-    private final HumanName name;
+public class PersonNameWrapper extends AbstractWrapper<HumanName> implements IPersonName {
 
     private final List<String> givenNames;
 
@@ -44,20 +42,20 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanName> {
     private final List<String> suffixes;
 
     protected PersonNameWrapper(HumanName name) {
-        this.name = name;
-        this.givenNames = new WrappedList<>(name.getGiven(), StringTransform.instance);
-        this.prefixes = new WrappedList<>(name.getPrefix(), StringTransform.instance);
-        this.suffixes = new WrappedList<>(name.getSuffix(), StringTransform.instance);
+        super(name);
+        this.givenNames = new WrappedList<>(name.getGiven(), StringTransform.getInstance());
+        this.prefixes = new WrappedList<>(name.getPrefix(), StringTransform.getInstance());
+        this.suffixes = new WrappedList<>(name.getSuffix(), StringTransform.getInstance());
     }
 
     @Override
     public String getFamilyName() {
-        return name.getFamily();
+        return getWrapped().getFamily();
     }
 
     @Override
     public void setFamilyName(String familyName) {
-        name.setFamily(familyName);
+        getWrapped().setFamily(familyName);
     }
 
     @Override
@@ -77,17 +75,12 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanName> {
 
     @Override
     public PersonNameUse getUse() {
-        return FhirUtil.convertEnum(name.getUse(), PersonNameUse.class);
+        return FhirUtil.convertEnum(getWrapped().getUse(), PersonNameUse.class);
     }
 
     @Override
     public void setUse(PersonNameUse category) {
-        name.setUse(FhirUtil.convertEnum(category, HumanName.NameUse.class));
-    }
-
-    @Override
-    public HumanName getWrapped() {
-        return name;
+        getWrapped().setUse(FhirUtil.convertEnum(category, HumanName.NameUse.class));
     }
 
     @Override

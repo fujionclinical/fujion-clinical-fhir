@@ -29,7 +29,6 @@ import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Condition;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
 import ca.uhn.fhir.model.primitive.DateDt;
@@ -45,7 +44,6 @@ import org.fujionclinical.fhir.api.dstu2.common.BaseResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptTransform;
 import org.fujionclinical.fhir.api.dstu2.common.ReferenceWrapper;
 import org.fujionclinical.fhir.api.dstu2.patient.PatientTransform;
-import org.hl7.fhir.instance.model.api.IDomainResource;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
@@ -53,9 +51,9 @@ import java.util.List;
 
 public class ConditionWrapper extends BaseResourceWrapper<Condition> implements ICondition {
 
-    private final ReferenceWrapper<Patient> patientRef;
+    private final ReferenceWrapper<IPatient> patientRef;
 
-    private final ReferenceWrapper<Patient> asserterRef;
+    private final ReferenceWrapper<IPerson> asserterRef;
 
     private IPeriod onset = new IPeriod() {
         @Override
@@ -88,8 +86,8 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     protected ConditionWrapper(Condition resource) {
         super(resource);
-        patientRef = ReferenceWrapper.wrap(Patient.class, resource.getPatient());
-        asserterRef = ReferenceWrapper.wrap(IDomainResource.class, resource.getAsserter());
+        patientRef = ReferenceWrapper.wrap(resource.getPatient());
+        asserterRef = ReferenceWrapper.wrap(resource.getAsserter());
     }
 
     @Override
@@ -99,12 +97,12 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     @Override
     public IPatient getPatient() {
-        return PatientTransform.instance.wrap(patientRef.getWrapped());
+        return patientRef.getWrapped();
     }
 
     @Override
     public void setPatient(IPatient patient) {
-        patientRef.setResource(PatientTransform.instance.unwrap(patient));
+        patientRef.setResource(PatientTransform.getInstance().unwrap(patient));
     }
 
     @Override
@@ -149,12 +147,12 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     @Override
     public IConcept getCondition() {
-        return ConceptTransform.instance.wrap(getWrapped().getCode());
+        return ConceptTransform.getInstance().wrap(getWrapped().getCode());
     }
 
     @Override
     public void setCondition(IConcept condition) {
-        getWrapped().setCode(ConceptTransform.instance.unwrap(condition));
+        getWrapped().setCode(ConceptTransform.getInstance().unwrap(condition));
     }
 
     @Override

@@ -129,7 +129,7 @@ public class CommonTest {
     @Test
     public void testNameUtils() {
         HumanNameDt n = new HumanNameDt();
-        IPersonName wrapper = PersonNameTransform.instance.wrap(n);
+        IPersonName wrapper = PersonNameTransform.getInstance().wrap(n);
         PersonNameParser.instance.fromString("last, first middle", wrapper);
         assertEquals("last", n.getFamilyAsSingleString());
         assertEquals("first middle", n.getGivenAsSingleString());
@@ -138,7 +138,7 @@ public class CommonTest {
         assertEquals("last, first middle", FhirUtilDstu2.formatName(n));
         wrapper.setUse(IPersonName.PersonNameUse.USUAL);
         HumanNameDt n2 = new HumanNameDt();
-        IPersonName wrapper2 = PersonNameTransform.instance.wrap(n2);
+        IPersonName wrapper2 = PersonNameTransform.getInstance().wrap(n2);
         PersonNameParser.instance.fromString(",nickname", wrapper2);
         wrapper2.setUse(IPersonName.PersonNameUse.NICKNAME);
         List<HumanNameDt> list = new ArrayList<>();

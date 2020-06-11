@@ -25,42 +25,40 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IAttachment;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.dstu3.model.Attachment;
 import org.hl7.fhir.dstu3.model.Base64BinaryType;
 
-public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
-
-    private final Attachment attachment;
+public class AttachmentWrapper extends AbstractWrapper<Attachment> implements IAttachment {
 
     protected AttachmentWrapper(Attachment attachment) {
-        this.attachment = attachment;
+        super(attachment);
     }
 
     @Override
     public String getContentType() {
-        return attachment.getContentType();
+        return getWrapped().getContentType();
     }
 
     @Override
     public void setContentType(String contentType) {
-        attachment.setContentType(contentType);
+        getWrapped().setContentType(contentType);
     }
 
     @Override
     public String getTitle() {
-        return attachment.getTitle();
+        return getWrapped().getTitle();
     }
 
     @Override
     public void setTitle(String title) {
-        attachment.setTitle(title);
+        getWrapped().setTitle(title);
     }
 
     @Override
     public String getEncodedData() {
-        Base64BinaryType data = attachment.getDataElement();
+        Base64BinaryType data = getWrapped().getDataElement();
         return data.isEmpty() ? null : data.getValueAsString();
     }
 
@@ -68,12 +66,12 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     public void setEncodedData(String encodedData) {
         Base64BinaryType data = new Base64BinaryType();
         data.setValueAsString(encodedData);
-        attachment.setDataElement(data);
+        getWrapped().setDataElement(data);
     }
 
     @Override
     public byte[] getRawData() {
-        Base64BinaryType data = attachment.getDataElement();
+        Base64BinaryType data = getWrapped().getDataElement();
         return data.isEmpty() ? null : data.getValue();
     }
 
@@ -81,26 +79,22 @@ public class AttachmentWrapper implements IAttachment, IWrapper<Attachment> {
     public void setRawData(byte[] rawData) {
         Base64BinaryType data = new Base64BinaryType();
         data.setValue(rawData);
-        attachment.setDataElement(data);
+        getWrapped().setDataElement(data);
     }
 
     @Override
     public boolean hasData() {
-        return !attachment.getDataElement().isEmpty();
+        return !getWrapped().getDataElement().isEmpty();
     }
 
     @Override
     public String getURL() {
-        return attachment.getUrl();
+        return getWrapped().getUrl();
     }
 
     @Override
     public void setURL(String url) {
-        attachment.setUrl(url);
+        getWrapped().setUrl(url);
     }
 
-    @Override
-    public Attachment getWrapped() {
-        return attachment;
-    }
 }

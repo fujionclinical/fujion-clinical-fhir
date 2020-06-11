@@ -65,13 +65,13 @@ public class CommonTest {
     public void testTransforms() {
         IConceptCode code1 = new ConceptCode("system1", "code1", "text1");
         IConceptCode code2 = new ConceptCode("system2", "code2", "text2");
-        IBaseCoding coding = TagTransform.instance.unwrap(code1);
-        IConceptCode code3 = TagTransform.instance.wrap(coding);
+        IBaseCoding coding = TagTransform.getInstance().unwrap(code1);
+        IConceptCode code3 = TagTransform.getInstance().wrap(coding);
         Assert.assertTrue(code1.isSame(code3));
         List<IConceptCode> codes1 = new ArrayList<>();
         Collections.addAll(codes1, code1, code2);
-        List<IBaseCoding> codings = TagTransform.instance.unwrap(codes1);
-        List<IConceptCode> codes2 = TagTransform.instance.wrap(codings);
+        List<IBaseCoding> codings = TagTransform.getInstance().unwrap(codes1);
+        List<IConceptCode> codes2 = TagTransform.getInstance().wrap(codings);
         Assert.assertTrue(code1.isSame(codes2.get(0)));
         Assert.assertTrue(code2.isSame(codes2.get(1)));
     }

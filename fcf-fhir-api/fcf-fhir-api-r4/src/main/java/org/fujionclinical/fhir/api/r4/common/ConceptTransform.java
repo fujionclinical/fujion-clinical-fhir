@@ -31,7 +31,11 @@ import org.hl7.fhir.r4.model.CodeableConcept;
 
 public class ConceptTransform implements IWrapperTransform<IConcept, CodeableConcept> {
 
-    public static final ConceptTransform instance = new ConceptTransform();
+    private static final ConceptTransform instance = new ConceptTransform();
+
+    public static ConceptTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IConcept _wrap(CodeableConcept value) {

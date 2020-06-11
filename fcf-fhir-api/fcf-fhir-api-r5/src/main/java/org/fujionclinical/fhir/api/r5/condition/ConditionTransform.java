@@ -31,7 +31,11 @@ import org.hl7.fhir.r5.model.Condition;
 
 public class ConditionTransform implements IWrapperTransform<ICondition, Condition> {
 
-    public static final ConditionTransform instance = new ConditionTransform();
+    private static final ConditionTransform instance = new ConditionTransform();
+
+    public static ConditionTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public ICondition _wrap(Condition value) {

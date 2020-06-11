@@ -57,14 +57,14 @@ public class PatientWrapper extends BaseResourceWrapper<Patient> implements IPat
 
     protected PatientWrapper(Patient patient) {
         super(patient);
-        names = PersonNameTransform.instance.wrap(patient.getName());
-        mrn = IdentifierTransform.instance.wrap(FhirUtilR4.getMRN(patient));
-        languages = ConceptTransform.instance.wrap(patient.getCommunication().stream()
+        names = PersonNameTransform.getInstance().wrap(patient.getName());
+        mrn = IdentifierTransform.getInstance().wrap(FhirUtilR4.getMRN(patient));
+        languages = ConceptTransform.getInstance().wrap(patient.getCommunication().stream()
                 .map(comm -> comm.getLanguage())
                 .collect(Collectors.toList()));
-        contactPoints = ContactPointTransform.instance.wrap(patient.getTelecom());
-        addresses = PostalAddressTransform.instance.wrap(patient.getAddress());
-        photos = AttachmentTransform.instance.wrap(patient.getPhoto());
+        contactPoints = ContactPointTransform.getInstance().wrap(patient.getTelecom());
+        addresses = PostalAddressTransform.getInstance().wrap(patient.getAddress());
+        photos = AttachmentTransform.getInstance().wrap(patient.getPhoto());
     }
 
     @Override
@@ -80,9 +80,9 @@ public class PatientWrapper extends BaseResourceWrapper<Patient> implements IPat
     @Override
     public void setMRN(IIdentifier mrn) {
         if (mrn == null) {
-            Identifier ident = IdentifierTransform.instance.unwrap(mrn);
+            Identifier ident = IdentifierTransform.getInstance().unwrap(mrn);
             ident.getType().addCoding(Constants.CODING_MRN);
-            this.mrn = IdentifierTransform.instance.wrap(new Identifier());
+            this.mrn = IdentifierTransform.getInstance().wrap(new Identifier());
         }
     }
 
@@ -156,7 +156,7 @@ public class PatientWrapper extends BaseResourceWrapper<Patient> implements IPat
         return getWrapped().getCommunication().stream()
                 .filter(comm -> BooleanUtils.isTrue(comm.getPreferred()))
                 .findFirst()
-                .map(comm -> ConceptTransform.instance.wrap(comm.getLanguage()))
+                .map(comm -> ConceptTransform.getInstance().wrap(comm.getLanguage()))
                 .orElse(null);
     }
 

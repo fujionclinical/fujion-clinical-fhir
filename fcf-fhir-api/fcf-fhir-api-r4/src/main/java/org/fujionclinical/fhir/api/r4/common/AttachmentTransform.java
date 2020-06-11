@@ -31,7 +31,11 @@ import org.hl7.fhir.r4.model.Attachment;
 
 public class AttachmentTransform implements IWrapperTransform<IAttachment, Attachment> {
 
-    public static final AttachmentTransform instance = new AttachmentTransform();
+    private static final AttachmentTransform instance = new AttachmentTransform();
+
+    public static AttachmentTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IAttachment _wrap(Attachment value) {

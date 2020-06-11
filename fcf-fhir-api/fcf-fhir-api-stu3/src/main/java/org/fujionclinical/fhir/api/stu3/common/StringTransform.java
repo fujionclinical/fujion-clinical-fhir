@@ -30,8 +30,12 @@ import org.hl7.fhir.dstu3.model.StringType;
 
 public class StringTransform implements IWrapperTransform<String, StringType> {
 
-    public static final StringTransform instance = new StringTransform();
-    
+    private static final StringTransform instance = new StringTransform();
+
+    public static StringTransform getInstance() {
+        return instance;
+    }
+
     @Override
     public StringType _unwrap(String value) {
         StringType stringType = newWrapped();

@@ -25,62 +25,60 @@
  */
 package org.fujionclinical.fhir.api.r5.common;
 
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IContactPoint;
 import org.fujionclinical.api.model.core.IPeriod;
-import org.fujionclinical.api.model.core.IWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.r5.model.ContactPoint;
 import org.hl7.fhir.r5.model.Period;
 
-public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint> {
-
-    private final ContactPoint contactPoint;
+public class ContactPointWrapper extends AbstractWrapper<ContactPoint> implements IContactPoint {
 
     private IPeriod period;
 
     protected ContactPointWrapper(ContactPoint contactPoint) {
-        this.contactPoint = contactPoint;
-        period = PeriodTransform.instance.wrap(contactPoint.getPeriod());
+        super(contactPoint);
+        period = PeriodTransform.getInstance().wrap(contactPoint.getPeriod());
     }
 
     @Override
     public ContactPointSystem getSystem() {
-        return FhirUtil.convertEnum(contactPoint.getSystem(), ContactPointSystem.class);
+        return FhirUtil.convertEnum(getWrapped().getSystem(), ContactPointSystem.class);
     }
 
     @Override
     public void setSystem(ContactPointSystem system) {
-        contactPoint.setSystem(FhirUtil.convertEnum(system, ContactPoint.ContactPointSystem.class));
+        getWrapped().setSystem(FhirUtil.convertEnum(system, ContactPoint.ContactPointSystem.class));
     }
 
     @Override
     public String getValue() {
-        return contactPoint.getValue();
+        return getWrapped().getValue();
     }
 
     @Override
     public void setValue(String value) {
-        contactPoint.setValue(value);
+        getWrapped().setValue(value);
     }
 
     @Override
     public ContactPointUse getUse() {
-        return FhirUtil.convertEnum(contactPoint.getUse(), ContactPointUse.class);
+        return FhirUtil.convertEnum(getWrapped().getUse(), ContactPointUse.class);
     }
 
     @Override
     public void setUse(ContactPointUse use) {
-        contactPoint.setUse(FhirUtil.convertEnum(use, ContactPoint.ContactPointUse.class));
+        getWrapped().setUse(FhirUtil.convertEnum(use, ContactPoint.ContactPointUse.class));
     }
 
     @Override
     public Integer getRank() {
-        return contactPoint.getRank();
+        return getWrapped().getRank();
     }
 
     @Override
     public void setRank(Integer rank) {
-        contactPoint.setRank(rank);
+        getWrapped().setRank(rank);
     }
 
     @Override
@@ -90,14 +88,9 @@ public class ContactPointWrapper implements IContactPoint, IWrapper<ContactPoint
 
     @Override
     public void setPeriod(IPeriod period) {
-        Period unwrapped = PeriodTransform.instance.unwrap(period);
-        this.period = PeriodTransform.instance.wrap(unwrapped);
-        contactPoint.setPeriod(unwrapped);
-    }
-
-    @Override
-    public ContactPoint getWrapped() {
-        return contactPoint;
+        Period unwrapped = PeriodTransform.getInstance().unwrap(period);
+        this.period = PeriodTransform.getInstance().wrap(unwrapped);
+        getWrapped().setPeriod(unwrapped);
     }
 
 }

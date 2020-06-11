@@ -26,41 +26,34 @@
 package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.core.IWrapper;
 
 import java.util.List;
 
-public class ConceptWrapper implements IConcept, IWrapper<CodeableConceptDt> {
-
-    private final CodeableConceptDt codeableConcept;
+public class ConceptWrapper extends AbstractWrapper<CodeableConceptDt> implements IConcept {
 
     private final List<IConceptCode> codes;
 
     protected ConceptWrapper(CodeableConceptDt codeableConcept) {
-        this.codeableConcept = codeableConcept;
-        this.codes = ConceptCodeTransform.instance.wrap(codeableConcept.getCoding());
+        super(codeableConcept);
+        this.codes = ConceptCodeTransform.getInstance().wrap(codeableConcept.getCoding());
     }
 
     @Override
     public String getText() {
-        return codeableConcept.getText();
+        return getWrapped().getText();
     }
 
     @Override
     public void setText(String text) {
-        codeableConcept.setText(text);
+        getWrapped().setText(text);
     }
 
     @Override
     public List<IConceptCode> getCodes() {
         return codes;
-    }
-
-    @Override
-    public CodeableConceptDt getWrapped() {
-        return codeableConcept;
     }
 
 }

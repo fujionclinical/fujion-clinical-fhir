@@ -52,11 +52,11 @@ public class PractitionerWrapper extends BaseResourceWrapper<Practitioner> imple
 
     protected PractitionerWrapper(Practitioner practitioner) {
         super(practitioner);
-        names = PersonNameTransform.instance.wrap(Collections.singletonList(practitioner.getName()));
-        languages = ConceptTransform.instance.wrap(practitioner.getCommunication());
-        contactPoints = ContactPointTransform.instance.wrap(practitioner.getTelecom());
-        addresses = PostalAddressTransform.instance.wrap(practitioner.getAddress());
-        photos = AttachmentTransform.instance.wrap(practitioner.getPhoto());
+        names = PersonNameTransform.getInstance().wrap(Collections.singletonList(practitioner.getName()));
+        languages = ConceptTransform.getInstance().wrap(practitioner.getCommunication());
+        contactPoints = ContactPointTransform.getInstance().wrap(practitioner.getTelecom());
+        addresses = PostalAddressTransform.getInstance().wrap(practitioner.getAddress());
+        photos = AttachmentTransform.getInstance().wrap(practitioner.getPhoto());
     }
 
     @Override

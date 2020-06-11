@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
-import org.fujionclinical.api.model.core.IWrapper;
+import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.WrappedList;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
@@ -36,9 +36,7 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import java.util.Collections;
 import java.util.List;
 
-public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
-
-    private final HumanNameDt name;
+public class PersonNameWrapper extends AbstractWrapper<HumanNameDt> implements IPersonName {
 
     private final List<String> givenNames;
 
@@ -47,20 +45,20 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
     private final List<String> suffixes;
 
     protected PersonNameWrapper(HumanNameDt name) {
-        this.name = name;
-        this.givenNames = new WrappedList<>(name.getGiven(), StringTransform.instance);
-        this.prefixes = new WrappedList<>(name.getPrefix(), StringTransform.instance);
-        this.suffixes = new WrappedList<>(name.getSuffix(), StringTransform.instance);
+        super(name);
+        this.givenNames = new WrappedList<>(name.getGiven(), StringTransform.getInstance());
+        this.prefixes = new WrappedList<>(name.getPrefix(), StringTransform.getInstance());
+        this.suffixes = new WrappedList<>(name.getSuffix(), StringTransform.getInstance());
     }
 
     @Override
     public String getFamilyName() {
-        return name.getFamilyAsSingleString();
+        return getWrapped().getFamilyAsSingleString();
     }
 
     @Override
     public void setFamilyName(String familyName) {
-        name.setFamily(Collections.singletonList(new StringDt(familyName)));
+        getWrapped().setFamily(Collections.singletonList(new StringDt(familyName)));
     }
 
     @Override
@@ -80,17 +78,12 @@ public class PersonNameWrapper implements IPersonName, IWrapper<HumanNameDt> {
 
     @Override
     public PersonNameUse getUse() {
-        return FhirUtil.convertEnum(name.getUse(), PersonNameUse.class);
+        return FhirUtil.convertEnum(getWrapped().getUse(), PersonNameUse.class);
     }
 
     @Override
     public void setUse(PersonNameUse category) {
-        name.setUse(FhirUtil.convertEnum(category, NameUseEnum.class));
-    }
-
-    @Override
-    public HumanNameDt getWrapped() {
-        return name;
+        getWrapped().setUse(FhirUtil.convertEnum(category, NameUseEnum.class));
     }
 
     @Override

@@ -7,6 +7,7 @@
 	<beans profile="root">
 	
 		<!-- FHIR context and client -->
+
 		<bean id="fhirContextConfigurator"
 			  class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator" />
 		
@@ -85,6 +86,7 @@
 		</bean>
 		
 		<!-- Resource DAOs  -->
+
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientDAO">
 			<constructor-arg ref="fhirService" />
 		</bean>
@@ -96,6 +98,50 @@
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerDAO">
 			<constructor-arg ref="fhirService" />
 		</bean>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionDAO">
+			<constructor-arg ref="fhirService" />
+		</bean>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentDAO">
+			<constructor-arg ref="fhirService" />
+		</bean>
+
+		<!-- Wrapper transforms -->
+
+		<bean class="org.fujionclinical.fhir.api.common.core.TagTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.AnnotationTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.AttachmentTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ConceptCodeTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ConceptTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ContactPointTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.IdentifierTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PeriodTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PersonNameTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PostalAddressTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.StringTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.location.LocationTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerTransform" factory-method="getInstance"/>
 
 	</beans>
 	

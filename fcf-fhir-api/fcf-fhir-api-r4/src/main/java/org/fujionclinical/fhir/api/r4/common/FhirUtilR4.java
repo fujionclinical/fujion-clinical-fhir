@@ -887,7 +887,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
     }
 
     public static String formatName(HumanName name) {
-        return name == null ? null : PersonNameTransform.instance.wrap(name).toString();
+        return name == null ? null : PersonNameTransform.getInstance().wrap(name).toString();
     }
 
     /**

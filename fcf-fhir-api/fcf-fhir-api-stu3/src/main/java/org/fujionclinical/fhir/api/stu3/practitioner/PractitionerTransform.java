@@ -31,7 +31,11 @@ import org.hl7.fhir.dstu3.model.Practitioner;
 
 public class PractitionerTransform implements IWrapperTransform<IPractitioner, Practitioner> {
 
-    public static final PractitionerTransform instance = new PractitionerTransform();
+    private static final PractitionerTransform instance = new PractitionerTransform();
+
+    public static PractitionerTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPractitioner _wrap(Practitioner value) {

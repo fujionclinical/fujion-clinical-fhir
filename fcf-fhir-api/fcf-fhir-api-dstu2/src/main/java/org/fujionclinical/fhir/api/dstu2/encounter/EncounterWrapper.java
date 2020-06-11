@@ -47,15 +47,15 @@ public class EncounterWrapper extends BaseResourceWrapper<Encounter> implements 
 
     private final List<IConcept> types;
 
-    private final ReferenceWrapper<Patient> patientRef;
+    private final ReferenceWrapper<IPatient> patientRef;
 
     private IPeriod period;
 
     protected EncounterWrapper(Encounter encounter) {
         super(encounter);
-        period = PeriodTransform.instance.wrap(encounter.getPeriod());
-        types = ConceptTransform.instance.wrap(encounter.getType());
-        patientRef = ReferenceWrapper.wrap(Patient.class, encounter.getPatient());
+        period = PeriodTransform.getInstance().wrap(encounter.getPeriod());
+        types = ConceptTransform.getInstance().wrap(encounter.getType());
+        patientRef = ReferenceWrapper.wrap(encounter.getPatient());
     }
 
     @Override
@@ -65,12 +65,12 @@ public class EncounterWrapper extends BaseResourceWrapper<Encounter> implements 
 
     @Override
     public IPatient getPatient() {
-        return PatientTransform.instance.wrap(patientRef.getWrapped());
+        return patientRef.getWrapped();
     }
 
     @Override
     public void setPatient(IPatient patient) {
-        Patient pat = PatientTransform.instance.unwrap(patient);
+        Patient pat = PatientTransform.getInstance().unwrap(patient);
         patientRef.setResource(pat);
     }
 
@@ -85,9 +85,9 @@ public class EncounterWrapper extends BaseResourceWrapper<Encounter> implements 
             this.period = null;
             getWrapped().setPeriod(null);
         } else {
-            PeriodDt periodDt = PeriodTransform.instance.unwrap(period);
+            PeriodDt periodDt = PeriodTransform.getInstance().unwrap(period);
             getWrapped().setPeriod(periodDt);
-            this.period = PeriodTransform.instance.wrap(periodDt);
+            this.period = PeriodTransform.getInstance().wrap(periodDt);
         }
     }
 

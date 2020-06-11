@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class AttachmentTransform implements IWrapperTransform<IAttachment, AttachmentDt> {
 
-    public static final AttachmentTransform instance = new AttachmentTransform();
+    private static final AttachmentTransform instance = new AttachmentTransform();
+
+    public static AttachmentTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IAttachment _wrap(AttachmentDt value) {

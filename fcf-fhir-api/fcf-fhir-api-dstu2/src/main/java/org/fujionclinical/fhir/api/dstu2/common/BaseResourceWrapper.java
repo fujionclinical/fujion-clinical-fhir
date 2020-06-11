@@ -38,7 +38,7 @@ public abstract class BaseResourceWrapper<T extends IBaseResource> extends Abstr
 
     protected BaseResourceWrapper(T resource) {
         super(resource);
-        identifiers = IdentifierTransform.instance.wrap(_getIdentifiers());
+        identifiers = IdentifierTransform.getInstance().wrap(_getIdentifiers());
     }
 
     protected abstract List<IdentifierDt> _getIdentifiers();

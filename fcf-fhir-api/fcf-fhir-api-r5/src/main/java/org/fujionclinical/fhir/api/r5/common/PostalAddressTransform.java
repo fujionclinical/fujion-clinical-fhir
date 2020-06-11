@@ -31,7 +31,11 @@ import org.hl7.fhir.r5.model.Address;
 
 public class PostalAddressTransform implements IWrapperTransform<IPostalAddress, Address> {
 
-    public static final PostalAddressTransform instance = new PostalAddressTransform();
+    private static final PostalAddressTransform instance = new PostalAddressTransform();
+
+    public static PostalAddressTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IPostalAddress _wrap(Address value) {

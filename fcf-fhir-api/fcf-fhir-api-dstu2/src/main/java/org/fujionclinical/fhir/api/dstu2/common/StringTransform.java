@@ -30,7 +30,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class StringTransform implements IWrapperTransform<String, StringDt> {
 
-    public static final StringTransform instance = new StringTransform();
+    private static final StringTransform instance = new StringTransform();
+
+    public static StringTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public StringDt _unwrap(String value) {

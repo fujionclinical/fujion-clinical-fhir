@@ -44,7 +44,7 @@ public class LocationWrapper extends BaseResourceWrapper<Location> implements IL
 
     protected LocationWrapper(Location location) {
         super(location);
-        this.contactPoints = ContactPointTransform.instance.wrap(location.getTelecom());
+        this.contactPoints = ContactPointTransform.getInstance().wrap(location.getTelecom());
     }
 
     @Override
@@ -84,7 +84,7 @@ public class LocationWrapper extends BaseResourceWrapper<Location> implements IL
 
     @Override
     public List<IConcept> getTypes() {
-        return Collections.singletonList(ConceptTransform.instance.wrap(getWrapped().getType()));
+        return Collections.singletonList(ConceptTransform.getInstance().wrap(getWrapped().getType()));
     }
 
     @Override

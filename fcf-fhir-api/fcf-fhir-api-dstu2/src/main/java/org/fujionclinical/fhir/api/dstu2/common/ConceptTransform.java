@@ -31,7 +31,11 @@ import org.fujionclinical.api.model.core.IWrapperTransform;
 
 public class ConceptTransform implements IWrapperTransform<IConcept, CodeableConceptDt> {
 
-    public static final ConceptTransform instance = new ConceptTransform();
+    private static final ConceptTransform instance = new ConceptTransform();
+
+    public static ConceptTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IConcept _wrap(CodeableConceptDt value) {

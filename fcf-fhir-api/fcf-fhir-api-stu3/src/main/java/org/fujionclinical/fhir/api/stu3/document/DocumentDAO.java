@@ -23,24 +23,17 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.r4.condition;
+package org.fujionclinical.fhir.api.stu3.document;
 
-import org.hl7.fhir.r4.model.Condition;
+import org.fujionclinical.api.model.document.IDocument;
+import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
+import org.fujionclinical.fhir.api.stu3.common.BaseResourceDAO;
+import org.hl7.fhir.dstu3.model.DocumentReference;
 
-import java.util.Comparator;
-import java.util.Date;
+public class DocumentDAO extends BaseResourceDAO<IDocument, DocumentReference> {
 
-/**
- * Comparators for sorting lists of condition-related resources.
- */
-public class Comparators {
-
-    public static final Comparator<Condition> CONDITION_DATE_RECORDED = (o1, o2) -> {
-        Date d1 = o1 == null ? null : o1.getRecordedDate();
-        Date d2 = o2 == null ? null : o2.getRecordedDate();
-        return d1 == d2 ? 0 : d1 == null ? -1 : d2 == null ? 1 : d1.compareTo(d2);
-    };
-
-    private Comparators() {
+    public DocumentDAO(AbstractFhirService fhirService) {
+        super(fhirService, IDocument.class, DocumentReference.class, DocumentTransform.getInstance());
     }
+
 }

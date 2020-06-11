@@ -31,7 +31,11 @@ import org.hl7.fhir.r5.model.ContactPoint;
 
 public class ContactPointTransform implements IWrapperTransform<IContactPoint, ContactPoint> {
 
-    public static final ContactPointTransform instance = new ContactPointTransform();
+    private static final ContactPointTransform instance = new ContactPointTransform();
+
+    public static ContactPointTransform getInstance() {
+        return instance;
+    }
 
     @Override
     public IContactPoint _wrap(ContactPoint value) {

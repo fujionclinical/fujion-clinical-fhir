@@ -33,7 +33,7 @@ import org.hl7.fhir.dstu3.model.Encounter;
 public class EncounterDAO extends BaseResourceDAO<IEncounter, Encounter> {
 
     public EncounterDAO(AbstractFhirService fhirService) {
-        super(fhirService, IEncounter.class, Encounter.class, EncounterTransform.instance);
+        super(fhirService, IEncounter.class, Encounter.class, EncounterTransform.getInstance());
     }
 
 }

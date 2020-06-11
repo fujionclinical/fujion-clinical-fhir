@@ -33,7 +33,7 @@ import org.hl7.fhir.r4.model.Practitioner;
 public class PractitionerDAO extends BaseResourceDAO<IPractitioner, Practitioner> {
 
     public PractitionerDAO(AbstractFhirService fhirService) {
-        super(fhirService, IPractitioner.class, Practitioner.class, PractitionerTransform.instance);
+        super(fhirService, IPractitioner.class, Practitioner.class, PractitionerTransform.getInstance());
     }
 
 }
