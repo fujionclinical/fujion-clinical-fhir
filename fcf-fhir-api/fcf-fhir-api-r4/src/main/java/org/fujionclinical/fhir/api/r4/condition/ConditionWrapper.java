@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.api.r4.condition;
 
 import org.fujion.common.CollectionUtil;
 import org.fujionclinical.api.model.condition.ICondition;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IPeriod;
@@ -56,23 +57,25 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     private IPeriod onset = new IPeriod() {
         @Override
-        public Date getStartDate() {
-            return getWrapped().hasOnsetDateTimeType() ? getWrapped().getOnsetDateTimeType().getValue() : null;
+        public DateTimeWrapper getStartDate() {
+            return FhirUtilR4.convertDate(getWrapped().getOnset());
         }
 
         @Override
-        public void setStartDate(Date startDate) {
-            getWrapped().setOnset(new DateTimeType(startDate));
+        public void setStartDate(DateTimeWrapper startDate) {
+            Date date = FhirUtil.convertDate(startDate);
+            getWrapped().setOnset(date == null ? null : new DateTimeType(date));
         }
 
         @Override
-        public Date getEndDate() {
-            return getWrapped().hasAbatementDateTimeType() ? getWrapped().getAbatementDateTimeType().getValue() : null;
+        public DateTimeWrapper getEndDate() {
+            return FhirUtilR4.convertDate(getWrapped().getAbatement());
         }
 
         @Override
-        public void setEndDate(Date endDate) {
-            getWrapped().setAbatement(new DateTimeType(endDate));
+        public void setEndDate(DateTimeWrapper endDate) {
+            Date date = FhirUtil.convertDate(endDate);
+            getWrapped().setAbatement(date == null ? null : new DateTimeType(date));
         }
 
     };

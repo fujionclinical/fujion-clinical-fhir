@@ -28,9 +28,9 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IPeriod;
-
-import java.util.Date;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
 public class PeriodWrapper extends AbstractWrapper<PeriodDt> implements IPeriod {
 
@@ -39,23 +39,23 @@ public class PeriodWrapper extends AbstractWrapper<PeriodDt> implements IPeriod 
     }
 
     @Override
-    public Date getStartDate() {
-        return getWrapped().getStart();
+    public DateTimeWrapper getStartDate() {
+        return FhirUtil.convertDate(getWrapped().getStart());
     }
 
     @Override
-    public void setStartDate(Date date) {
-        getWrapped().setStart(date, TemporalPrecisionEnum.SECOND);
+    public void setStartDate(DateTimeWrapper date) {
+        getWrapped().setStart(FhirUtil.convertDate(date), TemporalPrecisionEnum.SECOND);
     }
 
     @Override
-    public Date getEndDate() {
-        return getWrapped().getStart();
+    public DateTimeWrapper getEndDate() {
+        return FhirUtil.convertDate(getWrapped().getStart());
     }
 
     @Override
-    public void setEndDate(Date date) {
-        getWrapped().setEnd(date, TemporalPrecisionEnum.SECOND);
+    public void setEndDate(DateTimeWrapper date) {
+        getWrapped().setEnd(FhirUtil.convertDate(date), TemporalPrecisionEnum.SECOND);
     }
 
 }

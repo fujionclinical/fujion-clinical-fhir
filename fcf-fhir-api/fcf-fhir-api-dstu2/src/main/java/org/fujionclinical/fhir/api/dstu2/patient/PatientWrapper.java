@@ -25,11 +25,9 @@
  */
 package org.fujionclinical.fhir.api.dstu2.patient;
 
-import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
-import ca.uhn.fhir.model.primitive.DateDt;
 import org.apache.commons.lang3.BooleanUtils;
 import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.patient.IPatient;
@@ -38,7 +36,6 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.*;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,24 +105,23 @@ public class PatientWrapper extends BaseResourceWrapper<Patient> implements IPat
     }
 
     @Override
-    public Date getBirthDate() {
-        return getWrapped().getBirthDate();
+    public DateTimeWrapper getBirthDate() {
+        return FhirUtil.convertDate(getWrapped().getBirthDate());
     }
 
     @Override
-    public void setBirthDate(Date date) {
-        getWrapped().setBirthDateWithDayPrecision(date);
+    public void setBirthDate(DateTimeWrapper date) {
+        getWrapped().setBirthDateWithDayPrecision(FhirUtil.convertDate(date));
     }
 
     @Override
-    public Date getDeceasedDate() {
-        IDatatype deceased = getWrapped().getDeceased();
-        return deceased instanceof DateDt ? ((DateDt) deceased).getValue() : null;
+    public DateTimeWrapper getDeceasedDate() {
+        return FhirUtilDstu2.convertDate(getWrapped().getDeceased());
     }
 
     @Override
-    public void setDeceasedDate(Date date) {
-        getWrapped().setDeceased(new DateDt(date));
+    public void setDeceasedDate(DateTimeWrapper date) {
+        getWrapped().setDeceased(FhirUtilDstu2.convertDateToType(date));
     }
 
     @Override

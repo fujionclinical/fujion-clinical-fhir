@@ -32,6 +32,7 @@ import org.fujion.component.*;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
 import org.fujion.model.IListModel;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.query.AbstractQueryFilter;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
@@ -302,7 +303,9 @@ public class DocumentListController extends AbstractGridController<Document, Doc
     }
 
     @Override
-    public Date getDateByType(Document result, DateType dateMode) {
+    public DateTimeWrapper getDateByType(
+            Document result,
+            DateType dateMode) {
         return result.getDateTime();
     }
 

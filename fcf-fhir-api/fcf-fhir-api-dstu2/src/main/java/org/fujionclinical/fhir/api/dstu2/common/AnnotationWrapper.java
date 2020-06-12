@@ -28,10 +28,11 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import ca.uhn.fhir.model.dstu2.composite.AnnotationDt;
 import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 
-import java.util.Date;
 import java.util.List;
 
 public class AnnotationWrapper extends AbstractWrapper<AnnotationDt> implements IAnnotation {
@@ -46,13 +47,13 @@ public class AnnotationWrapper extends AbstractWrapper<AnnotationDt> implements 
     }
 
     @Override
-    public Date getRecorded() {
-        return getWrapped().getTime();
+    public DateTimeWrapper getRecorded() {
+        return FhirUtil.convertDate(getWrapped().getTime());
     }
 
     @Override
-    public void setRecorded(Date recorded) {
-        getWrapped().setTime(recorded, TemporalPrecisionEnum.SECOND);
+    public void setRecorded(DateTimeWrapper recorded) {
+        getWrapped().setTime(FhirUtil.convertDate(recorded), TemporalPrecisionEnum.SECOND);
     }
 
     @Override

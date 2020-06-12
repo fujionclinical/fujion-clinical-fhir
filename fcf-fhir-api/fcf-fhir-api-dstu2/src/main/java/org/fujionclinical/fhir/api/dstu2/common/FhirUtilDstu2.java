@@ -27,12 +27,14 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
+import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.resource.OperationOutcome;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.*;
+import ca.uhn.fhir.model.primitive.BaseDateTimeDt;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.rest.api.MethodOutcome;
@@ -44,6 +46,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
@@ -965,6 +968,18 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
 
     public static MaritalStatusCodesEnum convertMaritalStatus(IPerson.MaritalStatus maritalStatus) {
         return maritalStatus == null ? null : MaritalStatusCodesEnum.forCode(maritalStatus.getCode());
+    }
+
+    public static DateDt convertDateToType(DateTimeWrapper value) {
+        return value == null ? null : new DateDt(value.getLegacyDate());
+    }
+
+    public static DateTimeWrapper convertDate(IDatatype value) {
+        return value instanceof BaseDateTimeDt ? convertDate((BaseDateTimeDt) value) : null;
+    }
+
+    public static DateTimeWrapper convertDate(BaseDateTimeDt value) {
+        return value == null || value.isEmpty() ? null : new DateTimeWrapper(value.getValue());
     }
 
     /**

@@ -35,6 +35,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r4.terminology.Constants;
@@ -974,6 +975,18 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
                         maritalStatus == IPerson.MaritalStatus.UNKNOWN ? NULL_FLAVOR_SYSTEM : MARITAL_STATUS_SYSTEM,
                         maritalStatus.getCode(),
                         maritalStatus.toString());
+    }
+
+    public static DateType convertDateToType(DateTimeWrapper value) {
+        return value == null ? null : new DateType(value.getLegacyDate());
+    }
+
+    public static DateTimeWrapper convertDate(Type value) {
+        return value instanceof BaseDateTimeType ? convertDate((BaseDateTimeType) value) : null;
+    }
+
+    public static DateTimeWrapper convertDate(BaseDateTimeType value) {
+        return value == null || value.isEmpty() ? null : new DateTimeWrapper(value.getValue());
     }
 
     /**

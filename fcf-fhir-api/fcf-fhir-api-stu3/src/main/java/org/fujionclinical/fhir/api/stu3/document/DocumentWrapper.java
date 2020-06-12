@@ -25,10 +25,7 @@
  */
 package org.fujionclinical.fhir.api.stu3.document;
 
-import org.fujionclinical.api.model.core.AbstractWrapper;
-import org.fujionclinical.api.model.core.IAttachment;
-import org.fujionclinical.api.model.core.IConcept;
-import org.fujionclinical.api.model.core.IWrapperTransform;
+import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.document.IDocument;
 import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.person.IPerson;
@@ -44,7 +41,6 @@ import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Identifier;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class DocumentWrapper extends BaseResourceWrapper<DocumentReference> implements IDocument {
@@ -126,13 +122,13 @@ public class DocumentWrapper extends BaseResourceWrapper<DocumentReference> impl
     }
 
     @Override
-    public Date getCreationDate() {
-        return getWrapped().getCreated();
+    public DateTimeWrapper getCreationDate() {
+        return FhirUtil.convertDate(getWrapped().getCreated());
     }
 
     @Override
-    public void setCreationDate(Date creationDate) {
-        getWrapped().setCreated(creationDate);
+    public void setCreationDate(DateTimeWrapper creationDate) {
+        getWrapped().setCreated(FhirUtil.convertDate(creationDate));
     }
 
     @Override

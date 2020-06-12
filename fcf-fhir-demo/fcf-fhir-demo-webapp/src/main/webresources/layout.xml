@@ -32,7 +32,10 @@
 							<fcfAdverseReactions/>
 						</treepane>
 						<treepane label="Conditions">
-							<fcfConditions/>
+							<fcfConditions2/>
+						</treepane>
+						<treepane label="Documents">
+							<fcfDocuments2/>
 						</treepane>
 						<treepane label="Diagnostic Reports">
 							<fcfDiagnosticReports/>

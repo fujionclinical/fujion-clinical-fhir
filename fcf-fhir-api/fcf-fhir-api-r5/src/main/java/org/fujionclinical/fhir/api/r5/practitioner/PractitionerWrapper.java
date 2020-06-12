@@ -34,7 +34,6 @@ import org.hl7.fhir.r5.model.Enumerations;
 import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Practitioner;
 
-import java.util.Date;
 import java.util.List;
 
 public class PractitionerWrapper extends BaseResourceWrapper<Practitioner> implements IPractitioner {
@@ -99,17 +98,17 @@ public class PractitionerWrapper extends BaseResourceWrapper<Practitioner> imple
     }
 
     @Override
-    public Date getBirthDate() {
-        return getWrapped().getBirthDate();
+    public DateTimeWrapper getBirthDate() {
+        return FhirUtil.convertDate(getWrapped().getBirthDate());
     }
 
     @Override
-    public void setBirthDate(Date date) {
-        getWrapped().setBirthDate(date);
+    public void setBirthDate(DateTimeWrapper date) {
+        getWrapped().setBirthDate(FhirUtil.convertDate(date));
     }
 
     @Override
-    public Date getDeceasedDate() {
+    public DateTimeWrapper getDeceasedDate() {
         return null;
     }
 

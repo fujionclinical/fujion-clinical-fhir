@@ -25,14 +25,13 @@
  */
 package org.fujionclinical.fhir.api.dstu2.condition;
 
-import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
-import ca.uhn.fhir.model.primitive.DateDt;
 import org.fujionclinical.api.model.condition.ICondition;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IPeriod;
@@ -42,6 +41,7 @@ import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.BaseResourceWrapper;
 import org.fujionclinical.fhir.api.dstu2.common.ConceptTransform;
+import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.common.ReferenceWrapper;
 import org.fujionclinical.fhir.api.dstu2.patient.PatientTransform;
 import org.springframework.beans.BeanUtils;
@@ -57,27 +57,23 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     private IPeriod onset = new IPeriod() {
         @Override
-        public Date getStartDate() {
-            return toDate(getWrapped().getOnset());
+        public DateTimeWrapper getStartDate() {
+            return FhirUtilDstu2.convertDate(getWrapped().getOnset());
         }
 
         @Override
-        public void setStartDate(Date startDate) {
-            getWrapped().setOnset(new DateDt(startDate));
+        public void setStartDate(DateTimeWrapper startDate) {
+            getWrapped().setOnset(FhirUtilDstu2.convertDateToType(startDate));
         }
 
         @Override
-        public Date getEndDate() {
-            return toDate(getWrapped().getAbatement());
+        public DateTimeWrapper getEndDate() {
+            return FhirUtilDstu2.convertDate(getWrapped().getAbatement());
         }
 
         @Override
-        public void setEndDate(Date endDate) {
-            getWrapped().setAbatement(new DateDt(endDate));
-        }
-
-        private Date toDate(IDatatype value) {
-            return value instanceof DateDt ? ((DateDt) value).getValue() : null;
+        public void setEndDate(DateTimeWrapper endDate) {
+            getWrapped().setAbatement(FhirUtilDstu2.convertDateToType(endDate));
         }
 
     };

@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.api.stu3.condition;
 
 import org.fujionclinical.api.model.condition.ICondition;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IPeriod;
@@ -35,10 +36,10 @@ import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.stu3.common.BaseResourceWrapper;
 import org.fujionclinical.fhir.api.stu3.common.ConceptTransform;
+import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.fujionclinical.fhir.api.stu3.common.ReferenceWrapper;
 import org.fujionclinical.fhir.api.stu3.patient.PatientTransform;
 import org.hl7.fhir.dstu3.model.Condition;
-import org.hl7.fhir.dstu3.model.DateTimeType;
 import org.hl7.fhir.dstu3.model.Identifier;
 import org.springframework.beans.BeanUtils;
 
@@ -53,23 +54,23 @@ public class ConditionWrapper extends BaseResourceWrapper<Condition> implements 
 
     private IPeriod onset = new IPeriod() {
         @Override
-        public Date getStartDate() {
-            return getWrapped().hasOnsetDateTimeType() ? getWrapped().getOnsetDateTimeType().getValue() : null;
+        public DateTimeWrapper getStartDate() {
+            return FhirUtilStu3.convertDate(getWrapped().getOnset());
         }
 
         @Override
-        public void setStartDate(Date startDate) {
-            getWrapped().setOnset(new DateTimeType(startDate));
+        public void setStartDate(DateTimeWrapper startDate) {
+            getWrapped().setOnset(FhirUtilStu3.convertDateToType(startDate));
         }
 
         @Override
-        public Date getEndDate() {
-            return getWrapped().hasAbatementDateTimeType() ? getWrapped().getAbatementDateTimeType().getValue() : null;
+        public DateTimeWrapper getEndDate() {
+            return FhirUtilStu3.convertDate(getWrapped().getAbatement());
         }
 
         @Override
-        public void setEndDate(Date endDate) {
-            getWrapped().setAbatement(new DateTimeType(endDate));
+        public void setEndDate(DateTimeWrapper endDate) {
+            getWrapped().setAbatement(FhirUtilStu3.convertDateToType(endDate));
         }
 
     };

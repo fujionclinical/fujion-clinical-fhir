@@ -35,7 +35,6 @@ import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.*;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class PractitionerWrapper extends BaseResourceWrapper<Practitioner> implements IPractitioner {
@@ -100,17 +99,17 @@ public class PractitionerWrapper extends BaseResourceWrapper<Practitioner> imple
     }
 
     @Override
-    public Date getBirthDate() {
-        return getWrapped().getBirthDate();
+    public DateTimeWrapper getBirthDate() {
+        return FhirUtil.convertDate(getWrapped().getBirthDate());
     }
 
     @Override
-    public void setBirthDate(Date date) {
-        getWrapped().setBirthDateWithDayPrecision(date);
+    public void setBirthDate(DateTimeWrapper date) {
+        getWrapped().setBirthDateWithDayPrecision(FhirUtil.convertDate(date));
     }
 
     @Override
-    public Date getDeceasedDate() {
+    public DateTimeWrapper getDeceasedDate() {
         return null;
     }
 

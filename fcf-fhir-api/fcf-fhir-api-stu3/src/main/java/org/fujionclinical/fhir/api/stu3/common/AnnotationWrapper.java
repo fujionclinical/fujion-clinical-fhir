@@ -26,11 +26,12 @@
 package org.fujionclinical.fhir.api.stu3.common;
 
 import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.person.IPerson;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.dstu3.model.Annotation;
 
-import java.util.Date;
 import java.util.List;
 
 public class AnnotationWrapper extends AbstractWrapper<Annotation> implements IAnnotation {
@@ -45,13 +46,13 @@ public class AnnotationWrapper extends AbstractWrapper<Annotation> implements IA
     }
 
     @Override
-    public Date getRecorded() {
-        return getWrapped().getTime();
+    public DateTimeWrapper getRecorded() {
+        return FhirUtil.convertDate(getWrapped().getTime());
     }
 
     @Override
-    public void setRecorded(Date recorded) {
-        getWrapped().setTime(recorded);
+    public void setRecorded(DateTimeWrapper recorded) {
+        getWrapped().setTime(FhirUtil.convertDate(recorded));
     }
 
     @Override

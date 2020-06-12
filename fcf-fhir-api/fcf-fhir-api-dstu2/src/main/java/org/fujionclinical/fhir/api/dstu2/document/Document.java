@@ -30,6 +30,8 @@ import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.DocumentReference;
 import ca.uhn.fhir.model.dstu2.resource.Practitioner;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 
 import java.util.*;
@@ -76,8 +78,8 @@ public class Document implements Comparable<Document> {
         return title == null ? "" : title;
     }
 
-    public Date getDateTime() {
-        return documentReference.getCreated();
+    public DateTimeWrapper getDateTime() {
+        return FhirUtil.convertDate(documentReference.getCreated());
     }
 
     public String getLocationName() {

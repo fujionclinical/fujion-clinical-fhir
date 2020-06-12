@@ -26,10 +26,10 @@
 package org.fujionclinical.fhir.api.r4.common;
 
 import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IPeriod;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.r4.model.Period;
-
-import java.util.Date;
 
 public class PeriodWrapper extends AbstractWrapper<Period> implements IPeriod {
 
@@ -38,23 +38,23 @@ public class PeriodWrapper extends AbstractWrapper<Period> implements IPeriod {
     }
 
     @Override
-    public Date getStartDate() {
-        return getWrapped().getStart();
+    public DateTimeWrapper getStartDate() {
+        return FhirUtil.convertDate(getWrapped().getStart());
     }
 
     @Override
-    public void setStartDate(Date date) {
-        getWrapped().setStart(date);
+    public void setStartDate(DateTimeWrapper date) {
+        getWrapped().setStart(FhirUtil.convertDate(date));
     }
 
     @Override
-    public Date getEndDate() {
-        return getWrapped().getStart();
+    public DateTimeWrapper getEndDate() {
+        return FhirUtil.convertDate(getWrapped().getStart());
     }
 
     @Override
-    public void setEndDate(Date date) {
-        getWrapped().setEnd(date);
+    public void setEndDate(DateTimeWrapper date) {
+        getWrapped().setEnd(FhirUtil.convertDate(date));
     }
 
 }

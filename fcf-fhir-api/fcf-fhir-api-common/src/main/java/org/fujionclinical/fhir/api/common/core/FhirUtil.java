@@ -35,6 +35,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.Logger;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -45,6 +46,7 @@ import org.springframework.util.Assert;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -571,6 +573,14 @@ public class FhirUtil {
         }
 
         return null;
+    }
+
+    public static Date convertDate(DateTimeWrapper date) {
+        return date == null ? null : date.getLegacyDate();
+    }
+
+    public static DateTimeWrapper convertDate(Date date) {
+        return date == null ? null : new DateTimeWrapper(date);
     }
 
     /**

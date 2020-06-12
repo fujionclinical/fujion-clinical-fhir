@@ -32,6 +32,7 @@ import org.fujion.component.Label;
 import org.fujion.component.Row;
 import org.fujion.event.EventUtil;
 import org.fujion.model.IListModel;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
 import org.fujionclinical.fhir.api.r5.document.Document;
@@ -40,7 +41,6 @@ import org.fujionclinical.fhir.api.r5.document.DocumentService;
 import org.fujionclinical.fhir.lib.sharedforms.common.PatientQueryParameter;
 import org.fujionclinical.sharedforms.controller.AbstractGridController;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -116,12 +116,14 @@ public class DocumentDisplayController extends AbstractGridController<Document, 
     private void onClick$btnReturn() {
         closeView();
     }
-    
+
     /**
      * Not really needed.
      */
     @Override
-    public Date getDateByType(Document result, DateType dateType) {
+    public DateTimeWrapper getDateByType(
+            Document result,
+            DateType dateType) {
         return result.getDateTime();
     }
     

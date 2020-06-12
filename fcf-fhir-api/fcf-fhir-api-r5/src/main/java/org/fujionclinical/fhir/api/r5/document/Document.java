@@ -25,6 +25,8 @@
  */
 package org.fujionclinical.fhir.api.r5.document;
 
+import org.fujionclinical.api.model.core.DateTimeWrapper;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.hl7.fhir.r5.model.*;
 import org.hl7.fhir.r5.model.DocumentReference.DocumentReferenceContextComponent;
@@ -73,8 +75,8 @@ public class Document implements Comparable<Document> {
         return title == null ? "" : title;
     }
 
-    public Date getDateTime() {
-        return documentReference.getDate();
+    public DateTimeWrapper getDateTime() {
+        return FhirUtil.convertDate(documentReference.getDate());
     }
 
     public String getLocationName() {

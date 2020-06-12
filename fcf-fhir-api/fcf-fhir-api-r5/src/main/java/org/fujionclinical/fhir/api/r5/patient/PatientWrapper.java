@@ -32,12 +32,10 @@ import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r5.common.*;
 import org.fujionclinical.fhir.api.r5.terminology.Constants;
-import org.hl7.fhir.r5.model.DateTimeType;
 import org.hl7.fhir.r5.model.Enumerations;
 import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Patient;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,23 +105,23 @@ public class PatientWrapper extends BaseResourceWrapper<Patient> implements IPat
     }
 
     @Override
-    public Date getBirthDate() {
-        return getWrapped().getBirthDate();
+    public DateTimeWrapper getBirthDate() {
+        return FhirUtil.convertDate(getWrapped().getBirthDate());
     }
 
     @Override
-    public void setBirthDate(Date date) {
-        getWrapped().setBirthDate(date);
+    public void setBirthDate(DateTimeWrapper date) {
+        getWrapped().setBirthDate(FhirUtil.convertDate(date));
     }
 
     @Override
-    public Date getDeceasedDate() {
-        return getWrapped().hasDeceasedDateTimeType() ? getWrapped().getDeceasedDateTimeType().getValue() : null;
+    public DateTimeWrapper getDeceasedDate() {
+        return FhirUtilR5.convertDate(getWrapped().getDeceased());
     }
 
     @Override
-    public void setDeceasedDate(Date date) {
-        getWrapped().setDeceased(new DateTimeType(date));
+    public void setDeceasedDate(DateTimeWrapper date) {
+        getWrapped().setDeceased(FhirUtilR5.convertDateToType(date));
     }
 
     @Override

@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.common.core;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
+import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.model.core.IIdentifier;
@@ -83,7 +84,9 @@ public class QueryBuilder {
         } else if (operand.getClass().isArray()) {
             appendOperands(sb, Arrays.asList((Object[]) operand));
         } else if (operand instanceof Date) {
-            sb.append(DateUtil.toISO((Date) operand));
+            sb.append(DateUtil.toISODate((Date) operand));
+        } else if (operand instanceof DateTimeWrapper) {
+            sb.append(((DateTimeWrapper) operand).toISOString());
         } else if (operand instanceof IConceptCode) {
             IConceptCode code = (IConceptCode) operand;
             sb.append(code.getSystem()).append("|").append(code.getCode());
