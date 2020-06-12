@@ -29,6 +29,7 @@ import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
 import org.apache.commons.lang3.BooleanUtils;
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPersonName;

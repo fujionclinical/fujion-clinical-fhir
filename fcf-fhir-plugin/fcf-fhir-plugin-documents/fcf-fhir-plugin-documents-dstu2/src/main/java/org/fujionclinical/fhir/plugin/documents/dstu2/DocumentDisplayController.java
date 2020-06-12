@@ -27,12 +27,12 @@ package org.fujionclinical.fhir.plugin.documents.dstu2;
 
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
+import org.fujion.common.DateTimeWrapper;
 import org.fujion.component.Combobox;
 import org.fujion.component.Label;
 import org.fujion.component.Row;
 import org.fujion.event.EventUtil;
 import org.fujion.model.IListModel;
-import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.query.DateQueryFilter.DateType;
 import org.fujionclinical.api.query.IQueryContext;
 import org.fujionclinical.fhir.api.dstu2.document.Document;

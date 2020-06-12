@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.document;
 
-import org.fujionclinical.api.model.core.DateTimeWrapper;
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.hl7.fhir.r4.model.*;

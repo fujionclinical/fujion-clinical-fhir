@@ -25,10 +25,10 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
+import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.model.core.IIdentifier;

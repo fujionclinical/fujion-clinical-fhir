@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.dstu2.practitioner;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Practitioner;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.practitioner.IPractitioner;

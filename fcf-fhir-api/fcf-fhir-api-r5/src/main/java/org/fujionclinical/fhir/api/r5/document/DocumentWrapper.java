@@ -26,7 +26,11 @@
 package org.fujionclinical.fhir.api.r5.document;
 
 import org.fujion.common.CollectionUtil;
-import org.fujionclinical.api.model.core.*;
+import org.fujion.common.DateTimeWrapper;
+import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.IAttachment;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IWrapperTransform;
 import org.fujionclinical.api.model.document.IDocument;
 import org.fujionclinical.api.model.encounter.IEncounter;
 import org.fujionclinical.api.model.person.IPerson;

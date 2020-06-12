@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.DocumentReference;
 import ca.uhn.fhir.model.dstu2.resource.Practitioner;
-import org.fujionclinical.api.model.core.DateTimeWrapper;
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 

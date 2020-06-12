@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.api.r5.condition;
 
 import org.fujion.common.CollectionUtil;
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.api.model.condition.ICondition;
-import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.core.IPeriod;

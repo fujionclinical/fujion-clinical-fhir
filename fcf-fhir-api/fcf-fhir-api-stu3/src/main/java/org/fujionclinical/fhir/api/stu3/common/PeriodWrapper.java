@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.api.model.core.AbstractWrapper;
-import org.fujionclinical.api.model.core.DateTimeWrapper;
 import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.dstu3.model.Period;

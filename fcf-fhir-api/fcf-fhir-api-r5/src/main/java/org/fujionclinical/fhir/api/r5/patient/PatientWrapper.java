@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.api.r5.patient;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPersonName;

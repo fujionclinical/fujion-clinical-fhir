@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.practitioner;
 
+import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.api.model.core.*;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.practitioner.IPractitioner;
