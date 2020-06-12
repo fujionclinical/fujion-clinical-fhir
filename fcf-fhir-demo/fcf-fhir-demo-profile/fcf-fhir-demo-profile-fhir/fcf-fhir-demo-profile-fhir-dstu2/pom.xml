@@ -30,11 +30,6 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-conditions-dstu2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-fhir-plugin-diagnosticreports-dstu2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
