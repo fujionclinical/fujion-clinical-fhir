@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.common.test;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import org.fujionclinical.api.model.core.ConceptCode;
 import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.query.QueryOperator;
 import org.fujionclinical.fhir.api.common.core.ParameterMappings;
@@ -57,7 +57,7 @@ public class CommonTest {
             String expected,
             String propertyPath,
             QueryOperator operator,
-            Class<? extends IDomainObject> domainClass) {
+            Class<? extends IDomainType> domainClass) {
         Assert.assertEquals(expected, ParameterMappings.getParameterName(propertyPath, operator, domainClass));
     }
 

@@ -35,13 +35,13 @@ import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.encounter.EncounterContext;
 import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.core.IDomainObject;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.PatientContext;
-import org.fujionclinical.patientlist.*;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
+import org.fujionclinical.patientlist.*;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -163,14 +163,14 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param resource The FHIR resource.
      * @return The corresponding domain object (possibly null).
      */
-    protected abstract IDomainObject _toDomainObject(IBaseResource resource);
+    protected abstract IDomainType _toDomainObject(IBaseResource resource);
 
     /**
      * Called when the scenario is activated into the current context.
      */
     public final void activate() {
         IBaseResource resource = getNamedResource(activationResource);
-        IDomainObject target = resource == null ? null : _toDomainObject(resource);
+        IDomainType target = resource == null ? null : _toDomainObject(resource);
 
         if (target instanceof IEncounter) {
             EncounterContext.changeEncounter((IEncounter) target);

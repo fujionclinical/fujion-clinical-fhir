@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
 import org.fujionclinical.api.model.core.IDomainDAO;
-import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.core.IWrapperTransform;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * DAO for FHIR resources.
  */
-public abstract class AbstractResourceDAO<T extends IDomainObject, R extends IBaseResource> implements IDomainDAO<T> {
+public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBaseResource> implements IDomainDAO<T> {
 
     protected final Class<R> resourceClass;
 

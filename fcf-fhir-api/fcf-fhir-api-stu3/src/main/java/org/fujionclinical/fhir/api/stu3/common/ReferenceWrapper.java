@@ -31,9 +31,9 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.List;
 
-public class ReferenceWrapper<L extends IDomainObject> implements IWrapper<L> {
+public class ReferenceWrapper<L extends IDomainType> implements IWrapper<L> {
 
-    private static class ReferenceTransform<L extends IDomainObject> implements IWrapperTransform<L, Reference> {
+    private static class ReferenceTransform<L extends IDomainType> implements IWrapperTransform<L, Reference> {
 
         @Override
         public L _wrap(Reference value) {
@@ -60,12 +60,12 @@ public class ReferenceWrapper<L extends IDomainObject> implements IWrapper<L> {
 
     private Reference reference;
 
-    public static <L extends IDomainObject> ReferenceWrapper<L> wrap(
+    public static <L extends IDomainType> ReferenceWrapper<L> wrap(
             Reference reference) {
         return reference == null ? null : new ReferenceWrapper(reference);
     }
 
-    public static <L extends IDomainObject> List<L> wrap(List<Reference> reference) {
+    public static <L extends IDomainType> List<L> wrap(List<Reference> reference) {
         return reference == null ? null : new WrappedList(reference, transform);
     }
 
@@ -81,7 +81,7 @@ public class ReferenceWrapper<L extends IDomainObject> implements IWrapper<L> {
             return null;
         }
 
-        IWrapperTransform transform = WrapperTransformRegistry.getInstance().get(IDomainObject.class, resource.getClass());
+        IWrapperTransform transform = WrapperTransformRegistry.getInstance().get(IDomainType.class, resource.getClass());
         return (L) transform.wrap(resource);
     }
 

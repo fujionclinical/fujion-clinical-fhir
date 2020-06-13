@@ -30,7 +30,7 @@ import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.query.QueryExpressionTuple;
@@ -47,7 +47,7 @@ public class QueryBuilder {
     private static final QueryBuilder instance = new QueryBuilder();
 
     public static String buildQueryString(
-            Class<? extends IDomainObject> domainClass,
+            Class<? extends IDomainType> domainClass,
             List<QueryExpressionTuple> tuples) {
         return instance.build(domainClass, tuples);
     }
@@ -56,7 +56,7 @@ public class QueryBuilder {
     }
 
     private String build(
-            Class<? extends IDomainObject> domainClass,
+            Class<? extends IDomainType> domainClass,
             List<QueryExpressionTuple> tuples) {
         StringBuilder sb = new StringBuilder();
 

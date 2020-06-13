@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.query.QueryOperator;
 
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class ParameterMappings {
     public static String getParameterName(
             String propertyPath,
             QueryOperator operator,
-            Class<? extends IDomainObject> domainClass) {
+            Class<? extends IDomainType> domainClass) {
         return instance.get(propertyPath, operator, domainClass);
     }
 
@@ -95,7 +95,7 @@ public class ParameterMappings {
 
     private Class<?> getSuperinterface(Class<?> clazz) {
         return Arrays.stream(clazz.getInterfaces())
-                .filter(intf -> intf != IDomainObject.class && IDomainObject.class.isAssignableFrom(intf))
+                .filter(intf -> intf != IDomainType.class && IDomainType.class.isAssignableFrom(intf))
                 .findFirst()
                 .orElse(null);
     }

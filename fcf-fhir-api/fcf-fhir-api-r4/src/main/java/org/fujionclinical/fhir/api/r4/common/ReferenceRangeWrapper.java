@@ -1,0 +1,65 @@
+package org.fujionclinical.fhir.api.r4.common;
+
+import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.core.IQuantity;
+import org.fujionclinical.api.model.core.IReferenceRange;
+import org.hl7.fhir.r4.model.Observation.ObservationReferenceRangeComponent;
+
+public class ReferenceRangeWrapper extends AbstractWrapper<ObservationReferenceRangeComponent> implements IReferenceRange<Double> {
+
+    private IConcept type;
+
+    private IQuantity<Double> low;
+
+    private IQuantity<Double> high;
+
+    protected ReferenceRangeWrapper(ObservationReferenceRangeComponent wrapped) {
+        super(wrapped);
+        this.type = ConceptTransform.getInstance().wrap(wrapped.getType());
+        this.low = QuantityTransform.getInstance().wrap(wrapped.getLow());
+        this.high = QuantityTransform.getInstance().wrap(wrapped.getHigh());
+    }
+
+    @Override
+    public IConcept getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(IConcept value) {
+        type = value;
+        getWrapped().setType(ConceptTransform.getInstance().unwrap(value));
+    }
+
+    @Override
+    public String getDescription() {
+        return getWrapped().getText();
+    }
+
+    @Override
+    public void setDescription(String value) {
+        getWrapped().setText(value);
+    }
+
+    @Override
+    public IQuantity<Double> getLow() {
+        return low;
+    }
+
+    @Override
+    public void setLow(IQuantity<Double> value) {
+        getWrapped().setLow(value == null ? null : QuantityTransform.getInstance().unwrap(value));
+    }
+
+    @Override
+    public IQuantity<Double> getHigh() {
+        return high;
+    }
+
+    @Override
+    public void setHigh(IQuantity<Double> value) {
+        getWrapped().setHigh(value == null ? null : QuantityTransform.getInstance().unwrap(value));
+    }
+
+}

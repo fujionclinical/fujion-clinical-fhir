@@ -27,13 +27,13 @@ package org.fujionclinical.fhir.api.common.core;
 
 import org.fujionclinical.api.model.core.AbstractWrapper;
 import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.List;
 
-public abstract class AbstractResourceWrapper<T extends IBaseResource> extends AbstractWrapper<T> implements IDomainObject {
+public abstract class AbstractResourceWrapper<T extends IBaseResource> extends AbstractWrapper<T> implements IDomainType {
 
     private final List<IConceptCode> tags;
 

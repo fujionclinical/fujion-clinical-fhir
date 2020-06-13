@@ -129,6 +129,10 @@
 
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PostalAddressTransform" factory-method="getInstance"/>
 
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.RatioTransform" factory-method="getInstance"/>
+
+		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ReferenceRangeTransform" factory-method="getInstance"/>
+
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.StringTransform" factory-method="getInstance"/>
 
 		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionTransform" factory-method="getInstance"/>

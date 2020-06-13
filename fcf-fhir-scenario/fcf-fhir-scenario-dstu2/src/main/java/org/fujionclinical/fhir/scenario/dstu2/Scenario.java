@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.ListResource;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import org.fujionclinical.api.model.core.IDomainObject;
+import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
@@ -55,7 +55,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected IDomainObject _toDomainObject(IBaseResource activationResource) {
+    protected IDomainType _toDomainObject(IBaseResource activationResource) {
         if (activationResource instanceof Encounter) {
             return EncounterTransform.getInstance().wrap((Encounter) activationResource);
         } else if (activationResource instanceof Patient) {
