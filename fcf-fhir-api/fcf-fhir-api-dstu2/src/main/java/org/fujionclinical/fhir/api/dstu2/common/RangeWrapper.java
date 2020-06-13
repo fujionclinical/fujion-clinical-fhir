@@ -25,26 +25,41 @@
  */
 package org.fujionclinical.fhir.api.dstu2.common;
 
+import ca.uhn.fhir.model.dstu2.composite.RangeDt;
 import ca.uhn.fhir.model.dstu2.composite.SimpleQuantityDt;
-import org.fujionclinical.api.model.core.IQuantity;
-import org.fujionclinical.api.model.core.IWrapperTransform;
+import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.IRange;
 
-public class SimpleQuantityTransform implements IWrapperTransform<IQuantity<Double>, SimpleQuantityDt> {
+public class RangeWrapper extends AbstractWrapper<RangeDt> implements IRange<Double> {
 
-    private static final SimpleQuantityTransform instance = new SimpleQuantityTransform();
-
-    public static SimpleQuantityTransform getInstance() {
-        return instance;
+    protected RangeWrapper(RangeDt wrapped) {
+        super(wrapped);
     }
 
     @Override
-    public IQuantity<Double> _wrap(SimpleQuantityDt value) {
-        return new QuantityWrapper(value);
+    public Double getLow() {
+        SimpleQuantityDt value = getWrapped().getLow();
+        return value.isEmpty() ? null : value.getValue().doubleValue();
     }
 
     @Override
-    public SimpleQuantityDt newWrapped() {
-        return new SimpleQuantityDt();
+    public void setLow(Double value) {
+        SimpleQuantityDt quantity = new SimpleQuantityDt();
+        quantity.setValue(value);
+        getWrapped().setLow(quantity);
+    }
+
+    @Override
+    public Double getHigh() {
+        SimpleQuantityDt value = getWrapped().getHigh();
+        return value.isEmpty() ? null : value.getValue().doubleValue();
+    }
+
+    @Override
+    public void setHigh(Double value) {
+        SimpleQuantityDt quantity = new SimpleQuantityDt();
+        quantity.setValue(value);
+        getWrapped().setHigh(quantity);
     }
 
 }

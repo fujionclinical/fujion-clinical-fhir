@@ -26,42 +26,40 @@
 package org.fujionclinical.fhir.api.r5.common;
 
 import org.fujionclinical.api.model.core.AbstractWrapper;
-import org.fujionclinical.api.model.core.IQuantity;
-import org.fujionclinical.api.model.core.IRatio;
-import org.hl7.fhir.r5.model.Ratio;
+import org.fujionclinical.api.model.core.IRange;
+import org.hl7.fhir.r5.model.Quantity;
+import org.hl7.fhir.r5.model.Range;
 
-public class RatioWrapper extends AbstractWrapper<Ratio> implements IRatio<Double> {
+public class RangeWrapper extends AbstractWrapper<Range> implements IRange<Double> {
 
-    private IQuantity<Double> numerator;
-
-    private IQuantity<Double> denominator;
-
-    protected RatioWrapper(Ratio wrapped) {
+    protected RangeWrapper(Range wrapped) {
         super(wrapped);
-        this.numerator = QuantityTransform.getInstance().wrap(wrapped.getNumerator());
-        this.denominator = QuantityTransform.getInstance().wrap(wrapped.getDenominator());
     }
 
     @Override
-    public IQuantity<Double> getNumerator() {
-        return numerator;
+    public Double getLow() {
+        Quantity value = getWrapped().getLow();
+        return value.isEmpty() ? null : value.getValue().doubleValue();
     }
 
     @Override
-    public void setNumerator(IQuantity<Double> value) {
-        this.numerator = value;
-        getWrapped().setNumerator(QuantityTransform.getInstance().unwrap(value));
+    public void setLow(Double value) {
+        Quantity quantity = new Quantity();
+        quantity.setValue(value);
+        getWrapped().setLow(quantity);
     }
 
     @Override
-    public IQuantity<Double> getDenominator() {
-        return denominator;
+    public Double getHigh() {
+        Quantity value = getWrapped().getHigh();
+        return value.isEmpty() ? null : value.getValue().doubleValue();
     }
 
     @Override
-    public void setDenominator(IQuantity<Double> value) {
-        this.denominator = value;
-        getWrapped().setDenominator(QuantityTransform.getInstance().unwrap(value));
+    public void setHigh(Double value) {
+        Quantity quantity = new Quantity();
+        quantity.setValue(value);
+        getWrapped().setHigh(quantity);
     }
 
 }

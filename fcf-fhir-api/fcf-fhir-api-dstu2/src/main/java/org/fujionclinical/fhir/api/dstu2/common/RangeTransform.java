@@ -23,28 +23,28 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.r4.common;
+package org.fujionclinical.fhir.api.dstu2.common;
 
-import org.fujionclinical.api.model.core.IQuantity;
+import ca.uhn.fhir.model.dstu2.composite.RangeDt;
+import org.fujionclinical.api.model.core.IRange;
 import org.fujionclinical.api.model.core.IWrapperTransform;
-import org.hl7.fhir.r4.model.SimpleQuantity;
 
-public class SimpleQuantityTransform implements IWrapperTransform<IQuantity<Double>, SimpleQuantity> {
+public class RangeTransform implements IWrapperTransform<IRange<Double>, RangeDt> {
 
-    private static final SimpleQuantityTransform instance = new SimpleQuantityTransform();
+    private static final RangeTransform instance = new RangeTransform();
 
-    public static SimpleQuantityTransform getInstance() {
+    public static RangeTransform getInstance() {
         return instance;
     }
 
     @Override
-    public IQuantity<Double> _wrap(SimpleQuantity value) {
-        return new QuantityWrapper(value);
+    public IRange<Double> _wrap(RangeDt value) {
+        return new RangeWrapper(value);
     }
 
     @Override
-    public SimpleQuantity newWrapped() {
-        return new SimpleQuantity();
+    public RangeDt newWrapped() {
+        return new RangeDt();
     }
 
 }

@@ -1,10 +1,32 @@
+/*
+ * #%L
+ * Fujion Clinical Framework
+ * %%
+ * Copyright (C) 2020 fujionclinical.org
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * This Source Code Form is also subject to the terms of the Health-Related
+ * Additional Disclaimer of Warranty and Limitation of Liability available at
+ *
+ *      http://www.fujionclinical.org/licensing/disclaimer
+ *
+ * #L%
+ */
 package org.fujionclinical.fhir.api.dstu2.observation;
 
 import ca.uhn.fhir.model.api.IDatatype;
-import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
-import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
-import ca.uhn.fhir.model.dstu2.composite.RatioDt;
-import ca.uhn.fhir.model.dstu2.composite.SimpleQuantityDt;
+import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
 import ca.uhn.fhir.model.primitive.*;
 import org.fujion.common.DateTimeWrapper;
@@ -138,17 +160,18 @@ public class ObservationComponentWrapper extends AbstractWrapper<Observation.Com
 
     @Override
     public IRange getValueAsRange() {
-        return null;
+        RangeDt value = getValue(RangeDt.class);
+        return RangeTransform.getInstance().wrap(value);
     }
 
     @Override
     public void setValueAsRange(IRange value) {
-
+        getWrapped().setValue(RangeTransform.getInstance().unwrap(value));
     }
 
     @Override
     public IQuantity<Double> getValueAsQuantity() {
-        SimpleQuantityDt value = getValue(SimpleQuantityDt.class);
+        QuantityDt value = getValue(QuantityDt.class);
         return value == null ? null : QuantityTransform.getInstance().wrap(value);
     }
 
@@ -160,12 +183,12 @@ public class ObservationComponentWrapper extends AbstractWrapper<Observation.Com
     @Override
     public IRatio<Double> getValueAsRatio() {
         RatioDt value = getValue(RatioDt.class);
-        return null;
+        return RatioTransform.getInstance().wrap(value);
     }
 
     @Override
     public void setValueAsRatio(IRatio<Double> value) {
-
+        getWrapped().setValue(RatioTransform.getInstance().unwrap(value));
     }
 
     private <T extends IDatatype, V> T getValue(Class<T> clazz) {

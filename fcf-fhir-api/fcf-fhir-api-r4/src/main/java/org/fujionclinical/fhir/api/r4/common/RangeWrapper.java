@@ -25,26 +25,41 @@
  */
 package org.fujionclinical.fhir.api.r4.common;
 
-import org.fujionclinical.api.model.core.IQuantity;
-import org.fujionclinical.api.model.core.IWrapperTransform;
+import org.fujionclinical.api.model.core.AbstractWrapper;
+import org.fujionclinical.api.model.core.IRange;
 import org.hl7.fhir.r4.model.Quantity;
+import org.hl7.fhir.r4.model.Range;
 
-public class QuantityTransform implements IWrapperTransform<IQuantity<Double>, Quantity> {
+public class RangeWrapper extends AbstractWrapper<Range> implements IRange<Double> {
 
-    private static final QuantityTransform instance = new QuantityTransform();
-
-    public static QuantityTransform getInstance() {
-        return instance;
+    protected RangeWrapper(Range wrapped) {
+        super(wrapped);
     }
 
     @Override
-    public IQuantity<Double> _wrap(Quantity value) {
-        return new QuantityWrapper(value);
+    public Double getLow() {
+        Quantity value = getWrapped().getLow();
+        return value.isEmpty() ? null : value.getValue().doubleValue();
     }
 
     @Override
-    public Quantity newWrapped() {
-        return new Quantity();
+    public void setLow(Double value) {
+        Quantity quantity = new Quantity();
+        quantity.setValue(value);
+        getWrapped().setLow(quantity);
+    }
+
+    @Override
+    public Double getHigh() {
+        Quantity value = getWrapped().getHigh();
+        return value.isEmpty() ? null : value.getValue().doubleValue();
+    }
+
+    @Override
+    public void setHigh(Double value) {
+        Quantity quantity = new Quantity();
+        quantity.setValue(value);
+        getWrapped().setHigh(quantity);
     }
 
 }

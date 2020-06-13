@@ -25,26 +25,26 @@
  */
 package org.fujionclinical.fhir.api.r4.common;
 
-import org.fujionclinical.api.model.core.IQuantity;
+import org.fujionclinical.api.model.core.IRange;
 import org.fujionclinical.api.model.core.IWrapperTransform;
-import org.hl7.fhir.r4.model.SimpleQuantity;
+import org.hl7.fhir.r4.model.Range;
 
-public class SimpleQuantityTransform implements IWrapperTransform<IQuantity<Double>, SimpleQuantity> {
+public class RangeTransform implements IWrapperTransform<IRange<Double>, Range> {
 
-    private static final SimpleQuantityTransform instance = new SimpleQuantityTransform();
+    private static final RangeTransform instance = new RangeTransform();
 
-    public static SimpleQuantityTransform getInstance() {
+    public static RangeTransform getInstance() {
         return instance;
     }
 
     @Override
-    public IQuantity<Double> _wrap(SimpleQuantity value) {
-        return new QuantityWrapper(value);
+    public IRange<Double> _wrap(Range value) {
+        return new RangeWrapper(value);
     }
 
     @Override
-    public SimpleQuantity newWrapped() {
-        return new SimpleQuantity();
+    public Range newWrapped() {
+        return new Range();
     }
 
 }
