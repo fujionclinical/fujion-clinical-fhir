@@ -10,7 +10,7 @@
     <beans profile="root">
 
         <fcp:plugin url="web/org/fujionclinical/sharedforms/listviewForm.fsp"
-                    id="fcfProcedures" name="Patient Procedures">
+                    id="fcfFhirProcedures" name="Patient Procedures">
             <fcp:serialization>
                 <fcp:property id="allowPrint" name="Allow Printing"
                               type="boolean" description="If true, printing is allowed."/>

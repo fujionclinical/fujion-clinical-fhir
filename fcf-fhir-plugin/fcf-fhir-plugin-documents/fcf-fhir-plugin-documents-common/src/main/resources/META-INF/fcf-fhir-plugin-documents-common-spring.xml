@@ -10,13 +10,12 @@
 
     <beans profile="root">
 
-        <fcp:plugin
-                url="web/org/fujionclinical/fhir/plugin/documents/common/documentMain.fsp"
-                id="fcfDocuments" name="Clinical Documents Display">
+        <fcp:plugin url="web/org/fujionclinical/fhir/plugin/documents/common/documentMain.fsp"
+                    id="fcfFhirDocuments" name="Clinical Documents Display">
             <fcp:resource>
-                <fcp:help-resource module="fcfDocumentsHelp"/>
+                <fcp:help-resource module="fcfFhirDocumentsHelp"/>
                 <fcp:property-resource group="DOCUMENT.CONTROLS"/>
-                <fcp:bean-resource bean="fcfDocumentsActionStatus"
+                <fcp:bean-resource bean="fcfFhirDocumentsActionStatus"
                                    required="true"/>
             </fcp:resource>
 
@@ -38,23 +37,23 @@
     <beans profile="child">
 
         <!-- Controllers -->
-        <bean id="fcfDocumentsMainController"
+        <bean id="fcfFhirDocumentsMainController"
               class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.DocumentMainController"
               scope="prototype"/>
 
-        <bean id="fcfDocumentsListController"
+        <bean id="fcfFhirDocumentsListController"
               class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.DocumentListController"
               scope="prototype">
             <constructor-arg ref="fhirDocumentService"/>
         </bean>
 
-        <bean id="fcfDocumentsDisplayController"
+        <bean id="fcfFhirDocumentsDisplayController"
               class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.DocumentDisplayController"
               scope="prototype">
             <constructor-arg ref="fhirDocumentService"/>
         </bean>
 
-        <bean id="fcfDocumentsActionStatus" lazy-init="true"
+        <bean id="fcfFhirDocumentsActionStatus" lazy-init="true"
               class="org.fujionclinical.fhir.plugin.documents.${fhir.context.version}.ActionStatus">
         </bean>
 

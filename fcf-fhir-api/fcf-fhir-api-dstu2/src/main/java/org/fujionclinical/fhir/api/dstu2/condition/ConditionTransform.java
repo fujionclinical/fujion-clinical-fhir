@@ -30,13 +30,16 @@ import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
+import ca.uhn.fhir.model.primitive.DateTimeDt;
 import org.apache.commons.lang.StringUtils;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.condition.ICondition;
+import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.impl.Annotation;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.transform.*;
+import org.hl7.fhir.instance.model.api.IBaseDatatype;
 
 import java.util.Arrays;
 import java.util.List;
@@ -86,7 +89,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
     @Override
     public ICondition _toLogicalModel(Condition src) {
         ICondition dest = super._toLogicalModel(src);
-        dest.setOnset(PeriodTransform.getInstance().toLogicalModel(FhirUtil.castTo(src.getOnset(), PeriodDt.class)));
+        dest.setOnset(toPeriod(src));
         dest.setPatient(ReferenceTransform.getInstance().toLogicalModel(src.getPatient()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(src.getEncounter()));
         dest.setAsserter(ReferenceTransform.getInstance().toLogicalModel(src.getAsserter()));
@@ -104,6 +107,20 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         }
 
         return dest;
+    }
+
+    private IPeriod toPeriod(Condition src) {
+        IBaseDatatype value = src.getOnset();
+
+        if (value instanceof PeriodDt) {
+            return PeriodTransform.getInstance().toLogicalModel((PeriodDt) value);
+        } else if (value instanceof DateTimeDt) {
+            DateTimeDt value2 = FhirUtil.castTo(src.getAbatement(), DateTimeDt.class);
+            PeriodDt periodDt = new PeriodDt().setStart((DateTimeDt) value).setEnd(value2);
+            return PeriodTransform.getInstance().toLogicalModel(periodDt);
+        }
+
+        return null;
     }
 
     @Override

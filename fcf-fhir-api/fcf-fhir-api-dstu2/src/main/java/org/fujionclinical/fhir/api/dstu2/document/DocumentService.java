@@ -26,7 +26,10 @@
 package org.fujionclinical.fhir.api.dstu2.document;
 
 import ca.uhn.fhir.model.dstu2.composite.AttachmentDt;
-import ca.uhn.fhir.model.dstu2.resource.*;
+import ca.uhn.fhir.model.dstu2.resource.Binary;
+import ca.uhn.fhir.model.dstu2.resource.Bundle;
+import ca.uhn.fhir.model.dstu2.resource.DocumentReference;
+import ca.uhn.fhir.model.dstu2.resource.ValueSet;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
@@ -113,21 +116,21 @@ public class DocumentService extends BaseFhirService {
     /**
      * Retrieves document references for a given patient.
      *
-     * @param patient   Patient whose documents are to be retrieved.
+     * @param patientId The patient id.
      * @param startDate Start date for retrieval.
      * @param endDate   End date for retrieval.
      * @param type      Document type.
      * @return List of matching documents.
      */
     public List<Document> retrieveReferences(
-            Patient patient,
+            String patientId,
             Date startDate,
             Date endDate,
             String type) {
         ReferenceClientParam subject = new ReferenceClientParam(DocumentReference.SP_SUBJECT + ":Patient");
 
         IQuery<?> query = getClient().search().forResource(DocumentReference.class)
-                .where(subject.hasId(patient.getIdElement().getIdPart()));
+                .where(subject.hasId(patientId));
         //.forResource("Patient/" + patient.getId().getIdPart() + "/DocumentReference");
 
         if (startDate != null) {
@@ -168,6 +171,7 @@ public class DocumentService extends BaseFhirService {
             }
 
         } catch (Exception e) {
+            // NOP
         }
 
         return results;

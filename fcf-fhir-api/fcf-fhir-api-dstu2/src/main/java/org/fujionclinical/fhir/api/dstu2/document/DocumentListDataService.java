@@ -25,9 +25,8 @@
  */
 package org.fujionclinical.fhir.api.dstu2.document;
 
-import ca.uhn.fhir.model.dstu2.resource.Patient;
 import org.fujion.common.DateRange;
-import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.query.AbstractQueryServiceEx;
 import org.fujionclinical.api.query.IQueryContext;
 import org.fujionclinical.api.query.IQueryResult;
@@ -48,10 +47,10 @@ public class DocumentListDataService extends AbstractQueryServiceEx<DocumentServ
     public IQueryResult<Document> fetch(IQueryContext context) {
         DateRange dateRange = (DateRange) context.getParam("dateRange");
         Date startDate = dateRange.getStartDate();
-        Date endDate = DateUtil.endOfDay(dateRange.getEndDate());
-        Patient patient = (Patient) context.getParam("patient");
+        Date endDate = dateRange.getEndDate();
+        IPatient patient = (IPatient) context.getParam("patient");
         return QueryUtil
-                .packageResult(service.retrieveReferences(patient, startDate, endDate, (String) context.getParam("type")));
+                .packageResult(service.retrieveReferences(patient.getId(), startDate, endDate, (String) context.getParam("type")));
     }
 
     @Override

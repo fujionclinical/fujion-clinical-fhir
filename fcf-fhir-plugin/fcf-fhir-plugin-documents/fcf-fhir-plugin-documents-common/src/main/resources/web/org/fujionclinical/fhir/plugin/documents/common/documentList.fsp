@@ -1,4 +1,4 @@
-<namespace height="100%" width="100%" controller="${@fcfDocumentsListController}">
+<namespace height="100%" width="100%" controller="${@fcfFhirDocumentsListController}">
     <toolbar>
         <span name="options" style="display:inline-flex">
             <label name="lblFilter" visible="false"
@@ -17,10 +17,10 @@
                     hint="${@msg.fcfdocuments.plugin.btn.clear.hint}"/>
             <button name="btnView" label="${@msg.fcfdocuments.plugin.btn.view.selected.label}"
                     hint="${@msg.fcfdocuments.plugin.btn.view.hint}"/>
-            <button name="btnRefresh" label="${@msg.reports.plugin.refresh.view.label}"
-                    hint="${@msg.reports.plugin.refresh.view.hint}"/>
-            <button name="btnPrint" label="${@msg.reports.plugin.btn.print.label}"
-                    hint="${@msg.reports.plugin.btn.print.hint}" visible="false"/>
+            <button name="btnRefresh" label="${@msg.sharedforms.plugin.refresh.view.label}"
+                    hint="${@msg.sharedforms.plugin.refresh.view.hint}"/>
+            <button name="btnPrint" label="${@msg.sharedforms.plugin.btn.print.label}"
+                    hint="${@msg.sharedforms.plugin.btn.print.hint}" visible="false"/>
         </span>
     </toolbar>
     <div height="100%" width="100%">

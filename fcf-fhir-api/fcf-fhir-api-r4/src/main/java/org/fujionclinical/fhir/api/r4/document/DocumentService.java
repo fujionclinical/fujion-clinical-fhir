@@ -114,21 +114,21 @@ public class DocumentService extends BaseFhirService {
     /**
      * Retrieves document references for a given patient.
      *
-     * @param patient   Patient whose documents are to be retrieved.
+     * @param patientId The patient id.
      * @param startDate Start date for retrieval.
      * @param endDate   End date for retrieval.
      * @param type      Document type.
      * @return List of matching documents.
      */
     public List<Document> retrieveReferences(
-            Patient patient,
+            String patientId,
             Date startDate,
             Date endDate,
             String type) {
         ReferenceClientParam subject = new ReferenceClientParam(DocumentReference.SP_SUBJECT + ":Patient");
 
         IQuery<?> query = getClient().search().forResource(DocumentReference.class)
-                .where(subject.hasId(patient.getIdElement().getIdPart()));
+                .where(subject.hasId(patientId));
         //.forResource("Patient/" + patient.getId().getIdPart() + "/DocumentReference");
 
         if (startDate != null) {

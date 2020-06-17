@@ -26,10 +26,13 @@
 package org.fujionclinical.fhir.api.r4.condition;
 
 import org.fujionclinical.api.model.condition.ICondition;
+import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r4.common.FhirUtilR4;
 import org.fujionclinical.fhir.api.r4.transform.*;
+import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.r4.model.Condition;
+import org.hl7.fhir.r4.model.DateTimeType;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Period;
 
@@ -76,7 +79,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
     @Override
     public ICondition _toLogicalModel(Condition src) {
         ICondition dest = super._toLogicalModel(src);
-        dest.setOnset(PeriodTransform.getInstance().toLogicalModel(FhirUtil.castTo(src.getOnset(), Period.class)));
+        dest.setOnset(toPeriod(src));
         dest.setPatient(ReferenceTransform.getInstance().toLogicalModel(src.getSubject()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(src.getEncounter()));
         dest.setAsserter(ReferenceTransform.getInstance().toLogicalModel(src.getAsserter()));
@@ -86,6 +89,20 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setVerificationStatus(FhirUtilR4.convertCodeableConceptToEnum(src.getVerificationStatus(), ICondition.VerificationStatus.class));
         dest.setAnnotations(AnnotationTransform.getInstance().toLogicalModel(src.getNote()));
         return dest;
+    }
+
+    private IPeriod toPeriod(Condition src) {
+        IBaseDatatype value = src.getOnset();
+
+        if (value instanceof Period) {
+            return PeriodTransform.getInstance().toLogicalModel((Period) value);
+        } else if (value instanceof DateTimeType) {
+            DateTimeType value2 = FhirUtil.castTo(src.getAbatement(), DateTimeType.class);
+            Period period = new Period().setStartElement((DateTimeType) value).setEndElement(value2);
+            return PeriodTransform.getInstance().toLogicalModel(period);
+        }
+
+        return null;
     }
 
     @Override
