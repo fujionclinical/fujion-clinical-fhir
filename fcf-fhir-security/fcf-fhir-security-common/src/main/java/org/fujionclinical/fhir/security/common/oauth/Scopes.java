@@ -57,4 +57,5 @@ public class Scopes implements Serializable {
     public String asParamValue() {
         return StringUtils.join(scopes, " ");
     }
+
 }

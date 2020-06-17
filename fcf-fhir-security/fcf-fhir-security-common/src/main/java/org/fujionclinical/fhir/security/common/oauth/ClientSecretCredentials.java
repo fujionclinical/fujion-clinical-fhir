@@ -39,4 +39,5 @@ public class ClientSecretCredentials implements ICredentialProvider<String> {
     public String getCredentials() {
         return clientSecretCredentials;
     }
+
 }

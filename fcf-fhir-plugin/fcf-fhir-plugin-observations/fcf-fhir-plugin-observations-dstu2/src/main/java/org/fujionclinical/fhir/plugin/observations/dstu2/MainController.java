@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -58,13 +58,16 @@ public class MainController extends ResourceListView<Observation, MainController
             this.referenceRange = obs.getReferenceRange();
         }
 
-        public ObservationResult(Observation obs, Observation.Component cmp) {
+        public ObservationResult(
+                Observation obs,
+                Observation.Component cmp) {
             this.code = cmp.getCode();
             this.effective = obs.getEffective();
             this.status = obs.getStatus();
             this.value = cmp.getValue();
             this.referenceRange = cmp.getReferenceRange();
         }
+
     }
 
     @Override
@@ -74,7 +77,9 @@ public class MainController extends ResourceListView<Observation, MainController
     }
 
     @Override
-    protected void populate(ObservationResult result, List<Object> columns) {
+    protected void populate(
+            ObservationResult result,
+            List<Object> columns) {
         columns.add(result.code);
         columns.add(result.effective);
         columns.add(result.status);
@@ -98,4 +103,5 @@ public class MainController extends ResourceListView<Observation, MainController
     private String renderReferenceRange(List<Observation.ReferenceRange> ranges) {
         return null;
     }
+
 }

@@ -34,17 +34,18 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
-import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r4.terminology.Constants;
+import org.fujionclinical.fhir.api.r4.transform.ConceptTransform;
+import org.fujionclinical.fhir.api.r4.transform.PersonNameTransform;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.Address.AddressUse;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryComponent;
-import org.hl7.fhir.r4.model.HumanName.NameUse;
 import org.hl7.fhir.r4.model.OperationOutcome.IssueSeverity;
 import org.hl7.fhir.r4.model.OperationOutcome.OperationOutcomeIssueComponent;
 import org.hl7.fhir.r4.model.Timing.TimingRepeatComponent;
@@ -218,7 +219,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      * @return The corresponding enumeration value.
      */
     public static UnitsOfTime convertTimeUnitToEnum(String timeUnit) {
-        UnitsOfTime value = convertEnum(timeUnit, UnitsOfTime.class);
+        UnitsOfTime value = CoreUtil.stringToEnum(timeUnit, UnitsOfTime.class);
         Assert.notNull(value, () -> "Unknown time unit " + timeUnit);
         return value;
     }
@@ -335,7 +336,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      * @return List of addresses associated with resource or null if none.
      */
     public static List<Address> getAddresses(IBaseResource resource) {
-        return getListProperty(resource, "address", Address.class);
+        return getListProperty(resource, "address");
     }
 
     /**
@@ -820,7 +821,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      * @return A name with a matching use category, or null if none found.
      */
     public static HumanName getName(List<HumanName> list) {
-        return getName(list, NameUse.OFFICIAL, NameUse.USUAL, null);
+        return getName(list, HumanName.NameUse.OFFICIAL, HumanName.NameUse.USUAL, null);
     }
 
     /**
@@ -833,8 +834,8 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      */
     public static HumanName getName(
             List<HumanName> list,
-            NameUse... uses) {
-        for (NameUse use : uses) {
+            HumanName.NameUse... uses) {
+        for (HumanName.NameUse use : uses) {
             for (HumanName name : list) {
                 if (use == null || use.equals(name.getUse())) {
                     return name;
@@ -852,7 +853,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      * @return List of names associated with resource or null if none.
      */
     public static List<HumanName> getNames(IBaseResource resource) {
-        return getListProperty(resource, "name", HumanName.class);
+        return getListProperty(resource, "name");
     }
 
     /**
@@ -865,7 +866,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
         Reference ref = getProperty(resource, "getPatient", Reference.class);
         ref = ref != null ? ref : getProperty(resource, "getSubject", Reference.class);
         return ref == null || !ref.hasReference() ? null
-                : "Patient".equals(getResourceType(ref.getReferenceElement())) ? ref : null;
+                : "Patient".equals(getResourceName(ref.getReferenceElement())) ? ref : null;
     }
 
     /**
@@ -888,7 +889,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
     }
 
     public static String formatName(HumanName name) {
-        return name == null ? null : PersonNameTransform.getInstance().wrap(name).toString();
+        return name == null ? null : PersonNameTransform.getInstance().toLogicalModel(name).toString();
     }
 
     /**
@@ -977,17 +978,29 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
                         maritalStatus.toString());
     }
 
-    public static DateType convertDateToType(DateTimeWrapper value) {
-        return value == null ? null : new DateType(value.getLegacyDate());
+    public static CodeableConcept convertEnumToCodeableConcept(
+            Enum<?> value,
+            String system) {
+        return value == null ? null : new CodeableConcept(new Coding(system, value.name(), value.toString()));
     }
 
-    public static DateTimeWrapper convertDate(Type value) {
-        return value instanceof BaseDateTimeType ? convertDate((BaseDateTimeType) value) : null;
+    public static <T extends Enum<T>> T convertCodeableConceptToEnum(
+            CodeableConcept value,
+            Class<T> type) {
+        return convertConceptToEnum(ConceptTransform.getInstance().toLogicalModel(value), type);
     }
 
-    public static DateTimeWrapper convertDate(BaseDateTimeType value) {
-        return value == null || value.isEmpty() ? null : new DateTimeWrapper(value.getValue());
+    /*
+    public static IConcept convertEnumToConcept(Bound value) {
+        if (value == null) {
+            return null;
+        }
+
+        IConcept result = new Concept();
+        result.setCodes(ConceptCodeTransform.getInstance().toLogicalModel(value.getCoding()));
+        return result;
     }
+     */
 
     /**
      * Enforce static class.

@@ -46,8 +46,13 @@ public class ApacheHttpClientFactory {
 
     private Integer httpReadTimeOut;
 
-    public ApacheHttpClientFactory(String proxyHost, Integer proxyPort, String proxyUser, String proxyPassword,
-                                   Integer httpConnectionTimeOut, Integer httpReadTimeOut) {
+    public ApacheHttpClientFactory(
+            String proxyHost,
+            Integer proxyPort,
+            String proxyUser,
+            String proxyPassword,
+            Integer httpConnectionTimeOut,
+            Integer httpReadTimeOut) {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
         this.proxyUser = proxyUser;
@@ -91,4 +96,5 @@ public class ApacheHttpClientFactory {
         //                .setDefaultCredentialsProvider(credsProvider)
         //                .setDefaultRequestConfig(config).build();
     }
+
 }

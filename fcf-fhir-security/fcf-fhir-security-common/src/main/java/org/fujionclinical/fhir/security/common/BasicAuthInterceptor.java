@@ -61,8 +61,11 @@ public class BasicAuthInterceptor extends AbstractAuthInterceptor {
         return user == null ? null : encode(user.getLoginName(), user.getPassword());
     }
 
-    private String encode(String username, String password) {
+    private String encode(
+            String username,
+            String password) {
         String credentials = username + ":" + password;
         return Base64.encodeBase64String(credentials.getBytes(StandardCharsets.ISO_8859_1));
     }
+
 }

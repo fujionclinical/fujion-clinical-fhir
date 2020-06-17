@@ -105,4 +105,5 @@ public class FhirClientConfigurator extends SimplePropertyAwareConfigurator impl
     public void onApplicationEvent(ContextRefreshedEvent event) {
         authInterceptor = AuthInterceptorRegistry.getInstance().create(authenticationType, this);
     }
+
 }

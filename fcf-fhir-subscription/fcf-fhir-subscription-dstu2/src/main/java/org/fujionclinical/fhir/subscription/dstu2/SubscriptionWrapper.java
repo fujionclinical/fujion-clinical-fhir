@@ -38,7 +38,9 @@ public class SubscriptionWrapper extends BaseSubscriptionWrapper<Subscription> {
      *
      * @param paramIndex The index for looking up by criteria/payload type.
      */
-    /*package*/ SubscriptionWrapper(Subscription subscription, String paramIndex) {
+    /*package*/ SubscriptionWrapper(
+            Subscription subscription,
+            String paramIndex) {
         super(subscription, paramIndex);
     }
 

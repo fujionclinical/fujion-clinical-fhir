@@ -35,7 +35,7 @@ import org.fujionclinical.sharedforms.controller.AbstractServiceController;
  * Use with AbstractServiceController subclasses that require an awareness of patient context.
  */
 public class PatientQueryParameter extends AbstractServiceController.SupplementalQueryParam<IPatient>
-    implements PatientContext.IPatientContextSubscriber {
+        implements PatientContext.IPatientContextSubscriber {
 
     public static final String LABEL_ID_NO_PATIENT = "%.plugin.patient.selection.required";
 
@@ -69,4 +69,5 @@ public class PatientQueryParameter extends AbstractServiceController.Supplementa
     public void canceled() {
         // ignored
     }
+
 }

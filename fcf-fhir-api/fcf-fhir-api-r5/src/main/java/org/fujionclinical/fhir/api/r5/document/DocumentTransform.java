@@ -25,11 +25,47 @@
  */
 package org.fujionclinical.fhir.api.r5.document;
 
-import org.fujionclinical.api.model.core.IWrapperTransform;
+import org.fujion.common.CollectionUtil;
+import org.fujionclinical.api.core.CoreUtil;
+import org.fujionclinical.api.model.document.Document;
 import org.fujionclinical.api.model.document.IDocument;
+import org.fujionclinical.api.model.document.RelatedDocument;
+import org.fujionclinical.fhir.api.common.transform.AbstractModelTransform;
+import org.fujionclinical.fhir.api.r5.transform.*;
 import org.hl7.fhir.r5.model.DocumentReference;
+import org.hl7.fhir.r5.model.DocumentReference.DocumentReferenceRelatesToComponent;
+import org.hl7.fhir.r5.model.Enumerations;
+import org.hl7.fhir.r5.model.Identifier;
 
-public class DocumentTransform implements IWrapperTransform<IDocument, DocumentReference> {
+import java.util.List;
+
+public class DocumentTransform extends BaseResourceTransform<IDocument, DocumentReference> {
+
+    private static class RelatedTransform extends AbstractModelTransform<IDocument.IRelatedDocument, DocumentReferenceRelatesToComponent> {
+
+        private RelatedTransform() {
+            super(IDocument.IRelatedDocument.class, DocumentReferenceRelatesToComponent.class);
+        }
+
+        @Override
+        public DocumentReferenceRelatesToComponent _fromLogicalModel(IDocument.IRelatedDocument src) {
+            DocumentReferenceRelatesToComponent dest = new DocumentReferenceRelatesToComponent();
+            dest.setTarget(ReferenceTransform.getInstance().fromLogicalModel(src.getDocument()));
+            dest.setCode(CoreUtil.enumToEnum(src.getRelationship(), Enumerations.DocumentRelationshipType.class));
+            return dest;
+        }
+
+        @Override
+        public IDocument.IRelatedDocument _toLogicalModel(DocumentReferenceRelatesToComponent src) {
+            IDocument.IRelatedDocument dest = new RelatedDocument();
+            dest.setDocument(ReferenceTransform.getInstance().toLogicalModel(src.getTarget()));
+            dest.setRelationship(CoreUtil.enumToEnum(src.getCode(), IDocument.DocumentRelationship.class));
+            return dest;
+        }
+
+    }
+
+    private static final RelatedTransform relatedTransform = new RelatedTransform();
 
     private static final DocumentTransform instance = new DocumentTransform();
 
@@ -37,14 +73,58 @@ public class DocumentTransform implements IWrapperTransform<IDocument, DocumentR
         return instance;
     }
 
-    @Override
-    public IDocument _wrap(DocumentReference value) {
-        return new DocumentWrapper(value);
+    private DocumentTransform() {
+        super(IDocument.class, DocumentReference.class);
     }
 
     @Override
-    public DocumentReference newWrapped() {
+    protected IDocument newLogical() {
+        return new Document();
+    }
+
+    @Override
+    protected DocumentReference newNative() {
         return new DocumentReference();
+    }
+
+    @Override
+    public DocumentReference _fromLogicalModel(IDocument src) {
+        DocumentReference dest = super._fromLogicalModel(src);
+        dest.setDescription(src.getDescription());
+        dest.setDate(DateTransform.getInstance().fromLogicalModel(src.getCreationDate()));
+        dest.setStatus(CoreUtil.enumToEnum(src.getDocumentStatus(), Enumerations.DocumentReferenceStatus.class));
+        IDocument.CompositionStatus status = src.getCompositionStatus();
+        dest.setDocStatus(CoreUtil.enumToEnum(status, Enumerations.CompositionStatus.class));
+        dest.setType(ConceptTransform.getInstance().fromLogicalModel(src.getType()));
+        dest.setCategory(ConceptTransform.getInstance().fromLogicalModel(src.getCategories()));
+        dest.setAuthor(ReferenceTransform.getInstance().fromLogicalModel(src.getAuthors()));
+        dest.getContext().addEncounter(ReferenceTransform.getInstance().fromLogicalModel(src.getEncounter()));
+        src.getAttachments().forEach(attachment ->
+                dest.addContent().setAttachment(AttachmentTransform.getInstance().fromLogicalModel(attachment)));
+        dest.setRelatesTo(relatedTransform.fromLogicalModel(src.getRelatedDocuments()));
+        return dest;
+    }
+
+    @Override
+    public IDocument _toLogicalModel(DocumentReference src) {
+        IDocument dest = super._toLogicalModel(src);
+        dest.setDescription(src.getDescription());
+        dest.setCreationDate(DateTransform.getInstance().toLogicalModel(src.getDate()));
+        dest.setDocumentStatus(CoreUtil.enumToEnum(src.getStatus(), IDocument.DocumentStatus.class));
+        dest.setDocumentStatus(CoreUtil.enumToEnum(src.getDocStatus(), IDocument.DocumentStatus.class));
+        dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
+        dest.setCategories(ConceptTransform.getInstance().toLogicalModel(src.getCategory()));
+        dest.setAuthors(ReferenceTransform.getInstance().toLogicalModel(src.getAuthor()));
+        dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(CollectionUtil.getFirst(src.getContext().getEncounter())));
+        src.getContent().forEach(content ->
+                dest.addAttachments(AttachmentTransform.getInstance().toLogicalModel(content.getAttachment())));
+        dest.setRelatedDocuments(relatedTransform.toLogicalModel(src.getRelatesTo()));
+        return dest;
+    }
+
+    @Override
+    protected List<Identifier> getIdentifiers(DocumentReference documentReference) {
+        return documentReference.getIdentifier();
     }
 
 }

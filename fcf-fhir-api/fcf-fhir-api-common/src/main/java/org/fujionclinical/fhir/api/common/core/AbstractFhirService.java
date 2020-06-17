@@ -195,12 +195,14 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
     /**
      * Returns the resource corresponding to the given id.
      *
-     * @param <T> The resource type.
+     * @param <T>   The resource type.
      * @param clazz The resource type.
-     * @param id The resource id.
+     * @param id    The resource id.
      * @return The corresponding resource, if found.
      */
-    public <T extends IBaseResource> T getResource(Class<T> clazz, String id) {
+    public <T extends IBaseResource> T getResource(
+            Class<T> clazz,
+            String id) {
         return getClient().read().resource(clazz).withId(id).execute();
     }
 
@@ -294,12 +296,14 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
     /**
      * Query for resources.
      *
-     * @param <T> The resource type.
+     * @param <T>           The resource type.
      * @param resourceClass The type of resource.
-     * @param queryString The FHIR query string.
+     * @param queryString   The FHIR query string.
      * @return The result of the query.
      */
-    protected <T extends IBaseResource> IQuery<IBaseBundle> searchResources(Class<T> resourceClass, String queryString) {
+    protected <T extends IBaseResource> IQuery<IBaseBundle> searchResources(
+            Class<T> resourceClass,
+            String queryString) {
         String resource = getClient().getFhirContext().getResourceDefinition(resourceClass).getName();
         return getClient().search().byUrl(resource + "?" + queryString);
     }
@@ -307,12 +311,14 @@ public abstract class AbstractFhirService<PATIENT, IDENTIFIER, REFERENCE> {
     /**
      * Fetch multiple resources of the same type from the data store.
      *
-     * @param <T> The resource type.
+     * @param <T>           The resource type.
      * @param resourceClass The type of resource.
-     * @param ids A list of logical ids.
+     * @param ids           A list of logical ids.
      * @return The result of the query.
      */
-    protected <T extends IBaseResource> IQuery<IBaseBundle> searchResourcesById(Class<T> resourceClass, String... ids) {
+    protected <T extends IBaseResource> IQuery<IBaseBundle> searchResourcesById(
+            Class<T> resourceClass,
+            String... ids) {
         if (ids == null || ids.length == 0) {
             return null;
         }

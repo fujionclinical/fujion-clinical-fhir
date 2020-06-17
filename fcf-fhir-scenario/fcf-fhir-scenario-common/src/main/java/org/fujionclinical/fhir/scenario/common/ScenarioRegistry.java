@@ -33,7 +33,7 @@ import org.fujion.common.AbstractRegistry;
 public class ScenarioRegistry<SCENARIO extends ScenarioBase> extends AbstractRegistry<String, SCENARIO> {
 
     public ScenarioRegistry(ScenarioFinder<SCENARIO> scenarioFinder) {
-        for (ScenarioFactory<SCENARIO> factory: scenarioFinder) {
+        for (ScenarioFactory<SCENARIO> factory : scenarioFinder) {
             register(factory.create());
         }
     }
@@ -42,4 +42,5 @@ public class ScenarioRegistry<SCENARIO extends ScenarioBase> extends AbstractReg
     protected String getKey(SCENARIO scenario) {
         return scenario.getName();
     }
+
 }

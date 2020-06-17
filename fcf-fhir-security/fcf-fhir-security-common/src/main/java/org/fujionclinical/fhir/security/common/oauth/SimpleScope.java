@@ -45,4 +45,5 @@ public class SimpleScope implements Serializable, IScope {
     public String asStringValue() {
         return this.value;
     }
+
 }

@@ -1,152 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<beans profile="root">
-	
-		<!-- FHIR context and client -->
 
-		<bean id="fhirContextConfigurator"
-			  class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator" />
-		
-		<bean id="fhirContext"
-			  class="org.fujionclinical.fhir.api.common.client.FhirContext">
-			<constructor-arg ref="fhirContextConfigurator" />
-		</bean>
-		
-		<bean id="fhirClientFactory"
-			  class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
-			<constructor-arg ref="fhirContext" />
-		</bean>
-		
-		<bean id="fhirClient" factory-bean="fhirClientFactory" factory-method="createClient">
-			<constructor-arg>
-				<bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator" />
-			</constructor-arg>
-		</bean>
-		
-		<bean factory-method="getInstance"
-				class="org.fujionclinical.fhir.api.common.core.ParameterMappings">
-			<property name="fhirContext" ref="fhirContext" />
-		</bean>
+    <beans profile="root">
 
-		<bean id="fhirAuthInterceptorRegistry" factory-method="getInstance"
-			class="org.fujionclinical.fhir.security.common.AuthInterceptorRegistry" />
-		
-		<bean id="fhirAuthInterceptor" abstract="true" 
-			class="org.springframework.beans.factory.config.MethodInvokingBean">
-			<property name="targetObject" ref="fhirAuthInterceptorRegistry" />
-			<property name="targetMethod" value="register" />
-		</bean>
-		
-		<bean parent="fhirAuthInterceptor">
-			<property name="arguments">
-				<map>
-					<entry key="Basic" value="org.fujionclinical.fhir.security.common.BasicAuthInterceptor" />
-				</map>
-			</property>
-		</bean>
-		
-		<bean id="fhirNarrativeService"
-			  class="org.fujionclinical.fhir.api.common.core.NarrativeService">
-			<constructor-arg ref="fhirContext" />
-		</bean>
-		
-		<bean id="fhirService"
-			  class="org.fujionclinical.fhir.api.${fhir.context.version}.common.BaseFhirService">
-			<constructor-arg ref="fhirClient" />
-		</bean>
-		
-		<bean id="fhirPatientService" parent="fhirService"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientService" />
-		
-		<bean id="fhirConditionService" parent="fhirService"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionService" />
-		
-		<bean id="fhirMedicationService" parent="fhirService"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.medication.MedicationService" />
-		
-		<bean id="fhirDocumentService" parent="fhirService"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentService" />
-		
-		<bean id="documentTypeEnumerator"
-			class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentTypeEnumerator">
-			<constructor-arg ref="fhirDocumentService" />
-		</bean>
+        <!-- FHIR context and client -->
 
-		<bean parent="fhirAuthInterceptor">
-			<property name="arguments">
-				<map>
-					<entry key="OAuth2" value="org.fujionclinical.fhir.security.common.OAuth2AuthInterceptor" />
-					<entry key="JWT" value="org.fujionclinical.fhir.security.common.JWTAuthInterceptor" />
-				</map>
-			</property>
-		</bean>
-		
-		<!-- Resource DAOs  -->
+        <bean id="fhirContextConfigurator"
+              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientDAO">
-			<constructor-arg ref="fhirService" />
-		</bean>
+        <bean id="fhirContext"
+              class="org.fujionclinical.fhir.api.common.client.FhirContext">
+            <constructor-arg ref="fhirContextConfigurator"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterDAO">
-			<constructor-arg ref="fhirService" />
-		</bean>
+        <bean id="fhirClientFactory"
+              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
+            <constructor-arg ref="fhirContext"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerDAO">
-			<constructor-arg ref="fhirService" />
-		</bean>
+        <bean id="fhirClient" factory-bean="fhirClientFactory" factory-method="createClient">
+            <constructor-arg>
+                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator"/>
+            </constructor-arg>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionDAO">
-			<constructor-arg ref="fhirService" />
-		</bean>
+        <bean factory-method="getInstance"
+              class="org.fujionclinical.fhir.api.common.core.ParameterMappings">
+            <property name="fhirContext" ref="fhirContext"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentDAO">
-			<constructor-arg ref="fhirService" />
-		</bean>
+        <bean id="fhirAuthInterceptorRegistry" factory-method="getInstance"
+              class="org.fujionclinical.fhir.security.common.AuthInterceptorRegistry"/>
 
-		<!-- Wrapper transforms -->
+        <bean id="fhirAuthInterceptor" abstract="true"
+              class="org.springframework.beans.factory.config.MethodInvokingBean">
+            <property name="targetObject" ref="fhirAuthInterceptorRegistry"/>
+            <property name="targetMethod" value="register"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.common.core.TagTransform" factory-method="getInstance"/>
+        <bean parent="fhirAuthInterceptor">
+            <property name="arguments">
+                <map>
+                    <entry key="Basic" value="org.fujionclinical.fhir.security.common.BasicAuthInterceptor"/>
+                </map>
+            </property>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.AnnotationTransform" factory-method="getInstance"/>
+        <bean id="fhirNarrativeService"
+              class="org.fujionclinical.fhir.api.common.core.NarrativeService">
+            <constructor-arg ref="fhirContext"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.AttachmentTransform" factory-method="getInstance"/>
+        <bean id="fhirService"
+              class="org.fujionclinical.fhir.api.${fhir.context.version}.common.BaseFhirService">
+            <constructor-arg ref="fhirClient"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ConceptCodeTransform" factory-method="getInstance"/>
+        <bean id="fhirPatientService" parent="fhirService"
+              class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientService"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ConceptTransform" factory-method="getInstance"/>
+        <bean id="fhirConditionService" parent="fhirService"
+              class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionService"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ContactPointTransform" factory-method="getInstance"/>
+        <bean id="fhirMedicationService" parent="fhirService"
+              class="org.fujionclinical.fhir.api.${fhir.context.version}.medication.MedicationService"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.IdentifierTransform" factory-method="getInstance"/>
+        <bean id="fhirDocumentService" parent="fhirService"
+              class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentService"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PeriodTransform" factory-method="getInstance"/>
+        <bean id="documentTypeEnumerator"
+              class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentTypeEnumerator">
+            <constructor-arg ref="fhirDocumentService"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PersonNameTransform" factory-method="getInstance"/>
+        <bean parent="fhirAuthInterceptor">
+            <property name="arguments">
+                <map>
+                    <entry key="OAuth2" value="org.fujionclinical.fhir.security.common.OAuth2AuthInterceptor"/>
+                    <entry key="JWT" value="org.fujionclinical.fhir.security.common.JWTAuthInterceptor"/>
+                </map>
+            </property>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.PostalAddressTransform" factory-method="getInstance"/>
+        <!-- Resource DAOs  -->
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.RatioTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientDAO">
+            <constructor-arg ref="fhirService"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.ReferenceRangeTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterDAO">
+            <constructor-arg ref="fhirService"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.common.StringTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerDAO">
+            <constructor-arg ref="fhirService"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionDAO">
+            <constructor-arg ref="fhirService"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentDAO">
+            <constructor-arg ref="fhirService"/>
+        </bean>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterTransform" factory-method="getInstance"/>
+        <!-- Model transforms -->
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.location.LocationTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.common.transform.TagTransform" factory-method="getInstance"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.AnnotationTransform" factory-method="getInstance"/>
 
-		<bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerTransform" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.AttachmentTransform" factory-method="getInstance"/>
 
-	</beans>
-	
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.ConceptCodeTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.ConceptTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.ContactPointTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.IdentifierTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.PeriodTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.PersonNameTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.PostalAddressTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.PrimitiveTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.QuantityTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.RangeTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.RatioTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.ReferenceTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.transform.SimpleQuantityTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.condition.ConditionTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.document.DocumentTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.encounter.EncounterTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.location.LocationTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.observation.ObservationComponentTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.observation.ReferenceRangeTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.patient.PatientTransform" factory-method="getInstance"/>
+
+        <bean class="org.fujionclinical.fhir.api.${fhir.context.version}.practitioner.PractitionerTransform" factory-method="getInstance"/>
+
+    </beans>
+
 </beans>

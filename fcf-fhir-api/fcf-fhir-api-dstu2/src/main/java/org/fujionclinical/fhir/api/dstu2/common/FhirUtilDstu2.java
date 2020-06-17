@@ -27,14 +27,12 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.dstu2.resource.OperationOutcome;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.*;
-import ca.uhn.fhir.model.primitive.BaseDateTimeDt;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.rest.api.MethodOutcome;
@@ -45,11 +43,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
-import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.core.CoreUtil;
+import org.fujionclinical.api.model.core.IConcept;
+import org.fujionclinical.api.model.impl.Concept;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
+import org.fujionclinical.fhir.api.dstu2.transform.ConceptCodeTransform;
+import org.fujionclinical.fhir.api.dstu2.transform.ConceptTransform;
+import org.fujionclinical.fhir.api.dstu2.transform.PersonNameTransform;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.util.Assert;
@@ -215,7 +218,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
      * @return The corresponding enumeration value.
      */
     public static UnitsOfTimeEnum convertTimeUnitToEnum(String timeUnit) {
-        UnitsOfTimeEnum value = convertEnum(timeUnit, UnitsOfTimeEnum.class);
+        UnitsOfTimeEnum value = CoreUtil.stringToEnum(timeUnit, UnitsOfTimeEnum.class);
         Assert.notNull(value, () -> "Unknown time unit " + timeUnit);
         return value;
     }
@@ -332,7 +335,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
      * @return List of addresses associated with resource or null if none.
      */
     public static List<AddressDt> getAddresses(IBaseResource resource) {
-        return getListProperty(resource, "address", AddressDt.class);
+        return getListProperty(resource, "address");
     }
 
     /**
@@ -849,7 +852,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
      * @return List of names associated with resource or null if none.
      */
     public static List<HumanNameDt> getNames(IBaseResource resource) {
-        return getListProperty(resource, "name", HumanNameDt.class);
+        return getListProperty(resource, "name");
     }
 
     /**
@@ -885,7 +888,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
     }
 
     public static String formatName(HumanNameDt name) {
-        return name == null ? null : PersonNameTransform.getInstance().wrap(name).toString();
+        return name == null ? null : PersonNameTransform.getInstance().toLogicalModel(name).toString();
     }
 
     /**
@@ -970,16 +973,26 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         return maritalStatus == null ? null : MaritalStatusCodesEnum.forCode(maritalStatus.getCode());
     }
 
-    public static DateDt convertDateToType(DateTimeWrapper value) {
-        return value == null ? null : new DateDt(value.getLegacyDate());
+    public static CodeableConceptDt convertEnumToCodeableConcept(
+            Enum<?> value,
+            String system) {
+        return value == null ? null : new CodeableConceptDt(system, value.name()).setText(value.toString());
     }
 
-    public static DateTimeWrapper convertDate(IDatatype value) {
-        return value instanceof BaseDateTimeDt ? convertDate((BaseDateTimeDt) value) : null;
+    public static <T extends Enum<T>> T convertCodeableConceptToEnum(
+            CodeableConceptDt value,
+            Class<T> type) {
+        return convertConceptToEnum(ConceptTransform.getInstance().toLogicalModel(value), type);
     }
 
-    public static DateTimeWrapper convertDate(BaseDateTimeDt value) {
-        return value == null || value.isEmpty() ? null : new DateTimeWrapper(value.getValue());
+    public static IConcept convertEnumToConcept(BoundCodeableConceptDt value) {
+        if (value == null) {
+            return null;
+        }
+
+        IConcept result = new Concept();
+        result.setCodes(ConceptCodeTransform.getInstance().toLogicalModel(value.getCoding()));
+        return result;
     }
 
     /**

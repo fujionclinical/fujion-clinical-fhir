@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -84,7 +84,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
             src = requestUrl + "/" + src;
         }
 
-         propertyChange("src", this.src, this.src = src, true);
+        propertyChange("src", this.src, this.src = src, true);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * @param manifest The SMART manifest.
      */
     public void setManifest(SmartManifest manifest) {
-        Assert.isTrue(!initialized, "A SMART manifest has already been set.");
+        Assert.isTrue(!initialized, "A SMART manifest has already been set");
         initialized = true;
         _manifest.init(manifest);
         String contextStr = _manifest.getValue("context");
@@ -153,7 +153,9 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * this container of a change to the context.
      */
     @Override
-    public void updateContext(String contextName, ContextMap context) {
+    public void updateContext(
+            String contextName,
+            ContextMap context) {
         if (context != null && !context.isEmpty()) {
             _context.put(contextName, context);
         } else {
@@ -182,7 +184,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * Returns true only if all registered contexts are populated.
      */
     private boolean contextPrepared() {
-        for (String context: _contexts) {
+        for (String context : _contexts) {
             if (!_context.containsKey(context)) {
                 return false;
             }
@@ -215,13 +217,16 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * Subscribes/unsubscribes this subscriber to/from a SMART context.
      *
      * @param contextName The name of the SMART context.
-     * @param subscribe If true, subscribe; false, unsubscribe;
+     * @param subscribe   If true, subscribe; false, unsubscribe;
      */
-    private void subscribe(String contextName, boolean subscribe) {
+    private void subscribe(
+            String contextName,
+            boolean subscribe) {
         if (subscribe) {
             contextRegistry.get(contextName).subscribe(this);
         } else {
             contextRegistry.get(contextName).unsubscribe(this);
         }
     }
+
 }

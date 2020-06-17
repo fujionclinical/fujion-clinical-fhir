@@ -67,7 +67,10 @@ public abstract class SmartMessageHandler {
         }
     }
 
-    protected Map<String, Object> createResponse(Map<String, Object> request, Map<String, Object> payload, HttpStatus status) {
+    protected Map<String, Object> createResponse(
+            Map<String, Object> request,
+            Map<String, Object> payload,
+            HttpStatus status) {
         Map<String, Object> response = new HashMap<>();
         response.put("responseToMessageId", request.get("messageId"));
         response.put("payload", payload);
@@ -79,8 +82,11 @@ public abstract class SmartMessageHandler {
         return (Map<String, Object>) source.get("payload");
     }
 
-    protected String getFromPayload(Map<String, Object> source, String param) {
+    protected String getFromPayload(
+            Map<String, Object> source,
+            String param) {
         Map<String, Object> payload = getPayload(source);
         return payload == null ? null : (String) payload.get(param);
     }
+
 }

@@ -53,10 +53,12 @@ public class AuthInterceptorRegistry {
     /**
      * Registers a custom authentication interceptor.
      *
-     * @param id The unique identifier.
+     * @param id                   The unique identifier.
      * @param authInterceptorClass The authentication interceptor class.
      */
-    public void register(String id, Class<AbstractAuthInterceptor> authInterceptorClass) {
+    public void register(
+            String id,
+            Class<AbstractAuthInterceptor> authInterceptorClass) {
         Constructor<?> ctor = ConstructorUtils
                 .getMatchingAccessibleConstructor(authInterceptorClass, PropertyAwareConfigurator.class);
 
@@ -85,11 +87,13 @@ public class AuthInterceptorRegistry {
      * Returns the authentication interceptor with the specified id, throwing an exception if not
      * found.
      *
-     * @param id The unique identifier.
+     * @param id                 The unique identifier.
      * @param parentConfigurator The configurator.
      * @return The corresponding authentication interceptor, or null if authType was not specified.
      */
-    public IAuthInterceptor create(String id, PropertyAwareConfigurator parentConfigurator) {
+    public IAuthInterceptor create(
+            String id,
+            PropertyAwareConfigurator parentConfigurator) {
         id = StringUtils.trimToNull(id);
 
         if (id == null) {

@@ -36,4 +36,5 @@ public interface IAccessTokenRequest<T extends ICredentialProvider> {
     ICredentialProvider<T> getCredentials();
 
     Map<String, String> getParameters();
+
 }

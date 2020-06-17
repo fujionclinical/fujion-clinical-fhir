@@ -52,9 +52,21 @@ public class JsonAccessToken extends AbstractOAuth2AccessToken implements IAcces
 
     private JsonObject rootResponse;
 
-    public JsonAccessToken(JsonObject rootResponse, String accessToken, String tokenType, String expires, String scope,
-                           String intent, String smartStyleUrl, String patientId, String encounterId, String locationId,
-                           boolean needPatientBanner, String resource, String refreshToken, String idTokenStr) {
+    public JsonAccessToken(
+            JsonObject rootResponse,
+            String accessToken,
+            String tokenType,
+            String expires,
+            String scope,
+            String intent,
+            String smartStyleUrl,
+            String patientId,
+            String encounterId,
+            String locationId,
+            boolean needPatientBanner,
+            String resource,
+            String refreshToken,
+            String idTokenStr) {
         super(accessToken, tokenType, expires, scope, refreshToken, idTokenStr);
         Validate.notNull(rootResponse, "The rootResponse must not be null");
         this.rootResponse = rootResponse;

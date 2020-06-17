@@ -9,7 +9,7 @@
 
     <artifactId>fcf-fhir-demo-profile-security-mock</artifactId>
     <packaging>jar</packaging>
-	<name>FHIR Demonstration Web App Mock Security Dependency Profile</name>
+    <name>FHIR Demonstration Web App Mock Security Dependency Profile</name>
 
     <dependencies>
         <dependency>

@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -37,12 +37,14 @@ import org.fujionclinical.api.context.ManagedContext;
  */
 public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedContext<SCENARIO> {
 
-    public interface IScenarioContextSubscriber extends IContextSubscriber {}
+    public interface IScenarioContextSubscriber extends IContextSubscriber {
+
+    }
 
     private static final String SUBJECT_NAME = "Scenario";
-    
+
     private static final Log log = LogFactory.getLog(ScenarioContext.class);
-    
+
     private final ScenarioRegistry registry;
 
     /**
@@ -53,7 +55,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
     public static <SCENARIO extends ScenarioBase> ScenarioContext<SCENARIO> getScenarioContext() {
         return (ScenarioContext) ContextManager.getInstance().getSharedContext(ScenarioContext.class.getName());
     }
-    
+
     /**
      * Request a scenario context change.
      *
@@ -66,7 +68,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
             log.error("Error during scenario context change.", e);
         }
     }
-    
+
     /**
      * Request a scenario context change.
      *
@@ -76,7 +78,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
         ScenarioContext ctx = getScenarioContext();
         ctx.requestContextChange(ctx.registry.get(name));
     }
-    
+
     /**
      * Returns the scenario in the current context.
      *
@@ -85,7 +87,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
     public static <SCENARIO extends ScenarioBase> SCENARIO getActiveScenario() {
         return (SCENARIO) getScenarioContext().getContextObject(false);
     }
-    
+
     /**
      * Create a shared scenario context with an initial null state.
      *
@@ -113,7 +115,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
     public ContextItems toCCOWContext(SCENARIO scenario) {
         return null;
     }
-    
+
     /**
      * Not implemented
      */
@@ -121,5 +123,5 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
     public SCENARIO fromCCOWContext(ContextItems contextItems) {
         return null;
     }
-    
+
 }

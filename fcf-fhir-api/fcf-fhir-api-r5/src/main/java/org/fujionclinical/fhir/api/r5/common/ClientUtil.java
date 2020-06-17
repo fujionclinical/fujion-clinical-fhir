@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.common;
 
+import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -63,6 +64,10 @@ public class ClientUtil {
         return getFhirService().getClient();
     }
 
+    public static FhirContext getFhirContext() {
+        return getFhirClient().getFhirContext();
+    }
+
     /**
      * Returns a resource of the specified type given a resource reference. If the resource has not
      * been previously fetched, it will be fetched from the server. If the referenced resource is
@@ -89,4 +94,5 @@ public class ClientUtil {
     public static IBaseResource getResource(Reference reference) {
         return getFhirService().getResource(reference);
     }
+
 }

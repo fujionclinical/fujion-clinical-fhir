@@ -39,7 +39,10 @@ public abstract class AbstractAccessTokenRequest<T extends ICredentialProvider> 
 
     private T credentials;
 
-    protected AbstractAccessTokenRequest(String clientId, T credentials, org.fujionclinical.fhir.security.common.oauth.AccessTokenGrantType grantType) {
+    protected AbstractAccessTokenRequest(
+            String clientId,
+            T credentials,
+            org.fujionclinical.fhir.security.common.oauth.AccessTokenGrantType grantType) {
         Validate.notNull(clientId, "ClientId must not be null");
         Validate.notNull(credentials, "ICredentialProvider must not be null");
         Validate.notNull(grantType, "GrantType must not be null");

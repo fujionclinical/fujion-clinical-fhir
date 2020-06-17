@@ -44,9 +44,9 @@ import org.fujionclinical.fhir.api.common.core.NarrativeService;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionCallback;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionManager;
+import org.fujionclinical.sharedforms.controller.ListFormController;
 import org.fujionclinical.shell.elements.ElementPlugin;
 import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.sharedforms.controller.ListFormController;
 import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -78,13 +78,21 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
     protected Html detailView;
 
     protected IPatient patient;
+
     protected Class<R> resourceClass;
+
     private String detailTitle;
+
     private S fhirService;
+
     private NarrativeService narrativeService;
+
     private ResourceSubscriptionManager subscriptionManager;
+
     private final IEventSubscriber<IPatient> patientChangeListener = (eventName, patient) -> setPatient(patient);
+
     private String resourcePath;
+
     private Class<B> bundleClass;
 
     protected abstract void setup();

@@ -1,74 +1,74 @@
 {
-    "resourceType": "Practitioner",
-    "identifier": [
-        {
-            "use": "usual",
-            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.4",
-            "value": "1003255854"
-        },
-        {
-            "use": "usual",
-            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.13",
-            "value": "302758"
-        },
-        {
-            "use": "usual",
-            "type": {
-                "text": "EPIC"
-            },
-            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.14",
-            "value": "doctor"
-        },
-        {
-            "use": "usual",
-            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.47",
-            "value": "208Q00004X"
-        },
-        {
-            "use": "usual",
-            "type": {
-                "text": "Epic"
-            },
-            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.63",
-            "value": "6758409616001"
-        }
-    ],
-    "active": true,
-    "name": {
-        "use": "usual",
-        "text": "",
-        "family": "Martin",
-        "given": "Douglas"
+  "resourceType": "Practitioner",
+  "identifier": [
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.4",
+      "value": "1003255854"
     },
-    "telecom": "317-555-1212",
-    "practitionerRole": [
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.13",
+      "value": "302758"
+    },
+    {
+      "use": "usual",
+      "type": {
+        "text": "EPIC"
+      },
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.14",
+      "value": "doctor"
+    },
+    {
+      "use": "usual",
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.47",
+      "value": "208Q00004X"
+    },
+    {
+      "use": "usual",
+      "type": {
+        "text": "Epic"
+      },
+      "system": "urn:oid:1.2.840.114350.1.13.90.3.7.5.737384.63",
+      "value": "6758409616001"
+    }
+  ],
+  "active": true,
+  "name": {
+    "use": "usual",
+    "text": "",
+    "family": "Martin",
+    "given": "Douglas"
+  },
+  "telecom": "317-555-1212",
+  "practitionerRole": [
+    {
+      "specialty": [
         {
-            "specialty": [
-                {
-                    "coding": [
-                        {
-                            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.10.836982.1050",
-                            "code": "127",
-                            "display": "INTERNAL MEDICINE GENERAL"
-                        }
-                    ],
-                    "text": "INTERNAL MEDICINE GENERAL"
-                }
-            ]
-        },
-        {
-            "managingOrganization": "",
-            "role": {
-                "coding": [
-                    {
-                        "system": "urn:oid:1.2.840.114350.1.13.90.3.7.10.836982.1040",
-                        "code": "1",
-                        "display": "Physician"
-                    }
-                ],
-                "text": "Physician"
-            },
-            "location": "Acme Medical Clinic and Spa"
+          "coding": [
+            {
+              "system": "urn:oid:1.2.840.114350.1.13.90.3.7.10.836982.1050",
+              "code": "127",
+              "display": "INTERNAL MEDICINE GENERAL"
+            }
+          ],
+          "text": "INTERNAL MEDICINE GENERAL"
         }
-    ]
+      ]
+    },
+    {
+      "managingOrganization": "",
+      "role": {
+        "coding": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.90.3.7.10.836982.1040",
+            "code": "1",
+            "display": "Physician"
+          }
+        ],
+        "text": "Physician"
+      },
+      "location": "Acme Medical Clinic and Spa"
+    }
+  ]
 }

@@ -124,4 +124,5 @@ public class JWTCredentials implements ICredentialProvider<JWT> {
 
         return signedJWT;
     }
+
 }

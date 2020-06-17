@@ -37,7 +37,10 @@ public class ClientCredentialsAccessTokenRequest<T extends ICredentialProvider> 
 
     private Map<String, String> tokenRequestParams = new HashMap<>();
 
-    public ClientCredentialsAccessTokenRequest(String clientId, T clientCredentials, Scopes scopes) {
+    public ClientCredentialsAccessTokenRequest(
+            String clientId,
+            T clientCredentials,
+            Scopes scopes) {
         super(clientId, clientCredentials, AccessTokenGrantType.CLIENT_CREDENTIALS);
         Validate.notNull(scopes, "Scopes must not be null");
         this.tokenRequestParams.put("scope", scopes.asParamValue());

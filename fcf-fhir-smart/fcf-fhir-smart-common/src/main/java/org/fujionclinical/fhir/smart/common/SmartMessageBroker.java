@@ -52,6 +52,7 @@ public class SmartMessageBroker {
             this.container = container;
             this.expiration = System.currentTimeMillis() + TIME_TO_LIVE;
         }
+
     }
 
     // Event type for a request from a SMART app.
@@ -107,14 +108,14 @@ public class SmartMessageBroker {
         prunePendingResponses();
         Map<String, Object> request = (Map) event.getData();
         String messageId = (String) request.get("messageId");
-        Assert.notNull(messageId, "Cannot dispatch SMART request without a message id.");
+        Assert.notNull(messageId, "Cannot dispatch SMART request without a message id");
         pendingResponses.put(messageId, new PendingResponse(event.getTarget()));
         eventManager.fireLocalEvent(EVENT_REQUEST, request);
     }
 
     private void handleResponse(Map<String, Object> response) {
         String messageId = (String) response.get("responseToMessageId");
-        Assert.notNull(messageId, "Cannot dispatch SMART response without a message id.");
+        Assert.notNull(messageId, "Cannot dispatch SMART response without a message id");
         PendingResponse pendingResponse = pendingResponses.remove(messageId);
 
         if (pendingResponse != null) {

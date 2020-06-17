@@ -1,75 +1,74 @@
-
 scenario:
-    name: FCF Demo
-    id: 873A9E62-DA21-4F5A-9556-259AE99E6B3E
-    activation: encounter1
+  name: FCF Demo
+  id: 873A9E62-DA21-4F5A-9556-259AE99E6B3E
+  activation: encounter1
 
 resources:
-    patient1:
-        source: resource/patient/wm-77y.json
+  patient1:
+    source: resource/patient/wm-77y.json
 
-    patient2:
-        source: resource/patient/wm-61y.json
+  patient2:
+    source: resource/patient/wm-61y.json
 
-    practitioner1:
-        source: resource/practitioner/general-internist.json
+  practitioner1:
+    source: resource/practitioner/general-internist.json
 
-    encounter1:
-        source: resource/encounter/primary-care.json
-        patient: patient1
-        csn: value/234430433
-        practitioner: practitioner1
-        date: datetime/T
+  encounter1:
+    source: resource/encounter/primary-care.json
+    patient: patient1
+    csn: value/234430433
+    practitioner: practitioner1
+    date: datetime/T
 
-    encounter2:
-        source: resource/encounter/primary-care.json
-        patient: patient1
-        csn: value/12345
-        practitioner: practitioner1
-        date: datetime/T-30d
-        status: value/finished
+  encounter2:
+    source: resource/encounter/primary-care.json
+    patient: patient1
+    csn: value/12345
+    practitioner: practitioner1
+    date: datetime/T-30d
+    status: value/finished
 
-    condition1:
-        source: resource/condition/asbestos-exposure.json
-        patient: patient1
-        onset: date/T-10y
+  condition1:
+    source: resource/condition/asbestos-exposure.json
+    patient: patient1
+    onset: date/T-10y
 
-    condition2:
-        source: resource/condition/diabetes-unspecified.json
-        patient: patient1
-        onset: date/T-5y
-        recorded: date/T-1m
-        status: value/resolved
+  condition2:
+    source: resource/condition/diabetes-unspecified.json
+    patient: patient1
+    onset: date/T-5y
+    recorded: date/T-1m
+    status: value/resolved
 
-    hypertension1:
-        source: resource/condition/hypertension.json
-        patient: patient1
-        onset: datetime/T-1y
+  hypertension1:
+    source: resource/condition/hypertension.json
+    patient: patient1
+    onset: datetime/T-1y
 
-    observation1:
-        source: resource/observation/smoking-hx.json
-        patient: patient1
-        date: datetime/T-40y
-        ppd: value/3.5
-        years_used: value/25.0
+  observation1:
+    source: resource/observation/smoking-hx.json
+    patient: patient1
+    date: datetime/T-40y
+    ppd: value/3.5
+    years_used: value/25.0
 
-    observation2:
-        source: resource/observation/bmi.json
-        patient: patient1
-        date: datetime/T-2m
-        value: value/27.9
+  observation2:
+    source: resource/observation/bmi.json
+    patient: patient1
+    date: datetime/T-2m
+    value: value/27.9
 
-    observation3:
-        source: resource/observation/height.json
-        patient: patient1
-        date: datetime/T-2y
-        value: value/172.7
+  observation3:
+    source: resource/observation/height.json
+    patient: patient1
+    date: datetime/T-2y
+    value: value/172.7
 
-    observation4:
-        source: resource/observation/weight.json
-        patient: patient1
-        date: datetime/T-7d
-        value: value/83.3
+  observation4:
+    source: resource/observation/weight.json
+    patient: patient1
+    date: datetime/T-7d
+    value: value/83.3
 
-    questionnaire1:
-        source: resource/questionnaire/stopbang.json
+  questionnaire1:
+    source: resource/questionnaire/stopbang.json

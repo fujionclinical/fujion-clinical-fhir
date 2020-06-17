@@ -139,4 +139,5 @@ public class Document implements Comparable<Document> {
     public int compareTo(Document document) {
         return getTitle().compareToIgnoreCase(document.getTitle());
     }
+
 }

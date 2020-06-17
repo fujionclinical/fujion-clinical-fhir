@@ -54,4 +54,5 @@ public interface IResourceQueryEx<R extends IBaseResource, C> extends IResourceQ
      * @return The newly created query object.
      */
     IQuery<?> createQuery();
+
 }

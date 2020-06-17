@@ -63,14 +63,19 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
         this.apacheHttpClientFactory = apacheHttpClientFactory;
     }
 
-    protected static void setAuthorizationHeader(HttpRequest request, String clientId, String clientSecret) {
+    protected static void setAuthorizationHeader(
+            HttpRequest request,
+            String clientId,
+            String clientSecret) {
         String authHeader = String.format("%s:%s", clientId, clientSecret);
         String encoded = new String(org.apache.commons.codec.binary.Base64.encodeBase64(authHeader.getBytes()));
         request.addHeader("Authorization", String.format("Basic %s", encoded));
     }
 
     @Override
-    public JsonAccessToken getAccessToken(String tokenEndpointUrl, IAccessTokenRequest request) {
+    public JsonAccessToken getAccessToken(
+            String tokenEndpointUrl,
+            IAccessTokenRequest request) {
         String clientId = request.getClientId();
         ICredentialProvider<?> clientSecretCredentials = request.getCredentials();
 
@@ -102,18 +107,22 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
     }
 
     @Override
-    public JsonAccessToken refreshAccessToken(String tokenEndpointUrl, IAccessTokenRequest request,
-                                              IAccessToken accessToken) {
+    public JsonAccessToken refreshAccessToken(
+            String tokenEndpointUrl,
+            IAccessTokenRequest request,
+            IAccessToken accessToken) {
         String clientId = request.getClientId();
         ICredentialProvider<?> clientSecretCredentials = request.getCredentials();
 
         JsonObject rootResponse = post(tokenEndpointUrl, clientId, clientSecretCredentials,
                 accessToken.asNameValuePairList());
-        return buildAccessToken(rootResponse, new String[] {});
+        return buildAccessToken(rootResponse, new String[]{});
     }
 
     @Override
-    public IUserInfo getUserInfo(String userInfoEndpointUrl, JsonAccessToken jsonAccessToken) {
+    public IUserInfo getUserInfo(
+            String userInfoEndpointUrl,
+            JsonAccessToken jsonAccessToken) {
         HttpGet getRequest = new HttpGet(userInfoEndpointUrl);
         getRequest.addHeader("Content-Type", "application/x-www-form-urlencoded");
         getRequest.addHeader("Authorization", String.format("Bearer %s", jsonAccessToken.getValue()));
@@ -121,7 +130,9 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
         return buildUserInfo(jsonObject);
     }
 
-    protected JsonAccessToken buildAccessToken(JsonObject rootResponse, String[] params) {
+    protected JsonAccessToken buildAccessToken(
+            JsonObject rootResponse,
+            String[] params) {
         return new JsonAccessToken(rootResponse, getResponseElement(IAccessToken.ACCESS_TOKEN, rootResponse),
                 getResponseElement(IAccessToken.TOKEN_TYPE, rootResponse),
                 getResponseElement(IAccessToken.EXPIRES_IN, rootResponse),
@@ -142,8 +153,11 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
                 getResponseElement(IUserInfo.PREFERRED_USERNAME, rootResponse));
     }
 
-    protected JsonObject post(String serviceUrl, String clientId, ICredentialProvider clientCredentials,
-                              List<NameValuePair> transferParams) {
+    protected JsonObject post(
+            String serviceUrl,
+            String clientId,
+            ICredentialProvider clientCredentials,
+            List<NameValuePair> transferParams) {
         HttpPost postRequest = new HttpPost(serviceUrl);
         postRequest.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -198,7 +212,9 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
         }
     }
 
-    protected String getResponseElement(String elementKey, JsonObject rootResponse) {
+    protected String getResponseElement(
+            String elementKey,
+            JsonObject rootResponse) {
         JsonElement jsonElement = rootResponse.get(elementKey);
         return jsonElement == null ? null : jsonElement.getAsString();
     }

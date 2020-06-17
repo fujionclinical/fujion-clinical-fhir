@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -54,6 +54,7 @@ public abstract class SmartContextBase implements IEventSubscriber<Object>, ISma
         public ContextMap(ContextMap contextMap) {
             super(contextMap);
         }
+
     }
 
     public static final String SMART_CONTEXT_EVENT = "SMART.CONTEXT.";
@@ -73,11 +74,13 @@ public abstract class SmartContextBase implements IEventSubscriber<Object>, ISma
     /**
      * Main constructor.
      *
-     * @param contextName This is the name of the SMART context (e.g., "user").
+     * @param contextName  This is the name of the SMART context (e.g., "user").
      * @param contextEvent This is the name of the corresponding context change notification
-     *            event (e.g., "CONTEXT.CHANGED.User").
+     *                     event (e.g., "CONTEXT.CHANGED.User").
      */
-    public SmartContextBase(String contextName, String contextEvent) {
+    public SmartContextBase(
+            String contextName,
+            String contextEvent) {
         this.contextName = contextName;
         this.contextEvent = contextEvent;
     }
@@ -107,7 +110,9 @@ public abstract class SmartContextBase implements IEventSubscriber<Object>, ISma
      * and notifies any subscribing SMART containers of the change.
      */
     @Override
-    public void eventCallback(String eventName, Object eventData) {
+    public void eventCallback(
+            String eventName,
+            Object eventData) {
         context.clear();
         updateContext(context);
         notifySubscribers();
@@ -183,4 +188,5 @@ public abstract class SmartContextBase implements IEventSubscriber<Object>, ISma
     public void unsubscribe(ISmartContextSubscriber subscriber) {
         subscribers.remove(subscriber);
     }
+
 }

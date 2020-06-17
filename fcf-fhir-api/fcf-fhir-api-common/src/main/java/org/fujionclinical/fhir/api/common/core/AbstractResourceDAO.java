@@ -26,9 +26,9 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
-import org.fujionclinical.api.model.core.IDomainDAO;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.core.IWrapperTransform;
+import org.fujionclinical.api.model.core.IModelTransform;
+import org.fujionclinical.api.model.dao.IDomainDAO;
 import org.fujionclinical.api.query.QueryExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -47,13 +47,13 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
 
     protected final AbstractFhirService fhirService;
 
-    protected final IWrapperTransform<T, R> transform;
+    protected final IModelTransform<T, R> transform;
 
     protected AbstractResourceDAO(
             AbstractFhirService fhirService,
             Class<T> domainClass,
             Class<R> resourceClass,
-            IWrapperTransform<T, R> transform) {
+            IModelTransform<T, R> transform) {
         this.fhirService = fhirService;
         this.domainClass = domainClass;
         this.resourceClass = resourceClass;
@@ -65,7 +65,7 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
      */
     @Override
     public T read(String id) {
-        return transform.wrap((R) fhirService.getResource(resourceClass, id));
+        return transform.toLogicalModel((R) fhirService.getResource(resourceClass, id));
     }
 
     protected abstract List<T> execute(IQuery<IBaseBundle> query);
@@ -106,7 +106,7 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
 
     @Override
     public T create(T template) {
-        return transform.wrap((R) fhirService.createResource(transform.unwrap(template)));
+        return transform.toLogicalModel((R) fhirService.createResource(transform.fromLogicalModel(template)));
     }
 
     /**
@@ -115,7 +115,7 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
      * @return The type of domain objects created by this factory.
      */
     @Override
-    public Class<T> getDomainClass() {
+    public Class<T> getDomainType() {
         return domainClass;
     }
 

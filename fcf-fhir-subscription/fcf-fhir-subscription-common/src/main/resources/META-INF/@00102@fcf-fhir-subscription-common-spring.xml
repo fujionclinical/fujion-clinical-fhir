@@ -8,37 +8,37 @@
 
 		http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-	
-	<beans profile="root">
-	
-		<mvc:annotation-driven/>
 
-		<bean id="fhirSubFactory"
-			  class="org.fujionclinical.fhir.subscription.${fhir.context.version}.SubscriptionFactory" />
+    <beans profile="root">
 
-		<bean id="fhirSubService" destroy-method="destroy"
-			class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService">
-			<constructor-arg ref="fhirClient" />
-			<constructor-arg ref="messageProducerService" />
-			<constructor-arg value="${fhir.service.subscription.callback.url:}" />
-			<constructor-arg ref="fhirSubFactory" />
-		</bean>
-		
-		<bean id="fhirSubEndpoint"
-			class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionEndpoint">
-			<constructor-arg ref="fhirSubService" />
-		</bean>		
+        <mvc:annotation-driven/>
 
-	</beans>
-	
-	<beans profile="child">
-		
-		<bean id="fhirSubManager"
-			class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionManager">
-			<constructor-arg ref="eventManager" />
-			<constructor-arg ref="fhirSubService" />
-		</bean>
-		
-	</beans>
-	
+        <bean id="fhirSubFactory"
+              class="org.fujionclinical.fhir.subscription.${fhir.context.version}.SubscriptionFactory"/>
+
+        <bean id="fhirSubService" destroy-method="destroy"
+              class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService">
+            <constructor-arg ref="fhirClient"/>
+            <constructor-arg ref="messageProducerService"/>
+            <constructor-arg value="${fhir.service.subscription.callback.url:}"/>
+            <constructor-arg ref="fhirSubFactory"/>
+        </bean>
+
+        <bean id="fhirSubEndpoint"
+              class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionEndpoint">
+            <constructor-arg ref="fhirSubService"/>
+        </bean>
+
+    </beans>
+
+    <beans profile="child">
+
+        <bean id="fhirSubManager"
+              class="org.fujionclinical.fhir.subscription.common.ResourceSubscriptionManager">
+            <constructor-arg ref="eventManager"/>
+            <constructor-arg ref="fhirSubService"/>
+        </bean>
+
+    </beans>
+
 </beans>

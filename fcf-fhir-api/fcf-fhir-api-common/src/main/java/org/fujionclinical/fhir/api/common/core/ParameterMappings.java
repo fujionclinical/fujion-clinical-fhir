@@ -109,7 +109,7 @@ public class ParameterMappings {
             if (value == null) {
                 String[] pcs = key.split(":", 2);
                 key = pcs.length == 1 ? null : pcs[1];
-             }
+            }
 
         } while (value == null && key != null);
 

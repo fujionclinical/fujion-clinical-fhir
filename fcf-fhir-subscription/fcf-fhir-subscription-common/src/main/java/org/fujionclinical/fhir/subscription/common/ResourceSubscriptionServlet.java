@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -42,36 +42,46 @@ import java.io.IOException;
  * supported.
  */
 public class ResourceSubscriptionServlet extends HttpServlet {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     private static final Log log = LogFactory.getLog(ResourceSubscriptionServlet.class);
 
     private ResourceSubscriptionService service;
 
     private boolean disabled;
-    
+
     @Override
-    protected final void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected final void doGet(
+            HttpServletRequest req,
+            HttpServletResponse res) throws ServletException, IOException {
         processRequest(req, res);
     }
-    
+
     @Override
-    protected final void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected final void doPost(
+            HttpServletRequest req,
+            HttpServletResponse res) throws ServletException, IOException {
         processRequest(req, res);
     }
-    
+
     @Override
-    protected final void doDelete(HttpServletRequest req, HttpServletResponse res) {
+    protected final void doDelete(
+            HttpServletRequest req,
+            HttpServletResponse res) {
         // NOP
     }
-    
+
     @Override
-    protected final void doPut(HttpServletRequest req, HttpServletResponse res) {
+    protected final void doPut(
+            HttpServletRequest req,
+            HttpServletResponse res) {
         // NOP
     }
-    
-    protected final void processRequest(HttpServletRequest req, HttpServletResponse res) {
+
+    protected final void processRequest(
+            HttpServletRequest req,
+            HttpServletResponse res) {
         boolean rejected = !initService(req);
 
         if (!rejected) {
@@ -86,7 +96,7 @@ public class ResourceSubscriptionServlet extends HttpServlet {
 
         res.setStatus(rejected ? 410 : 200);
     }
-    
+
     /**
      * Initialize the resource subscription service as necessary.
      *
@@ -112,10 +122,13 @@ public class ResourceSubscriptionServlet extends HttpServlet {
      * Log an exception and disable the servlet.
      *
      * @param message Description of activity at the time of the exception.
-     * @param e The exception.
+     * @param e       The exception.
      */
-    private void disableService(String message, Exception e) {
+    private void disableService(
+            String message,
+            Exception e) {
         disabled = true;
         log.error("An exception occurred while " + message + ".\nTherefore, this service will be disabled", e);
     }
+
 }

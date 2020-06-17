@@ -43,7 +43,9 @@ public abstract class AbstractAuthInterceptor implements org.fujionclinical.fhir
      * @param parentConfigurator The client configurator.
      * @param authType           The authorization type.
      */
-    protected AbstractAuthInterceptor(PropertyAwareConfigurator parentConfigurator, String authType) {
+    protected AbstractAuthInterceptor(
+            PropertyAwareConfigurator parentConfigurator,
+            String authType) {
         this.authType = authType.trim();
         parentConfigurator.wireParams(this);
     }

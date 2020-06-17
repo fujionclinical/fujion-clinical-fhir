@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation=
-		"http://www.springframework.org/schema/beans 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
 		 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<beans profile="root">
-		<bean class="org.fujionclinical.fhir.demo.setup.DemoSetup">
-			<constructor-arg ref="fcfHibernateDataSource" />
-			<constructor-arg value="${org.fujionclinical.fhir.demo.setup.sql:classpath:org/fujionclinical/fhir/demo/setup/setup.sql}" />
-		</bean>
-	</beans>
+    <beans profile="root">
+        <bean class="org.fujionclinical.fhir.demo.setup.DemoSetup">
+            <constructor-arg ref="fcfHibernateDataSource"/>
+            <constructor-arg value="${org.fujionclinical.fhir.demo.setup.sql:classpath:org/fujionclinical/fhir/demo/setup/setup.sql}"/>
+        </bean>
+    </beans>
 </beans>

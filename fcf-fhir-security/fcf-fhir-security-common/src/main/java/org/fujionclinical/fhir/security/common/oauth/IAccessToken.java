@@ -35,12 +35,19 @@ import java.util.List;
 public interface IAccessToken extends OAuth2AccessToken, Serializable {
 
     String PATIENT = "patient";
+
     String ENCOUNTER = "encounter";
+
     String LOCATION = "location";
+
     String NEED_PATIENT_BANNER = "need_patient_banner";
+
     String RESOURCE = "resource";
+
     String INTENT = "intent";
+
     String SMART_STYLE_URL = "smart_style_url";
+
     String ID_TOKEN = "id_token";
 
     JsonObject getRootResponse();
@@ -62,4 +69,5 @@ public interface IAccessToken extends OAuth2AccessToken, Serializable {
     String getIdTokenStr();
 
     List<NameValuePair> asNameValuePairList();
+
 }

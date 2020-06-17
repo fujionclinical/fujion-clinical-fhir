@@ -44,7 +44,11 @@ public class JsonUserInfo implements IUserInfo {
 
     private JsonObject rootResponse;
 
-    public JsonUserInfo(JsonObject rootResponse, String sub, String name, String preferredUsername) {
+    public JsonUserInfo(
+            JsonObject rootResponse,
+            String sub,
+            String name,
+            String preferredUsername) {
         Validate.notNull(rootResponse, "The rootResponse must not be null");
         this.rootResponse = rootResponse;
         this.sub = sub;
@@ -91,4 +95,5 @@ public class JsonUserInfo implements IUserInfo {
 
         return nameValuePairs;
     }
+
 }

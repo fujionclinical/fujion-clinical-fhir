@@ -31,4 +31,5 @@ import ca.uhn.fhir.rest.client.api.IClientInterceptor;
  * Specialized client interceptor for different authentication / authorization mechanisms.
  */
 public interface IAuthInterceptor extends IClientInterceptor, org.fujionclinical.fhir.security.common.ICredentialProvider<String> {
+
 }

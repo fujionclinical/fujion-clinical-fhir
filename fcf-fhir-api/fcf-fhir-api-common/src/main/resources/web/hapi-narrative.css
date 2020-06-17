@@ -1,10 +1,10 @@
 
 BODY {
-	font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 DIV.hapiHeaderText {
-	font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 /********************************************************
@@ -13,24 +13,25 @@ DIV.hapiHeaderText {
 * in a Diagnostic Report for a lab test)
 ********************************************************/
 TABLE.hapiTableOfValues THEAD TR TD {
-	background: #A0A0F0;
-	color: #000080;
-	font-size: 1.2em;
-	font-weight: bold;
-	padding: 5px;
+    background: #A0A0F0;
+    color: #000080;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 5px;
 }
 
 TABLE.hapiTableOfValues TBODY TR TD {
-	padding-left: 5px;
-	padding-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* Even and odd row formatting */
 TR.hapiTableOfValuesRowOdd TD {
-	background: #C0C0C0;
+    background: #C0C0C0;
 }
+
 TR.hapiTableOfValuesRowEven TD {
-	background: #F0F0F0;
+    background: #F0F0F0;
 }
 
 /********************************************************
@@ -40,13 +41,13 @@ TR.hapiTableOfValuesRowEven TD {
 ********************************************************/
 
 TABLE.hapiPropertyTable TBODY TR TD:FIRST-CHILD {
-        text-align: right;
-        background: #C0C0C0;
-        border-top: 1px solid #EEE;
+    text-align: right;
+    background: #C0C0C0;
+    border-top: 1px solid #EEE;
 }
 
 TABLE.hapiPropertyTable TBODY TR TD {
-        vertical-align: top;
-        padding: 4px;
-        margin: 1px;
+    vertical-align: top;
+    padding: 4px;
+    margin: 1px;
 }

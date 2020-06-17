@@ -48,4 +48,5 @@ public interface IUserInfo extends Serializable {
     String getPreferredUsername();
 
     List<NameValuePair> asNameValuePairList();
+
 }

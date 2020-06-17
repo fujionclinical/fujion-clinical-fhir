@@ -4,10 +4,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<beans profile="root">
+    <beans profile="root">
 
-		<bean id="smartContextBinder" init-method="init"
-			  class="org.fujionclinical.fhir.smart.launch.oidc.SmartContextBinder" />
-	</beans>
-	
+        <bean id="smartContextBinder" init-method="init"
+              class="org.fujionclinical.fhir.smart.launch.oidc.SmartContextBinder"/>
+    </beans>
+
 </beans>

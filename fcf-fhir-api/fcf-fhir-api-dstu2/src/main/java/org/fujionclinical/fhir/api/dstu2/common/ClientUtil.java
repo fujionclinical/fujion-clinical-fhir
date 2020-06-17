@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.dstu2.common;
 
+import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.fujionclinical.api.spring.SpringUtil;
@@ -55,6 +56,10 @@ public class ClientUtil {
 
     public static IGenericClient getFhirClient() {
         return getFhirService().getClient();
+    }
+
+    public static FhirContext getFhirContext() {
+        return getFhirClient().getFhirContext();
     }
 
     /**
@@ -89,4 +94,5 @@ public class ClientUtil {
      */
     private ClientUtil() {
     }
+
 }

@@ -1,109 +1,111 @@
 'use strict';
 
 define('fcf-smart', [
-	'fujion-core', 
-	'fujion-widget',
-	'fcf-smart-css'], function(fujion, Widget, Hashes) {
+    'fujion-core',
+    'fujion-widget',
+    'fcf-smart-css'], function (fujion, Widget, Hashes) {
 
-	var _windows = [];
+    var _windows = [];
 
-	/******************************************************************************************************************
-	 * A CKEditor widget
-	 ******************************************************************************************************************/ 
-	Widget.SmartContainer = Widget.UIWidget.extend({
+    /******************************************************************************************************************
+     * A CKEditor widget
+     ******************************************************************************************************************/
+    Widget.SmartContainer = Widget.UIWidget.extend({
 
-		_contentWindow: null,
+        _contentWindow: null,
 
-		/*------------------------------ Events ------------------------------*/
+        /*------------------------------ Events ------------------------------*/
 
-		sendRequest: function(data) {
-			if (data && data.messageId && data.messageType) {
-				this.trigger('smart_request', {data: data});
-			}
-		},
+        sendRequest: function (data) {
+            if (data && data.messageId && data.messageType) {
+                this.trigger('smart_request', {data: data});
+            }
+        },
 
-		handleResponse: function(event) {
-			this._postMessage(event.payload || event.data);
-		},
+        handleResponse: function (event) {
+            this._postMessage(event.payload || event.data);
+        },
 
-		/*------------------------------ Lifecycle ------------------------------*/
-		
-		destroy: function() {
-			this._unregisterWindow();
-			this._super();
-		},
-		
-		init: function() {
-			this._super();
-			this.forwardToServer('smart_request');
-		},
-		
-		/*------------------------------ Other ------------------------------*/
+        /*------------------------------ Lifecycle ------------------------------*/
 
-		_postMessage: function(message) {
-			if (message && this._contentWindow) {
-				this._contentWindow.postMessage(message, "*");
-			}
-		},
+        destroy: function () {
+            this._unregisterWindow();
+            this._super();
+        },
 
-		_registerWindow: function(window) {
-			this._unregisterWindow();
-			registerWindow(window, this);
-			this._contentWindow = window;
-		},
+        init: function () {
+            this._super();
+            this.forwardToServer('smart_request');
+        },
 
-		_unregisterWindow: function() {
-			unregisterWindow(this._contentWindow);
-			this._contentWindow = null;
-		},
+        /*------------------------------ Other ------------------------------*/
 
-		/*------------------------------ Rendering ------------------------------*/
+        _postMessage: function (message) {
+            if (message && this._contentWindow) {
+                this._contentWindow.postMessage(message, "*");
+            }
+        },
 
-		afterRender: function() {
-			this._super();
-			this.widget$.on('smart_response', this.handleResponse.bind(this));
-			this._registerWindow(this.widget$.get(0).contentWindow);
-		},
+        _registerWindow: function (window) {
+            this._unregisterWindow();
+            registerWindow(window, this);
+            this._contentWindow = window;
+        },
 
-		render$: function() {
-			return $('<iframe>');
-		},
-		
-		/*------------------------------ State ------------------------------*/
+        _unregisterWindow: function () {
+            unregisterWindow(this._contentWindow);
+            this._contentWindow = null;
+        },
 
-		s_src: function(v) {
-			this.attr('src', v);
-		}
-	});
+        /*------------------------------ Rendering ------------------------------*/
 
-	window.addEventListener("message", processRequest, false);
+        afterRender: function () {
+            this._super();
+            this.widget$.on('smart_response', this.handleResponse.bind(this));
+            this._registerWindow(this.widget$.get(0).contentWindow);
+        },
 
-	function processRequest(event) {
-		var index = findWindow(event.source);
+        render$: function () {
+            return $('<iframe>');
+        },
 
-		if (index > -1) {
-			var widget = _windows[index].widget;
-			widget.sendRequest(event.data);
-		}
-	}
+        /*------------------------------ State ------------------------------*/
 
-	function findWindow(window) {
-		return window ? _.findIndex(_windows, function(entry) { return entry.window === window}) : -1;
-	}
+        s_src: function (v) {
+            this.attr('src', v);
+        }
+    });
 
-	function registerWindow(window, widget) {
-		_windows.push({window: window, widget: widget});
-	}
+    window.addEventListener("message", processRequest, false);
 
-	function unregisterWindow(window) {
-		var index = findWindow(window);
+    function processRequest(event) {
+        var index = findWindow(event.source);
 
-		if (index > -1) {
-			_windows.splice(index, 1);
-		}
-	}
+        if (index > -1) {
+            var widget = _windows[index].widget;
+            widget.sendRequest(event.data);
+        }
+    }
 
-	return fujion.widget;
+    function findWindow(window) {
+        return window ? _.findIndex(_windows, function (entry) {
+            return entry.window === window
+        }) : -1;
+    }
+
+    function registerWindow(window, widget) {
+        _windows.push({window: window, widget: widget});
+    }
+
+    function unregisterWindow(window) {
+        var index = findWindow(window);
+
+        if (index > -1) {
+            _windows.splice(index, 1);
+        }
+    }
+
+    return fujion.widget;
 });
 
 

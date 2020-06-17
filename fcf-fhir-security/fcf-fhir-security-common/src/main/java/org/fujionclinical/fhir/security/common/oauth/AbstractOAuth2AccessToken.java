@@ -40,8 +40,13 @@ abstract public class AbstractOAuth2AccessToken implements Serializable, IAccess
 
     protected final OAuth2AccessToken oAuth2AccessToken;
 
-    public AbstractOAuth2AccessToken(String accessToken, String tokenType, String expires, String scope, String refreshToken,
-                                     final String idToken) {
+    public AbstractOAuth2AccessToken(
+            String accessToken,
+            String tokenType,
+            String expires,
+            String scope,
+            String refreshToken,
+            final String idToken) {
         Validate.notNull(accessToken, "IAccessToken must not be null");
         Validate.notNull(tokenType, "TokenType must not be null");
         Validate.notNull(scope, "IScope must not be null");

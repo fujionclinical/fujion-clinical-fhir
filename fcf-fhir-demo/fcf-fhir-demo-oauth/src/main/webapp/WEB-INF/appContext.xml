@@ -11,9 +11,9 @@
 		        http://www.springframework.org/schema/context
 		        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <import resource="classpath:/META-INF/fcf-fhir-security-mock-spring.xml" />
+    <import resource="classpath:/META-INF/fcf-fhir-security-mock-spring.xml"/>
 
-    <context:property-placeholder location="classpath:oauth.properties" />
+    <context:property-placeholder location="classpath:oauth.properties"/>
 
     <mvc:cors>
         <mvc:mapping path="/**"
@@ -22,6 +22,6 @@
                      allowed-headers="X-FHIR-Starter,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization"
                      exposed-headers="Location,Content-Location"
                      allow-credentials="false"
-                     max-age="300" />
+                     max-age="300"/>
     </mvc:cors>
 </beans>

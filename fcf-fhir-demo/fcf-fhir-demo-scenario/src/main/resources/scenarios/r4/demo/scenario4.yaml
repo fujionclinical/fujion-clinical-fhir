@@ -1,27 +1,27 @@
 # DMD scenario
 scenario:
-    name: FCF Demo Scenario 04
-    id: 11FF5901-043F-4388-B562-5804C6AD934F
-    activation: encounter1
+  name: FCF Demo Scenario 04
+  id: 11FF5901-043F-4388-B562-5804C6AD934F
+  activation: encounter1
 
 resources:
-    # Scenario 04
-    
-    patient1:
-        source: resource/scenario4/patient.json
+  # Scenario 04
 
-    encounter1:
-        source: resource/scenario4/encounter.json
+  patient1:
+    source: resource/scenario4/patient.json
 
-    observation1:
-        source: resource/scenario4/observation1.json
+  encounter1:
+    source: resource/scenario4/encounter.json
 
-    observation2:
-        source: resource/scenario4/observation2.json
+  observation1:
+    source: resource/scenario4/observation1.json
 
-    observation3:
-        source: resource/scenario4/observation3.json
-        
-    medication-request1:
-        source: resource/scenario4/medication-request1.json
+  observation2:
+    source: resource/scenario4/observation2.json
+
+  observation3:
+    source: resource/scenario4/observation3.json
+
+  medication-request1:
+    source: resource/scenario4/medication-request1.json
 

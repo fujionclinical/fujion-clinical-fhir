@@ -26,11 +26,17 @@
 package org.fujionclinical.fhir.api.r5.test;
 
 import org.fujion.common.DateUtil;
+import org.fujionclinical.api.model.core.IPostalAddress;
+import org.fujionclinical.api.model.encounter.Encounter;
+import org.fujionclinical.api.model.encounter.IEncounter;
+import org.fujionclinical.api.model.impl.PersonName;
+import org.fujionclinical.api.model.impl.PostalAddress;
+import org.fujionclinical.api.model.patient.IPatient;
+import org.fujionclinical.api.model.patient.Patient;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.model.person.PersonNameParser;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
-import org.fujionclinical.fhir.api.r5.common.PersonNameTransform;
-import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.fujionclinical.fhir.api.r5.transform.PersonNameTransform;
 import org.hl7.fhir.r5.model.*;
 import org.junit.Test;
 
@@ -101,89 +107,55 @@ public class CommonTest {
 
     @Test
     public void testAddressUtils() {
-        Address a = new Address();
+        PostalAddress a = new PostalAddress();
         a.setCity("city");
         a.setCountry("country");
         a.setDistrict("district");
-        a.addLine("line1");
-        a.addLine("line2");
+        a.addLines("line1", "line2");
         a.setState("state");
         a.setPostalCode("postalcode");
+        a.setUse(IPostalAddress.PostalAddressUse.WORK);
         Patient patient = new Patient();
-        patient.addAddress(a);
-        Practitioner practitioner = new Practitioner();
-        practitioner.addAddress(a);
-        Encounter encounter = new Encounter();
-        assertSame(a, FhirUtilR5.getFirst(FhirUtilR5.getAddresses(patient)));
-        assertSame(a, FhirUtilR5.getFirst(FhirUtilR5.getAddresses(practitioner)));
-        assertNull(FhirUtilR5.getFirst(FhirUtilR5.getAddresses(encounter)));
+        patient.addAddresses(a);
+        assertSame(a, patient.getAddress(IPostalAddress.PostalAddressUse.WORK));
+        assertNull(patient.getAddress(IPostalAddress.PostalAddressUse.HOME));
     }
 
     @Test
     public void testNameUtils() {
-        HumanName n = new HumanName();
-        IPersonName wrapper = PersonNameTransform.getInstance().wrap(n);
-        PersonNameParser.instance.fromString("last, first middle", wrapper);
-        assertEquals("last", n.getFamily());
-        assertEquals("first middle", n.getGivenAsSingleString());
-        assertEquals("first", n.getGiven().get(0).getValue());
-        assertEquals("middle", n.getGiven().get(1).getValue());
-        assertEquals("last, first middle", FhirUtilR5.formatName(n));
-        n.setUse(HumanName.NameUse.USUAL);
-        HumanName n2 = new HumanName();
-        IPersonName wrapper2 = PersonNameTransform.getInstance().wrap(n);
-        PersonNameParser.instance.fromString(",nickname", wrapper2);
-        n2.setUse(HumanName.NameUse.NICKNAME);
-        List<HumanName> list = new ArrayList<>();
-        list.add(n);
-        list.add(n2);
-        assertSame(n, FhirUtilR5.getName(list, HumanName.NameUse.USUAL));
-        assertSame(n, FhirUtilR5.getName(list, HumanName.NameUse.USUAL, HumanName.NameUse.NICKNAME));
-        assertSame(n2, FhirUtilR5.getName(list, HumanName.NameUse.NICKNAME));
-        assertSame(n2, FhirUtilR5.getName(list, HumanName.NameUse.NICKNAME, HumanName.NameUse.USUAL));
-        assertNull(FhirUtilR5.getName(list, HumanName.NameUse.OLD));
-        Patient patient = new Patient();
-        patient.setName(list);
-        Practitioner practitioner = new Practitioner();
-        practitioner.setName(list);
-        Encounter encounter = new Encounter();
-        assertSame(list, FhirUtilR5.getNames(patient));
-        assertSame(list, FhirUtilR5.getNames(practitioner));
-        assertNull(FhirUtilR5.getNames(encounter));
+        IPersonName personName = new PersonName();
+        PersonNameParser.instance.fromString("last, first middle", personName);
+        HumanName humanName = PersonNameTransform.getInstance().fromLogicalModel(personName);
+        assertEquals("last", humanName.getFamily());
+        assertEquals("first middle", humanName.getGivenAsSingleString());
+        assertEquals("first", humanName.getGiven().get(0).getValue());
+        assertEquals("middle", humanName.getGiven().get(1).getValue());
+        assertEquals("last, first middle", FhirUtilR5.formatName(humanName));
+        IPersonName personName2 = new PersonName();
+        PersonNameParser.instance.fromString(",nickname", personName2);
+        personName2.setUse(IPersonName.PersonNameUse.NICKNAME);
+        HumanName humanName2 = PersonNameTransform.getInstance().fromLogicalModel(personName2);
+        assertEquals(HumanName.NameUse.NICKNAME, humanName2.getUse());
+        assertTrue(!humanName2.hasFamily());
+        assertEquals("nickname", humanName2.getGivenAsSingleString());
     }
 
     @Test
     public void testEquals() {
-        IBaseResource res1v1 = new Patient();
-        res1v1.setId(createId("Patient", "1234", "1"));
-        IBaseResource res1v2 = new Patient();
-        res1v2.setId(createId("Patient", "1234", "2"));
-        assertTrue(FhirUtilR5.areEqual(res1v1, res1v2, true));
-        assertFalse(FhirUtilR5.areEqual(res1v1, res1v2, false));
-        IBaseResource res2v1 = new Encounter();
-        res2v1.setId(createId("Resource", "1234", "1"));
-        IBaseResource res2 = new Encounter();
-        res2.setId(createId("Resource", "1234", null));
-        assertFalse(FhirUtilR5.areEqual(res1v1, res2v1));
-        assertFalse(FhirUtilR5.areEqual(res2v1, res2));
-        assertTrue(FhirUtilR5.areEqual(res2v1, res2, true));
-        Reference ref1v1 = new Reference(res1v1.getIdElement());
-        Reference ref1v2 = new Reference(res1v2.getIdElement());
-        assertFalse(FhirUtilR5.areEqual(ref1v1, ref1v2));
-        assertTrue(FhirUtilR5.areEqual(ref1v1, ref1v2, true));
-        assertTrue(FhirUtilR5.areEqual(res1v1, ref1v1));
-        assertFalse(FhirUtilR5.areEqual(res1v1, ref1v2));
-        ref1v1 = new Reference((BaseResource) res1v1);
-        assertFalse(FhirUtilR5.areEqual(ref1v1, ref1v2));
-        assertTrue(FhirUtilR5.areEqual(ref1v1, ref1v2, true));
-        assertTrue(FhirUtilR5.areEqual(res1v1, ref1v1));
-        assertFalse(FhirUtilR5.areEqual(res2v1, ref1v1));
+        IPatient patient1 = new Patient();
+        patient1.setId("1234");
+        IPatient patient2 = new Patient();
+        patient2.setId("1234");
+        IPatient patient3 = new Patient();
+        patient3.setId("4321");
+        assertTrue(patient1.isSame(patient2));
+        assertFalse(patient1.isSame(patient3));
+        IEncounter encounter1 = new Encounter();
+        encounter1.setId("1234");
+        IEncounter encounter2 = new Encounter();
+        encounter2.setId("1234");
+        assertFalse(patient1.isSame(encounter1));
+        assertTrue(encounter1.isSame(encounter2));
     }
 
-    private IdType createId(
-            String resourceType,
-            String id,
-            String versionId) {
-        return new IdType(resourceType, id, versionId);
-    }
 }

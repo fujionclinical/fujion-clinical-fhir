@@ -1,28 +1,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.fujionclinical</groupId>
+        <artifactId>fcf-fhir</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>fcf-fhir-plugin</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>FHIR Plugin Aggregator</name>
+    <artifactId>fcf-fhir-plugin</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>FHIR Plugin Aggregator</name>
 
-	<modules>
-		<module>fcf-fhir-plugin-adversereactions</module>
-		<module>fcf-fhir-plugin-diagnosticreports</module>
-		<module>fcf-fhir-plugin-documents</module>
-		<module>fcf-fhir-plugin-familyhistory</module>
-		<module>fcf-fhir-plugin-medicationorders</module>
-		<module>fcf-fhir-plugin-observations</module>
-		<module>fcf-fhir-plugin-orders</module>
-		<module>fcf-fhir-plugin-procedures</module>
-		<module>fcf-fhir-plugin-scenario</module>
-	</modules>
+    <modules>
+        <module>fcf-fhir-plugin-adversereactions</module>
+        <module>fcf-fhir-plugin-diagnosticreports</module>
+        <module>fcf-fhir-plugin-documents</module>
+        <module>fcf-fhir-plugin-familyhistory</module>
+        <module>fcf-fhir-plugin-medicationorders</module>
+        <module>fcf-fhir-plugin-observations</module>
+        <module>fcf-fhir-plugin-orders</module>
+        <module>fcf-fhir-plugin-procedures</module>
+        <module>fcf-fhir-plugin-scenario</module>
+    </modules>
 </project>

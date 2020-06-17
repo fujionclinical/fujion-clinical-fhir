@@ -32,10 +32,10 @@ import ca.uhn.fhir.util.UrlUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.Logger;
+import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -267,7 +267,7 @@ public class FhirUtil {
      * Returns the value of a property from a resource base.
      *
      * @param <T>           The property value type.
-     * @param resource      The resource containing the property.
+     * @param object        The resource containing the property.
      * @param getter        The name of the getter method for the property.
      * @param expectedClass The expected class of the property value (null for any).
      * @return The value of the property. A null return value may mean the property does not exist
@@ -275,37 +275,36 @@ public class FhirUtil {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getProperty(
-            IBaseResource resource,
+            Object object,
             String getter,
             Class<T> expectedClass) {
         Object result = null;
 
         try {
-            result = MethodUtils.invokeMethod(resource, getter, (Object[]) null);
+            result = MethodUtils.invokeMethod(object, getter, (Object[]) null);
             result = result == null || expectedClass == null ? result : expectedClass.isInstance(result) ? result : null;
         } catch (Exception e) {
+            // NOP
         }
 
         return (T) result;
     }
 
     /**
-     * Returns the value of a property that returns a list from a resource base.
+     * Returns the value of a property that returns a list from an object.
      *
      * @param <T>          The property value type.
-     * @param resource     The resource containing the property.
+     * @param object       The object containing the property.
      * @param propertyName The name of the property.
-     * @param itemClass    The expected class of the list elements.
      * @return The value of the property. A null return value may mean the property does not exist
      *         or the property getter returned null. Will never throw an exception.
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> getListProperty(
-            IBaseResource resource,
-            String propertyName,
-            Class<T> itemClass) {
+            Object object,
+            String propertyName) {
         try {
-            Object value = PropertyUtils.getSimpleProperty(resource, propertyName);
+            Object value = PropertyUtils.getSimpleProperty(object, propertyName);
             return value == null ? null : value instanceof List ? (List<T>) value : Collections.singletonList((T) value);
         } catch (Exception e) {
             return null;
@@ -366,8 +365,12 @@ public class FhirUtil {
      * @param resource The resource.
      * @return The type of resource.
      */
-    public static String getResourceType(IBaseResource resource) {
-        return resource == null ? null : getResourceType(resource.getIdElement());
+    public static String getResourceName(IBaseResource resource) {
+        return resource == null ? null : getResourceName(resource.getIdElement());
+    }
+
+    public static String getResourceName(Class<IBaseResource> type) {
+        return getFhirService().getClient().getFhirContext().getElementDefinition(type).getName();
     }
 
     /**
@@ -376,7 +379,7 @@ public class FhirUtil {
      * @param id The identifier
      * @return The resource type.
      */
-    public static String getResourceType(IIdType id) {
+    public static String getResourceName(IIdType id) {
         return id == null || id.isEmpty() ? null : id.getResourceType();
     }
 
@@ -386,10 +389,18 @@ public class FhirUtil {
      * @param url The URL.
      * @return The expected resource type.
      */
-    public static String getResourceType(String url) {
+    public static String getResourceName(String url) {
         UrlUtil.UrlParts parts = UrlUtil.parseUrl(url);
         String resourceId = parts.getResourceId();
         return resourceId == null || resourceId.isEmpty() ? "Bundle" : parts.getResourceType();
+    }
+
+    public static Class<?> getResourceType(String resourceName) {
+        return getFhirService().getClient().getFhirContext().getResourceDefinition(resourceName).getImplementingClass();
+    }
+
+    public static Class<?> getResourceType(IIdType id) {
+        return getResourceType(getResourceName(id));
     }
 
     /**
@@ -402,7 +413,7 @@ public class FhirUtil {
      * @return The value cast to the specified type, or null if not possible.
      */
     @SuppressWarnings("unchecked")
-    public static <V, T extends V> T getTyped(
+    public static <V, T extends V> T castTo(
             V value,
             Class<T> clazz) {
         return clazz.isInstance(value) ? (T) value : null;
@@ -524,35 +535,14 @@ public class FhirUtil {
                 "FHIR version mismatch.  Expected " + expected + " but found " + found);
     }
 
-    public static <S extends Enum<S>, D extends Enum<D>> D convertEnum(
-            S value,
-            Class<D> enumClass) {
-        return convertEnum(value, enumClass, null);
-    }
-
-    public static <S extends Enum<S>, D extends Enum<D>> D convertEnum(
-            S value,
-            Class<D> enumClass,
-            D deflt) {
-        return value == null ? null : convertEnum(value.name(), enumClass, deflt);
-    }
-
-    public static <D extends Enum<D>> D convertEnum(
-            String value,
-            Class<D> enumClass) {
-        return convertEnum(value, enumClass, null);
-    }
-
-    public static <D extends Enum<D>> D convertEnum(
-            String value,
-            Class<D> enumClass,
-            D deflt) {
-        if (value == null) {
-            return null;
-        }
-
-        D result = EnumUtils.getEnumIgnoreCase(enumClass, value);
-        return result == null ? deflt : result;
+    public static <T extends Enum> T convertConceptToEnum(
+            IConcept value,
+            Class<T> type) {
+        return value == null ? null : value.getCodes().stream()
+                .map(code -> invokeMethod(null, "fromCodeString", type, code.getCode(), code.getSystem()))
+                .filter(val -> val != null)
+                .findFirst()
+                .orElse(null);
     }
 
     public static IPerson.MaritalStatus findMaritalStatus(
@@ -581,6 +571,33 @@ public class FhirUtil {
 
     public static DateTimeWrapper convertDate(Date date) {
         return date == null ? null : new DateTimeWrapper(date);
+    }
+
+    /**
+     * Returns the displayable value for an enum.  If the enum has a property called "code",
+     * its value will be returned.  Otherwise the value of the toString method is returned.
+     *
+     * @param value The enum value.
+     * @return The displayable value (possibly null).
+     */
+    public static String getDisplayValue(Enum<?> value) {
+        String result = invokeMethod(value, "getCode", String.class);
+        return result == null ? value.toString() : result;
+    }
+
+    public static <T> T invokeMethod(
+            Object object,
+            String methodName,
+            Class<T> returnType,
+            Object... params) {
+        try {
+            Object result = object instanceof Class ?
+                    MethodUtils.invokeExactStaticMethod((Class) object, methodName, params) :
+                    MethodUtils.invokeExactMethod(object, methodName, params);
+            return result != null && returnType.isInstance(result) ? (T) result : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**

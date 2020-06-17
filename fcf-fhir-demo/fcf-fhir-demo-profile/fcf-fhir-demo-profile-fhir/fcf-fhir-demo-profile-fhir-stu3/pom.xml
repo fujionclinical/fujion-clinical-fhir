@@ -9,7 +9,7 @@
 
     <artifactId>fcf-fhir-demo-profile-fhir-stu3</artifactId>
     <packaging>jar</packaging>
-	<name>FHIR Demonstration Web App STU3 Dependency Profile</name>
+    <name>FHIR Demonstration Web App STU3 Dependency Profile</name>
 
     <dependencies>
         <dependency>

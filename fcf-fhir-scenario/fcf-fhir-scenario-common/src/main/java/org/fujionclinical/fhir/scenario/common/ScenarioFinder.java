@@ -81,4 +81,5 @@ public class ScenarioFinder<SCENARIO extends ScenarioBase>
     public Iterator<ScenarioFactory<SCENARIO>> iterator() {
         return scenarioFactories.values().iterator();
     }
+
 }

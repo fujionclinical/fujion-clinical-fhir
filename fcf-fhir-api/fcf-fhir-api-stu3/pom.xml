@@ -1,30 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>org.fujionclinical</groupId>
-		<artifactId>fcf-fhir-api</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
-	
-	<artifactId>fcf-fhir-api-stu3</artifactId>
-	<name>FHIR API (STU3)</name>
+    <modelVersion>4.0.0</modelVersion>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.fujionclinical</groupId>
-			<artifactId>fcf-fhir-api-common</artifactId>
-			<version>${fcf.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ca.uhn.hapi.fhir</groupId>
-			<artifactId>hapi-fhir-structures-dstu3</artifactId>
-			<version>${hapi.fhir.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-	</dependencies>
+    <parent>
+        <groupId>org.fujionclinical</groupId>
+        <artifactId>fcf-fhir-api</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>fcf-fhir-api-stu3</artifactId>
+    <name>FHIR API (STU3)</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-api-common</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-structures-dstu3</artifactId>
+            <version>${hapi.fhir.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

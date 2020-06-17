@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<beans profile="root">
-		
-		<bean id="scenarioFinder"
-			  class="org.fujionclinical.fhir.scenario.common.ScenarioFinder">
-			<constructor-arg value="org.fujionclinical.fhir.scenario.${fhir.context.version}.Scenario" />
-			<constructor-arg value="classpath*:scenarios/${fhir.context.version}/**" />
-			<constructor-arg ref="fhirService" />
-		</bean>
+    <beans profile="root">
 
-	</beans>
+        <bean id="scenarioFinder"
+              class="org.fujionclinical.fhir.scenario.common.ScenarioFinder">
+            <constructor-arg value="org.fujionclinical.fhir.scenario.${fhir.context.version}.Scenario"/>
+            <constructor-arg value="classpath*:scenarios/${fhir.context.version}/**"/>
+            <constructor-arg ref="fhirService"/>
+        </bean>
 
-	<beans profile="child">
+    </beans>
 
-		<bean id="scenarioRegistry" depends-on="patientListPersonal"
-			  class="org.fujionclinical.fhir.scenario.common.ScenarioRegistry">
-			<constructor-arg ref="scenarioFinder" />
-		</bean>
+    <beans profile="child">
 
-		<bean id="scenarioContext" parent="managedContext"
-			  class="org.fujionclinical.fhir.scenario.common.ScenarioContext">
-			<constructor-arg ref="scenarioRegistry" />
-		</bean>
-	</beans>
+        <bean id="scenarioRegistry" depends-on="patientListPersonal"
+              class="org.fujionclinical.fhir.scenario.common.ScenarioRegistry">
+            <constructor-arg ref="scenarioFinder"/>
+        </bean>
+
+        <bean id="scenarioContext" parent="managedContext"
+              class="org.fujionclinical.fhir.scenario.common.ScenarioContext">
+            <constructor-arg ref="scenarioRegistry"/>
+        </bean>
+    </beans>
 </beans>

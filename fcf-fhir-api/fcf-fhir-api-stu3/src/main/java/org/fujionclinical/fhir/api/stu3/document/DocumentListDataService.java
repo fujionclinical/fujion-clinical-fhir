@@ -58,4 +58,5 @@ public class DocumentListDataService extends AbstractQueryServiceEx<DocumentServ
     public boolean hasRequired(IQueryContext context) {
         return true;
     }
+
 }

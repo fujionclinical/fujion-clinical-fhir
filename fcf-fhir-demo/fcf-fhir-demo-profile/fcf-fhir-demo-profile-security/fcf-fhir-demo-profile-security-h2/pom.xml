@@ -9,7 +9,7 @@
 
     <artifactId>fcf-fhir-demo-profile-security-h2</artifactId>
     <packaging>jar</packaging>
-	<name>FHIR Demonstration Web App H2-based Security Dependency Profile</name>
+    <name>FHIR Demonstration Web App H2-based Security Dependency Profile</name>
 
     <dependencies>
         <dependency>

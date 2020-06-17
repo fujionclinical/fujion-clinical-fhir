@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -39,15 +39,15 @@ import org.fujionclinical.fhir.api.stu3.document.Document;
  * Renderer for the document list.
  */
 public class DocumentListRenderer implements IComponentRenderer<Row, Document> {
-    
+
     private static final Log log = LogFactory.getLog(DocumentListRenderer.class);
-    
+
     private final Grid grid;
-    
+
     public DocumentListRenderer(Grid grid) {
         this.grid = grid;
     }
-    
+
     /**
      * Render the grid row for the specified document.
      *
@@ -67,15 +67,17 @@ public class DocumentListRenderer implements IComponentRenderer<Row, Document> {
         addCell(row, doc.getAuthorName());
         return row;
     }
-    
+
     /**
      * Add a cell to the list item containing the specified text value.
      *
      * @param parent Parent component to receive new cell.
-     * @param value Text to include in the new cell.
+     * @param value  Text to include in the new cell.
      */
-    private void addCell(BaseComponent parent, Object value) {
+    private void addCell(
+            BaseComponent parent,
+            Object value) {
         parent.addChild(new Cell(value == null ? null : value.toString()));
     }
-    
+
 }

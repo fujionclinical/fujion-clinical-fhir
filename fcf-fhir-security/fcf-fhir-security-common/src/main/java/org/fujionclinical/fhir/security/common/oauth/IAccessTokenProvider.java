@@ -27,9 +27,17 @@ package org.fujionclinical.fhir.security.common.oauth;
 
 public interface IAccessTokenProvider<T extends IAccessToken> {
 
-    T getAccessToken(String tokenEndpointUrl, IAccessTokenRequest request);
+    T getAccessToken(
+            String tokenEndpointUrl,
+            IAccessTokenRequest request);
 
-    T refreshAccessToken(String tokenEndpointUrl, IAccessTokenRequest request, IAccessToken accessToken);
+    T refreshAccessToken(
+            String tokenEndpointUrl,
+            IAccessTokenRequest request,
+            IAccessToken accessToken);
 
-    IUserInfo getUserInfo(String tokenEndpointUrl, T t);
+    IUserInfo getUserInfo(
+            String tokenEndpointUrl,
+            T t);
+
 }

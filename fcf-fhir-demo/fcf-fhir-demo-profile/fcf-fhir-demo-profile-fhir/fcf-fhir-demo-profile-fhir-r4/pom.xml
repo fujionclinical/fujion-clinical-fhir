@@ -9,7 +9,7 @@
 
     <artifactId>fcf-fhir-demo-profile-fhir-r4</artifactId>
     <packaging>jar</packaging>
-	<name>FHIR Demonstration Web App R4 Dependency Profile</name>
+    <name>FHIR Demonstration Web App R4 Dependency Profile</name>
 
     <dependencies>
         <dependency>
