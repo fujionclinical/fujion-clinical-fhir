@@ -25,10 +25,10 @@
  */
 package org.fujionclinical.fhir.api.dstu2.document;
 
-import org.fujionclinical.api.query.AbstractQueryServiceEx;
-import org.fujionclinical.api.query.IQueryContext;
-import org.fujionclinical.api.query.IQueryResult;
-import org.fujionclinical.api.query.QueryUtil;
+import org.fujionclinical.api.query.core.IQueryContext;
+import org.fujionclinical.api.query.core.QueryUtil;
+import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
+import org.fujionclinical.api.query.service.IQueryResult;
 
 import java.util.List;
 

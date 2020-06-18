@@ -27,10 +27,10 @@ package org.fujionclinical.fhir.api.stu3.document;
 
 import org.fujion.common.DateRange;
 import org.fujionclinical.api.model.patient.IPatient;
-import org.fujionclinical.api.query.AbstractQueryServiceEx;
-import org.fujionclinical.api.query.IQueryContext;
-import org.fujionclinical.api.query.IQueryResult;
-import org.fujionclinical.api.query.QueryUtil;
+import org.fujionclinical.api.query.core.IQueryContext;
+import org.fujionclinical.api.query.core.QueryUtil;
+import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
+import org.fujionclinical.api.query.service.IQueryResult;
 
 import java.util.Date;
 

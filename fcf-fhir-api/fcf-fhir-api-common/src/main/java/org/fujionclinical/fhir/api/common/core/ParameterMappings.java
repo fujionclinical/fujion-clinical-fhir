@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.common.core;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.query.QueryOperator;
+import org.fujionclinical.api.query.expression.Operator;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class ParameterMappings {
 
     public static String getParameterName(
             String propertyPath,
-            QueryOperator operator,
+            Operator operator,
             Class<? extends IDomainType> domainClass) {
         return instance.get(propertyPath, operator, domainClass);
     }
@@ -75,7 +75,7 @@ public class ParameterMappings {
 
     private String get(
             String propertyPath,
-            QueryOperator operator,
+            Operator operator,
             Class<?> clazz) {
         propertyPath = propertyPath.toLowerCase();
         String paramName = null;
@@ -87,7 +87,7 @@ public class ParameterMappings {
         }
 
         if (paramName != null) {
-            paramName = paramName.replace("~", operator == QueryOperator.EQ ? ":exact" : "");
+            paramName = paramName.replace("~", operator == Operator.EQ ? ":exact" : "");
         }
 
         return paramName == null ? propertyPath.replace(".", "-") : paramName;

@@ -33,8 +33,8 @@ import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.person.IPersonName;
-import org.fujionclinical.api.query.QueryExpressionTuple;
-import org.fujionclinical.api.query.QueryOperator;
+import org.fujionclinical.api.query.expression.ExpressionTuple;
+import org.fujionclinical.api.query.expression.Operator;
 
 import java.beans.PropertyDescriptor;
 import java.util.Arrays;
@@ -48,7 +48,7 @@ public class QueryBuilder {
 
     public static String buildQueryString(
             Class<? extends IDomainType> domainClass,
-            List<QueryExpressionTuple> tuples) {
+            List<ExpressionTuple> tuples) {
         return instance.build(domainClass, tuples);
     }
 
@@ -57,10 +57,10 @@ public class QueryBuilder {
 
     private String build(
             Class<? extends IDomainType> domainClass,
-            List<QueryExpressionTuple> tuples) {
+            List<ExpressionTuple> tuples) {
         StringBuilder sb = new StringBuilder();
 
-        for (QueryExpressionTuple tuple : tuples) {
+        for (ExpressionTuple tuple : tuples) {
             sb.append(sb.length() == 0 ? "" : "&");
             sb.append(ParameterMappings.getParameterName(tuple.propertyPath, tuple.operator, domainClass));
             sb.append(xlate(tuple.operator));
@@ -112,7 +112,7 @@ public class QueryBuilder {
         }
     }
 
-    private String xlate(QueryOperator operator) {
+    private String xlate(Operator operator) {
         switch (operator) {
             case EQ:
             case SW:

@@ -30,7 +30,7 @@ import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.impl.ConceptCode;
 import org.fujionclinical.api.model.patient.IPatient;
-import org.fujionclinical.api.query.QueryOperator;
+import org.fujionclinical.api.query.expression.Operator;
 import org.fujionclinical.fhir.api.common.core.ParameterMappings;
 import org.fujionclinical.fhir.api.common.transform.TagTransform;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -46,17 +46,17 @@ public class CommonTest {
     @Test
     public void testParameterMappings() {
         ParameterMappings.getInstance().setFhirVersion(FhirVersionEnum.DSTU3);
-        testParameterMapping("xxx-yyy-zzz", "xxx.YYY.zzz", QueryOperator.EQ, IPatient.class);
-        testParameterMapping("death-date", "deceasedDate", QueryOperator.EQ, IPatient.class);
-        testParameterMapping("name:exact", "fullName", QueryOperator.EQ, IPatient.class);
-        testParameterMapping("name", "name", QueryOperator.SW, IPatient.class);
-        testParameterMapping("_id", "id", QueryOperator.SW, IPatient.class);
+        testParameterMapping("xxx-yyy-zzz", "xxx.YYY.zzz", Operator.EQ, IPatient.class);
+        testParameterMapping("death-date", "deceasedDate", Operator.EQ, IPatient.class);
+        testParameterMapping("name:exact", "fullName", Operator.EQ, IPatient.class);
+        testParameterMapping("name", "name", Operator.SW, IPatient.class);
+        testParameterMapping("_id", "id", Operator.SW, IPatient.class);
     }
 
     private void testParameterMapping(
             String expected,
             String propertyPath,
-            QueryOperator operator,
+            Operator operator,
             Class<? extends IDomainType> domainClass) {
         Assert.assertEquals(expected, ParameterMappings.getParameterName(propertyPath, operator, domainClass));
     }
