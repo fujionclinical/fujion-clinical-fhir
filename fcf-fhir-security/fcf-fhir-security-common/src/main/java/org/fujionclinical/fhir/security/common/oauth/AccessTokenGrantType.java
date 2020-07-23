@@ -31,7 +31,7 @@ public enum AccessTokenGrantType {
     CLIENT_CREDENTIALS("client_credentials"),
     REFRESH_TOKEN("refresh_token");
 
-    private String paramValue;
+    private final String paramValue;
 
     AccessTokenGrantType(String paramValue) {
         this.paramValue = paramValue;

@@ -53,8 +53,7 @@ public class RangeTransform extends AbstractDatatypeTransform<IRange<Double>, Ra
 
     @Override
     public IRange<Double> _toLogicalModel(Range src) {
-        IRange dest = new org.fujionclinical.api.model.impl.Range(src.getLow().getValue().doubleValue(), src.getHigh().getValue().doubleValue());
-        return dest;
+        return new org.fujionclinical.api.model.impl.Range(src.getLow().getValue().doubleValue(), src.getHigh().getValue().doubleValue());
     }
 
 }

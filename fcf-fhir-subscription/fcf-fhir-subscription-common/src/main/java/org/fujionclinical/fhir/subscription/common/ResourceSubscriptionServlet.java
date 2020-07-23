@@ -31,11 +31,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Servlet supporting REST callback for FHIR subscription notifications. GET and POST calls are
@@ -54,14 +52,14 @@ public class ResourceSubscriptionServlet extends HttpServlet {
     @Override
     protected final void doGet(
             HttpServletRequest req,
-            HttpServletResponse res) throws ServletException, IOException {
+            HttpServletResponse res) {
         processRequest(req, res);
     }
 
     @Override
     protected final void doPost(
             HttpServletRequest req,
-            HttpServletResponse res) throws ServletException, IOException {
+            HttpServletResponse res) {
         processRequest(req, res);
     }
 

@@ -45,6 +45,7 @@ import java.util.List;
  */
 public class MainController extends ResourceListView<MedicationOrder, MedicationOrder> {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final MedicationService service;
 
     public MainController(MedicationService service) {

@@ -36,13 +36,13 @@ import java.util.Map;
 
 public class ParameterMappings {
 
-    private static ParameterMappings instance = new ParameterMappings();
+    private static final ParameterMappings instance = new ParameterMappings();
 
     private final Map<String, String> map = new HashMap<>();
 
     private String fhirVersion;
 
-    public static final ParameterMappings getInstance() {
+    public static ParameterMappings getInstance() {
         return instance;
     }
 
@@ -101,7 +101,7 @@ public class ParameterMappings {
     }
 
     private String get(String key) {
-        String value = null;
+        String value;
 
         do {
             value = map.get(key);

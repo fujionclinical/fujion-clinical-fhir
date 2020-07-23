@@ -76,8 +76,8 @@ function onFail(jqXHR, textStatus, errorThrown) {
 }
 
 function extractResourceByCode(bundle, acode) {
-    var entries = bundle.entry || [],
-        acode = acode.split('|');
+    var entries = bundle.entry || []
+    acode = acode.split('|');
 
     for (var i = 0; i < entries.length; i++) {
         var resource = entries[i].resource,
@@ -97,8 +97,8 @@ function extractResourceByCode(bundle, acode) {
 }
 
 function extractComponentByCode(resource, acode) {
-    var components = resource.component || [],
-        acode = acode.split('|');
+    var components = resource.component || []
+    acode = acode.split('|');
 
     for (var i = 0; i < components.length; i++) {
         var component = components[i],
@@ -132,5 +132,5 @@ function onFetchPatient(pat) {
 }
 
 function showResult(result) {
-    $('<div style="white-space: pre"/>').appendTo('body').text('Result: ' + (typeof result === 'string' ? result : JSON.stringify(result)));
+    $('<div style="white-space: pre">').appendTo('body').text('Result: ' + (typeof result === 'string' ? result : JSON.stringify(result)));
 }

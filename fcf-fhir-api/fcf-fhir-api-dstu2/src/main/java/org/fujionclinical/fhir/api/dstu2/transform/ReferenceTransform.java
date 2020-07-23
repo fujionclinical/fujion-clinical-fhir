@@ -73,8 +73,7 @@ public class ReferenceTransform<T extends IDomainType> extends AbstractDatatypeT
         Class<?> resourceClass = FhirUtil.getResourceType(src.getReference());
         IModelTransform transform = ModelTransforms.getInstance().get(IDomainType.class, resourceClass);
         IDomainType referenced = (T) transform.toLogicalModel(src.getResource());
-        IReference<T> dest = referenced != null ? new Reference(referenced) : new Reference<T>(transform.getLogicalType(), src.getElementSpecificId());
-        return dest;
+        return referenced != null ? new Reference(referenced) : new Reference<T>(transform.getLogicalType(), src.getElementSpecificId());
     }
 
 }

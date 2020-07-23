@@ -29,7 +29,7 @@ import org.fujionclinical.fhir.security.common.ICredentialProvider;
 
 public class ClientSecretCredentials implements ICredentialProvider<String> {
 
-    private String clientSecretCredentials;
+    private final String clientSecretCredentials;
 
     public ClientSecretCredentials(String clientSecretCredentials) {
         this.clientSecretCredentials = clientSecretCredentials;

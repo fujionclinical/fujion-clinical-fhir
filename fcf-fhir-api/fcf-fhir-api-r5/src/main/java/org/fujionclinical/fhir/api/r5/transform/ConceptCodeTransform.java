@@ -44,8 +44,7 @@ public class ConceptCodeTransform extends AbstractDatatypeTransform<IConceptCode
 
     @Override
     public Coding _fromLogicalModel(IConceptCode src) {
-        Coding dest = new Coding(src.getSystem(), src.getCode(), src.getText());
-        return dest;
+        return new Coding(src.getSystem(), src.getCode(), src.getText());
     }
 
     @Override

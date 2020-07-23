@@ -51,7 +51,7 @@ public class ViewResourcesController extends FrameworkController {
 
     private static final Comparator<IBaseResource> resourceComparator = (r1, r2) -> r1.getIdElement().getValue().compareToIgnoreCase(r2.getIdElement().getValue());
 
-    private static IComponentRenderer<Row, IBaseResource> resourceRenderer = (resource) -> {
+    private static final IComponentRenderer<Row, IBaseResource> resourceRenderer = (resource) -> {
         Row row = new Row();
         row.addChild(new Cell(FhirUtil.getResourceIdPath(resource)));
         row.setData(resource);

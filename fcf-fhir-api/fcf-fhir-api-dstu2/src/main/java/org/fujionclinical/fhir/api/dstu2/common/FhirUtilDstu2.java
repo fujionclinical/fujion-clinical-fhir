@@ -40,7 +40,6 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
@@ -618,7 +617,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         try {
             return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) MethodUtils.invokeExactStaticMethod(FhirUtilDstu2.class, "getDisplayValue", value);
         } catch (Exception e) {
-            log.error("Cannot convert type '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
+            log.error("Cannot convert type '" + value.getClass().getName() + "' for display", e.getCause());
             Method method = MethodUtils.getAccessibleMethod(value.getClass(), "toString", ArrayUtils.EMPTY_CLASS_ARRAY);
             return method != null && method.getDeclaringClass() != Object.class ? value.toString() : null;
         }
@@ -669,7 +668,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
      * @return The list of extracted resources.
      */
     public static List<IBaseResource> getEntries(Bundle bundle) {
-        return (List) getEntries(bundle, null, null);
+        return getEntries(bundle, null, null);
     }
 
     /**
@@ -865,7 +864,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         ResourceReferenceDt ref = getProperty(resource, "getPatient", ResourceReferenceDt.class);
         ref = ref != null ? ref : getProperty(resource, "getSubject", ResourceReferenceDt.class);
         return ref == null || ref.getReference().isEmpty() ? null
-                : "Patient".equals(getResourceType(ref.getReferenceElement())) ? ref : null;
+                : Patient.class.equals(getResourceType(ref.getReferenceElement())) ? ref : null;
     }
 
     /**
@@ -964,7 +963,7 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
     public static IPerson.MaritalStatus convertMaritalStatus(Set<MaritalStatusCodesEnum> maritalStatuses) {
         return maritalStatuses == null ? null : maritalStatuses.stream()
                 .map(coding -> FhirUtil.findMaritalStatus(coding.getSystem(), coding.getCode()))
-                .filter(value -> value != null)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
     }

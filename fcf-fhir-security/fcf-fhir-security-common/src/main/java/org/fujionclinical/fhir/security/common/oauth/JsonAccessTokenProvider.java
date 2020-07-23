@@ -55,9 +55,9 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
 
     private static final Log log = LogFactory.getLog(JsonAccessTokenProvider.class);
 
-    private ApacheHttpClientFactory apacheHttpClientFactory;
+    private final ApacheHttpClientFactory apacheHttpClientFactory;
 
-    private IdTokenValidator idTokenValidator = new IdTokenValidator();
+    private final IdTokenValidator idTokenValidator = new IdTokenValidator();
 
     public JsonAccessTokenProvider(ApacheHttpClientFactory apacheHttpClientFactory) {
         this.apacheHttpClientFactory = apacheHttpClientFactory;
@@ -205,8 +205,7 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
                         response.getStatusLine(), responseString));
             }
 
-            JsonParser parser = new JsonParser();
-            return (JsonObject) parser.parse(new InputStreamReader(response.getEntity().getContent()));
+            return (JsonObject) JsonParser.parseReader(new InputStreamReader(response.getEntity().getContent()));
         } catch (Exception e) {
             throw MiscUtil.toUnchecked(e);
         }

@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
  */
 public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
 
-    private static Logger log = Logger.create(SmartContextRegistry.class);
+    private static final Logger log = Logger.create(SmartContextRegistry.class);
 
     public static SmartContextRegistry getInstance() {
         return SpringUtil.getBean("smartContextRegistry", SmartContextRegistry.class);

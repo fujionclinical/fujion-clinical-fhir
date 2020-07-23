@@ -123,7 +123,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
         _contexts.add("user");
 
         if (contextStr != null) {
-            String[] contextArray = contextStr.replaceAll("\\s", "").split("\\,");
+            String[] contextArray = contextStr.replaceAll("\\s", "").split(",");
             _contexts.addAll(Arrays.asList(contextArray));
         }
 

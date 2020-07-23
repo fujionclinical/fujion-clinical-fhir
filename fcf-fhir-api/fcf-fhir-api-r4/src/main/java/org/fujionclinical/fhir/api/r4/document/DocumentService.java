@@ -169,6 +169,7 @@ public class DocumentService extends BaseFhirService {
             }
 
         } catch (Exception e) {
+            // NOP
         }
 
         return results;

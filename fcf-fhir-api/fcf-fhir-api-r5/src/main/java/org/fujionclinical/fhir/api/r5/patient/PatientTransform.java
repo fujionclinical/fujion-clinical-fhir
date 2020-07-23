@@ -65,7 +65,7 @@ public class PatientTransform extends BaseResourceTransform<IPatient, Patient> {
         dest.setNames(PersonNameTransform.getInstance().toLogicalModel(src.getName()));
         dest.setMRN(IdentifierTransform.getInstance().toLogicalModel(FhirUtilR5.getMRN(src)));
         dest.setLanguages(ConceptTransform.getInstance().toLogicalModel(src.getCommunication().stream()
-                .map(comm -> comm.getLanguage())
+                .map(Patient.PatientCommunicationComponent::getLanguage)
                 .collect(Collectors.toList())));
         dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModel(src.getTelecom()));
         dest.setAddresses(PostalAddressTransform.getInstance().toLogicalModel(src.getAddress()));

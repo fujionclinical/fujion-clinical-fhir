@@ -233,6 +233,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
                 return narrative == null ? null : narrative.getDivAsString();
             }
         } catch (Exception e) {
+            // NOP
         }
 
         return null;

@@ -173,15 +173,7 @@ public class MockAuthenticationServer {
     private void removeExpiredContexts() {
         synchronized (contexts) {
             long current = System.currentTimeMillis();
-            Iterator<String> iter = contexts.keySet().iterator();
-
-            while (iter.hasNext()) {
-                String key = iter.next();
-
-                if (current > contexts.get(key).expirationTime) {
-                    iter.remove();
-                }
-            }
+            contexts.keySet().removeIf(key -> current > contexts.get(key).expirationTime);
         }
     }
 

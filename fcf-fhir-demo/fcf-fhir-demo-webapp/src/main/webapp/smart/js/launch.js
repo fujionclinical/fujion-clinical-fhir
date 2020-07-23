@@ -86,5 +86,5 @@ function process_conformance(conf) {
 }
 
 function showResult(result) {
-    $('<div style="white-space: pre"/>').appendTo('body').text('Result: ' + (typeof result === 'string' ? result : JSON.stringify(result)));
+    $('<div style="white-space: pre">').appendTo('body').text('Result: ' + (typeof result === 'string' ? result : JSON.stringify(result)));
 }

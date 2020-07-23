@@ -34,6 +34,7 @@ import ca.uhn.fhir.model.primitive.DateTimeDt;
 import org.apache.commons.lang3.StringUtils;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.condition.ICondition;
+import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.api.model.impl.Annotation;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
@@ -81,7 +82,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setVerificationStatus(CoreUtil.enumToEnum(src.getVerificationStatus(), ConditionVerificationStatusEnum.class));
         dest.setSeverity(FhirUtilDstu2.convertEnumToCodeableConcept(src.getSeverity(), "http://hl7.org/fhir/ValueSet/condition-severity"));
         dest.setNotes(src.getAnnotations().stream()
-                .map(annotation -> annotation.getText())
+                .map(IAnnotation::getText)
                 .collect(Collectors.joining("\n")));
         return dest;
     }
@@ -100,7 +101,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
 
         if (!src.getNotesElement().isEmpty()) {
             Arrays.stream(src.getNotes().split("\\n"))
-                    .map(note -> StringUtils.trimToNull(note))
+                    .map(StringUtils::trimToNull)
                     .filter(Objects::nonNull)
                     .map(note -> new Annotation(note))
                     .collect(Collectors.toList());

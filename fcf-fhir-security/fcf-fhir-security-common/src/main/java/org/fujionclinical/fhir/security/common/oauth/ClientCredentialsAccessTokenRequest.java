@@ -35,7 +35,7 @@ import java.util.Map;
 public class ClientCredentialsAccessTokenRequest<T extends ICredentialProvider> extends AbstractAccessTokenRequest<T>
         implements Serializable {
 
-    private Map<String, String> tokenRequestParams = new HashMap<>();
+    private final Map<String, String> tokenRequestParams = new HashMap<>();
 
     public ClientCredentialsAccessTokenRequest(
             String clientId,

@@ -50,7 +50,7 @@ public class JsonAccessToken extends AbstractOAuth2AccessToken implements IAcces
 
     private final String resource;
 
-    private JsonObject rootResponse;
+    private final JsonObject rootResponse;
 
     public JsonAccessToken(
             JsonObject rootResponse,

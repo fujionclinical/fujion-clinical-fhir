@@ -34,7 +34,7 @@ import java.io.Serializable;
  */
 public class SimpleScope implements Serializable, IScope {
 
-    private String value;
+    private final String value;
 
     public SimpleScope(String value) {
         Validate.notNull(value, "the value must not be null");

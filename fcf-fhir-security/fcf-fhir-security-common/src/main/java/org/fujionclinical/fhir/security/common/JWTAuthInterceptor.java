@@ -94,7 +94,7 @@ public class JWTAuthInterceptor extends AbstractAuthInterceptor {
         tokenProvider = new JsonAccessTokenProvider(factory);
         requestedScopes = new Scopes();
 
-        for (String scope : scopes.split("\\,")) {
+        for (String scope : scopes.split(",")) {
             scope = scope.trim();
 
             if (!scope.isEmpty()) {

@@ -52,6 +52,7 @@ public class Comparators {
                 return ma.getEffectivePeriod().getStart();
             }
         } catch (Exception e) {
+            // NOP
         }
 
         return null;

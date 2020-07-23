@@ -44,7 +44,7 @@ public class SmartCdsHookMessageHandler extends SmartMessageHandler {
     private final IEventManager eventManager = EventManager.getInstance();
 
     private final IEventSubscriber cdsHookResponseHandler = ((eventName, cdsHookResponse) -> {
-        String pcs[] = eventName.split("\\.");
+        String[] pcs = eventName.split("\\.");
 
         if (pcs.length > 3) {
             String cdsHook = pcs[3];
@@ -111,12 +111,7 @@ public class SmartCdsHookMessageHandler extends SmartMessageHandler {
     private void addPendingResponse(
             String cdsHook,
             Map<String, Object> response) {
-        List<Map<String, Object>> pending = pendingResponses.get(cdsHook);
-
-        if (pending == null) {
-            pendingResponses.put(cdsHook, pending = new ArrayList<Map<String, Object>>());
-        }
-
+        List<Map<String, Object>> pending = pendingResponses.computeIfAbsent(cdsHook, k -> new ArrayList<>());
         pending.add(response);
     }
 

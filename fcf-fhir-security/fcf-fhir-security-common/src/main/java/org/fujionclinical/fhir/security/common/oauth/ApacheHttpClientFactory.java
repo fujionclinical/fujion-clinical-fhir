@@ -34,17 +34,17 @@ import org.apache.http.impl.client.*;
 
 public class ApacheHttpClientFactory {
 
-    private String proxyHost;
+    private final String proxyHost;
 
-    private Integer proxyPort;
+    private final Integer proxyPort;
 
-    private String proxyUser;
+    private final String proxyUser;
 
-    private String proxyPassword;
+    private final String proxyPassword;
 
-    private Integer httpConnectionTimeOut;
+    private final Integer httpConnectionTimeOut;
 
-    private Integer httpReadTimeOut;
+    private final Integer httpReadTimeOut;
 
     public ApacheHttpClientFactory(
             String proxyHost,

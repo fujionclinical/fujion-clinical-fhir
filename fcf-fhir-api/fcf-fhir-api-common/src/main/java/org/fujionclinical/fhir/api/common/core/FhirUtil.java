@@ -44,10 +44,7 @@ import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * FHIR utility methods.
@@ -540,7 +537,7 @@ public class FhirUtil {
             Class<T> type) {
         return value == null ? null : value.getCodes().stream()
                 .map(code -> invokeMethod(null, "fromCodeString", type, code.getCode(), code.getSystem()))
-                .filter(val -> val != null)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
     }
@@ -594,7 +591,7 @@ public class FhirUtil {
             Object result = object instanceof Class ?
                     MethodUtils.invokeExactStaticMethod((Class) object, methodName, params) :
                     MethodUtils.invokeExactMethod(object, methodName, params);
-            return result != null && returnType.isInstance(result) ? (T) result : null;
+            return returnType.isInstance(result) ? (T) result : null;
         } catch (Exception e) {
             return null;
         }

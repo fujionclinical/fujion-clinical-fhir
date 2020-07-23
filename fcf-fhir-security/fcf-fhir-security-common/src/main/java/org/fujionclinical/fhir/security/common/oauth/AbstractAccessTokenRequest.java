@@ -35,9 +35,9 @@ public abstract class AbstractAccessTokenRequest<T extends ICredentialProvider> 
 
     private final Map<String, String> tokenRequestParams = new HashMap<>();
 
-    private String clientId;
+    private final String clientId;
 
-    private T credentials;
+    private final T credentials;
 
     protected AbstractAccessTokenRequest(
             String clientId,

@@ -31,7 +31,6 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
@@ -55,10 +54,7 @@ import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.fujionclinical.fhir.api.common.core.Constants.MARITAL_STATUS_SYSTEM;
 import static org.fujionclinical.fhir.api.common.core.Constants.NULL_FLAVOR_SYSTEM;
@@ -620,7 +616,7 @@ public class FhirUtilR5 extends FhirUtil {
         try {
             return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) MethodUtils.invokeExactStaticMethod(FhirUtilR5.class, "getDisplayValue", value);
         } catch (Exception e) {
-            log.error("Cannot convert type '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
+            log.error("Cannot convert type '" + value.getClass().getName() + "' for display", e.getCause());
             Method method = MethodUtils.getAccessibleMethod(value.getClass(), "toString", ArrayUtils.EMPTY_CLASS_ARRAY);
             return method != null && method.getDeclaringClass() != Object.class ? value.toString() : null;
         }
@@ -671,7 +667,7 @@ public class FhirUtilR5 extends FhirUtil {
      * @return The list of extracted resources.
      */
     public static List<IBaseResource> getEntries(Bundle bundle) {
-        return (List) getEntries(bundle, null, null);
+        return getEntries(bundle, null, null);
     }
 
     /**
@@ -966,7 +962,7 @@ public class FhirUtilR5 extends FhirUtil {
     public static IPerson.MaritalStatus convertMaritalStatus(CodeableConcept concept) {
         return concept == null ? null : concept.getCoding().stream()
                 .map(coding -> FhirUtil.findMaritalStatus(coding.getSystem(), coding.getCode()))
-                .filter(value -> value != null)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
     }

@@ -109,7 +109,7 @@ public class SmartContextService {
 
     public void init() {
         serviceRoot = StringUtils.isEmpty(smartServiceRoot) ? fhirServiceRoot : smartServiceRoot;
-        serviceRoot = StringUtils.trimToNull(StringUtils.chomp(serviceRoot, "/"));
+        serviceRoot = StringUtils.trimToNull(StringUtils.removeEnd(serviceRoot, "/"));
 
         if (serviceRoot == null) {
             log.warn("No service root url defined for SMART.  SMART services will be unavailable.");

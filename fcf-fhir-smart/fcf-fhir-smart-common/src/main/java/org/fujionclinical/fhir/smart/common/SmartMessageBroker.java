@@ -68,9 +68,7 @@ public class SmartMessageBroker {
 
     private final Map<String, PendingResponse> pendingResponses = Collections.synchronizedMap(new LinkedHashMap<>());
 
-    private final IEventListener requestListener = (event) -> {
-        handleRequest(event);
-    };
+    private final IEventListener requestListener = this::handleRequest;
 
     private final IEventSubscriber<Map<String, Object>> responseListener = (eventName, eventData) -> {
         handleResponse(eventData);
@@ -92,15 +90,7 @@ public class SmartMessageBroker {
         container.removeEventListener(EVENT_REQUEST, requestListener);
 
         synchronized (pendingResponses) {
-            Iterator<Map.Entry<String, PendingResponse>> iter = pendingResponses.entrySet().iterator();
-
-            while (iter.hasNext()) {
-                Map.Entry<String, PendingResponse> entry = iter.next();
-
-                if (entry.getValue().container == container) {
-                    iter.remove();
-                }
-            }
+            pendingResponses.entrySet().removeIf(entry -> entry.getValue().container == container);
         }
     }
 

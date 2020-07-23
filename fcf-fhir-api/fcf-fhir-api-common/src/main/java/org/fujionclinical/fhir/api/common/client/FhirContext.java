@@ -77,7 +77,7 @@ public class FhirContext extends ca.uhn.fhir.context.FhirContext {
         String proxy = config.getProxy();
 
         if (proxy != null) {
-            String[] pcs = proxy.split("\\:", 2);
+            String[] pcs = proxy.split(":", 2);
             myRestfulClientFactory.setProxy(pcs[0], Integer.parseInt(pcs[1]));
         }
 

@@ -39,7 +39,7 @@ import java.util.Date;
 
 public class JWTCredentials implements ICredentialProvider<JWT> {
 
-    private RSAPrivateKey rsaPrivateKey;
+    private final RSAPrivateKey rsaPrivateKey;
 
     private String issuer;
 

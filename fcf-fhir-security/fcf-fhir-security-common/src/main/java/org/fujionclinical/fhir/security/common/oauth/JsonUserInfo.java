@@ -42,7 +42,7 @@ public class JsonUserInfo implements IUserInfo {
 
     private final String preferredUsername;
 
-    private JsonObject rootResponse;
+    private final JsonObject rootResponse;
 
     public JsonUserInfo(
             JsonObject rootResponse,

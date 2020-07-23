@@ -48,7 +48,7 @@ public class DemoSetup implements BeanPostProcessor {
 
     public DemoSetup(
             BasicDataSource ds,
-            Resource sqlResource) throws Exception {
+            Resource sqlResource) {
         log.info("Performing setup of demo application...");
 
         try (Connection conn = ds.getConnection(); InputStream is = sqlResource.getInputStream()) {
