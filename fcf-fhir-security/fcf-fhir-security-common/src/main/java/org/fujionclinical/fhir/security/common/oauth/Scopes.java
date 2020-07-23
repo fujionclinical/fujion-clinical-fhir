@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.security.common.oauth;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -30,9 +30,9 @@ import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.commons.lang.reflect.MethodUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
 import org.fujionclinical.api.core.CoreUtil;
@@ -617,7 +617,7 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
      */
     public static String getDisplayValueForType(Object value) {
         try {
-            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) org.apache.commons.lang.reflect.MethodUtils.invokeExactStaticMethod(FhirUtilR4.class, "getDisplayValue", value);
+            return value == null ? null : value instanceof List ? getDisplayValueForTypes((List<?>) value) : (String) org.apache.commons.lang3.reflect.MethodUtils.invokeExactStaticMethod(FhirUtilR4.class, "getDisplayValue", value);
         } catch (Exception e) {
             log.error("Cannot convert type '" + value.getClass().getName() + "' for display", ExceptionUtils.getCause(e));
             Method method = MethodUtils.getAccessibleMethod(value.getClass(), "toString", ArrayUtils.EMPTY_CLASS_ARRAY);

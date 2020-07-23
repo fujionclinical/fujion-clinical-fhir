@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.fujion.annotation.Component;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.component.Page;

@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.security.common.oauth;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
