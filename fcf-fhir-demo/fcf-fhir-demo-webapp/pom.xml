@@ -142,7 +142,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.fujionclinical</groupId>
-                    <artifactId>fcf-fhir-smart-common</artifactId>
+                    <artifactId>fcf-fhir-smart-test</artifactId>
                     <version>${fcf.core.version}</version>
                 </dependency>
             </dependencies>

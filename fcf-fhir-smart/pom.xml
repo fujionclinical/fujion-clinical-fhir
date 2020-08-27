@@ -17,5 +17,6 @@
     <modules>
         <module>fcf-fhir-smart-common</module>
         <module>fcf-fhir-smart-launch</module>
+        <module>fcf-fhir-smart-test</module>
     </modules>
 </project>

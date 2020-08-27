@@ -1,0 +1,12 @@
+{
+    "client_name": "Test SMART App",
+    "client_id": "test",
+    "author": "Fujion Clinical",
+    "description": "Simple SMART app for testing purposes.",
+    "logo_uri": "webjars/fcf-fhir-smart-test/images/fhir_icon.png",
+    "launch_uri": "webjars/fcf-fhir-smart-test/launch/index.html",
+    "mode": "ui", 
+    "context": "patient,encounter",
+    "smart_version": "2.0", 
+    "version": "1.0"
+}
