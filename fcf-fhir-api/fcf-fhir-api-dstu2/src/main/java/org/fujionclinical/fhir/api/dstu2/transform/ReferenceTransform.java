@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
+import ca.uhn.fhir.model.primitive.IdDt;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.core.IModelTransform;
@@ -73,7 +74,13 @@ public class ReferenceTransform<T extends IDomainType> extends AbstractDatatypeT
         Class<?> resourceClass = FhirUtil.getResourceType(src.getReference());
         IModelTransform transform = ModelTransforms.getInstance().get(IDomainType.class, resourceClass);
         IDomainType referenced = (T) transform.toLogicalModel(src.getResource());
-        return referenced != null ? new Reference(referenced) : new Reference<T>(transform.getLogicalType(), src.getElementSpecificId());
+
+        if (referenced != null) {
+            return new Reference(referenced);
+        }
+
+        IdDt id = src.getReference();
+        return id.isEmpty() ? null : new Reference<T>(transform.getLogicalType(), id.getIdPart());
     }
 
 }

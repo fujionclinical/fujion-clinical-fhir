@@ -72,9 +72,12 @@ public class ReferenceTransform<T extends IDomainType> extends AbstractDatatypeT
         Class<?> resourceClass = FhirUtil.getResourceType(src.getReference());
         IModelTransform transform = ModelTransforms.getInstance().get(resourceClass, IDomainType.class);
         IDomainType referenced = (T) transform.toLogicalModel(src.getResource());
-        return referenced != null
-                ? new org.fujionclinical.api.model.impl.Reference(referenced)
-                : new org.fujionclinical.api.model.impl.Reference<T>(transform.getLogicalType(), src.getId());
+
+        return referenced != null ?
+                new org.fujionclinical.api.model.impl.Reference(referenced)
+                : src.hasReferenceElement()
+                ? new org.fujionclinical.api.model.impl.Reference<T>(transform.getLogicalType(), src.getReferenceElement().getIdPart())
+                : null;
     }
 
 }

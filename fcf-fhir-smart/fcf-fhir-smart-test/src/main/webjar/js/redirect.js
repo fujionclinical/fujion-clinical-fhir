@@ -78,6 +78,6 @@ function onFetchPatient(pat) {
 }
 
 function showResult(patient) {
-    const text = 'Successful SMART launch.  Current patient is: ' + patient.name[0].text;
-    $('#message').text(text);
+    const html = 'Successful SMART launch on ' + new Date() + '.<p>Current patient is: ' + patient.name[0].text;
+    $('#message').html(html);
 }
