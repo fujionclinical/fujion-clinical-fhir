@@ -23,8 +23,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warName>${project.artifactId}</warName>
-                    <classifier>${fhir-spec}</classifier>
+                    <warName>fhir-webapp-${fhir-spec}-demo</warName>
                     <escapeString>\</escapeString>
                     <webResources>
                         <resource>

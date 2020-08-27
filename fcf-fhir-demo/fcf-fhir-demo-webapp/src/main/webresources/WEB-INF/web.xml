@@ -1,6 +1,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="3.0">
-    <display-name>@project.artifactId@-@fhir-spec@</display-name>
-    <description>@project.description@ (@fhir-spec@)</description>
+    <display-name>FHIR Demo Web App (@fhir-spec@-demo)</display-name>
+    <description>@project.artifactId@-@fhir-spec@</description>
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>

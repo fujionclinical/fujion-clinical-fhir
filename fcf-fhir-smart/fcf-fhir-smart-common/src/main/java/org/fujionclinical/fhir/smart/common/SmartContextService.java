@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujion.common.QueryStringBuilder;
+import org.fujion.core.WebUtil;
 import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -78,7 +79,8 @@ public class SmartContextService {
         }
 
         String url = manifest.getValue("launch_uri");
-        return url + (url.contains("?") ? "&" : "?") + qs;
+        url = url.startsWith("http") ? url : (WebUtil.getBaseUrl() + url);
+        return WebUtil.addQueryString(url, qs);
     }
 
     public void setSmartContextBinder(ISmartContextBinder smartContextBinder) {
