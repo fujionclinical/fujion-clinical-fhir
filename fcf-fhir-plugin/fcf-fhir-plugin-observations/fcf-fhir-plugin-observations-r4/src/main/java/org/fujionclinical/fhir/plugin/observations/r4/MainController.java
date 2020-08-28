@@ -73,7 +73,7 @@ public class MainController extends ResourceListView<Observation, MainController
     @Override
     protected void setup() {
         setup(Observation.class, Bundle.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
-                "EncounterStatus", "Result", "Ref Range");
+                "Status", "Result", "Ref Range");
     }
 
     @Override

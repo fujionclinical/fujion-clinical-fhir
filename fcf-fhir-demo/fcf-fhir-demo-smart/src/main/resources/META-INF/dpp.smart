@@ -1,0 +1,13 @@
+{
+    "client_name": "Decision Precision Plus",
+    "client_id": "dpp",
+    "author": "University of Utah",
+    "description": "Lung cancer risk assessment tool",
+    "about": "<h3>Decision Precision Plus lung cancer risk assessment tool</h3><p>Please select a patient.",
+    "logo_uri": "webjars/fcf-fhir-demo-smart/images/logo.png",
+    "launch_uri": "webjars/fcf-fhir-demo-smart/launch/index.html",
+    "mode": "ui", 
+    "context": "patient",
+    "smart_version": "2.0", 
+    "version": "1.0"
+}

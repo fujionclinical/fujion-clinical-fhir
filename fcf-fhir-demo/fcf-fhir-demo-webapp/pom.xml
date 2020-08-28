@@ -10,7 +10,7 @@
     <artifactId>fcf-fhir-demo-webapp</artifactId>
     <packaging>war</packaging>
     <name>FHIR Demonstration Web App</name>
-    <description>FHIR Demonstration Web App</description>
+    <description>Fujion Clinical Framework</description>
 
     <properties>
         <fhir-spec>no-fhir-profile-specified</fhir-spec>
@@ -143,6 +143,11 @@
                 <dependency>
                     <groupId>org.fujionclinical</groupId>
                     <artifactId>fcf-fhir-smart-test</artifactId>
+                    <version>${fcf.core.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.fujionclinical</groupId>
+                    <artifactId>fcf-fhir-demo-smart</artifactId>
                     <version>${fcf.core.version}</version>
                 </dependency>
             </dependencies>

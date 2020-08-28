@@ -22,6 +22,9 @@
                         <treepane label="Test SMART App">
                             <smart_test/>
                         </treepane>
+                        <treepane label="Lung Cancer Screening">
+                            <smart_dpp/>
+                        </treepane>
                         <treepane label="Encounters">
                             <fcfEncounters/>
                         </treepane>

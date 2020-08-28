@@ -38,7 +38,7 @@ public class MainController extends ResourceListView<Procedure, Procedure> {
 
     @Override
     protected void setup() {
-        setup(Procedure.class, Bundle.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "EncounterStatus",
+        setup(Procedure.class, Bundle.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
                 "Notes");
     }
 

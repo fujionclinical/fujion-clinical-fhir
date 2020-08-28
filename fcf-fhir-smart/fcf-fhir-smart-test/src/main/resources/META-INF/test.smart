@@ -3,6 +3,7 @@
     "client_id": "test",
     "author": "Fujion Clinical",
     "description": "Simple SMART app for testing purposes.",
+    "about": "<h3>Please select a patient and encounter.</h3>",
     "logo_uri": "webjars/fcf-fhir-smart-test/images/fhir_icon.png",
     "launch_uri": "webjars/fcf-fhir-smart-test/launch/index.html",
     "mode": "ui", 

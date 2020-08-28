@@ -55,7 +55,7 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
     @Override
     protected void setup() {
         setup(MedicationOrder.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationOrder?patient=#", 1, "Medication",
-                "Date", "EncounterStatus", "Sig");
+                "Date", "Status", "Sig");
     }
 
     @Override
