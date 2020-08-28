@@ -3,7 +3,7 @@
     "client_id": "dpp",
     "author": "University of Utah",
     "description": "Lung cancer risk assessment tool",
-    "about": "<div style="text-align:center;padding:20px"><h2 style="color:red">Decision Precision Plus</h2><h3><p> Lung Cancer Risk Assessment Tool</p></h3><p>Please select a patient.</p></div>",
+    "about": "<div style='text-align:center;padding:20px'><h2 style='color:red'>Decision Precision Plus</h2><h3><p> Lung Cancer Risk Assessment Tool</p></h3><p>Please select a patient.</p></div>",
     "logo_uri": "webjars/fcf-fhir-demo-smart/images/logo.png",
     "launch_uri": "webjars/fcf-fhir-demo-smart/launch/index.html",
     "mode": "ui", 
