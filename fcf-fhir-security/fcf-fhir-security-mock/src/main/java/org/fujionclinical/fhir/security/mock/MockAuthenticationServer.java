@@ -98,8 +98,7 @@ public class MockAuthenticationServer {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        String launchId = UUID.randomUUID().toString();
-        contexts.put(launchId, new LaunchContext((Map) params, expiresIn, allowRefresh));
+        String launchId = newLaunchContext((Map) params);
         Map<String, Object> body = new HashMap<>();
         body.put("parameters", params);
         body.put("launch_id", launchId);
@@ -120,7 +119,12 @@ public class MockAuthenticationServer {
         String aud = request.getParameter("aud");
         String launch = request.getParameter("launch");
         String state = request.getParameter("state");
-        LaunchContext context = launch == null ? null : contexts.get(launch);
+
+        if (launch == null) {
+            launch = newLaunchContext(null);
+        }
+
+        LaunchContext context = contexts.get(launch);
 
         if (!"code".equals(response_type) || client_id == null || scope == null || redirect_uri == null
                 || aud == null || context == null || state == null) {
@@ -168,6 +172,12 @@ public class MockAuthenticationServer {
     public String ping() {
         removeExpiredContexts();
         return "<h1>Active contexts: " + contexts.size() + "</h1>";
+    }
+
+    private String newLaunchContext(Map params) {
+        String launchId = UUID.randomUUID().toString();
+        contexts.put(launchId, new LaunchContext(params == null ? Collections.emptyMap() : params, expiresIn, allowRefresh));
+        return launchId;
     }
 
     private void removeExpiredContexts() {
