@@ -56,7 +56,7 @@ public class MockAuthenticationServer {
                 Map<String, String> map,
                 int expiresIn,
                 boolean allowRefresh) {
-            this.map = map == null ? new HashMap<>() : map;
+            this.map = map = map == null ? new HashMap<>() : map;
             this.expiresIn = expiresIn;
             setExpirationTime(INITIAL_EXPIRATION_INTERVAL);
             map.put("access_token", UUID.randomUUID().toString());
