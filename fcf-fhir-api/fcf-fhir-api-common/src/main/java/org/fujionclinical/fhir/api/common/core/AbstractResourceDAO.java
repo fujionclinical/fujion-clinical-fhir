@@ -39,24 +39,24 @@ import java.util.List;
 /**
  * DAO for FHIR resources.
  */
-public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBaseResource> implements IDomainDAO<T> {
+public abstract class AbstractResourceDAO<L extends IDomainType, N extends IBaseResource> implements IDomainDAO<L> {
 
-    protected final Class<R> resourceClass;
+    protected final Class<N> nativeType;
 
-    protected final Class<T> domainClass;
+    protected final Class<L> logicalType;
 
     protected final AbstractFhirService fhirService;
 
-    protected final IModelTransform<T, R> transform;
+    protected final IModelTransform<L, N> transform;
 
     protected AbstractResourceDAO(
             AbstractFhirService fhirService,
-            Class<T> domainClass,
-            Class<R> resourceClass,
-            IModelTransform<T, R> transform) {
+            Class<L> logicalType,
+            Class<N> nativeType,
+            IModelTransform<L, N> transform) {
         this.fhirService = fhirService;
-        this.domainClass = domainClass;
-        this.resourceClass = resourceClass;
+        this.logicalType = logicalType;
+        this.nativeType = nativeType;
         this.transform = transform;
     }
 
@@ -64,14 +64,14 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
      * Fetch an instance of the domain class from the data store.
      */
     @Override
-    public T read(String id) {
-        return transform.toLogicalModel((R) fhirService.getResource(resourceClass, id));
+    public L read(String id) {
+        return transform.toLogicalModel((N) fhirService.getResource(nativeType, id));
     }
 
-    protected abstract List<T> execute(IQuery<IBaseBundle> query);
+    protected abstract List<L> execute(IQuery<IBaseBundle> query);
 
     protected String toQueryString(List<ExpressionTuple> tuples) {
-        return QueryBuilder.buildQueryString(domainClass, tuples);
+        return QueryBuilder.buildQueryString(logicalType, tuples);
     }
 
     /**
@@ -81,15 +81,15 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
      * @return A list of matching domain objects.
      */
     protected IQuery<IBaseBundle> query(List<ExpressionTuple> tuples) {
-        return fhirService.searchResources(resourceClass, toQueryString(tuples));
+        return fhirService.searchResources(nativeType, toQueryString(tuples));
     }
 
     /**
      * Fetch multiple instances of the domain class from the data store.
      */
     @Override
-    public List<T> read(String... ids) {
-        IQuery<IBaseBundle> result = fhirService.searchResourcesById(resourceClass, ids);
+    public List<L> read(String... ids) {
+        IQuery<IBaseBundle> result = fhirService.searchResourcesById(nativeType, ids);
         return result == null ? Collections.emptyList() : execute(result);
     }
 
@@ -100,13 +100,13 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
      * @return A list of matching domain objects.
      */
     @Override
-    public List<T> search(List<ExpressionTuple> tuples) {
+    public List<L> search(List<ExpressionTuple> tuples) {
         return execute(this.query(tuples));
     }
 
     @Override
-    public T create(T template) {
-        return transform.toLogicalModel((R) fhirService.createResource(transform.fromLogicalModel(template)));
+    public L create(L template) {
+        return transform.toLogicalModel((N) fhirService.createResource(transform.fromLogicalModel(template)));
     }
 
     /**
@@ -115,8 +115,8 @@ public abstract class AbstractResourceDAO<T extends IDomainType, R extends IBase
      * @return The type of domain objects created by this factory.
      */
     @Override
-    public Class<T> getDomainType() {
-        return domainClass;
+    public Class<L> getDomainType() {
+        return logicalType;
     }
 
 }

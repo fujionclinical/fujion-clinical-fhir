@@ -40,20 +40,20 @@ import java.util.stream.Collectors;
 /**
  * DAO for R4 FHIR resources.
  */
-public abstract class BaseResourceDAO<T extends IDomainType, R extends IBaseResource> extends AbstractResourceDAO<T, R> {
+public abstract class BaseResourceDAO<L extends IDomainType, N extends IBaseResource> extends AbstractResourceDAO<L, N> {
 
     protected BaseResourceDAO(
             AbstractFhirService fhirService,
-            Class<T> wrapperClass,
-            Class<R> resourceClass,
-            IModelTransform<T, R> transform) {
-        super(fhirService, wrapperClass, resourceClass, transform);
+            Class<L> logicalType,
+            Class<N> nativeType,
+            IModelTransform<L, N> transform) {
+        super(fhirService, logicalType, nativeType, transform);
     }
 
     @Override
-    public List<T> execute(IQuery<IBaseBundle> query) {
+    public List<L> execute(IQuery<IBaseBundle> query) {
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        return FhirUtilR4.getEntries(bundle, resourceClass).stream()
+        return FhirUtilR4.getEntries(bundle, nativeType).stream()
                 .map(transform::toLogicalModel)
                 .collect(Collectors.toList());
     }
