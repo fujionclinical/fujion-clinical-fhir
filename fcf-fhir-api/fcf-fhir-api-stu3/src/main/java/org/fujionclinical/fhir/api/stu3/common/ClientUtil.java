@@ -44,20 +44,8 @@ public class ClientUtil {
     private ClientUtil() {
     }
 
-    private static synchronized BaseFhirService initFhirService() {
-        if (fhirService == null) {
-            fhirService = SpringUtil.getAppContext().getBean("fhirService", BaseFhirService.class);
-        }
-
-        return fhirService;
-    }
-
     public static BaseFhirService getFhirService() {
-        if (fhirService == null) {
-            initFhirService();
-        }
-
-        return fhirService;
+        return SpringUtil.getBean("fhirService", BaseFhirService.class, () -> fhirService, value -> fhirService = value);
     }
 
     public static IGenericClient getFhirClient() {
