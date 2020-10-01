@@ -29,7 +29,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.io.Resource;
 
@@ -59,20 +58,6 @@ public class DemoSetup implements BeanPostProcessor {
         } catch (Exception e) {
             log.error("Error during demo setup.  This can occur if setup has already been processed.\n\n" + e.getMessage());
         }
-    }
-
-    @Override
-    public Object postProcessBeforeInitialization(
-            Object bean,
-            String beanName) throws BeansException {
-        return bean;
-    }
-
-    @Override
-    public Object postProcessAfterInitialization(
-            Object bean,
-            String beanName) throws BeansException {
-        return bean;
     }
 
 }
