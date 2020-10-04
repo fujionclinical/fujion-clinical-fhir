@@ -26,28 +26,26 @@
 package org.fujionclinical.fhir.smart.common;
 
 import org.fujion.common.Logger;
-import org.fujionclinical.api.spring.BeanRegistry;
 import org.fujionclinical.api.spring.SpringUtil;
-import org.springframework.util.Assert;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Registry for SMART contexts.
  */
-public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
+public class SmartContextRegistry implements DestructionAwareBeanPostProcessor {
 
     private static final Logger log = Logger.create(SmartContextRegistry.class);
 
+    private final MultiValueMap<String, ISmartContext> registry = new LinkedMultiValueMap<>();
+
     public static SmartContextRegistry getInstance() {
         return SpringUtil.getBean("smartContextRegistry", SmartContextRegistry.class);
-    }
-
-    public SmartContextRegistry() {
-        super(ISmartContext.class);
-    }
-
-    @Override
-    protected String getKey(ISmartContext item) {
-        return item.getContextName();
     }
 
     /**
@@ -57,18 +55,53 @@ public class SmartContextRegistry extends BeanRegistry<String, ISmartContext> {
      * @return The context implementation.
      * @throws IllegalArgumentException If the context name is not known.
      */
-    @Override
-    public ISmartContext get(String contextName) {
-        ISmartContext context = super.get(contextName);
-        Assert.notNull(context, () -> "Unknown SMART context: " + contextName);
-        return context;
+    public List<ISmartContext> get(String contextName) {
+        List<ISmartContext> contexts = registry.get(contextName);
+        return contexts == null ? Collections.emptyList() : Collections.unmodifiableList(contexts);
     }
 
+    private void register(ISmartContext smartContext) {
+        registry.add(smartContext.getContextName(), smartContext);
+        log.info(() -> "Registered SMART context '" + smartContext.getContextName() + "'.");
+    }
+
+    private void unregister(ISmartContext smartContext) {
+        registry.get(smartContext.getContextName()).remove(smartContext);
+        log.info(() -> "Registered SMART context '" + smartContext.getContextName() + "'.");
+    }
+
+    /**
+     * If the managed bean is of the desired type, add it to the registry.
+     */
     @Override
-    protected void onRegister(
-            String contextName,
-            ISmartContext iSmartContext) {
-        log.info("Registered SMART context '" + contextName + "'.");
+    public Object postProcessAfterInitialization(
+            Object bean,
+            String beanName) throws BeansException {
+        if (bean instanceof ISmartContext) {
+            register((ISmartContext) bean);
+        }
+
+        return bean;
+    }
+
+    /**
+     * If the managed bean is of the desired type, remove it from the registry.
+     */
+    @Override
+    public void postProcessBeforeDestruction(
+            Object bean,
+            String beanName) throws BeansException {
+        if (bean instanceof ISmartContext) {
+            unregister((ISmartContext) bean);
+        }
+    }
+
+    /**
+     * Flag to unregister if the managed bean is of the desired type.
+     */
+    @Override
+    public boolean requiresDestruction(Object bean) {
+        return bean instanceof ISmartContext;
     }
 
 }

@@ -208,7 +208,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
     }
 
     /**
-     * Subscribes/unsubscribes this subscriber to/from a SMART context.
+     * Subscribes/unsubscribes this container to/from a SMART context.
      *
      * @param contextName The name of the SMART context.
      * @param subscribe   If true, subscribe; false, unsubscribe;
@@ -216,10 +216,12 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
     private void subscribe(
             String contextName,
             boolean subscribe) {
-        if (subscribe) {
-            contextRegistry.get(contextName).subscribe(this);
-        } else {
-            contextRegistry.get(contextName).unsubscribe(this);
+        for (ISmartContext context: contextRegistry.get(contextName)) {
+            if (subscribe) {
+                context.subscribe(this);
+            } else {
+                context.unsubscribe(this);
+            }
         }
     }
 
