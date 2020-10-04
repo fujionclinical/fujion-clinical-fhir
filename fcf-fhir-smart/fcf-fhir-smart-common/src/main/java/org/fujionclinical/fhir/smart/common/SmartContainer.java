@@ -184,13 +184,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * Returns true only if all registered contexts are populated.
      */
     private boolean contextPrepared() {
-        for (String context : _contexts) {
-            if (!_context.containsKey(context)) {
-                return false;
-            }
-        }
-
-        return true;
+        return _contexts.containsAll(_context.keySet());
     }
 
     /**
