@@ -68,7 +68,7 @@ public class EncounterTransform extends BaseResourceTransform<IEncounter, Encoun
     public Encounter _fromLogicalModel(IEncounter src) {
         Encounter dest = super._fromLogicalModel(src);
         dest.setPeriod(PeriodTransform.getInstance().fromLogicalModel(src.getPeriod()));
-        dest.setType((ConceptTransform.getInstance().fromLogicalModel(src.getTypes())));
+        dest.setType((ConceptTransform.getInstance().fromLogicalModelAsList(src.getTypes())));
         dest.setPatient(ReferenceTransform.getInstance().fromLogicalModel(src.getPatient()));
         dest.setStatus(CoreUtil.enumToEnum(src.getStatus(), EncounterStateEnum.class));
         return dest;
@@ -78,7 +78,7 @@ public class EncounterTransform extends BaseResourceTransform<IEncounter, Encoun
     public IEncounter _toLogicalModel(Encounter src) {
         IEncounter dest = super._toLogicalModel(src);
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
-        dest.setTypes((ConceptTransform.getInstance().toLogicalModel(src.getType())));
+        dest.setTypes((ConceptTransform.getInstance().toLogicalModelAsList(src.getType())));
         dest.setPatient(ReferenceTransform.getInstance().toLogicalModel(src.getPatient()));
         dest.setStatus(CoreUtil.stringToEnum(src.getStatus(), IEncounter.EncounterStatus.class));
         return dest;

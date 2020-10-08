@@ -25,11 +25,11 @@
  */
 package org.fujionclinical.fhir.api.stu3.transform;
 
-import org.fujionclinical.api.model.core.IIdentifier;
+import org.fujionclinical.api.model.impl.IdentifierImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.dstu3.model.Identifier;
 
-public class IdentifierTransform extends AbstractDatatypeTransform<IIdentifier, Identifier> {
+public class IdentifierTransform extends AbstractDatatypeTransform<edu.utah.kmm.model.cool.core.datatype.Identifier, Identifier> {
 
     private static final IdentifierTransform instance = new IdentifierTransform();
 
@@ -38,21 +38,21 @@ public class IdentifierTransform extends AbstractDatatypeTransform<IIdentifier, 
     }
 
     private IdentifierTransform() {
-        super(IIdentifier.class, Identifier.class);
+        super(edu.utah.kmm.model.cool.core.datatype.Identifier.class, Identifier.class);
     }
 
     @Override
-    public Identifier _fromLogicalModel(IIdentifier src) {
+    public Identifier _fromLogicalModel(edu.utah.kmm.model.cool.core.datatype.Identifier src) {
         Identifier dest = new Identifier();
-        dest.setSystem(src.getSystem());
-        dest.setValue(src.getValue());
+        dest.setSystem(src.getSystem().toString());
+        dest.setValue(src.getId());
         dest.setType(ConceptTransform.getInstance().fromLogicalModel(src.getType()));
         return dest;
     }
 
     @Override
-    public IIdentifier _toLogicalModel(Identifier src) {
-        IIdentifier dest = new org.fujionclinical.api.model.impl.Identifier(src.getSystem(), src.getValue());
+    public edu.utah.kmm.model.cool.core.datatype.Identifier _toLogicalModel(Identifier src) {
+        edu.utah.kmm.model.cool.core.datatype.Identifier dest = new IdentifierImpl(src.getSystem(), src.getId());
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
         return dest;
     }

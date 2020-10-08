@@ -27,12 +27,13 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierTypeCodesEnum;
-import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.core.IIdentifier;
-import org.fujionclinical.api.model.impl.Identifier;
+import edu.utah.kmm.model.cool.core.datatype.Identifier;
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
+import org.fujion.common.CollectionUtil;
+import org.fujionclinical.api.model.impl.IdentifierImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
-public class IdentifierTransform extends AbstractDatatypeTransform<IIdentifier, IdentifierDt> {
+public class IdentifierTransform extends AbstractDatatypeTransform<Identifier, IdentifierDt> {
 
     private static final IdentifierTransform instance = new IdentifierTransform();
 
@@ -41,22 +42,22 @@ public class IdentifierTransform extends AbstractDatatypeTransform<IIdentifier, 
     }
 
     private IdentifierTransform() {
-        super(IIdentifier.class, IdentifierDt.class);
+        super(Identifier.class, IdentifierDt.class);
     }
 
     @Override
-    public IdentifierDt _fromLogicalModel(IIdentifier src) {
+    public IdentifierDt _fromLogicalModel(Identifier src) {
         IdentifierDt dest = new IdentifierDt();
-        dest.setSystem(src.getSystem());
-        dest.setValue(src.getValue());
-        IConceptCode code = !src.hasType() ? null : src.getType().getCode("http://hl7.org/fhir/ValueSet/identifier-type");
+        dest.setSystem(src.getSystem().toString());
+        dest.setValue(src.getId());
+        ConceptReference code = !src.hasType() ? null : CollectionUtil.getFirst(src.getType().getBySystem("http://hl7.org/fhir/ValueSet/identifier-type"));
         dest.setType(code == null ? null : IdentifierTypeCodesEnum.forCode(code.getCode()));
         return dest;
     }
 
     @Override
-    public IIdentifier _toLogicalModel(IdentifierDt src) {
-        IIdentifier dest = new Identifier(src.getSystem(), src.getValue());
+    public Identifier _toLogicalModel(IdentifierDt src) {
+        Identifier dest = new IdentifierImpl(src.getSystem(), src.getValue());
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
         return dest;
     }

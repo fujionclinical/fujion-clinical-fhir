@@ -29,6 +29,7 @@ import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,7 +37,6 @@ import org.fujionclinical.api.event.EventMessage;
 import org.fujionclinical.api.event.EventUtil;
 import org.fujionclinical.api.messaging.Message;
 import org.fujionclinical.api.messaging.ProducerService;
-import org.fujionclinical.api.model.impl.ConceptCode;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.Collection;
@@ -83,7 +83,7 @@ public class ResourceSubscriptionService {
 
     private final ISubscriptionFactory factory;
 
-    private final ConceptCode subscriptionTag;
+    private final ConceptReferenceImpl subscriptionTag;
 
     private final Map<String, BaseSubscriptionWrapper> subscriptionsByParams = new HashMap<>();
 
@@ -108,7 +108,7 @@ public class ResourceSubscriptionService {
         this.factory = factory;
         disabled = StringUtils.isEmpty(callbackUrl);
         this.callbackUrl = disabled ? null : callbackUrl.endsWith("/") ? callbackUrl : callbackUrl + "/";
-        subscriptionTag = new ConceptCode(callbackUrl, "ResourceSubscription");
+        subscriptionTag = new ConceptReferenceImpl(callbackUrl, "ResourceSubscription", null);
         destroy();
         log.info("FHIR Resource Subscription Service is " + (disabled ? "disabled." : "enabled."));
     }
@@ -119,7 +119,7 @@ public class ResourceSubscriptionService {
     public void destroy() {
         if (!disabled) {
             try {
-                ICriterion<?> criterion = TAG.exactly().systemAndCode(subscriptionTag.getSystem(),
+                ICriterion<?> criterion = TAG.exactly().systemAndCode(subscriptionTag.getSystemAsString(),
                         subscriptionTag.getCode());
                 client.delete().resourceConditionalByType("Subscription").where(criterion).execute();
             } catch (Exception e) {

@@ -60,11 +60,11 @@ public class PractitionerTransform extends BaseResourceTransform<IPractitioner, 
     @Override
     public Practitioner _fromLogicalModel(IPractitioner src) {
         Practitioner dest = super._fromLogicalModel(src);
-        dest.setName(PersonNameTransform.getInstance().fromLogicalModel(src.getNames()));
-        dest.setCommunication(ConceptTransform.getInstance().fromLogicalModel(src.getLanguages()));
-        dest.setTelecom(ContactPointTransform.getInstance().fromLogicalModel(src.getContactPoints()));
-        dest.setAddress(PostalAddressTransform.getInstance().fromLogicalModel(src.getAddresses()));
-        dest.setPhoto(AttachmentTransform.getInstance().fromLogicalModel(src.getPhotos()));
+        dest.setName(PersonNameTransform.getInstance().fromLogicalModelAsList(src.getNames()));
+        dest.setCommunication(ConceptTransform.getInstance().fromLogicalModelAsList(src.getLanguages()));
+        dest.setTelecom(ContactPointTransform.getInstance().fromLogicalModelAsList(src.getContactPoints()));
+        dest.setAddress(PostalAddressTransform.getInstance().fromLogicalModelAsList(src.getAddresses()));
+        dest.setPhoto(AttachmentTransform.getInstance().fromLogicalModelAsList(src.getPhotos()));
         dest.setGender(CoreUtil.enumToEnum(src.getGender(), Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
         return dest;
     }
@@ -72,11 +72,11 @@ public class PractitionerTransform extends BaseResourceTransform<IPractitioner, 
     @Override
     public IPractitioner _toLogicalModel(Practitioner src) {
         IPractitioner dest = super._toLogicalModel(src);
-        dest.setNames(PersonNameTransform.getInstance().toLogicalModel(src.getName()));
-        dest.setLanguages(ConceptTransform.getInstance().toLogicalModel(src.getCommunication()));
-        dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModel(src.getTelecom()));
-        dest.setAddresses(PostalAddressTransform.getInstance().toLogicalModel(src.getAddress()));
-        dest.setPhotos(AttachmentTransform.getInstance().toLogicalModel(src.getPhoto()));
+        dest.setNames(PersonNameTransform.getInstance().toLogicalModelAsList(src.getName()));
+        dest.setLanguages(ConceptTransform.getInstance().toLogicalModelAsList(src.getCommunication()));
+        dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModelAsList(src.getTelecom()));
+        dest.setAddresses(PostalAddressTransform.getInstance().toLogicalModelAsList(src.getAddress()));
+        dest.setPhotos(AttachmentTransform.getInstance().toLogicalModelAsList(src.getPhoto()));
         dest.setGender(CoreUtil.enumToEnum(src.getGender(), IPerson.Gender.class, IPerson.Gender.OTHER));
         dest.setBirthDate(DateTransform.getInstance().toLogicalModel(src.getBirthDate()));
         return dest;

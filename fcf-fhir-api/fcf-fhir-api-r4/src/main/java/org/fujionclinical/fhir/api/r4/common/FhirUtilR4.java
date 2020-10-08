@@ -987,12 +987,12 @@ public class FhirUtilR4 extends org.fujionclinical.fhir.api.common.core.FhirUtil
     }
 
     /*
-    public static IConcept convertEnumToConcept(Bound value) {
+    public static ConceptReference convertEnumToConcept(Bound value) {
         if (value == null) {
             return null;
         }
 
-        IConcept result = new Concept();
+        ConceptReference result = new Concept();
         result.setCodes(ConceptCodeTransform.getInstance().toLogicalModel(value.getCoding()));
         return result;
     }

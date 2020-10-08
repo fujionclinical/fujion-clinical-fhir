@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.subscription.common;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.api.model.impl.ConceptCode;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 
 public interface ISubscriptionFactory {
 
@@ -36,6 +36,6 @@ public interface ISubscriptionFactory {
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,
             String criteria,
-            ConceptCode tag);
+            ConceptReferenceImpl tag);
 
 }

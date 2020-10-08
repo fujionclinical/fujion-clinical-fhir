@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.CodingDt;
-import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.impl.ConceptCode;
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
-public class ConceptCodeTransform extends AbstractDatatypeTransform<IConceptCode, CodingDt> {
+public class ConceptCodeTransform extends AbstractDatatypeTransform<ConceptReference, CodingDt> {
 
     private static final ConceptCodeTransform instance = new ConceptCodeTransform();
 
@@ -39,18 +39,18 @@ public class ConceptCodeTransform extends AbstractDatatypeTransform<IConceptCode
     }
 
     private ConceptCodeTransform() {
-        super(IConceptCode.class, CodingDt.class);
+        super(ConceptReference.class, CodingDt.class);
     }
 
     @Override
-    public CodingDt _fromLogicalModel(IConceptCode src) {
-        CodingDt dest = new CodingDt(src.getSystem(), src.getCode());
-        return dest.setDisplay(src.getText());
+    public CodingDt _fromLogicalModel(ConceptReference src) {
+        CodingDt dest = new CodingDt(src.getSystem().toString(), src.getCode());
+        return dest.setDisplay(src.getPreferredName());
     }
 
     @Override
-    public IConceptCode _toLogicalModel(CodingDt src) {
-        return new ConceptCode(src.getSystem(), src.getCode(), src.getDisplay());
+    public ConceptReference _toLogicalModel(CodingDt src) {
+        return new ConceptReferenceImpl(src.getSystem(), src.getCode(), src.getDisplay());
     }
 
 }

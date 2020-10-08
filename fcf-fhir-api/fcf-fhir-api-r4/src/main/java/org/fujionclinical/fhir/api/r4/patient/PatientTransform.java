@@ -62,14 +62,14 @@ public class PatientTransform extends BaseResourceTransform<IPatient, Patient> {
     @Override
     public IPatient _toLogicalModel(Patient src) {
         IPatient dest = super._toLogicalModel(src);
-        dest.setNames(PersonNameTransform.getInstance().toLogicalModel(src.getName()));
+        dest.setNames(PersonNameTransform.getInstance().toLogicalModelAsList(src.getName()));
         dest.setMRN(IdentifierTransform.getInstance().toLogicalModel(FhirUtilR4.getMRN(src)));
-        dest.setLanguages(ConceptTransform.getInstance().toLogicalModel(src.getCommunication().stream()
+        dest.setLanguages(ConceptTransform.getInstance().toLogicalModelAsList(src.getCommunication().stream()
                 .map(Patient.PatientCommunicationComponent::getLanguage)
                 .collect(Collectors.toList())));
-        dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModel(src.getTelecom()));
-        dest.setAddresses(PostalAddressTransform.getInstance().toLogicalModel(src.getAddress()));
-        dest.setPhotos(AttachmentTransform.getInstance().toLogicalModel(src.getPhoto()));
+        dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModelAsList(src.getTelecom()));
+        dest.setAddresses(PostalAddressTransform.getInstance().toLogicalModelAsList(src.getAddress()));
+        dest.setPhotos(AttachmentTransform.getInstance().toLogicalModelAsList(src.getPhoto()));
         dest.setGender(CoreUtil.enumToEnum(src.getGender(), IPerson.Gender.class, IPerson.Gender.OTHER));
         dest.setMaritalStatus(FhirUtilR4.convertMaritalStatus(src.getMaritalStatus()));
         dest.setBirthDate(DateTransform.getInstance().toLogicalModel(src.getBirthDate()));
@@ -80,15 +80,15 @@ public class PatientTransform extends BaseResourceTransform<IPatient, Patient> {
     @Override
     public Patient _fromLogicalModel(IPatient src) {
         Patient dest = super._fromLogicalModel(src);
-        dest.setName(PersonNameTransform.getInstance().fromLogicalModel(src.getNames()));
+        dest.setName(PersonNameTransform.getInstance().fromLogicalModelAsList(src.getNames()));
         // Note: MRN logic not needed because identifiers already copied.
         dest.setCommunication(src.getLanguages().stream()
                 .map(language -> ConceptTransform.getInstance().fromLogicalModel(language))
                 .map(language -> new Patient.PatientCommunicationComponent().setLanguage(language))
                 .collect(Collectors.toList()));
-        dest.setTelecom(ContactPointTransform.getInstance().fromLogicalModel(src.getContactPoints()));
-        dest.setAddress(PostalAddressTransform.getInstance().fromLogicalModel(src.getAddresses()));
-        dest.setPhoto(AttachmentTransform.getInstance().fromLogicalModel(src.getPhotos()));
+        dest.setTelecom(ContactPointTransform.getInstance().fromLogicalModelAsList(src.getContactPoints()));
+        dest.setAddress(PostalAddressTransform.getInstance().fromLogicalModelAsList(src.getAddresses()));
+        dest.setPhoto(AttachmentTransform.getInstance().fromLogicalModelAsList(src.getPhotos()));
         dest.setGender(CoreUtil.enumToEnum(src.getGender(), Enumerations.AdministrativeGender.class, Enumerations.AdministrativeGender.OTHER));
         dest.setMaritalStatus(FhirUtilR4.convertMaritalStatus(src.getMaritalStatus()));
         dest.setDeceased(PrimitiveTransform.getInstance().fromLogicalModel(src.getDeceasedDate()));

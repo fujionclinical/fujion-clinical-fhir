@@ -96,12 +96,12 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
         IDocument.CompositionStatus status = src.getCompositionStatus();
         dest.setDocStatus(CoreUtil.enumToEnum(status, Enumerations.CompositionStatus.class));
         dest.setType(ConceptTransform.getInstance().fromLogicalModel(src.getType()));
-        dest.setCategory(ConceptTransform.getInstance().fromLogicalModel(src.getCategories()));
-        dest.setAuthor(ReferenceTransform.getInstance().fromLogicalModel(src.getAuthors()));
+        dest.setCategory(ConceptTransform.getInstance().fromLogicalModelAsList(src.getCategories()));
+        dest.setAuthor(ReferenceTransform.getInstance().fromLogicalModelAsList(src.getAuthors()));
         dest.getContext().addEncounter(ReferenceTransform.getInstance().fromLogicalModel(src.getEncounter()));
         src.getAttachments().forEach(attachment ->
                 dest.addContent().setAttachment(AttachmentTransform.getInstance().fromLogicalModel(attachment)));
-        dest.setRelatesTo(relatedTransform.fromLogicalModel(src.getRelatedDocuments()));
+        dest.setRelatesTo(relatedTransform.fromLogicalModelAsList(src.getRelatedDocuments()));
         return dest;
     }
 
@@ -113,12 +113,12 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
         dest.setDocumentStatus(CoreUtil.enumToEnum(src.getStatus(), IDocument.DocumentStatus.class));
         dest.setDocumentStatus(CoreUtil.enumToEnum(src.getDocStatus(), IDocument.DocumentStatus.class));
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
-        dest.setCategories(ConceptTransform.getInstance().toLogicalModel(src.getCategory()));
-        dest.setAuthors(ReferenceTransform.getInstance().toLogicalModel(src.getAuthor()));
+        dest.setCategories(ConceptTransform.getInstance().toLogicalModelAsList(src.getCategory()));
+        dest.setAuthors(ReferenceTransform.getInstance().toLogicalModelAsList(src.getAuthor()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(CollectionUtil.getFirst(src.getContext().getEncounter())));
         src.getContent().forEach(content ->
                 dest.addAttachments(AttachmentTransform.getInstance().toLogicalModel(content.getAttachment())));
-        dest.setRelatedDocuments(relatedTransform.toLogicalModel(src.getRelatesTo()));
+        dest.setRelatedDocuments(relatedTransform.toLogicalModelAsList(src.getRelatesTo()));
         return dest;
     }
 

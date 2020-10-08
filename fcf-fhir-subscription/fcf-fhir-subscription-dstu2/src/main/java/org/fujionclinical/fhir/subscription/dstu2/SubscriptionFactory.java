@@ -31,7 +31,7 @@ import ca.uhn.fhir.model.dstu2.valueset.SubscriptionChannelTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionStatusEnum;
 import ca.uhn.fhir.rest.api.PreferReturnEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.api.model.impl.ConceptCode;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
@@ -47,7 +47,7 @@ public class SubscriptionFactory implements ISubscriptionFactory {
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,
             String criteria,
-            ConceptCode tag) {
+            ConceptReferenceImpl tag) {
         Subscription subscription = new Subscription();
         SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex);
         Subscription.Channel channel = new Subscription.Channel();
@@ -58,7 +58,7 @@ public class SubscriptionFactory implements ISubscriptionFactory {
         subscription.setReason("Fujion Subscriber");
         subscription.setChannel(channel);
         subscription.setStatus(SubscriptionStatusEnum.REQUESTED);
-        subscription.setTag(Collections.singletonList(new CodingDt(tag.getSystem(), tag.getCode())));
+        subscription.setTag(Collections.singletonList(new CodingDt(tag.getSystemAsString(), tag.getCode())));
         subscription = (Subscription) client.create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION)
                 .execute().getResource();
         return wrapper;

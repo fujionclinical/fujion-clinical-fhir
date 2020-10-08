@@ -47,7 +47,7 @@ public class PersonNameTransform extends AbstractDatatypeTransform<IPersonName, 
     public HumanName _fromLogicalModel(IPersonName src) {
         HumanName dest = new HumanName();
         dest.setFamily(src.getFamilyName());
-        dest.setGiven(StringTransform.getInstance().fromLogicalModel(src.getGivenNames()));
+        dest.setGiven(StringTransform.getInstance().fromLogicalModelAsList(src.getGivenNames()));
         src.getPrefixes().forEach(dest::addPrefix);
         src.getSuffixes().forEach(dest::addSuffix);
         dest.setUse(CoreUtil.enumToEnum(src.getUse(), HumanName.NameUse.class));
@@ -58,7 +58,7 @@ public class PersonNameTransform extends AbstractDatatypeTransform<IPersonName, 
     public IPersonName _toLogicalModel(HumanName src) {
         IPersonName dest = new PersonName();
         dest.setFamilyName(src.getFamily());
-        dest.setGivenNames(StringTransform.getInstance().toLogicalModel(src.getGiven()));
+        dest.setGivenNames(StringTransform.getInstance().toLogicalModelAsList(src.getGiven()));
         src.getPrefix().forEach(prefix -> dest.addPrefixes(prefix.getValue()));
         src.getSuffix().forEach(suffix -> dest.addSuffixes(suffix.getValue()));
         dest.setUse(CoreUtil.enumToEnum(src.getUse(), IPersonName.PersonNameUse.class));

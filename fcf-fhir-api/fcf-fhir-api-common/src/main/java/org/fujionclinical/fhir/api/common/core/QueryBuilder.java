@@ -25,13 +25,13 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
+import edu.utah.kmm.model.cool.core.datatype.Identifier;
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.core.IIdentifier;
 import org.fujionclinical.api.model.person.IPersonName;
 import org.fujionclinical.api.query.expression.ExpressionTuple;
 import org.fujionclinical.api.query.expression.Operator;
@@ -87,12 +87,12 @@ public class QueryBuilder {
             sb.append(DateUtil.toISODate((Date) operand));
         } else if (operand instanceof DateTimeWrapper) {
             sb.append(((DateTimeWrapper) operand).toISOString());
-        } else if (operand instanceof IConceptCode) {
-            IConceptCode code = (IConceptCode) operand;
+        } else if (operand instanceof ConceptReference) {
+            ConceptReference code = (ConceptReference) operand;
             sb.append(code.getSystem()).append("|").append(code.getCode());
-        } else if (operand instanceof IIdentifier) {
-            IIdentifier id = (IIdentifier) operand;
-            sb.append(id.getSystem()).append("|").append(id.getValue());
+        } else if (operand instanceof Identifier) {
+            Identifier id = (Identifier) operand;
+            sb.append(id.getSystem()).append("|").append(id.getId());
         } else if (operand instanceof Enum) {
             sb.append(((Enum<?>) operand).name().toLowerCase());
         } else {

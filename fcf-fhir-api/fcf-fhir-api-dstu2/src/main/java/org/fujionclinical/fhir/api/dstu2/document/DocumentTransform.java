@@ -101,11 +101,11 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
         dest.setDocStatus(value);
         dest.setType(ConceptTransform.getInstance().fromLogicalModel(src.getType()));
         dest.setClassElement(ConceptTransform.getInstance().fromLogicalModel(CollectionUtil.getFirst(src.getCategories())));
-        dest.setAuthor(ReferenceTransform.getInstance().fromLogicalModel(src.getAuthors()));
+        dest.setAuthor(ReferenceTransform.getInstance().fromLogicalModelAsList(src.getAuthors()));
         dest.getContext().setEncounter(ReferenceTransform.getInstance().fromLogicalModel(src.getEncounter()));
         src.getAttachments().forEach(attachment ->
                 dest.addContent().setAttachment(AttachmentTransform.getInstance().fromLogicalModel(attachment)));
-        dest.setRelatesTo(relatedTransform.fromLogicalModel(src.getRelatedDocuments()));
+        dest.setRelatesTo(relatedTransform.fromLogicalModelAsList(src.getRelatedDocuments()));
         return dest;
     }
 
@@ -119,11 +119,11 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
         dest.setDocumentStatus(FhirUtilDstu2.convertConceptToEnum(ConceptTransform.getInstance().toLogicalModel(status), IDocument.DocumentStatus.class));
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
         dest.addCategories(ConceptTransform.getInstance().toLogicalModel(src.getClassElement()));
-        dest.setAuthors(ReferenceTransform.getInstance().toLogicalModel(src.getAuthor()));
+        dest.setAuthors(ReferenceTransform.getInstance().toLogicalModelAsList(src.getAuthor()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(src.getContext().getEncounter()));
         src.getContent().forEach(content ->
                 dest.addAttachments(AttachmentTransform.getInstance().toLogicalModel(content.getAttachment())));
-        dest.setRelatedDocuments(relatedTransform.toLogicalModel(src.getRelatesTo()));
+        dest.setRelatedDocuments(relatedTransform.toLogicalModelAsList(src.getRelatesTo()));
         return dest;
     }
 

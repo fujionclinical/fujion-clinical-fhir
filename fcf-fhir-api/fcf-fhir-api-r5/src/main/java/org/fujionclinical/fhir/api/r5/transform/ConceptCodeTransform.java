@@ -25,12 +25,12 @@
  */
 package org.fujionclinical.fhir.api.r5.transform;
 
-import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.impl.ConceptCode;
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.r5.model.Coding;
 
-public class ConceptCodeTransform extends AbstractDatatypeTransform<IConceptCode, Coding> {
+public class ConceptCodeTransform extends AbstractDatatypeTransform<ConceptReference, Coding> {
 
     private static final ConceptCodeTransform instance = new ConceptCodeTransform();
 
@@ -39,17 +39,17 @@ public class ConceptCodeTransform extends AbstractDatatypeTransform<IConceptCode
     }
 
     private ConceptCodeTransform() {
-        super(IConceptCode.class, Coding.class);
+        super(ConceptReference.class, Coding.class);
     }
 
     @Override
-    public Coding _fromLogicalModel(IConceptCode src) {
-        return new Coding(src.getSystem(), src.getCode(), src.getText());
+    public Coding _fromLogicalModel(ConceptReference src) {
+        return new Coding(src.getSystemAsString(), src.getCode(), src.getPreferredName());
     }
 
     @Override
-    public IConceptCode _toLogicalModel(Coding src) {
-        return new ConceptCode(src.getSystem(), src.getCode(), src.getDisplay());
+    public ConceptReference _toLogicalModel(Coding src) {
+        return new ConceptReferenceImpl(src.getSystem(), src.getCode(), src.getDisplay());
     }
 
 }

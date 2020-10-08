@@ -68,7 +68,7 @@ public class LocationTransform extends BaseResourceTransform<ILocation, Location
     @Override
     public Location _fromLogicalModel(ILocation src) {
         Location dest = super._fromLogicalModel(src);
-        dest.setTelecom(ContactPointTransform.getInstance().fromLogicalModel(src.getContactPoints()));
+        dest.setTelecom(ContactPointTransform.getInstance().fromLogicalModelAsList(src.getContactPoints()));
         dest.setStatus(CoreUtil.enumToEnum(src.getStatus(), LocationStatusEnum.class));
         dest.setName(src.getName());
         dest.setDescription(src.getDescription());
@@ -79,7 +79,7 @@ public class LocationTransform extends BaseResourceTransform<ILocation, Location
     @Override
     public ILocation _toLogicalModel(Location src) {
         ILocation dest = super._toLogicalModel(src);
-        dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModel(src.getTelecom()));
+        dest.setContactPoints(ContactPointTransform.getInstance().toLogicalModelAsList(src.getTelecom()));
         dest.setStatus(CoreUtil.stringToEnum(src.getStatus(), ILocation.LocationStatus.class));
         dest.setName(src.getName());
         dest.setDescription(src.getDescription());

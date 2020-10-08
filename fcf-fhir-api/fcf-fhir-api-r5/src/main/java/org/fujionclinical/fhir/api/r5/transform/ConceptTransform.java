@@ -25,12 +25,12 @@
  */
 package org.fujionclinical.fhir.api.r5.transform;
 
-import org.fujionclinical.api.model.core.IConcept;
-import org.fujionclinical.api.model.impl.Concept;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSet;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.r5.model.CodeableConcept;
 
-public class ConceptTransform extends AbstractDatatypeTransform<IConcept, CodeableConcept> {
+public class ConceptTransform extends AbstractDatatypeTransform<ConceptReferenceSet, CodeableConcept> {
 
     private static final ConceptTransform instance = new ConceptTransform();
 
@@ -39,21 +39,22 @@ public class ConceptTransform extends AbstractDatatypeTransform<IConcept, Codeab
     }
 
     private ConceptTransform() {
-        super(IConcept.class, CodeableConcept.class);
+        super(ConceptReferenceSet.class, CodeableConcept.class);
     }
 
     @Override
-    public CodeableConcept _fromLogicalModel(IConcept src) {
+    public CodeableConcept _fromLogicalModel(ConceptReferenceSet src) {
         CodeableConcept dest = new CodeableConcept();
         dest.setText(src.getText());
-        dest.setCoding(ConceptCodeTransform.getInstance().fromLogicalModel(src.getCodes()));
+        dest.setCoding(ConceptCodeTransform.getInstance().fromLogicalModelAsList(src.getConceptReferences()));
         return dest;
     }
 
     @Override
-    public IConcept _toLogicalModel(CodeableConcept src) {
-        IConcept dest = new Concept(src.getText());
-        dest.setCodes(ConceptCodeTransform.getInstance().toLogicalModel(src.getCoding()));
+    public ConceptReferenceSet _toLogicalModel(CodeableConcept src) {
+        ConceptReferenceSet dest = new ConceptReferenceSetImpl();
+        dest.setText(src.getText());
+        dest.setConceptReferences(ConceptCodeTransform.getInstance().toLogicalModelAsSet(src.getCoding()));
         return dest;
     }
 

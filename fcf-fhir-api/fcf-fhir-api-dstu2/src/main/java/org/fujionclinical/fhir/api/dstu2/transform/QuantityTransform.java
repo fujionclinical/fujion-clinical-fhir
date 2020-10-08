@@ -26,10 +26,10 @@
 package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IConceptCode;
 import org.fujionclinical.api.model.core.IQuantity;
-import org.fujionclinical.api.model.impl.ConceptCode;
 import org.fujionclinical.api.model.impl.Quantity;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
@@ -48,10 +48,10 @@ public class QuantityTransform extends AbstractDatatypeTransform<IQuantity<Doubl
     @Override
     public QuantityDt _fromLogicalModel(IQuantity<Double> src) {
         QuantityDt dest = new QuantityDt();
-        IConceptCode unit = src.getUnit();
+        ConceptReference unit = src.getUnit().getFirstConcept();
         dest.setCode(unit == null ? null : unit.getCode());
-        dest.setSystem(unit == null ? null : unit.getSystem());
-        dest.setUnit(unit == null ? null : unit.getText());
+        dest.setSystem(unit == null ? null : unit.getSystem().toString());
+        dest.setUnit(unit == null ? null : unit.getPreferredName());
         dest.setValue(src.getValue());
         return dest;
     }
@@ -59,7 +59,7 @@ public class QuantityTransform extends AbstractDatatypeTransform<IQuantity<Doubl
     @Override
     public IQuantity<Double> _toLogicalModel(QuantityDt src) {
         IQuantity<Double> dest = new Quantity<>();
-        dest.setUnit(new ConceptCode(src.getSystem(), src.getCode(), src.getUnit()));
+        dest.setUnit(new ConceptReferenceSetImpl(src.getSystem(), src.getCode(), src.getUnit()));
         dest.setValue(src.getValueElement().hasValue() ? src.getValue().doubleValue() : null);
         return dest;
     }

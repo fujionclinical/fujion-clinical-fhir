@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.common.transform;
 
 import ca.uhn.fhir.model.api.Tag;
-import org.fujionclinical.api.model.core.IConceptCode;
-import org.fujionclinical.api.model.impl.ConceptCode;
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 
-public class TagTransform extends AbstractModelTransform<IConceptCode, IBaseCoding> {
+public class TagTransform extends AbstractModelTransform<ConceptReference, IBaseCoding> {
 
     private static final TagTransform instance = new TagTransform();
 
@@ -39,17 +39,17 @@ public class TagTransform extends AbstractModelTransform<IConceptCode, IBaseCodi
     }
 
     protected TagTransform() {
-        super(IConceptCode.class, IBaseCoding.class);
+        super(ConceptReference.class, IBaseCoding.class);
     }
 
     @Override
-    public IBaseCoding _fromLogicalModel(IConceptCode value) {
-        return new Tag(value.getSystem(), value.getCode(), value.getText());
+    public IBaseCoding _fromLogicalModel(ConceptReference value) {
+        return new Tag(value.getSystem().toString(), value.getCode(), value.getPreferredName());
     }
 
     @Override
-    public IConceptCode _toLogicalModel(IBaseCoding value) {
-        return new ConceptCode(value.getSystem(), value.getCode(), value.getDisplay());
+    public ConceptReference _toLogicalModel(IBaseCoding value) {
+        return new ConceptReferenceImpl(value.getSystem(), value.getCode(), value.getDisplay());
     }
 
 }

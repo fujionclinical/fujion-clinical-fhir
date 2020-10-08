@@ -51,7 +51,7 @@ public class ObservationComponentTransform extends AbstractModelTransform<IObser
     public ObservationComponentComponent _fromLogicalModel(IObservationComponent src) {
         ObservationComponentComponent dest = new ObservationComponentComponent();
         dest.setCode(ConceptTransform.getInstance().fromLogicalModel(src.getCode()));
-        dest.setReferenceRange(ReferenceRangeTransform.getInstance().fromLogicalModel(src.getReferenceRanges()));
+        dest.setReferenceRange(ReferenceRangeTransform.getInstance().fromLogicalModelAsList(src.getReferenceRanges()));
         dest.setDataAbsentReason(FhirUtilR5.convertEnumToCodeableConcept(src.getDataAbsentReason(), "http://hl7.org/fhir/data-absent-reason"));
         Object value = src.getValue();
 
@@ -67,7 +67,7 @@ public class ObservationComponentTransform extends AbstractModelTransform<IObser
     public IObservationComponent _toLogicalModel(ObservationComponentComponent src) {
         IObservationComponent dest = new ObservationComponent();
         dest.setCode(ConceptTransform.getInstance().toLogicalModel(src.getCode()));
-        dest.setReferenceRanges(ReferenceRangeTransform.getInstance().toLogicalModel(src.getReferenceRange()));
+        dest.setReferenceRanges(ReferenceRangeTransform.getInstance().toLogicalModelAsList(src.getReferenceRange()));
         dest.setDataAbsentReason(FhirUtilR5.convertCodeableConceptToEnum(src.getDataAbsentReason(), IObservationComponent.DataAbsentReason.class));
         DataType value = src.getValue();
 

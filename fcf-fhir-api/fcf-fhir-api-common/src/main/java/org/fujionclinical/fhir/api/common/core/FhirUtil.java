@@ -29,13 +29,13 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.UrlUtil;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSet;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.Logger;
-import org.fujionclinical.api.model.core.IConcept;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -533,9 +533,9 @@ public class FhirUtil {
     }
 
     public static <T extends Enum> T convertConceptToEnum(
-            IConcept value,
+            ConceptReferenceSet value,
             Class<T> type) {
-        return value == null ? null : value.getCodes().stream()
+        return value == null ? null : value.getConceptReferences().stream()
                 .map(code -> invokeMethod(null, "fromCodeString", type, code.getCode(), code.getSystem()))
                 .filter(Objects::nonNull)
                 .findFirst()

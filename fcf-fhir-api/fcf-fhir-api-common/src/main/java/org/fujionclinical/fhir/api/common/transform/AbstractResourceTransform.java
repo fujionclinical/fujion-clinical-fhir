@@ -25,6 +25,8 @@
  */
 package org.fujionclinical.fhir.api.common.transform;
 
+import edu.utah.kmm.model.cool.terminology.ConceptReference;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -47,11 +49,12 @@ public abstract class AbstractResourceTransform<L extends IDomainType, N extends
         N dest = newNative();
         String resourceType = FhirUtil.getResourceName(dest);
         dest.setId(resourceType + "/" + src.getId());
-        src.getTags().forEach(tag -> {
+        src.getTags().forEach(value -> {
+            ConceptReference tag = value.getFirstConcept();
             IBaseCoding tg = dest.getMeta().addTag();
-            tg.setSystem(tag.getSystem());
+            tg.setSystem(tag.getSystem().toString());
             tg.setCode(tag.getCode());
-            tg.setDisplay(tag.getText());
+            tg.setDisplay(tag.getPreferredName());
         });
         return dest;
     }
@@ -60,7 +63,8 @@ public abstract class AbstractResourceTransform<L extends IDomainType, N extends
     public L _toLogicalModel(N src) {
         L dest = newLogical();
         dest.setId(src.getIdElement().getIdPart());
-        src.getMeta().getTag().forEach(tag -> dest.addTags(TagTransform.getInstance().toLogicalModel(tag)));
+        src.getMeta().getTag().forEach(tag ->
+                dest.addTags(new ConceptReferenceSetImpl(TagTransform.getInstance().toLogicalModel(tag))));
         return dest;
     }
 

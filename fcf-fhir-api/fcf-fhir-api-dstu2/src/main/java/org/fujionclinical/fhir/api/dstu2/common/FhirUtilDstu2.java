@@ -37,6 +37,8 @@ import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSet;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,8 +46,6 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujion.ancillary.MimeContent;
 import org.fujion.common.DateUtil;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IConcept;
-import org.fujionclinical.api.model.impl.Concept;
 import org.fujionclinical.api.model.person.IPerson;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.terminology.Constants;
@@ -984,13 +984,13 @@ public class FhirUtilDstu2 extends org.fujionclinical.fhir.api.common.core.FhirU
         return convertConceptToEnum(ConceptTransform.getInstance().toLogicalModel(value), type);
     }
 
-    public static IConcept convertEnumToConcept(BoundCodeableConceptDt value) {
+    public static ConceptReferenceSet convertEnumToConcept(BoundCodeableConceptDt value) {
         if (value == null) {
             return null;
         }
 
-        IConcept result = new Concept();
-        result.setCodes(ConceptCodeTransform.getInstance().toLogicalModel(value.getCoding()));
+        ConceptReferenceSet result = new ConceptReferenceSetImpl();
+        result.setConceptReferences(ConceptCodeTransform.getInstance().toLogicalModelAsSet(value.getCoding()));
         return result;
     }
 
