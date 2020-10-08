@@ -72,7 +72,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setClinicalStatus(FhirUtilR5.convertEnumToCodeableConcept(src.getClinicalStatus(), "http://terminology.hl7.org/CodeSystem/condition-clinical"));
         dest.setVerificationStatus(FhirUtilR5.convertEnumToCodeableConcept(src.getVerificationStatus(), "http://hl7.org/fhir/ValueSet/condition-ver-status"));
         dest.setSeverity(FhirUtilR5.convertEnumToCodeableConcept(src.getSeverity(), "http://hl7.org/fhir/ValueSet/condition-severity"));
-        dest.setNote(AnnotationTransform.getInstance().fromLogicalModelAsList(src.getAnnotations()));
+        dest.setNote(AnnotationTransform.getInstance().fromLogicalModelAsList(src.getNotes()));
         return dest;
     }
 
@@ -87,7 +87,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setCondition(ConceptTransform.getInstance().toLogicalModel(src.getCode()));
         dest.setClinicalStatus(FhirUtilR5.convertCodeableConceptToEnum(src.getClinicalStatus(), ICondition.ClinicalStatus.class));
         dest.setVerificationStatus(FhirUtilR5.convertCodeableConceptToEnum(src.getVerificationStatus(), ICondition.VerificationStatus.class));
-        dest.setAnnotations(AnnotationTransform.getInstance().toLogicalModelAsList(src.getNote()));
+        dest.setNotes(AnnotationTransform.getInstance().toLogicalModelAsList(src.getNote()));
         return dest;
     }
 

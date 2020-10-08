@@ -46,17 +46,17 @@ public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, 
     public AnnotationDt _fromLogicalModel(IAnnotation src) {
         AnnotationDt dest = new AnnotationDt();
         dest.setAuthor(null); // TODO
-        dest.setTime(DateTimeTransform.getInstance()._fromLogicalModel(src.getRecorded()));
-        dest.setText(src.getText());
+        dest.setTime(DateTimeTransform.getInstance()._fromLogicalModel(src.getTimestamp()));
+        dest.setText(src.getContent());
         return dest;
     }
 
     @Override
     public IAnnotation _toLogicalModel(AnnotationDt src) {
         IAnnotation dest = new Annotation();
-        dest.setAuthors(null); // TODO
-        dest.setRecorded(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
-        dest.setText(src.getText());
+        dest.setAuthor(null); // TODO
+        dest.setTimestamp(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
+        dest.setContent(src.getText());
         return dest;
     }
 

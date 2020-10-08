@@ -45,17 +45,17 @@ public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, 
     public Annotation _fromLogicalModel(IAnnotation src) {
         Annotation dest = new Annotation();
         dest.setAuthor(null); // TODO
-        dest.setTimeElement(DateTimeTransform.getInstance()._fromLogicalModel(src.getRecorded()));
-        dest.setText(src.getText());
+        dest.setTimeElement(DateTimeTransform.getInstance()._fromLogicalModel(src.getTimestamp()));
+        dest.setText(src.getContent());
         return dest;
     }
 
     @Override
     public IAnnotation _toLogicalModel(Annotation src) {
         IAnnotation dest = new org.fujionclinical.api.model.impl.Annotation();
-        dest.setAuthors(null); // TODO
-        dest.setRecorded(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
-        dest.setText(src.getText());
+        dest.setAuthor(null); // TODO
+        dest.setTimestamp(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
+        dest.setContent(src.getText());
         return dest;
     }
 

@@ -81,8 +81,8 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setClinicalStatus(CoreUtil.enumToEnum(src.getClinicalStatus(), ConditionClinicalStatusCodesEnum.class));
         dest.setVerificationStatus(CoreUtil.enumToEnum(src.getVerificationStatus(), ConditionVerificationStatusEnum.class));
         dest.setSeverity(FhirUtilDstu2.convertEnumToCodeableConcept(src.getSeverity(), "http://hl7.org/fhir/ValueSet/condition-severity"));
-        dest.setNotes(src.getAnnotations().stream()
-                .map(IAnnotation::getText)
+        dest.setNotes(src.getNotes().stream()
+                .map(IAnnotation::getContent)
                 .collect(Collectors.joining("\n")));
         return dest;
     }
@@ -103,7 +103,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
             Arrays.stream(src.getNotes().split("\\n"))
                     .map(StringUtils::trimToNull)
                     .filter(Objects::nonNull)
-                    .map(note -> new Annotation(note))
+                    .map(Annotation::new)
                     .collect(Collectors.toList());
         }
 
