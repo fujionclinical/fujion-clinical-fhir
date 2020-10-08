@@ -94,7 +94,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setPatient(ReferenceTransform.getInstance().toLogicalModel(src.getPatient()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(src.getEncounter()));
         dest.setAsserter(ReferenceTransform.getInstance().toLogicalModel(src.getAsserter()));
-        dest.setRecordedDate(DateTransform.getInstance().toLogicalModel(src.getDateRecorded()));
+        dest.setRecordedDate(DateTimeTransform.getInstance().toLogicalModel(src.getDateRecorded()));
         dest.setCondition(ConceptTransform.getInstance().toLogicalModel(src.getCode()));
         dest.setClinicalStatus(CoreUtil.stringToEnum(src.getClinicalStatus(), ICondition.ClinicalStatus.class));
         dest.setVerificationStatus(CoreUtil.stringToEnum(src.getVerificationStatus(), ICondition.VerificationStatus.class));

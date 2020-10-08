@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.dstu2.patient;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AdministrativeGenderEnum;
+import edu.utah.kmm.cool.common.MiscUtils;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.person.IPerson;
@@ -72,8 +73,8 @@ public class PatientTransform extends BaseResourceTransform<IPatient, Patient> {
         dest.setPhotos(AttachmentTransform.getInstance().toLogicalModelAsList(src.getPhoto()));
         dest.setGender(CoreUtil.stringToEnum(src.getGender(), IPerson.Gender.class, IPerson.Gender.OTHER));
         dest.setMaritalStatus(FhirUtilDstu2.convertMaritalStatus(src.getMaritalStatus().getValueAsEnum()));
-        dest.setBirthDate(DateTransform.getInstance().toLogicalModel(src.getBirthDate()));
-        dest.setDeceasedDate(DateTransform.getInstance().anyToLogicalModel(src.getDeceased()));
+        dest.setBirthDate(DateTimeTransform.getInstance().toLogicalModel(src.getBirthDate()));
+        dest.setDeceasedDate(DateTimeTransform.getInstance().anyToLogicalModel(src.getDeceased()));
         return dest;
     }
 
@@ -91,7 +92,8 @@ public class PatientTransform extends BaseResourceTransform<IPatient, Patient> {
         dest.setPhoto(AttachmentTransform.getInstance().fromLogicalModelAsList(src.getPhotos()));
         dest.setGender(CoreUtil.enumToEnum(src.getGender(), AdministrativeGenderEnum.class, AdministrativeGenderEnum.OTHER));
         dest.setMaritalStatus(FhirUtilDstu2.convertMaritalStatus(src.getMaritalStatus()));
-        dest.setDeceased(DateTransform.getInstance().fromLogicalModel(src.getDeceasedDate()));
+        dest.setDeceased(DateTransform.getInstance()
+                .fromLogicalModel(MiscUtils.asNull(() -> src.getDeceasedDate().toLocalDate())));
         return dest;
     }
 

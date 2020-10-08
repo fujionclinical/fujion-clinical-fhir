@@ -67,7 +67,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setSubject(ReferenceTransform.getInstance().fromLogicalModel(src.getPatient()));
         dest.setEncounter(ReferenceTransform.getInstance().fromLogicalModel(src.getEncounter()));
         dest.setAsserter(ReferenceTransform.getInstance().fromLogicalModel(src.getAsserter()));
-        dest.setRecordedDate(DateTransform.getInstance().fromLogicalModel(src.getRecordedDate()));
+        dest.setRecordedDateElement(DateTimeTransform.getInstance().fromLogicalModel(src.getRecordedDate()));
         dest.setCode(ConceptTransform.getInstance().fromLogicalModel(src.getCondition()));
         dest.setClinicalStatus(FhirUtilR5.convertEnumToCodeableConcept(src.getClinicalStatus(), "http://terminology.hl7.org/CodeSystem/condition-clinical"));
         dest.setVerificationStatus(FhirUtilR5.convertEnumToCodeableConcept(src.getVerificationStatus(), "http://hl7.org/fhir/ValueSet/condition-ver-status"));
@@ -83,7 +83,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setPatient(ReferenceTransform.getInstance().toLogicalModel(src.getSubject()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(src.getEncounter()));
         dest.setAsserter(ReferenceTransform.getInstance().toLogicalModel(src.getAsserter()));
-        dest.setRecordedDate(DateTransform.getInstance().toLogicalModel(src.getRecordedDate()));
+        dest.setRecordedDate(DateTimeTransform.getInstance().toLogicalModel(src.getRecordedDate()));
         dest.setCondition(ConceptTransform.getInstance().toLogicalModel(src.getCode()));
         dest.setClinicalStatus(FhirUtilR5.convertCodeableConceptToEnum(src.getClinicalStatus(), ICondition.ClinicalStatus.class));
         dest.setVerificationStatus(FhirUtilR5.convertCodeableConceptToEnum(src.getVerificationStatus(), ICondition.VerificationStatus.class));

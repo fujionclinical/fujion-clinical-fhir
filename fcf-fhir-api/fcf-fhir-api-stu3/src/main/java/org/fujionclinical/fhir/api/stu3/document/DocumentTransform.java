@@ -92,7 +92,7 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
     public DocumentReference _fromLogicalModel(IDocument src) {
         DocumentReference dest = super._fromLogicalModel(src);
         dest.setDescription(src.getDescription());
-        dest.setCreated(DateTransform.getInstance().fromLogicalModel(src.getCreationDate()));
+        dest.setCreatedElement(DateTimeTransform.getInstance().fromLogicalModel(src.getCreationDate()));
         dest.setStatus(CoreUtil.enumToEnum(src.getDocumentStatus(), Enumerations.DocumentReferenceStatus.class));
         IDocument.CompositionStatus status = src.getCompositionStatus();
         dest.setDocStatus(CoreUtil.enumToEnum(status, DocumentReference.ReferredDocumentStatus.class));
@@ -110,7 +110,7 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
     public IDocument _toLogicalModel(DocumentReference src) {
         IDocument dest = super._toLogicalModel(src);
         dest.setDescription(src.getDescription());
-        dest.setCreationDate(DateTransform.getInstance().toLogicalModel(src.getCreated()));
+        dest.setCreationDate(DateTimeTransform.getInstance().toLogicalModel(src.getCreated()));
         dest.setDocumentStatus(CoreUtil.enumToEnum(src.getStatus(), IDocument.DocumentStatus.class));
         dest.setDocumentStatus(CoreUtil.enumToEnum(src.getDocStatus(), IDocument.DocumentStatus.class));
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));

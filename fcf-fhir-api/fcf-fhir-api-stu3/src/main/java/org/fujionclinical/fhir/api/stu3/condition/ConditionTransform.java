@@ -68,7 +68,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setSubject(ReferenceTransform.getInstance().fromLogicalModel(src.getPatient()));
         dest.setContext(ReferenceTransform.getInstance().fromLogicalModel(src.getEncounter()));
         dest.setAsserter(ReferenceTransform.getInstance().fromLogicalModel(src.getAsserter()));
-        dest.setAssertedDate(DateTransform.getInstance().fromLogicalModel(src.getRecordedDate()));
+        dest.setAssertedDateElement(DateTimeTransform.getInstance().fromLogicalModel(src.getRecordedDate()));
         dest.setCode(ConceptTransform.getInstance().fromLogicalModel(src.getCondition()));
         dest.setClinicalStatus(CoreUtil.enumToEnum(src.getClinicalStatus(), Condition.ConditionClinicalStatus.class));
         dest.setVerificationStatus(CoreUtil.enumToEnum(src.getVerificationStatus(), Condition.ConditionVerificationStatus.class));
@@ -84,7 +84,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setPatient(ReferenceTransform.getInstance().toLogicalModel(src.getSubject()));
         dest.setEncounter(ReferenceTransform.getInstance().toLogicalModel(src.getContext()));
         dest.setAsserter(ReferenceTransform.getInstance().toLogicalModel(src.getAsserter()));
-        dest.setRecordedDate(DateTransform.getInstance().toLogicalModel(src.getAssertedDate()));
+        dest.setRecordedDate(DateTimeTransform.getInstance().toLogicalModel(src.getAssertedDate()));
         dest.setCondition(ConceptTransform.getInstance().toLogicalModel(src.getCode()));
         dest.setClinicalStatus(CoreUtil.enumToEnum(src.getClinicalStatus(), ICondition.ClinicalStatus.class));
         dest.setVerificationStatus(CoreUtil.enumToEnum(src.getVerificationStatus(), ICondition.VerificationStatus.class));

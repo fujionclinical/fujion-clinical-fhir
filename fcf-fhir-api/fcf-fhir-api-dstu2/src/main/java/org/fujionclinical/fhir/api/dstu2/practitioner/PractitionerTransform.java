@@ -78,7 +78,7 @@ public class PractitionerTransform extends BaseResourceTransform<IPractitioner, 
         dest.setAddresses(PostalAddressTransform.getInstance().toLogicalModelAsList(src.getAddress()));
         dest.setPhotos(AttachmentTransform.getInstance().toLogicalModelAsList(src.getPhoto()));
         dest.setGender(CoreUtil.stringToEnum(src.getGender(), IPerson.Gender.class, IPerson.Gender.OTHER));
-        dest.setBirthDate(DateTransform.getInstance().toLogicalModel(src.getBirthDate()));
+        dest.setBirthDate(DateTimeTransform.getInstance().toLogicalModel(src.getBirthDate()));
         return dest;
     }
 

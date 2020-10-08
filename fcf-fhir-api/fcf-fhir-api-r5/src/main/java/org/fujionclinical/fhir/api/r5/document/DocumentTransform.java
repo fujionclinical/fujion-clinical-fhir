@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.document;
 
+import edu.utah.kmm.cool.common.MiscUtils;
 import org.fujion.common.CollectionUtil;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.document.Document;
@@ -91,7 +92,7 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
     public DocumentReference _fromLogicalModel(IDocument src) {
         DocumentReference dest = super._fromLogicalModel(src);
         dest.setDescription(src.getDescription());
-        dest.setDate(DateTransform.getInstance().fromLogicalModel(src.getCreationDate()));
+        dest.setDate(MiscUtils.asNull(() -> DateTimeTransform.getInstance().fromLogicalModel(src.getCreationDate()).getValue()));
         dest.setStatus(CoreUtil.enumToEnum(src.getDocumentStatus(), Enumerations.DocumentReferenceStatus.class));
         IDocument.CompositionStatus status = src.getCompositionStatus();
         dest.setDocStatus(CoreUtil.enumToEnum(status, Enumerations.CompositionStatus.class));
@@ -109,7 +110,7 @@ public class DocumentTransform extends BaseResourceTransform<IDocument, Document
     public IDocument _toLogicalModel(DocumentReference src) {
         IDocument dest = super._toLogicalModel(src);
         dest.setDescription(src.getDescription());
-        dest.setCreationDate(DateTransform.getInstance().toLogicalModel(src.getDate()));
+        dest.setCreationDate(DateTimeTransform.getInstance().toLogicalModel(src.getDate()));
         dest.setDocumentStatus(CoreUtil.enumToEnum(src.getStatus(), IDocument.DocumentStatus.class));
         dest.setDocumentStatus(CoreUtil.enumToEnum(src.getDocStatus(), IDocument.DocumentStatus.class));
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));

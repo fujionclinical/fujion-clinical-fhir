@@ -72,7 +72,7 @@ public class PatientTransform extends BaseResourceTransform<IPatient, Patient> {
         dest.setPhotos(AttachmentTransform.getInstance().toLogicalModelAsList(src.getPhoto()));
         dest.setGender(CoreUtil.enumToEnum(src.getGender(), IPerson.Gender.class, IPerson.Gender.OTHER));
         dest.setMaritalStatus(FhirUtilR5.convertMaritalStatus(src.getMaritalStatus()));
-        dest.setBirthDate(DateTransform.getInstance().toLogicalModel(src.getBirthDate()));
+        dest.setBirthDate(DateTimeTransform.getInstance().toLogicalModel(src.getBirthDate()));
         dest.setDeceasedDate(DateTimeTransform.getInstance().anyToLogicalModel(src.getDeceased()));
         return dest;
     }
