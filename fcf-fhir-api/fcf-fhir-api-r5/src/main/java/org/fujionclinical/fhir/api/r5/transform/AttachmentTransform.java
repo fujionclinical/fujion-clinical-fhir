@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.api.r5.transform;
 
 import org.fujionclinical.api.model.core.IAttachment;
+import org.fujionclinical.api.model.impl.AttachmentImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.r5.model.Attachment;
 
@@ -46,17 +47,17 @@ public class AttachmentTransform extends AbstractDatatypeTransform<IAttachment, 
         Attachment dest = new Attachment();
         dest.setContentType(src.getContentType());
         dest.setTitle(src.getTitle());
-        dest.setData(src.getRawData());
+        dest.setData(src.getRawContent());
         dest.setUrl(src.getURL());
         return dest;
     }
 
     @Override
     public IAttachment _toLogicalModel(Attachment src) {
-        IAttachment dest = new org.fujionclinical.api.model.impl.Attachment();
+        IAttachment dest = new AttachmentImpl();
         dest.setContentType(src.getContentType());
         dest.setTitle(src.getTitle());
-        dest.setRawData(src.getData());
+        dest.setRawContent(src.getData());
         dest.setURL(src.getUrl());
         return dest;
     }

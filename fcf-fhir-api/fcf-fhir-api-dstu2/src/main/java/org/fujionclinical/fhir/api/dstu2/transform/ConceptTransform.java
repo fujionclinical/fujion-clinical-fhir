@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceSet;
-import org.fujionclinical.api.model.impl.Concept;
+import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 public class ConceptTransform extends AbstractDatatypeTransform<ConceptReferenceSet, CodeableConceptDt> {
@@ -52,7 +52,8 @@ public class ConceptTransform extends AbstractDatatypeTransform<ConceptReference
 
     @Override
     public ConceptReferenceSet _toLogicalModel(CodeableConceptDt src) {
-        ConceptReferenceSet dest = new Concept(src.getText());
+        ConceptReferenceSet dest = new ConceptReferenceSetImpl();
+        dest.setText(src.getText());
         dest.setConceptReferences(ConceptCodeTransform.getInstance().toLogicalModelAsSet(src.getCoding()));
         return dest;
     }
