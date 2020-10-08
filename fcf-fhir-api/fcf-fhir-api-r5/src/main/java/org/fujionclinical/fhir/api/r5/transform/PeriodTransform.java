@@ -44,16 +44,16 @@ public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, Period> 
     @Override
     public Period _fromLogicalModel(IPeriod src) {
         Period dest = new Period();
-        dest.setStartElement(DateTimeTransform.getInstance().fromLogicalModel(src.getStartDate()));
-        dest.setEndElement(DateTimeTransform.getInstance().fromLogicalModel(src.getEndDate()));
+        dest.setStartElement(DateTimeTransform.getInstance().fromLogicalModel(src.getStart()));
+        dest.setEndElement(DateTimeTransform.getInstance().fromLogicalModel(src.getEnd()));
         return dest;
     }
 
     @Override
     public IPeriod _toLogicalModel(Period src) {
         IPeriod dest = new org.fujionclinical.api.model.impl.Period();
-        dest.setStartDate(DateTimeTransform.getInstance().toLogicalModel(src.getStartElement()));
-        dest.setEndDate(DateTimeTransform.getInstance().toLogicalModel(src.getEndElement()));
+        dest.setStart(DateTimeTransform.getInstance().toLogicalModel(src.getStartElement()));
+        dest.setEnd(DateTimeTransform.getInstance().toLogicalModel(src.getEndElement()));
         return dest;
     }
 

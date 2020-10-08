@@ -45,16 +45,16 @@ public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, PeriodDt
     @Override
     public PeriodDt _fromLogicalModel(IPeriod src) {
         PeriodDt dest = new PeriodDt();
-        dest.setStart(DateTimeTransform.getInstance().fromLogicalModel(src.getStartDate()));
-        dest.setEnd(DateTimeTransform.getInstance().fromLogicalModel(src.getEndDate()));
+        dest.setStart(DateTimeTransform.getInstance().fromLogicalModel(src.getStart()));
+        dest.setEnd(DateTimeTransform.getInstance().fromLogicalModel(src.getEnd()));
         return dest;
     }
 
     @Override
     public IPeriod _toLogicalModel(PeriodDt src) {
         IPeriod dest = new Period();
-        dest.setStartDate(DateTimeTransform.getInstance().toLogicalModel(src.getStartElement()));
-        dest.setEndDate(DateTimeTransform.getInstance().toLogicalModel(src.getEndElement()));
+        dest.setStart(DateTimeTransform.getInstance().toLogicalModel(src.getStartElement()));
+        dest.setEnd(DateTimeTransform.getInstance().toLogicalModel(src.getEndElement()));
         return dest;
     }
 
