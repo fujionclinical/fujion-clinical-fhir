@@ -31,12 +31,12 @@ import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
+import edu.utah.kmm.model.cool.foundation.datatype.Annotation;
 import org.apache.commons.lang3.StringUtils;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.condition.ICondition;
-import org.fujionclinical.api.model.core.IAnnotation;
 import org.fujionclinical.api.model.core.IPeriod;
-import org.fujionclinical.api.model.impl.Annotation;
+import org.fujionclinical.api.model.impl.AnnotationImpl;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.transform.*;
@@ -82,7 +82,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         dest.setVerificationStatus(CoreUtil.enumToEnum(src.getVerificationStatus(), ConditionVerificationStatusEnum.class));
         dest.setSeverity(FhirUtilDstu2.convertEnumToCodeableConcept(src.getSeverity(), "http://hl7.org/fhir/ValueSet/condition-severity"));
         dest.setNotes(src.getNotes().stream()
-                .map(IAnnotation::getContent)
+                .map(Annotation::getContent)
                 .collect(Collectors.joining("\n")));
         return dest;
     }
@@ -103,7 +103,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
             Arrays.stream(src.getNotes().split("\\n"))
                     .map(StringUtils::trimToNull)
                     .filter(Objects::nonNull)
-                    .map(Annotation::new)
+                    .map(AnnotationImpl::new)
                     .collect(Collectors.toList());
         }
 

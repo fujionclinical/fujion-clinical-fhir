@@ -25,11 +25,11 @@
  */
 package org.fujionclinical.fhir.api.stu3.transform;
 
-import org.fujionclinical.api.model.core.IAnnotation;
+import org.fujionclinical.api.model.impl.AnnotationImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.dstu3.model.Annotation;
 
-public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, Annotation> {
+public class AnnotationTransform extends AbstractDatatypeTransform<edu.utah.kmm.model.cool.foundation.datatype.Annotation, Annotation> {
 
     private static final AnnotationTransform instance = new AnnotationTransform();
 
@@ -38,11 +38,11 @@ public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, 
     }
 
     private AnnotationTransform() {
-        super(IAnnotation.class, Annotation.class);
+        super(edu.utah.kmm.model.cool.foundation.datatype.Annotation.class, Annotation.class);
     }
 
     @Override
-    public Annotation _fromLogicalModel(IAnnotation src) {
+    public Annotation _fromLogicalModel(edu.utah.kmm.model.cool.foundation.datatype.Annotation src) {
         Annotation dest = new Annotation();
         dest.setAuthor(null); // TODO
         dest.setTimeElement(DateTimeTransform.getInstance()._fromLogicalModel(src.getTimestamp()));
@@ -51,8 +51,8 @@ public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, 
     }
 
     @Override
-    public IAnnotation _toLogicalModel(Annotation src) {
-        IAnnotation dest = new org.fujionclinical.api.model.impl.Annotation();
+    public edu.utah.kmm.model.cool.foundation.datatype.Annotation _toLogicalModel(Annotation src) {
+        edu.utah.kmm.model.cool.foundation.datatype.Annotation dest = new AnnotationImpl();
         dest.setAuthor(null); // TODO
         dest.setTimestamp(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
         dest.setContent(src.getText());

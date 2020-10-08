@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.AnnotationDt;
-import org.fujionclinical.api.model.core.IAnnotation;
-import org.fujionclinical.api.model.impl.Annotation;
+import edu.utah.kmm.model.cool.foundation.datatype.Annotation;
+import org.fujionclinical.api.model.impl.AnnotationImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
-public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, AnnotationDt> {
+public class AnnotationTransform extends AbstractDatatypeTransform<Annotation, AnnotationDt> {
 
     private static final AnnotationTransform instance = new AnnotationTransform();
 
@@ -39,11 +39,11 @@ public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, 
     }
 
     private AnnotationTransform() {
-        super(IAnnotation.class, AnnotationDt.class);
+        super(Annotation.class, AnnotationDt.class);
     }
 
     @Override
-    public AnnotationDt _fromLogicalModel(IAnnotation src) {
+    public AnnotationDt _fromLogicalModel(Annotation src) {
         AnnotationDt dest = new AnnotationDt();
         dest.setAuthor(null); // TODO
         dest.setTime(DateTimeTransform.getInstance()._fromLogicalModel(src.getTimestamp()));
@@ -52,8 +52,8 @@ public class AnnotationTransform extends AbstractDatatypeTransform<IAnnotation, 
     }
 
     @Override
-    public IAnnotation _toLogicalModel(AnnotationDt src) {
-        IAnnotation dest = new Annotation();
+    public Annotation _toLogicalModel(AnnotationDt src) {
+        Annotation dest = new AnnotationImpl();
         dest.setAuthor(null); // TODO
         dest.setTimestamp(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
         dest.setContent(src.getText());
