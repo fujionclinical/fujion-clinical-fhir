@@ -25,11 +25,14 @@
  */
 package org.fujionclinical.fhir.api.r5.transform;
 
-import org.fujionclinical.api.model.core.IRatio;
+import edu.utah.kmm.model.cool.core.datatype.RatioImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
+import org.hl7.fhir.r5.model.Quantity;
 import org.hl7.fhir.r5.model.Ratio;
 
-public class RatioTransform extends AbstractDatatypeTransform<IRatio, Ratio> {
+import java.math.BigDecimal;
+
+public class RatioTransform extends AbstractDatatypeTransform<edu.utah.kmm.model.cool.core.datatype.Ratio, Ratio> {
 
     private static final RatioTransform instance = new RatioTransform();
 
@@ -38,22 +41,43 @@ public class RatioTransform extends AbstractDatatypeTransform<IRatio, Ratio> {
     }
 
     private RatioTransform() {
-        super(IRatio.class, Ratio.class);
+        super(edu.utah.kmm.model.cool.core.datatype.Ratio.class, Ratio.class);
     }
 
     @Override
-    public Ratio _fromLogicalModel(IRatio src) {
+    public Ratio _fromLogicalModel(edu.utah.kmm.model.cool.core.datatype.Ratio src) {
         Ratio dest = new Ratio();
-        dest.setNumerator(QuantityTransform.getInstance().fromLogicalModel(src.getNumerator()));
-        dest.setDenominator(QuantityTransform.getInstance().fromLogicalModel(src.getDenominator()));
+        dest.setNumerator(createQuantity(src.getNumerator()));
+        dest.setDenominator(createQuantity(src.getDenominator()));
         return dest;
     }
 
+    private Quantity createQuantity(Object value) {
+        if (value == null) {
+            return null;
+        }
+
+        Quantity quantity = new Quantity();
+        Number num = value instanceof Number ? (Number) value : null;
+
+        if (num instanceof Long || num instanceof Integer) {
+            quantity.setValue(num.longValue());
+        } else if (num instanceof Double || num instanceof Float) {
+            quantity.setValue(num.doubleValue());
+        } else if (num instanceof BigDecimal) {
+            quantity.setValue((BigDecimal) num);
+        } else {
+            throw new IllegalArgumentException("Invalid datatype for ratio: " + value.getClass());
+        }
+
+        return quantity;
+    }
+
     @Override
-    public IRatio _toLogicalModel(Ratio src) {
-        IRatio dest = new org.fujionclinical.api.model.impl.Ratio();
-        dest.setNumerator(QuantityTransform.getInstance().toLogicalModel(src.getNumerator()));
-        dest.setDenominator(QuantityTransform.getInstance().toLogicalModel(src.getDenominator()));
+    public edu.utah.kmm.model.cool.core.datatype.Ratio _toLogicalModel(Ratio src) {
+        edu.utah.kmm.model.cool.core.datatype.Ratio dest = new RatioImpl<>();
+        dest.setNumerator(src.getNumerator().getValue());
+        dest.setDenominator(src.getDenominator().getValue());
         return dest;
     }
 
