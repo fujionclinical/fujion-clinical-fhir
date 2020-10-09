@@ -27,10 +27,10 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import edu.utah.kmm.model.cool.core.datatype.QuantityEx;
+import edu.utah.kmm.model.cool.core.datatype.QuantityExImpl;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.impl.Quantity;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 public class QuantityTransform extends AbstractDatatypeTransform<QuantityEx<Double>, QuantityDt> {
@@ -58,7 +58,7 @@ public class QuantityTransform extends AbstractDatatypeTransform<QuantityEx<Doub
 
     @Override
     public QuantityEx<Double> _toLogicalModel(QuantityDt src) {
-        QuantityEx<Double> dest = new Quantity<>();
+        QuantityEx<Double> dest = new QuantityExImpl<>();
         dest.setUnit(new ConceptReferenceSetImpl(src.getSystem(), src.getCode(), src.getUnit()));
         dest.setValue(src.getValueElement().hasValue() ? src.getValue().doubleValue() : null);
         return dest;

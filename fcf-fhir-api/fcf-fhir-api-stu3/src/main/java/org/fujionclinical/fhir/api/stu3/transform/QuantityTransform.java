@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.api.stu3.transform;
 
 import edu.utah.kmm.model.cool.core.datatype.QuantityEx;
+import edu.utah.kmm.model.cool.core.datatype.QuantityExImpl;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceSet;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
@@ -59,7 +60,7 @@ public class QuantityTransform extends AbstractDatatypeTransform<QuantityEx<Doub
 
     @Override
     public QuantityEx<Double> _toLogicalModel(Quantity src) {
-        QuantityEx dest = new org.fujionclinical.api.model.impl.Quantity();
+        QuantityEx dest = new QuantityExImpl();
         dest.setUnit(new ConceptReferenceSetImpl(src.getSystem(), src.getCode(), src.getUnit()));
         dest.setValue(src.getValue());
         return dest;

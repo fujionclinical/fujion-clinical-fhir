@@ -30,7 +30,7 @@ import org.fujion.common.DateUtil;
 import org.fujionclinical.api.model.core.IPostalAddress;
 import org.fujionclinical.api.model.encounter.Encounter;
 import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.impl.PostalAddress;
+import org.fujionclinical.api.model.impl.PostalAddressImpl;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.Patient;
 import org.fujionclinical.api.model.person.IPersonName;
@@ -108,7 +108,7 @@ public class CommonTest {
 
     @Test
     public void testAddressUtils() {
-        PostalAddress a = new PostalAddress();
+        PostalAddressImpl a = new PostalAddressImpl();
         a.setCity("city");
         a.setCountry("country");
         a.setDistrict("district");

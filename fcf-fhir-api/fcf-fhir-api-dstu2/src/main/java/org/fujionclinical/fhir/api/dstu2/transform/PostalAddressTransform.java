@@ -30,7 +30,7 @@ import ca.uhn.fhir.model.dstu2.valueset.AddressTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.core.IPostalAddress;
-import org.fujionclinical.api.model.impl.PostalAddress;
+import org.fujionclinical.api.model.impl.PostalAddressImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAddress, AddressDt> {
@@ -62,7 +62,7 @@ public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAdd
 
     @Override
     public IPostalAddress _toLogicalModel(AddressDt src) {
-        IPostalAddress dest = new PostalAddress();
+        IPostalAddress dest = new PostalAddressImpl();
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
         dest.setUse(CoreUtil.stringToEnum(src.getUse(), IPostalAddress.PostalAddressUse.class));
         dest.setType(CoreUtil.stringToEnum(src.getType(), IPostalAddress.PostalAddressType.class));

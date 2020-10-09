@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.stu3.transform;
 
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.core.IPostalAddress;
-import org.fujionclinical.api.model.impl.PostalAddress;
+import org.fujionclinical.api.model.impl.PostalAddressImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.dstu3.model.Address;
 
@@ -60,7 +60,7 @@ public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAdd
 
     @Override
     public IPostalAddress _toLogicalModel(Address src) {
-        IPostalAddress dest = new PostalAddress();
+        IPostalAddress dest = new PostalAddressImpl();
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
         dest.setUse(CoreUtil.enumToEnum(src.getUse(), IPostalAddress.PostalAddressUse.class));
         dest.setType(CoreUtil.enumToEnum(src.getType(), IPostalAddress.PostalAddressType.class));
