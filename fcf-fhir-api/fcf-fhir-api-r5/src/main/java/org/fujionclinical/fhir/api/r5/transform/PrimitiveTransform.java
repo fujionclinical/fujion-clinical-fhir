@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.transform;
 
+import edu.utah.kmm.model.cool.core.BaseType;
 import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.r5.model.*;
@@ -32,7 +33,7 @@ import org.hl7.fhir.r5.model.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PrimitiveTransform extends AbstractDatatypeTransform<Object, PrimitiveType> {
+public class PrimitiveTransform extends AbstractDatatypeTransform<Object, PrimitiveType> implements BaseType {
 
     private static final PrimitiveTransform instance = new PrimitiveTransform();
 

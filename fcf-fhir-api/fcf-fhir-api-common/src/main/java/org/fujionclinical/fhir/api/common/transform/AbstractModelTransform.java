@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.common.transform;
 
-import org.fujionclinical.api.model.core.IModelTransform;
+import edu.utah.kmm.cool.transform.ModelTransform;
 
-public abstract class AbstractModelTransform<L, N> implements IModelTransform<L, N> {
+public abstract class AbstractModelTransform<L, N> implements ModelTransform<L, N> {
 
     private final Class<L> logicalModelType;
 

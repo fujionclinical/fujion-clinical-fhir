@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.observation;
 
-import org.fujionclinical.api.model.core.IModelTransform;
+import edu.utah.kmm.cool.transform.ModelTransform;
 import org.fujionclinical.api.model.core.ModelTransforms;
 import org.fujionclinical.api.model.observation.IObservationComponent;
 import org.fujionclinical.api.model.observation.ObservationComponent;
@@ -56,7 +56,7 @@ public class ObservationComponentTransform extends AbstractModelTransform<IObser
         Object value = src.getValue();
 
         if (value != null) {
-            IModelTransform transform = ModelTransforms.getInstance().get(value.getClass(), DataType.class);
+            ModelTransform transform = ModelTransforms.getInstance().get(value.getClass(), DataType.class);
             dest.setValue((DataType) transform.fromLogicalModel(value));
         }
 
@@ -72,7 +72,7 @@ public class ObservationComponentTransform extends AbstractModelTransform<IObser
         DataType value = src.getValue();
 
         if (value != null) {
-            IModelTransform transform = ModelTransforms.getInstance().get(Object.class, src.getValue().getClass());
+            ModelTransform transform = ModelTransforms.getInstance().get(Object.class, src.getValue().getClass());
             dest.setValue(transform.toLogicalModel(src.getValue()));
         }
 

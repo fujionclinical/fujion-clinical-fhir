@@ -27,13 +27,14 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.api.IPrimitiveDatatype;
 import ca.uhn.fhir.model.primitive.*;
+import edu.utah.kmm.model.cool.core.BaseType;
 import org.fujion.common.DateTimeWrapper;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PrimitiveTransform extends AbstractDatatypeTransform<Object, IPrimitiveDatatype> {
+public class PrimitiveTransform extends AbstractDatatypeTransform<Object, IPrimitiveDatatype> implements BaseType {
 
     private static final PrimitiveTransform instance = new PrimitiveTransform();
 

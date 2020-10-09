@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.dstu2.common;
 
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.rest.gclient.IQuery;
+import edu.utah.kmm.cool.transform.ModelTransform;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.core.IModelTransform;
 import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.AbstractResourceDAO;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -46,7 +46,7 @@ public abstract class BaseResourceDAO<L extends IDomainType, N extends IBaseReso
             AbstractFhirService fhirService,
             Class<L> logicalType,
             Class<N> nativeType,
-            IModelTransform<L, N> transform) {
+            ModelTransform<L, N> transform) {
         super(fhirService, logicalType, nativeType, transform);
     }
 

@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
+import edu.utah.kmm.cool.transform.ModelTransform;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.core.IModelTransform;
 import org.fujionclinical.api.model.dao.IDomainDAO;
 import org.fujionclinical.api.query.expression.ExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -47,13 +47,13 @@ public abstract class AbstractResourceDAO<L extends IDomainType, N extends IBase
 
     protected final AbstractFhirService fhirService;
 
-    protected final IModelTransform<L, N> transform;
+    protected final ModelTransform<L, N> transform;
 
     protected AbstractResourceDAO(
             AbstractFhirService fhirService,
             Class<L> logicalType,
             Class<N> nativeType,
-            IModelTransform<L, N> transform) {
+            ModelTransform<L, N> transform) {
         this.fhirService = fhirService;
         this.logicalType = logicalType;
         this.nativeType = nativeType;

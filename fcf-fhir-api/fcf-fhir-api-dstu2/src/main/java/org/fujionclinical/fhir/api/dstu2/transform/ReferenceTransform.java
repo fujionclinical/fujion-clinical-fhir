@@ -27,9 +27,9 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.primitive.IdDt;
+import edu.utah.kmm.cool.transform.ModelTransform;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.core.IModelTransform;
 import org.fujionclinical.api.model.core.IReference;
 import org.fujionclinical.api.model.core.ModelTransforms;
 import org.fujionclinical.api.model.impl.Reference;
@@ -57,7 +57,7 @@ public class ReferenceTransform<T extends IDomainType> extends AbstractDatatypeT
     @Override
     public ResourceReferenceDt _fromLogicalModel(IReference<T> src) {
         ResourceReferenceDt dest = new ResourceReferenceDt();
-        IModelTransform transform = ModelTransforms.getInstance().get(IBaseResource.class, src.getDomainType());
+        ModelTransform transform = ModelTransforms.getInstance().get(IBaseResource.class, src.getDomainType());
         dest.setResource((IBaseResource) transform.fromLogicalModel(src.hasReferenced() ? src.getReferenced() : null));
         String resourceName = FhirUtil.getResourceName(transform.getNativeType());
         dest.setReference(resourceName + "/" + src.getId());
@@ -72,7 +72,7 @@ public class ReferenceTransform<T extends IDomainType> extends AbstractDatatypeT
     @Override
     public IReference<T> _toLogicalModel(ResourceReferenceDt src) {
         Class<?> resourceClass = FhirUtil.getResourceType(src.getReference());
-        IModelTransform transform = ModelTransforms.getInstance().get(IDomainType.class, resourceClass);
+        ModelTransform transform = ModelTransforms.getInstance().get(IDomainType.class, resourceClass);
         IDomainType referenced = (T) transform.toLogicalModel(src.getResource());
 
         if (referenced != null) {
