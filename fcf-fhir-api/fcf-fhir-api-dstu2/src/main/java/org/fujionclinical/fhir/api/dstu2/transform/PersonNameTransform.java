@@ -28,9 +28,10 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 import ca.uhn.fhir.model.dstu2.composite.HumanNameDt;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.primitive.StringDt;
+import edu.utah.kmm.model.cool.foundation.datatype.PersonNameUse;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.person.IPersonName;
-import org.fujionclinical.api.model.person.PersonName;
+import org.fujionclinical.api.model.person.PersonNameImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 import java.util.Collections;
@@ -50,9 +51,9 @@ public class PersonNameTransform extends AbstractDatatypeTransform<IPersonName, 
     @Override
     public HumanNameDt _fromLogicalModel(IPersonName src) {
         HumanNameDt dest = new HumanNameDt();
-        StringDt familyName = src.hasFamilyName() ? new StringDt(src.getFamilyName()) : null;
+        StringDt familyName = src.hasFamily() ? new StringDt(src.getFamily()) : null;
         dest.setFamily(familyName == null ? null : Collections.singletonList(familyName));
-        dest.setGiven(StringTransform.getInstance().fromLogicalModelAsList(src.getGivenNames()));
+        dest.setGiven(StringTransform.getInstance().fromLogicalModelAsList(src.getGiven()));
         src.getPrefixes().forEach(dest::addPrefix);
         src.getSuffixes().forEach(dest::addSuffix);
         dest.setUse(CoreUtil.enumToEnum(src.getUse(), NameUseEnum.class));
@@ -61,12 +62,12 @@ public class PersonNameTransform extends AbstractDatatypeTransform<IPersonName, 
 
     @Override
     public IPersonName _toLogicalModel(HumanNameDt src) {
-        IPersonName dest = new PersonName();
-        dest.setFamilyName(src.getFamily().isEmpty() ? null : src.getFamilyAsSingleString());
-        dest.setGivenNames(StringTransform.getInstance().toLogicalModelAsList(src.getGiven()));
+        IPersonName dest = new PersonNameImpl();
+        dest.setFamily(src.getFamily().isEmpty() ? null : src.getFamilyAsSingleString());
+        dest.setGiven(StringTransform.getInstance().toLogicalModelAsList(src.getGiven()));
         src.getPrefix().forEach(prefix -> dest.addPrefixes(prefix.getValue()));
         src.getSuffix().forEach(suffix -> dest.addSuffixes(suffix.getValue()));
-        dest.setUse(CoreUtil.stringToEnum(src.getUse(), IPersonName.PersonNameUse.class));
+        dest.setUse(CoreUtil.stringToEnum(src.getUse(), PersonNameUse.class));
         return dest;
     }
 

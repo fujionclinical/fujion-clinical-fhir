@@ -25,15 +25,16 @@
  */
 package org.fujionclinical.fhir.api.stu3.test;
 
+import edu.utah.kmm.model.cool.foundation.datatype.PersonNameUse;
 import org.fujion.common.DateUtil;
 import org.fujionclinical.api.model.core.IPostalAddress;
 import org.fujionclinical.api.model.encounter.Encounter;
 import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.impl.PersonName;
 import org.fujionclinical.api.model.impl.PostalAddress;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.Patient;
 import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.api.model.person.PersonNameImpl;
 import org.fujionclinical.api.model.person.PersonNameParser;
 import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
 import org.fujionclinical.fhir.api.stu3.transform.PersonNameTransform;
@@ -123,7 +124,7 @@ public class CommonTest {
 
     @Test
     public void testNameUtils() {
-        IPersonName personName = new PersonName();
+        IPersonName personName = new PersonNameImpl();
         PersonNameParser.instance.fromString("last, first middle", personName);
         HumanName humanName = PersonNameTransform.getInstance().fromLogicalModel(personName);
         assertEquals("last", humanName.getFamily());
@@ -131,9 +132,9 @@ public class CommonTest {
         assertEquals("first", humanName.getGiven().get(0).getValue());
         assertEquals("middle", humanName.getGiven().get(1).getValue());
         assertEquals("last, first middle", FhirUtilStu3.formatName(humanName));
-        IPersonName personName2 = new PersonName();
+        IPersonName personName2 = new PersonNameImpl();
         PersonNameParser.instance.fromString(",nickname", personName2);
-        personName2.setUse(IPersonName.PersonNameUse.NICKNAME);
+        personName2.setUse(PersonNameUse.NICKNAME);
         HumanName humanName2 = PersonNameTransform.getInstance().fromLogicalModel(personName2);
         assertEquals(HumanName.NameUse.NICKNAME, humanName2.getUse());
         assertTrue(!humanName2.hasFamily());

@@ -28,15 +28,16 @@ package org.fujionclinical.fhir.api.dstu2.test;
 import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.dstu2.valueset.UnitsOfTimeEnum;
+import edu.utah.kmm.model.cool.foundation.datatype.PersonNameUse;
 import org.fujion.common.DateUtil;
 import org.fujionclinical.api.model.core.IPostalAddress;
 import org.fujionclinical.api.model.encounter.Encounter;
 import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.impl.PersonName;
 import org.fujionclinical.api.model.impl.PostalAddress;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.Patient;
 import org.fujionclinical.api.model.person.IPersonName;
+import org.fujionclinical.api.model.person.PersonNameImpl;
 import org.fujionclinical.api.model.person.PersonNameParser;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.transform.PersonNameTransform;
@@ -125,7 +126,7 @@ public class CommonTest {
 
     @Test
     public void testNameUtils() {
-        IPersonName personName = new PersonName();
+        IPersonName personName = new PersonNameImpl();
         PersonNameParser.instance.fromString("last, first middle", personName);
         HumanNameDt humanName = PersonNameTransform.getInstance().fromLogicalModel(personName);
         assertEquals("last", humanName.getFamilyAsSingleString());
@@ -133,9 +134,9 @@ public class CommonTest {
         assertEquals("first", humanName.getGiven().get(0).getValue());
         assertEquals("middle", humanName.getGiven().get(1).getValue());
         assertEquals("last, first middle", FhirUtilDstu2.formatName(humanName));
-        IPersonName personName2 = new PersonName();
+        IPersonName personName2 = new PersonNameImpl();
         PersonNameParser.instance.fromString(",nickname", personName2);
-        personName2.setUse(IPersonName.PersonNameUse.NICKNAME);
+        personName2.setUse(PersonNameUse.NICKNAME);
         HumanNameDt humanName2 = PersonNameTransform.getInstance().fromLogicalModel(personName2);
         assertEquals(NameUseEnum.NICKNAME, humanName2.getUseElement().getValueAsEnum());
         assertTrue(humanName2.getFamily().isEmpty());

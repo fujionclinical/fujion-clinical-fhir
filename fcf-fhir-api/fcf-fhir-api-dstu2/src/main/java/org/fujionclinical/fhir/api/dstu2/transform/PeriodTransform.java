@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
-import org.fujionclinical.api.model.core.IPeriod;
-import org.fujionclinical.api.model.impl.Period;
+import edu.utah.kmm.model.cool.core.datatype.Period;
+import edu.utah.kmm.model.cool.core.datatype.PeriodImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
-public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, PeriodDt> {
+public class PeriodTransform extends AbstractDatatypeTransform<Period, PeriodDt> {
 
     private static final PeriodTransform instance = new PeriodTransform();
 
@@ -39,11 +39,11 @@ public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, PeriodDt
     }
 
     private PeriodTransform() {
-        super(IPeriod.class, PeriodDt.class);
+        super(Period.class, PeriodDt.class);
     }
 
     @Override
-    public PeriodDt _fromLogicalModel(IPeriod src) {
+    public PeriodDt _fromLogicalModel(Period src) {
         PeriodDt dest = new PeriodDt();
         dest.setStart(DateTimeTransform.getInstance().fromLogicalModel(src.getStart()));
         dest.setEnd(DateTimeTransform.getInstance().fromLogicalModel(src.getEnd()));
@@ -51,8 +51,8 @@ public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, PeriodDt
     }
 
     @Override
-    public IPeriod _toLogicalModel(PeriodDt src) {
-        IPeriod dest = new Period();
+    public Period _toLogicalModel(PeriodDt src) {
+        Period dest = new PeriodImpl();
         dest.setStart(DateTimeTransform.getInstance().toLogicalModel(src.getStartElement()));
         dest.setEnd(DateTimeTransform.getInstance().toLogicalModel(src.getEndElement()));
         return dest;

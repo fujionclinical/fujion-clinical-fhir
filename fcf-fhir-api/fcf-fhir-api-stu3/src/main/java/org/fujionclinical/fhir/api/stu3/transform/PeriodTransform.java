@@ -25,11 +25,12 @@
  */
 package org.fujionclinical.fhir.api.stu3.transform;
 
-import org.fujionclinical.api.model.core.IPeriod;
+//import edu.utah.kmm.model.cool.core.datatype.Period;
+import edu.utah.kmm.model.cool.core.datatype.PeriodImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.dstu3.model.Period;
 
-public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, Period> {
+public class PeriodTransform extends AbstractDatatypeTransform<edu.utah.kmm.model.cool.core.datatype.Period, Period> {
 
     private static final PeriodTransform instance = new PeriodTransform();
 
@@ -38,11 +39,11 @@ public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, Period> 
     }
 
     private PeriodTransform() {
-        super(IPeriod.class, Period.class);
+        super(edu.utah.kmm.model.cool.core.datatype.Period.class, Period.class);
     }
 
     @Override
-    public Period _fromLogicalModel(IPeriod src) {
+    public Period _fromLogicalModel(edu.utah.kmm.model.cool.core.datatype.Period src) {
         Period dest = new Period();
         dest.setStartElement(DateTimeTransform.getInstance().fromLogicalModel(src.getStart()));
         dest.setEndElement(DateTimeTransform.getInstance().fromLogicalModel(src.getEnd()));
@@ -50,8 +51,8 @@ public class PeriodTransform extends AbstractDatatypeTransform<IPeriod, Period> 
     }
 
     @Override
-    public IPeriod _toLogicalModel(Period src) {
-        IPeriod dest = new org.fujionclinical.api.model.impl.Period();
+    public edu.utah.kmm.model.cool.core.datatype.Period _toLogicalModel(Period src) {
+        edu.utah.kmm.model.cool.core.datatype.Period dest = new PeriodImpl();
         dest.setStart(DateTimeTransform.getInstance().toLogicalModel(src.getStartElement()));
         dest.setEnd(DateTimeTransform.getInstance().toLogicalModel(src.getEndElement()));
         return dest;

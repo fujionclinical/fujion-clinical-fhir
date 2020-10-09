@@ -25,9 +25,10 @@
  */
 package org.fujionclinical.fhir.api.r5.transform;
 
+import edu.utah.kmm.model.cool.foundation.datatype.PersonNameUse;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.person.IPersonName;
-import org.fujionclinical.api.model.person.PersonName;
+import org.fujionclinical.api.model.person.PersonNameImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.r5.model.HumanName;
 
@@ -46,8 +47,8 @@ public class PersonNameTransform extends AbstractDatatypeTransform<IPersonName, 
     @Override
     public HumanName _fromLogicalModel(IPersonName src) {
         HumanName dest = new HumanName();
-        dest.setFamily(src.getFamilyName());
-        dest.setGiven(StringTransform.getInstance().fromLogicalModelAsList(src.getGivenNames()));
+        dest.setFamily(src.getFamily());
+        dest.setGiven(StringTransform.getInstance().fromLogicalModelAsList(src.getGiven()));
         src.getPrefixes().forEach(dest::addPrefix);
         src.getSuffixes().forEach(dest::addSuffix);
         dest.setUse(CoreUtil.enumToEnum(src.getUse(), HumanName.NameUse.class));
@@ -56,12 +57,12 @@ public class PersonNameTransform extends AbstractDatatypeTransform<IPersonName, 
 
     @Override
     public IPersonName _toLogicalModel(HumanName src) {
-        IPersonName dest = new PersonName();
-        dest.setFamilyName(src.getFamily());
-        dest.setGivenNames(StringTransform.getInstance().toLogicalModelAsList(src.getGiven()));
+        IPersonName dest = new PersonNameImpl();
+        dest.setFamily(src.getFamily());
+        dest.setGiven(StringTransform.getInstance().toLogicalModelAsList(src.getGiven()));
         src.getPrefix().forEach(prefix -> dest.addPrefixes(prefix.getValue()));
         src.getSuffix().forEach(suffix -> dest.addSuffixes(suffix.getValue()));
-        dest.setUse(CoreUtil.enumToEnum(src.getUse(), IPersonName.PersonNameUse.class));
+        dest.setUse(CoreUtil.enumToEnum(src.getUse(), PersonNameUse.class));
         return dest;
     }
 

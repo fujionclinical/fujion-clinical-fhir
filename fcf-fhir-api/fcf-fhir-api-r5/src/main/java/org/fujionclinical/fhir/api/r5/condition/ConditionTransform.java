@@ -26,7 +26,6 @@
 package org.fujionclinical.fhir.api.r5.condition;
 
 import org.fujionclinical.api.model.condition.ICondition;
-import org.fujionclinical.api.model.core.IPeriod;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.api.r5.transform.*;
@@ -91,7 +90,7 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
         return dest;
     }
 
-    private IPeriod toPeriod(Condition src) {
+    private edu.utah.kmm.model.cool.core.datatype.Period toPeriod(Condition src) {
         IBaseDatatype value = src.getOnset();
 
         if (value instanceof Period) {

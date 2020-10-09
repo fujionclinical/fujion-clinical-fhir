@@ -41,7 +41,7 @@
         </dependency>
         <dependency>
             <groupId>edu.utah.kmm</groupId>
-            <artifactId>coolbeans-common</artifactId>
+            <artifactId>cool-impl-generated</artifactId>
             <version>${cool-version}</version>
         </dependency>
         <dependency>

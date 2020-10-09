@@ -31,12 +31,12 @@ import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionClinicalStatusCodesEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ConditionVerificationStatusEnum;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
+import edu.utah.kmm.model.cool.core.datatype.Period;
 import edu.utah.kmm.model.cool.foundation.datatype.Annotation;
+import edu.utah.kmm.model.cool.foundation.datatype.AnnotationImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.fujionclinical.api.core.CoreUtil;
 import org.fujionclinical.api.model.condition.ICondition;
-import org.fujionclinical.api.model.core.IPeriod;
-import org.fujionclinical.api.model.impl.AnnotationImpl;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.api.dstu2.transform.*;
@@ -103,14 +103,14 @@ public class ConditionTransform extends BaseResourceTransform<ICondition, Condit
             Arrays.stream(src.getNotes().split("\\n"))
                     .map(StringUtils::trimToNull)
                     .filter(Objects::nonNull)
-                    .map(AnnotationImpl::new)
+                    .map(note -> new AnnotationImpl(null, note))
                     .collect(Collectors.toList());
         }
 
         return dest;
     }
 
-    private IPeriod toPeriod(Condition src) {
+    private Period toPeriod(Condition src) {
         IBaseDatatype value = src.getOnset();
 
         if (value instanceof PeriodDt) {

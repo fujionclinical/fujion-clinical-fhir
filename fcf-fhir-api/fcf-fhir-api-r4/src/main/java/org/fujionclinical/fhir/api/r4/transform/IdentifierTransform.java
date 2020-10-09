@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.transform;
 
-import org.fujionclinical.api.model.impl.IdentifierImpl;
+import edu.utah.kmm.model.cool.core.datatype.IdentifierExImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.r4.model.Identifier;
 
@@ -52,7 +52,7 @@ public class IdentifierTransform extends AbstractDatatypeTransform<edu.utah.kmm.
 
     @Override
     public edu.utah.kmm.model.cool.core.datatype.Identifier _toLogicalModel(Identifier src) {
-        edu.utah.kmm.model.cool.core.datatype.Identifier dest = new IdentifierImpl(src.getSystem(), src.getId());
+        edu.utah.kmm.model.cool.core.datatype.Identifier dest = new IdentifierExImpl(src.getSystem(), src.getId());
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
         return dest;
     }

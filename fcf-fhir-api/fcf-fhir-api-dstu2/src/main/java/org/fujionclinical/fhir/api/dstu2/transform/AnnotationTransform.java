@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 
 import ca.uhn.fhir.model.dstu2.composite.AnnotationDt;
 import edu.utah.kmm.model.cool.foundation.datatype.Annotation;
-import org.fujionclinical.api.model.impl.AnnotationImpl;
+import edu.utah.kmm.model.cool.foundation.datatype.AnnotationImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 public class AnnotationTransform extends AbstractDatatypeTransform<Annotation, AnnotationDt> {
@@ -53,10 +53,8 @@ public class AnnotationTransform extends AbstractDatatypeTransform<Annotation, A
 
     @Override
     public Annotation _toLogicalModel(AnnotationDt src) {
-        Annotation dest = new AnnotationImpl();
-        dest.setAuthor(null); // TODO
+        Annotation dest = new AnnotationImpl(null, src.getText()); // TODO: author
         dest.setTimestamp(DateTimeTransform.getInstance()._toLogicalModel(src.getTimeElement()));
-        dest.setContent(src.getText());
         return dest;
     }
 

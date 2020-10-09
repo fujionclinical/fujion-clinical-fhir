@@ -28,9 +28,9 @@ package org.fujionclinical.fhir.api.dstu2.transform;
 import ca.uhn.fhir.model.dstu2.composite.IdentifierDt;
 import ca.uhn.fhir.model.dstu2.valueset.IdentifierTypeCodesEnum;
 import edu.utah.kmm.model.cool.core.datatype.Identifier;
+import edu.utah.kmm.model.cool.core.datatype.IdentifierExImpl;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import org.fujion.common.CollectionUtil;
-import org.fujionclinical.api.model.impl.IdentifierImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
 public class IdentifierTransform extends AbstractDatatypeTransform<Identifier, IdentifierDt> {
@@ -57,7 +57,7 @@ public class IdentifierTransform extends AbstractDatatypeTransform<Identifier, I
 
     @Override
     public Identifier _toLogicalModel(IdentifierDt src) {
-        Identifier dest = new IdentifierImpl(src.getSystem(), src.getValue());
+        Identifier dest = new IdentifierExImpl(src.getSystem(), src.getValue());
         dest.setType(ConceptTransform.getInstance().toLogicalModel(src.getType()));
         return dest;
     }
