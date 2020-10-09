@@ -26,15 +26,15 @@
 package org.fujionclinical.fhir.api.stu3.transform;
 
 import edu.utah.kmm.cool.common.MiscUtils;
+import edu.utah.kmm.model.cool.core.datatype.QuantityEx;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceSetImpl;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IQuantity;
 import org.fujionclinical.api.model.impl.Quantity;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 import org.hl7.fhir.dstu3.model.SimpleQuantity;
 
-public class SimpleQuantityTransform extends AbstractDatatypeTransform<IQuantity<Double>, SimpleQuantity> {
+public class SimpleQuantityTransform extends AbstractDatatypeTransform<QuantityEx<Double>, SimpleQuantity> {
 
     private static final SimpleQuantityTransform instance = new SimpleQuantityTransform();
 
@@ -43,11 +43,11 @@ public class SimpleQuantityTransform extends AbstractDatatypeTransform<IQuantity
     }
 
     private SimpleQuantityTransform() {
-        super(CoreUtil.cast(IQuantity.class), SimpleQuantity.class);
+        super(CoreUtil.cast(QuantityEx.class), SimpleQuantity.class);
     }
 
     @Override
-    public SimpleQuantity _fromLogicalModel(IQuantity<Double> src) {
+    public SimpleQuantity _fromLogicalModel(QuantityEx<Double> src) {
         SimpleQuantity dest = new SimpleQuantity();
         ConceptReference unit = MiscUtils.asNull(() -> src.getUnit().getFirstConcept());
         dest.setCode(unit == null ? null : unit.getCode());
@@ -58,7 +58,7 @@ public class SimpleQuantityTransform extends AbstractDatatypeTransform<IQuantity
     }
 
     @Override
-    public IQuantity<Double> _toLogicalModel(SimpleQuantity src) {
+    public QuantityEx<Double> _toLogicalModel(SimpleQuantity src) {
         Quantity dest = new Quantity();
         dest.setUnit(new ConceptReferenceSetImpl(src.getSystem(), src.getCode(), src.getUnit()));
         dest.setValue(src.getValue());
