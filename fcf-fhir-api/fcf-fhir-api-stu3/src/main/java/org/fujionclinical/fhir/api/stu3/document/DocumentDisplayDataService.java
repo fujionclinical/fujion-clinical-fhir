@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.stu3.document;
 
-import org.fujionclinical.api.query.core.IQueryContext;
+import edu.utah.kmm.model.cool.dao.query.QueryContext;
 import org.fujionclinical.api.query.core.QueryUtil;
 import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
 import org.fujionclinical.api.query.service.IQueryResult;
@@ -43,7 +43,7 @@ public class DocumentDisplayDataService extends AbstractQueryServiceEx<DocumentS
     }
 
     @Override
-    public IQueryResult<Document> fetch(IQueryContext ctx) {
+    public IQueryResult<Document> fetch(QueryContext ctx) {
         @SuppressWarnings("unchecked")
         List<Document> documents = (List<Document>) ctx.getParam("documents");
 
@@ -56,7 +56,7 @@ public class DocumentDisplayDataService extends AbstractQueryServiceEx<DocumentS
     }
 
     @Override
-    public boolean hasRequired(IQueryContext context) {
+    public boolean hasRequired(QueryContext context) {
         return true;
     }
 

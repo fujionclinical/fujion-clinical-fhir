@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
+import edu.utah.kmm.model.cool.dao.query.Operator;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.query.expression.Operator;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.common.test;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
+import edu.utah.kmm.model.cool.dao.query.Operator;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.patient.IPatient;
-import org.fujionclinical.api.query.expression.Operator;
 import org.fujionclinical.fhir.api.common.core.ParameterMappings;
 import org.fujionclinical.fhir.api.common.transform.TagTransform;
 import org.hl7.fhir.instance.model.api.IBaseCoding;

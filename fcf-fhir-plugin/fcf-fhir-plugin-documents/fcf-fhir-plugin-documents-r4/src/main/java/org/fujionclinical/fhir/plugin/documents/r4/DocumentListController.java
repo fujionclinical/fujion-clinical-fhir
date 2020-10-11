@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.documents.r4;
 
+import edu.utah.kmm.model.cool.dao.query.QueryContext;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
 import org.fujion.common.DateTimeWrapper;
@@ -33,7 +34,6 @@ import org.fujion.component.*;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
 import org.fujion.model.IListModel;
-import org.fujionclinical.api.query.core.IQueryContext;
 import org.fujionclinical.api.query.filter.AbstractQueryFilter;
 import org.fujionclinical.api.query.filter.DateQueryFilter.DateType;
 import org.fujionclinical.fhir.api.r4.document.Document;
@@ -61,7 +61,7 @@ public class DocumentListController extends AbstractGridController<Document, Doc
         }
 
         @Override
-        public boolean updateContext(IQueryContext context) {
+        public boolean updateContext(QueryContext context) {
             context.setParam("type", getCurrentFilter());
             return true;
         }

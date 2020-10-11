@@ -27,9 +27,9 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.rest.gclient.IQuery;
 import edu.utah.kmm.cool.transform.ModelTransform;
+import edu.utah.kmm.model.cool.dao.core.EntityDAO;
+import edu.utah.kmm.model.cool.dao.query.ExpressionTuple;
 import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.dao.IDomainDAO;
-import org.fujionclinical.api.query.expression.ExpressionTuple;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * DAO for FHIR resources.
  */
-public abstract class AbstractResourceDAO<L extends IDomainType, N extends IBaseResource> implements IDomainDAO<L> {
+public abstract class AbstractResourceDAO<L extends IDomainType, N extends IBaseResource> implements EntityDAO<L> {
 
     protected final Class<N> nativeType;
 
@@ -115,7 +115,7 @@ public abstract class AbstractResourceDAO<L extends IDomainType, N extends IBase
      * @return The type of domain objects created by this factory.
      */
     @Override
-    public Class<L> getDomainType() {
+    public Class<L> getEntityType() {
         return logicalType;
     }
 

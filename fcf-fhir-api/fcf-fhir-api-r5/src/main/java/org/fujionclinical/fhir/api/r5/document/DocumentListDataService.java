@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.r5.document;
 
+import edu.utah.kmm.model.cool.dao.query.QueryContext;
 import org.fujion.common.DateRange;
 import org.fujionclinical.api.model.patient.IPatient;
-import org.fujionclinical.api.query.core.IQueryContext;
 import org.fujionclinical.api.query.core.QueryUtil;
 import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
 import org.fujionclinical.api.query.service.IQueryResult;
@@ -44,7 +44,7 @@ public class DocumentListDataService extends AbstractQueryServiceEx<DocumentServ
     }
 
     @Override
-    public IQueryResult<Document> fetch(IQueryContext context) {
+    public IQueryResult<Document> fetch(QueryContext context) {
         DateRange dateRange = (DateRange) context.getParam("dateRange");
         Date startDate = dateRange.getStartDate();
         Date endDate = dateRange.getEndDate();
@@ -54,7 +54,7 @@ public class DocumentListDataService extends AbstractQueryServiceEx<DocumentServ
     }
 
     @Override
-    public boolean hasRequired(IQueryContext context) {
+    public boolean hasRequired(QueryContext context) {
         return true;
     }
 

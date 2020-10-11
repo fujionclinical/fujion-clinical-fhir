@@ -57,7 +57,7 @@ public class ReferenceTransform<T extends IDomainType> extends AbstractDatatypeT
     @Override
     public ResourceReferenceDt _fromLogicalModel(IReference<T> src) {
         ResourceReferenceDt dest = new ResourceReferenceDt();
-        ModelTransform transform = ModelTransforms.getInstance().get(IBaseResource.class, src.getDomainType());
+        ModelTransform transform = ModelTransforms.getInstance().get(IBaseResource.class, src.getEntityType());
         dest.setResource((IBaseResource) transform.fromLogicalModel(src.hasReferenced() ? src.getReferenced() : null));
         String resourceName = FhirUtil.getResourceName(transform.getNativeType());
         dest.setReference(resourceName + "/" + src.getId());
