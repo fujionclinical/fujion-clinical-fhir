@@ -29,11 +29,11 @@ import ca.uhn.fhir.model.dstu2.composite.ContactPointDt;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointSystemEnum;
 import ca.uhn.fhir.model.dstu2.valueset.ContactPointUseEnum;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IContactPoint;
-import org.fujionclinical.api.model.impl.ContactPoint;
+import org.fujionclinical.api.model.core.ContactPoint;
+import org.fujionclinical.api.model.impl.ContactPointImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
-public class ContactPointTransform extends AbstractDatatypeTransform<IContactPoint, ContactPointDt> {
+public class ContactPointTransform extends AbstractDatatypeTransform<ContactPoint, ContactPointDt> {
 
     private static final ContactPointTransform instance = new ContactPointTransform();
 
@@ -42,11 +42,11 @@ public class ContactPointTransform extends AbstractDatatypeTransform<IContactPoi
     }
 
     private ContactPointTransform() {
-        super(IContactPoint.class, ContactPointDt.class);
+        super(ContactPoint.class, ContactPointDt.class);
     }
 
     @Override
-    public ContactPointDt _fromLogicalModel(IContactPoint src) {
+    public ContactPointDt _fromLogicalModel(ContactPoint src) {
         ContactPointDt dest = new ContactPointDt();
         dest.setSystem(CoreUtil.enumToEnum(src.getSystem(), ContactPointSystemEnum.class));
         dest.setValue(src.getValue());
@@ -57,11 +57,11 @@ public class ContactPointTransform extends AbstractDatatypeTransform<IContactPoi
     }
 
     @Override
-    public IContactPoint _toLogicalModel(ContactPointDt src) {
-        IContactPoint dest = new ContactPoint();
-        dest.setSystem(CoreUtil.enumToEnum(src.getSystemElement().getValueAsEnum(), IContactPoint.ContactPointSystem.class));
+    public ContactPoint _toLogicalModel(ContactPointDt src) {
+        ContactPoint dest = new ContactPointImpl();
+        dest.setSystem(CoreUtil.enumToEnum(src.getSystemElement().getValueAsEnum(), ContactPoint.ContactPointSystem.class));
         dest.setValue(src.getValue());
-        dest.setUse(CoreUtil.enumToEnum(src.getUseElement().getValueAsEnum(), IContactPoint.ContactPointUse.class));
+        dest.setUse(CoreUtil.enumToEnum(src.getUseElement().getValueAsEnum(), ContactPoint.ContactPointUse.class));
         dest.setRank(src.getRank());
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
         return dest;

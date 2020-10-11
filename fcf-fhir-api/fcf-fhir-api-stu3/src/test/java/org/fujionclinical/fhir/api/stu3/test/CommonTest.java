@@ -27,10 +27,10 @@ package org.fujionclinical.fhir.api.stu3.test;
 
 import edu.utah.kmm.model.cool.foundation.datatype.PersonNameUse;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.api.model.core.IPostalAddress;
+import org.fujionclinical.api.model.core.Address;
 import org.fujionclinical.api.model.encounter.Encounter;
 import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.impl.PostalAddressImpl;
+import org.fujionclinical.api.model.impl.AddressImpl;
 import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.api.model.patient.Patient;
 import org.fujionclinical.api.model.person.IPersonName;
@@ -108,18 +108,18 @@ public class CommonTest {
 
     @Test
     public void testAddressUtils() {
-        PostalAddressImpl a = new PostalAddressImpl();
+        AddressImpl a = new AddressImpl();
         a.setCity("city");
         a.setCountry("country");
         a.setDistrict("district");
         a.addLines("line1", "line2");
         a.setState("state");
         a.setPostalCode("postalcode");
-        a.setUse(IPostalAddress.PostalAddressUse.WORK);
+        a.setUse(Address.PostalAddressUse.WORK);
         Patient patient = new Patient();
         patient.addAddresses(a);
-        assertSame(a, patient.getAddress(IPostalAddress.PostalAddressUse.WORK));
-        assertNull(patient.getAddress(IPostalAddress.PostalAddressUse.HOME));
+        assertSame(a, patient.getAddress(Address.PostalAddressUse.WORK));
+        assertNull(patient.getAddress(Address.PostalAddressUse.HOME));
     }
 
     @Test

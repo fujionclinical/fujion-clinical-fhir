@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.api.r5.transform;
 
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IContactPoint;
+import org.fujionclinical.api.model.core.ContactPoint;
+import org.fujionclinical.api.model.impl.ContactPointImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
-import org.hl7.fhir.r5.model.ContactPoint;
 
-public class ContactPointTransform extends AbstractDatatypeTransform<IContactPoint, ContactPoint> {
+public class ContactPointTransform extends AbstractDatatypeTransform<ContactPoint, org.hl7.fhir.r5.model.ContactPoint> {
 
     private static final ContactPointTransform instance = new ContactPointTransform();
 
@@ -39,26 +39,26 @@ public class ContactPointTransform extends AbstractDatatypeTransform<IContactPoi
     }
 
     private ContactPointTransform() {
-        super(IContactPoint.class, ContactPoint.class);
+        super(ContactPoint.class, org.hl7.fhir.r5.model.ContactPoint.class);
     }
 
     @Override
-    public ContactPoint _fromLogicalModel(IContactPoint src) {
-        ContactPoint dest = new ContactPoint();
-        dest.setSystem(CoreUtil.enumToEnum(src.getSystem(), ContactPoint.ContactPointSystem.class));
+    public org.hl7.fhir.r5.model.ContactPoint _fromLogicalModel(ContactPoint src) {
+        org.hl7.fhir.r5.model.ContactPoint dest = new org.hl7.fhir.r5.model.ContactPoint();
+        dest.setSystem(CoreUtil.enumToEnum(src.getSystem(), org.hl7.fhir.r5.model.ContactPoint.ContactPointSystem.class));
         dest.setValue(src.getValue());
-        dest.setUse(CoreUtil.enumToEnum(src.getUse(), ContactPoint.ContactPointUse.class));
+        dest.setUse(CoreUtil.enumToEnum(src.getUse(), org.hl7.fhir.r5.model.ContactPoint.ContactPointUse.class));
         dest.setRank(src.getRank());
         dest.setPeriod(PeriodTransform.getInstance().fromLogicalModel(src.getPeriod()));
         return dest;
     }
 
     @Override
-    public IContactPoint _toLogicalModel(ContactPoint src) {
-        IContactPoint dest = new org.fujionclinical.api.model.impl.ContactPoint();
-        dest.setSystem(CoreUtil.enumToEnum(src.getSystem(), IContactPoint.ContactPointSystem.class));
+    public ContactPoint _toLogicalModel(org.hl7.fhir.r5.model.ContactPoint src) {
+        ContactPoint dest = new ContactPointImpl();
+        dest.setSystem(CoreUtil.enumToEnum(src.getSystem(), ContactPoint.ContactPointSystem.class));
         dest.setValue(src.getValue());
-        dest.setUse(CoreUtil.enumToEnum(src.getUse(), IContactPoint.ContactPointUse.class));
+        dest.setUse(CoreUtil.enumToEnum(src.getUse(), ContactPoint.ContactPointUse.class));
         dest.setRank(src.getRank());
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
         return dest;

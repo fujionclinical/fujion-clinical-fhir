@@ -26,12 +26,11 @@
 package org.fujionclinical.fhir.api.r5.transform;
 
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IPostalAddress;
-import org.fujionclinical.api.model.impl.PostalAddressImpl;
+import org.fujionclinical.api.model.core.Address;
+import org.fujionclinical.api.model.impl.AddressImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
-import org.hl7.fhir.r5.model.Address;
 
-public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAddress, Address> {
+public class PostalAddressTransform extends AbstractDatatypeTransform<Address, org.hl7.fhir.r5.model.Address> {
 
     private static final PostalAddressTransform instance = new PostalAddressTransform();
 
@@ -40,15 +39,15 @@ public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAdd
     }
 
     private PostalAddressTransform() {
-        super(IPostalAddress.class, Address.class);
+        super(Address.class, org.hl7.fhir.r5.model.Address.class);
     }
 
     @Override
-    public Address _fromLogicalModel(IPostalAddress src) {
-        Address dest = new Address();
+    public org.hl7.fhir.r5.model.Address _fromLogicalModel(Address src) {
+        org.hl7.fhir.r5.model.Address dest = new org.hl7.fhir.r5.model.Address();
         dest.setPeriod(PeriodTransform.getInstance().fromLogicalModel(src.getPeriod()));
-        dest.setUse(CoreUtil.enumToEnum(src.getUse(), Address.AddressUse.class));
-        dest.setType(CoreUtil.enumToEnum(src.getType(), Address.AddressType.class));
+        dest.setUse(CoreUtil.enumToEnum(src.getUse(), org.hl7.fhir.r5.model.Address.AddressUse.class));
+        dest.setType(CoreUtil.enumToEnum(src.getType(), org.hl7.fhir.r5.model.Address.AddressType.class));
         dest.setCity(src.getCity());
         dest.setCountry(src.getCountry());
         dest.setDistrict(src.getDistrict());
@@ -59,11 +58,11 @@ public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAdd
     }
 
     @Override
-    public IPostalAddress _toLogicalModel(Address src) {
-        IPostalAddress dest = new PostalAddressImpl();
+    public Address _toLogicalModel(org.hl7.fhir.r5.model.Address src) {
+        Address dest = new AddressImpl();
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
-        dest.setUse(CoreUtil.enumToEnum(src.getUse(), IPostalAddress.PostalAddressUse.class));
-        dest.setType(CoreUtil.enumToEnum(src.getType(), IPostalAddress.PostalAddressType.class));
+        dest.setUse(CoreUtil.enumToEnum(src.getUse(), Address.PostalAddressUse.class));
+        dest.setType(CoreUtil.enumToEnum(src.getType(), Address.PostalAddressType.class));
         dest.setCity(src.getCity());
         dest.setCountry(src.getCountry());
         dest.setDistrict(src.getDistrict());

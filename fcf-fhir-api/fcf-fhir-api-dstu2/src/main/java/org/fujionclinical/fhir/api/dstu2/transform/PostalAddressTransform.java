@@ -29,11 +29,11 @@ import ca.uhn.fhir.model.dstu2.composite.AddressDt;
 import ca.uhn.fhir.model.dstu2.valueset.AddressTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IPostalAddress;
-import org.fujionclinical.api.model.impl.PostalAddressImpl;
+import org.fujionclinical.api.model.core.Address;
+import org.fujionclinical.api.model.impl.AddressImpl;
 import org.fujionclinical.fhir.api.common.transform.AbstractDatatypeTransform;
 
-public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAddress, AddressDt> {
+public class PostalAddressTransform extends AbstractDatatypeTransform<Address, AddressDt> {
 
     private static final PostalAddressTransform instance = new PostalAddressTransform();
 
@@ -42,11 +42,11 @@ public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAdd
     }
 
     private PostalAddressTransform() {
-        super(IPostalAddress.class, AddressDt.class);
+        super(Address.class, AddressDt.class);
     }
 
     @Override
-    public AddressDt _fromLogicalModel(IPostalAddress src) {
+    public AddressDt _fromLogicalModel(Address src) {
         AddressDt dest = new AddressDt();
         dest.setPeriod(PeriodTransform.getInstance().fromLogicalModel(src.getPeriod()));
         dest.setUse(CoreUtil.enumToEnum(src.getUse(), AddressUseEnum.class));
@@ -61,11 +61,11 @@ public class PostalAddressTransform extends AbstractDatatypeTransform<IPostalAdd
     }
 
     @Override
-    public IPostalAddress _toLogicalModel(AddressDt src) {
-        IPostalAddress dest = new PostalAddressImpl();
+    public Address _toLogicalModel(AddressDt src) {
+        Address dest = new AddressImpl();
         dest.setPeriod(PeriodTransform.getInstance().toLogicalModel(src.getPeriod()));
-        dest.setUse(CoreUtil.stringToEnum(src.getUse(), IPostalAddress.PostalAddressUse.class));
-        dest.setType(CoreUtil.stringToEnum(src.getType(), IPostalAddress.PostalAddressType.class));
+        dest.setUse(CoreUtil.stringToEnum(src.getUse(), Address.PostalAddressUse.class));
+        dest.setType(CoreUtil.stringToEnum(src.getType(), Address.PostalAddressType.class));
         dest.setCity(src.getCity());
         dest.setCountry(src.getCountry());
         dest.setDistrict(src.getDistrict());
