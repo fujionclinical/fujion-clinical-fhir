@@ -25,7 +25,6 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
-import org.fujionclinical.api.model.core.IWrapper;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.UUID;
@@ -33,7 +32,7 @@ import java.util.UUID;
 /**
  * Wraps a FHIR subscription resource, adding necessary metadata for managing the subscription.
  */
-public abstract class BaseSubscriptionWrapper<T extends IBaseResource> implements IWrapper<T> {
+public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
 
     public static final String EVENT_ROOT = "FHIR.SUB";
 
@@ -117,7 +116,6 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> implement
         return ++refCount;
     }
 
-    @Override
     public T getWrapped() {
         return subscription;
     }

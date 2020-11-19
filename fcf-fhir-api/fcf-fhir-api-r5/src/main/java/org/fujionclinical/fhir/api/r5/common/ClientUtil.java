@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.api.r5.common;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.BaseFhirService;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.Reference;

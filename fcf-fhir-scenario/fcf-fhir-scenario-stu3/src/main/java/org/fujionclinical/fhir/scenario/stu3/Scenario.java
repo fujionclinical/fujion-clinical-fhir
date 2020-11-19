@@ -25,12 +25,12 @@
  */
 package org.fujionclinical.fhir.scenario.stu3;
 
-import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.patient.IPatient;
-import org.fujionclinical.fhir.api.stu3.common.BaseFhirService;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
-import org.fujionclinical.fhir.api.stu3.encounter.EncounterTransform;
-import org.fujionclinical.fhir.api.stu3.patient.PatientTransform;
+import edu.utah.kmm.model.cool.foundation.core.Identifiable;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.encounter.EncounterTransform;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.dstu3.model.*;
@@ -51,7 +51,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected IDomainType _toDomainObject(IBaseResource activationResource) {
+    protected Identifiable _toDomainObject(IBaseResource activationResource) {
         if (activationResource instanceof Encounter) {
             return EncounterTransform.getInstance().toLogicalModel((Encounter) activationResource);
         } else if (activationResource instanceof Patient) {
@@ -108,7 +108,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected List<IBaseResource> _getEntries(IBaseBundle bundle) {
-        return FhirUtilStu3.getEntries((Bundle) bundle, IBaseResource.class);
+        return Stu3Utils.getEntries((Bundle) bundle, IBaseResource.class);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected IPatient _toPatient(IBaseResource resource) {
+    protected Person _toPatient(IBaseResource resource) {
         return resource instanceof Patient ? PatientTransform.getInstance().toLogicalModel((Patient) resource) : null;
     }
 

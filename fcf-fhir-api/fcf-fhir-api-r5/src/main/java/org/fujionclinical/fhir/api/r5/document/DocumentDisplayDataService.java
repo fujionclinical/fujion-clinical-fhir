@@ -25,7 +25,8 @@
  */
 package org.fujionclinical.fhir.api.r5.document;
 
-import edu.utah.kmm.model.cool.dao.query.QueryContext;
+import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.query.QueryContext;
 import org.fujionclinical.api.query.core.QueryUtil;
 import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
 import org.fujionclinical.api.query.service.IQueryResult;

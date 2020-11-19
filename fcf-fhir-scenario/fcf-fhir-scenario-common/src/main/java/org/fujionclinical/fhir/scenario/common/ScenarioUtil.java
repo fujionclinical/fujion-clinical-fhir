@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import ca.uhn.fhir.model.api.Tag;
-import org.fujionclinical.fhir.api.common.core.FhirUtil;
+import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.util.Assert;
@@ -92,7 +92,7 @@ public class ScenarioUtil {
      * @param resource The resource.
      */
     public static void addTag(IBaseResource resource) {
-        FhirUtil.addTag(SCENARIO_GROUP_TAG, resource);
+        FhirUtils.addTag(SCENARIO_GROUP_TAG, resource);
     }
 
     /**
@@ -106,7 +106,7 @@ public class ScenarioUtil {
             IBaseResource destination) {
         for (IBaseCoding tag : source.getMeta().getTag()) {
             if (tag.getSystem().startsWith(SCENARIO_URN)) {
-                FhirUtil.addTag(tag, destination);
+                FhirUtils.addTag(tag, destination);
             }
         }
     }
@@ -146,7 +146,7 @@ public class ScenarioUtil {
             Map<String, SCENARIO> scenarios) {
         SCENARIO scenario = null;
 
-        for (IBaseCoding tag : FhirUtil.getTagsBySystem(resource, SCENARIO_URN)) {
+        for (IBaseCoding tag : FhirUtils.getTagsBySystem(resource, SCENARIO_URN)) {
             if ((scenario = scenarios.get(tag.getCode())) != null) {
                 break;
             }

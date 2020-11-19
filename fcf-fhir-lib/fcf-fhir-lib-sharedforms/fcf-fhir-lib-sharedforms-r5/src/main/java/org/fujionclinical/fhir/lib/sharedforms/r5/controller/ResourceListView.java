@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms.r5.controller;
 
-import org.fujionclinical.fhir.api.r5.common.BaseFhirService;
-import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import org.fujionclinical.fhir.lib.sharedforms.common.BaseResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.Bundle;
@@ -43,7 +43,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends BaseR
 
     @Override
     protected String transformData(Object data) {
-        return FhirUtilR5.getDisplayValueForType(data);
+        return R5Utils.getDisplayValueForType(data);
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends BaseR
      * @return List of extracted resources.
      */
     protected List<R> processBundle(Bundle bundle) {
-        return FhirUtilR5.getEntries(bundle, resourceClass);
+        return R5Utils.getEntries(bundle, resourceClass);
     }
 
     protected abstract void initModel(List<R> entries);

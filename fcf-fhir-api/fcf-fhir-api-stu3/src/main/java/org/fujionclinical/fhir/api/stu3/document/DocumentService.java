@@ -28,8 +28,9 @@ package org.fujionclinical.fhir.api.stu3.document;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
-import org.fujionclinical.fhir.api.stu3.common.BaseFhirService;
-import org.fujionclinical.fhir.api.stu3.common.FhirUtilStu3;
+import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.BaseFhirService;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
 import org.hl7.fhir.dstu3.model.DocumentReference.DocumentReferenceContentComponent;
@@ -53,66 +54,7 @@ public class DocumentService extends BaseFhirService {
     }
 
     /**
-     * Retrieves document contents, regardless of type.
-     *
-     * @param documentReference A document reference.
-     * @return List of document contents, never null.
-     */
-    public List<DocumentContent> getContent(DocumentReference documentReference) {
-        List<DocumentContent> contents = new ArrayList<>();
-
-        for (DocumentReferenceContentComponent content : documentReference.getContent()) {
-            Attachment attachment = content.getAttachment();
-            byte[] data = attachment.getData();
-            String type = attachment.getContentType();
-            String url = attachment.getUrl();
-
-            if ((data == null || data.length == 0) && url != null) {
-                try {
-                    data = getClient().read().resource(Binary.class).withUrl(url).execute().getContent();
-                } catch (Exception e) {
-                    data = e.getMessage().getBytes();
-                    type = "text/x-error";
-                }
-            }
-
-            if (data != null) {
-                contents.add(new DocumentContent(data, type));
-            }
-        }
-
-        return contents;
-    }
-
-    /**
-     * Updates or creates the document.
-     *
-     * @param document Document to update.
-     */
-    public void updateDocument(Document document) {
-        DocumentReference ref = document.getReference();
-        ref.getContent().clear();
-
-        for (DocumentContent content : document.getContent()) {
-            if (!content.isEmpty()) {
-                Attachment attachment = new Attachment();
-                attachment.setContentType(content.getContentType());
-                attachment.setData(content.getData());
-                DocumentReferenceContentComponent cc = new DocumentReferenceContentComponent(attachment);
-                ref.getContent().add(cc);
-            }
-        }
-
-        ref = this.createOrUpdateResource(ref);
-
-        if (ref != null) {
-            document.setReference(ref);
-        }
-
-    }
-
-    /**
-     * Retrieves document references for a given patient.
+     * Retrieves documents for a given patient.
      *
      * @param patientId The patient id.
      * @param startDate Start date for retrieval.
@@ -145,11 +87,11 @@ public class DocumentService extends BaseFhirService {
         }
 
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        List<DocumentReference> list = FhirUtilStu3.getEntries(bundle, DocumentReference.class);
+        List<DocumentReference> list = Stu3Utils.getEntries(bundle, DocumentReference.class);
         List<Document> results = new ArrayList<>(list.size());
 
         for (DocumentReference ref : list) {
-            Document doc = new Document(ref);
+            Document doc = null; //TODO: new Document(ref);
             results.add(doc);
         }
         return results;
@@ -162,7 +104,7 @@ public class DocumentService extends BaseFhirService {
             Bundle bundle = getClient().search().forResource(CodeSystem.class)
                     .where(CodeSystem.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
-            for (CodeSystem cs : FhirUtilStu3.getEntries(bundle, CodeSystem.class)) {
+            for (CodeSystem cs : Stu3Utils.getEntries(bundle, CodeSystem.class)) {
                 for (ConceptDefinitionComponent concept : cs.getConcept()) {
                     results.add(concept.getDisplay());
                 }

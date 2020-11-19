@@ -26,10 +26,10 @@
 package org.fujionclinical.fhir.security.common;
 
 import org.apache.commons.codec.binary.Base64;
-import org.fujionclinical.api.model.user.IUser;
 import org.fujionclinical.api.security.SecurityUtil;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator;
 import org.fujionclinical.api.spring.PropertyAwareConfigurator.Param;
+import org.fujionclinical.api.user.User;
 
 import java.nio.charset.StandardCharsets;
 
@@ -57,8 +57,8 @@ public class BasicAuthInterceptor extends AbstractAuthInterceptor {
             return credentials;
         }
 
-        IUser user = SecurityUtil.getAuthenticatedUser();
-        return user == null ? null : encode(user.getLoginName(), user.getPassword());
+        User user = SecurityUtil.getAuthenticatedUser();
+        return user == null ? null : encode(user.getUsername(), user.getPassword());
     }
 
     private String encode(

@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.r5.patient;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.r5.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.BaseFhirService;
 import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Patient;
 

@@ -25,8 +25,9 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
+import edu.utah.kmm.model.cool.clinical.encounter.Encounter;
+import edu.utah.kmm.model.cool.util.CoolUtils;
 import org.fujionclinical.api.model.encounter.EncounterContext;
-import org.fujionclinical.api.model.encounter.IEncounter;
 
 /**
  * Implements SMART encounter context.
@@ -47,10 +48,10 @@ public class SmartContextEncounter extends SmartContextBase {
      */
     @Override
     protected void updateContext(ContextMap context) {
-        IEncounter encounter = EncounterContext.getActiveEncounter();
+        Encounter encounter = EncounterContext.getActiveEncounter();
 
         if (encounter != null) {
-            context.put("encounter", encounter.getId());
+            context.put("encounter", CoolUtils.getId(encounter));
         }
     }
 

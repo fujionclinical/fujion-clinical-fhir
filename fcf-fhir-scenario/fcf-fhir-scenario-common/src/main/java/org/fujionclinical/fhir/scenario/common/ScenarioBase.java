@@ -30,17 +30,17 @@ import ca.uhn.fhir.model.primitive.BaseDateTimeDt;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.parser.IParser;
+import edu.utah.kmm.model.cool.clinical.encounter.Encounter;
+import edu.utah.kmm.model.cool.foundation.core.Identifiable;
+import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.api.model.core.IDomainType;
 import org.fujionclinical.api.model.encounter.EncounterContext;
-import org.fujionclinical.api.model.encounter.IEncounter;
-import org.fujionclinical.api.model.patient.IPatient;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.model.patient.PatientContext;
-import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.patientlist.*;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -108,7 +108,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param resource The resource to check.
      * @return A wrapped instance of the resource, or null if it is not a Patient resource.
      */
-    protected abstract IPatient _toPatient(IBaseResource resource);
+    protected abstract Person _toPatient(IBaseResource resource);
 
     /**
      * Loads resources associated with the scenario.
@@ -163,19 +163,19 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param resource The FHIR resource.
      * @return The corresponding domain object (possibly null).
      */
-    protected abstract IDomainType _toDomainObject(IBaseResource resource);
+    protected abstract Identifiable _toDomainObject(IBaseResource resource);
 
     /**
      * Called when the scenario is activated into the current context.
      */
     public final void activate() {
         IBaseResource resource = getNamedResource(activationResource);
-        IDomainType target = resource == null ? null : _toDomainObject(resource);
+        Identifiable target = resource == null ? null : _toDomainObject(resource);
 
-        if (target instanceof IEncounter) {
-            EncounterContext.changeEncounter((IEncounter) target);
-        } else if (target instanceof IPatient) {
-            PatientContext.changePatient((IPatient) target);
+        if (target instanceof Encounter) {
+            EncounterContext.changeEncounter((Encounter) target);
+        } else if (target instanceof Person) {
+            PatientContext.changePatient((Person) target);
         }
     }
 
@@ -204,13 +204,13 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      */
     private void addTags(IBaseResource resource) {
         ScenarioUtil.addTag(resource);
-        FhirUtil.addTag(scenarioTag, resource);
+        FhirUtils.addTag(scenarioTag, resource);
     }
 
     private IBaseResource getNamedResource(String name) {
         IBaseCoding tag = name == null ? null : ScenarioUtil.createNamedResourceTag(name);
         return tag == null ? null : resources.stream()
-                .filter(resource -> FhirUtil.hasTag(tag, resource))
+                .filter(resource -> FhirUtils.hasTag(tag, resource))
                 .findFirst()
                 .orElse(null);
     }
@@ -274,7 +274,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private void initialize(
             String name,
             IBaseResource resource) {
-        FhirUtil.addTag(ScenarioUtil.createNamedResourceTag(name), resource);
+        FhirUtils.addTag(ScenarioUtil.createNamedResourceTag(name), resource);
         resource = createOrUpdateResource(resource);
         logAction(resource, "Created");
     }
@@ -571,7 +571,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     }
 
     private void addToPatientList(IBaseResource resource) {
-        IPatient patient = _toPatient(resource);
+        Person patient = _toPatient(resource);
 
         if (patient != null) {
             activatePatientListFilter();
@@ -588,7 +588,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private void logAction(
             IBaseResource resource,
             String operation) {
-        FhirUtil.stripVersion(resource);
+        FhirUtils.stripVersion(resource);
         log.info(operation + " resource: " + resource.getIdElement().getValue());
     }
 

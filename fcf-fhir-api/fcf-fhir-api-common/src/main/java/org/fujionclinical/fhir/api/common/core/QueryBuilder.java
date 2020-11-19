@@ -26,15 +26,15 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import edu.utah.kmm.model.cool.core.datatype.Identifier;
-import edu.utah.kmm.model.cool.dao.query.ExpressionTuple;
-import edu.utah.kmm.model.cool.dao.query.Operator;
+import edu.utah.kmm.model.cool.mediator.expression.ExpressionTuple;
+import edu.utah.kmm.model.cool.mediator.expression.Operator;
+import edu.utah.kmm.model.cool.foundation.core.Identifiable;
+import edu.utah.kmm.model.cool.foundation.datatype.PersonName;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.core.CoreUtil;
-import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.person.IPersonName;
 
 import java.beans.PropertyDescriptor;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class QueryBuilder {
     private static final QueryBuilder instance = new QueryBuilder();
 
     public static String buildQueryString(
-            Class<? extends IDomainType> domainClass,
+            Class<? extends Identifiable> domainClass,
             List<ExpressionTuple> tuples) {
         return instance.build(domainClass, tuples);
     }
@@ -56,7 +56,7 @@ public class QueryBuilder {
     }
 
     private String build(
-            Class<? extends IDomainType> domainClass,
+            Class<? extends Identifiable> domainClass,
             List<ExpressionTuple> tuples) {
         StringBuilder sb = new StringBuilder();
 
@@ -125,7 +125,7 @@ public class QueryBuilder {
 
     private boolean allowPartialMatch(PropertyDescriptor propertyDescriptor) {
         Class<?> propertyType = CoreUtil.getPropertyType(propertyDescriptor);
-        return MiscUtil.firstAssignable(propertyType, IPersonName.class) != null;
+        return MiscUtil.firstAssignable(propertyType, PersonName.class) != null;
     }
 
 }

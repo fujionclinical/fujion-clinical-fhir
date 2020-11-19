@@ -29,8 +29,8 @@ import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.primitive.BooleanDt;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -66,7 +66,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
 
     @Override
     protected List<IBaseResource> processBundle(Bundle bundle) {
-        return FhirUtilDstu2.getEntries(bundle, null, Collections.singletonList(Patient.class));
+        return Dstu2Utils.getEntries(bundle, null, Collections.singletonList(Patient.class));
     }
 
     @Override
@@ -153,7 +153,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
             StringBuilder sb,
             IBaseDatatype value,
             String delimiter) {
-        append(sb, FhirUtilDstu2.getDisplayValueForType(value), delimiter);
+        append(sb, Dstu2Utils.getDisplayValueForType(value), delimiter);
     }
 
     private void append(

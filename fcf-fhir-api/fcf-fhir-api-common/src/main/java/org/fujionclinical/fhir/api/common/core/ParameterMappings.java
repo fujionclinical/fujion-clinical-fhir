@@ -27,8 +27,9 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
-import edu.utah.kmm.model.cool.dao.query.Operator;
-import org.fujionclinical.api.model.core.IDomainType;
+import edu.utah.kmm.model.cool.foundation.core.Identifiable;
+import edu.utah.kmm.model.cool.mediator.expression.Operator;
+import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class ParameterMappings {
     public static String getParameterName(
             String propertyPath,
             Operator operator,
-            Class<? extends IDomainType> domainClass) {
+            Class<? extends Identifiable> domainClass) {
         return instance.get(propertyPath, operator, domainClass);
     }
 
@@ -66,7 +67,7 @@ public class ParameterMappings {
         map.put("identifiers", "identifier");
         map.put("addresses", "address");
 
-        map.put("person:deceaseddate", "death-date");
+        map.put("person:deathdate", "death-date");
         map.put("person:name", "name~");
         map.put("person:fullname", "name~");
         map.put("person:familyname", "family~");
@@ -81,7 +82,7 @@ public class ParameterMappings {
         String paramName = null;
 
         while (paramName == null && clazz != null) {
-            String key = fhirVersion + ":" + clazz.getSimpleName().toLowerCase().substring(1) + ":" + propertyPath;
+            String key = fhirVersion + ":" + clazz.getSimpleName().toLowerCase() + ":" + propertyPath;
             paramName = get(key);
             clazz = getSuperinterface(clazz);
         }
@@ -95,7 +96,7 @@ public class ParameterMappings {
 
     private Class<?> getSuperinterface(Class<?> clazz) {
         return Arrays.stream(clazz.getInterfaces())
-                .filter(intf -> intf != IDomainType.class && IDomainType.class.isAssignableFrom(intf))
+                .filter(intf -> intf != Identifiable.class && Identifiable.class.isAssignableFrom(intf))
                 .findFirst()
                 .orElse(null);
     }
@@ -117,7 +118,7 @@ public class ParameterMappings {
     }
 
     public void setFhirContext(FhirContext fhirContext) {
-        setFhirVersion(FhirUtil.getFhirVersion(fhirContext));
+        setFhirVersion(FhirUtils.getFhirVersion(fhirContext));
     }
 
     public void setFhirVersion(FhirVersionEnum fhirVersion) {

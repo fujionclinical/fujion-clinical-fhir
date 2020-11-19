@@ -33,8 +33,9 @@ import ca.uhn.fhir.model.dstu2.resource.ValueSet;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
-import org.fujionclinical.fhir.api.dstu2.common.BaseFhirService;
-import org.fujionclinical.fhir.api.dstu2.common.FhirUtilDstu2;
+import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 
 import java.util.*;
 
@@ -52,65 +53,6 @@ public class DocumentService extends BaseFhirService {
     public DocumentService(IGenericClient client) {
         super(client);
         instance = this;
-    }
-
-    /**
-     * Retrieves document contents, regardless of type.
-     *
-     * @param documentReference A document reference.
-     * @return List of document contents, never null.
-     */
-    public List<DocumentContent> getContent(DocumentReference documentReference) {
-        List<DocumentContent> contents = new ArrayList<>();
-
-        for (DocumentReference.Content content : documentReference.getContent()) {
-            AttachmentDt attachment = content.getAttachment();
-            byte[] data = attachment.getData();
-            String type = attachment.getContentType();
-            String url = attachment.getUrl();
-
-            if ((data == null || data.length == 0) && url != null) {
-                try {
-                    data = getClient().read().resource(Binary.class).withUrl(url).execute().getContent();
-                } catch (Exception e) {
-                    data = e.getMessage().getBytes();
-                    type = "text/x-error";
-                }
-            }
-
-            if (data != null) {
-                contents.add(new DocumentContent(data, type));
-            }
-        }
-
-        return contents;
-    }
-
-    /**
-     * Updates or creates the document.
-     *
-     * @param document Document to update.
-     */
-    public void updateDocument(Document document) {
-        DocumentReference ref = document.getReference();
-        ref.getContent().clear();
-
-        for (DocumentContent content : document.getContent()) {
-            if (!content.isEmpty()) {
-                AttachmentDt attachment = new AttachmentDt();
-                attachment.setContentType(content.getContentType());
-                attachment.setData(content.getData());
-                DocumentReference.Content cc = new DocumentReference.Content().setAttachment(attachment);
-                ref.getContent().add(cc);
-            }
-        }
-
-        ref = this.createOrUpdateResource(ref);
-
-        if (ref != null) {
-            document.setReference(ref);
-        }
-
     }
 
     /**
@@ -147,11 +89,11 @@ public class DocumentService extends BaseFhirService {
         }
 
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        List<DocumentReference> list = FhirUtilDstu2.getEntries(bundle, DocumentReference.class);
+        List<DocumentReference> list = Dstu2Utils.getEntries(bundle, DocumentReference.class);
         List<Document> results = new ArrayList<>(list.size());
 
         for (DocumentReference ref : list) {
-            Document doc = new Document(ref);
+            Document doc = null; //TODO: new Document(ref);
             results.add(doc);
         }
         return results;
@@ -164,7 +106,7 @@ public class DocumentService extends BaseFhirService {
             Bundle bundle = getClient().search().forResource(ValueSet.class)
                     .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
-            for (ValueSet vs : FhirUtilDstu2.getEntries(bundle, ValueSet.class)) {
+            for (ValueSet vs : Dstu2Utils.getEntries(bundle, ValueSet.class)) {
                 for (ValueSet.CodeSystemConcept concept : vs.getCodeSystem().getConcept()) {
                     results.add(concept.getDisplay());
                 }

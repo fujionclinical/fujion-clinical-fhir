@@ -27,6 +27,8 @@ package org.fujionclinical.fhir.plugin.scenario.controller;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
@@ -35,8 +37,6 @@ import org.fujion.model.IComponentRenderer;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujion.page.PageUtil;
-import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
-import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.ui.controller.FrameworkController;
 import org.fujionclinical.ui.dialog.DialogUtil;
@@ -53,7 +53,7 @@ public class ViewResourcesController extends FrameworkController {
 
     private static final IComponentRenderer<Row, IBaseResource> resourceRenderer = (resource) -> {
         Row row = new Row();
-        row.addChild(new Cell(FhirUtil.getResourceIdPath(resource)));
+        row.addChild(new Cell(FhirUtils.getResourceIdPath(resource)));
         row.setData(resource);
         return row;
     };
@@ -141,7 +141,7 @@ public class ViewResourcesController extends FrameworkController {
     private void onClick$btnDelete() {
         IBaseResource resource = getSelectedResource();
 
-        DialogUtil.confirm("Delete " + FhirUtil.getResourceIdPath(resource, true) + "?", "Delete Resource", (confirm) -> {
+        DialogUtil.confirm("Delete " + FhirUtils.getResourceIdPath(resource, true) + "?", "Delete Resource", (confirm) -> {
             if (confirm) {
                 try {
                     fhirService.deleteResource(resource);

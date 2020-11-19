@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms.common;
 
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,9 +38,8 @@ import org.fujion.page.PageUtil;
 import org.fujion.thread.ICancellable;
 import org.fujion.thread.ThreadedTask;
 import org.fujionclinical.api.event.IEventSubscriber;
-import org.fujionclinical.api.model.patient.IPatient;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.model.patient.PatientContext;
-import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.fujionclinical.fhir.api.common.core.NarrativeService;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionCallback;
@@ -77,7 +77,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
     @WiredComponent
     protected Html detailView;
 
-    protected IPatient patient;
+    protected Person patient;
 
     protected Class<R> resourceClass;
 
@@ -89,7 +89,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
 
     private ResourceSubscriptionManager subscriptionManager;
 
-    private final IEventSubscriber<IPatient> patientChangeListener = (eventName, patient) -> setPatient(patient);
+    private final IEventSubscriber<Person> patientChangeListener = (eventName, patient) -> setPatient(patient);
 
     private String resourcePath;
 
@@ -118,7 +118,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
 
     protected void createSubscription(Class<? extends IBaseResource> clazz) {
         String resourceName = clazz.getSimpleName();
-        String id = patient.getId();
+        String id = patient.getDefaultId().getId();
         String criteria = resourceName + "?subject=" + id;
         BaseSubscriptionWrapper wrapper = subscriptionManager.subscribe(criteria, subscriptionListener);
 
@@ -158,7 +158,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
 
     @Override
     protected void requestData() {
-        final String url = resourcePath.replace("#", patient.getId());
+        final String url = resourcePath.replace("#", patient.getDefaultId().getId());
 
         startBackgroundThread(map -> {
             B bundle = fhirService.getClient().search().byUrl(url).returnBundle(bundleClass).execute();
@@ -260,7 +260,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirService, B exte
         PatientContext.getPatientContext().removeListener(patientChangeListener);
     }
 
-    private void setPatient(IPatient patient) {
+    private void setPatient(Person patient) {
         this.patient = patient;
 
         try {

@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.api.r5.medication;
 
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import org.fujionclinical.fhir.api.r5.common.BaseFhirService;
-import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import org.hl7.fhir.r5.model.*;
 import org.hl7.fhir.r5.model.Bundle.BundleEntryComponent;
 
@@ -45,7 +45,7 @@ public class MedicationService extends BaseFhirService {
     public List<MedicationAdministration> searchMedAdminByIdentifier(
             String system,
             String code) {
-        Identifier identifier = FhirUtilR5.createIdentifier(system, code);
+        Identifier identifier = R5Utils.createIdentifier(system, code);
         return searchMedAdminByIdentifier(identifier);
     }
 
@@ -68,7 +68,7 @@ public class MedicationService extends BaseFhirService {
     public List<MedicationRequest> searchMedOrderByIdentifier(
             String system,
             String code) {
-        Identifier identifier = FhirUtilR5.createIdentifier(system, code);
+        Identifier identifier = R5Utils.createIdentifier(system, code);
         return searchResourcesByIdentifier(identifier, MedicationRequest.class);
     }
 

@@ -26,10 +26,10 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import ca.uhn.fhir.model.primitive.IdDt;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirService;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.fhir.api.common.core.AbstractFhirService;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IIdType;
 import org.springframework.core.io.Resource;

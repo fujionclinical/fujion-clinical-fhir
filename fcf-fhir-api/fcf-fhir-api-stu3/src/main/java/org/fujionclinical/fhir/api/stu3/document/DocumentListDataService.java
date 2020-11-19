@@ -25,9 +25,10 @@
  */
 package org.fujionclinical.fhir.api.stu3.document;
 
-import edu.utah.kmm.model.cool.dao.query.QueryContext;
+import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.query.QueryContext;
 import org.fujion.common.DateRange;
-import org.fujionclinical.api.model.patient.IPatient;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.query.core.QueryUtil;
 import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
 import org.fujionclinical.api.query.service.IQueryResult;
@@ -48,9 +49,9 @@ public class DocumentListDataService extends AbstractQueryServiceEx<DocumentServ
         DateRange dateRange = (DateRange) context.getParam("dateRange");
         Date startDate = dateRange.getStartDate();
         Date endDate = dateRange.getEndDate();
-        IPatient patient = (IPatient) context.getParam("patient");
+        Person patient = (Person) context.getParam("patient");
         return QueryUtil
-                .packageResult(service.retrieveReferences(patient.getId(), startDate, endDate, (String) context.getParam("type")));
+                .packageResult(service.retrieveReferences(patient.getDefaultId().getId(), startDate, endDate, (String) context.getParam("type")));
     }
 
     @Override

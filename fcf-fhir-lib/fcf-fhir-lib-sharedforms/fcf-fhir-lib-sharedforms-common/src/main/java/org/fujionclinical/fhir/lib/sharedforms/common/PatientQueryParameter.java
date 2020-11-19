@@ -27,14 +27,14 @@ package org.fujionclinical.fhir.lib.sharedforms.common;
 
 import org.fujionclinical.api.context.ISurveyResponse;
 import org.fujionclinical.api.core.FrameworkUtil;
-import org.fujionclinical.api.model.patient.IPatient;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.model.patient.PatientContext;
 import org.fujionclinical.sharedforms.controller.AbstractServiceController;
 
 /**
  * Use with AbstractServiceController subclasses that require an awareness of patient context.
  */
-public class PatientQueryParameter extends AbstractServiceController.SupplementalQueryParam<IPatient>
+public class PatientQueryParameter extends AbstractServiceController.SupplementalQueryParam<Person>
         implements PatientContext.IPatientContextSubscriber {
 
     public static final String LABEL_ID_NO_PATIENT = "%.plugin.patient.selection.required";

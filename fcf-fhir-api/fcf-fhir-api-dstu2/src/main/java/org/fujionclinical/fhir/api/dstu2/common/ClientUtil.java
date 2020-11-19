@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.dstu2.common;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.BaseFhirService;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 

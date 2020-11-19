@@ -25,7 +25,8 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import org.fujionclinical.api.model.patient.IPatient;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
+import edu.utah.kmm.model.cool.util.CoolUtils;
 import org.fujionclinical.api.model.patient.PatientContext;
 
 /**
@@ -48,10 +49,10 @@ public class SmartContextPatient extends SmartContextBase {
      */
     @Override
     protected void updateContext(ContextMap context) {
-        IPatient patient = PatientContext.getActivePatient();
+        Person patient = PatientContext.getActivePatient();
 
         if (patient != null) {
-            context.put("patient", patient.getId());
+            context.put("patient", CoolUtils.getId(patient));
         }
     }
 

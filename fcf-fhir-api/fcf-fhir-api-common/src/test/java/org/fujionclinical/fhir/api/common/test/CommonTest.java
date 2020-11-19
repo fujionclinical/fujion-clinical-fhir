@@ -26,13 +26,13 @@
 package org.fujionclinical.fhir.api.common.test;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import edu.utah.kmm.model.cool.dao.query.Operator;
+import edu.utah.kmm.model.cool.foundation.core.Identifiable;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
+import edu.utah.kmm.model.cool.mediator.expression.Operator;
+import edu.utah.kmm.model.cool.mediator.fhir.transform.TagTransform;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
-import org.fujionclinical.api.model.core.IDomainType;
-import org.fujionclinical.api.model.patient.IPatient;
 import org.fujionclinical.fhir.api.common.core.ParameterMappings;
-import org.fujionclinical.fhir.api.common.transform.TagTransform;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.junit.Assert;
 import org.junit.Test;
@@ -46,18 +46,18 @@ public class CommonTest {
     @Test
     public void testParameterMappings() {
         ParameterMappings.getInstance().setFhirVersion(FhirVersionEnum.DSTU3);
-        testParameterMapping("xxx-yyy-zzz", "xxx.YYY.zzz", Operator.EQ, IPatient.class);
-        testParameterMapping("death-date", "deceasedDate", Operator.EQ, IPatient.class);
-        testParameterMapping("name:exact", "fullName", Operator.EQ, IPatient.class);
-        testParameterMapping("name", "name", Operator.SW, IPatient.class);
-        testParameterMapping("_id", "id", Operator.SW, IPatient.class);
+        testParameterMapping("xxx-yyy-zzz", "xxx.YYY.zzz", Operator.EQ, Person.class);
+        testParameterMapping("death-date", "deathDate", Operator.EQ, Person.class);
+        testParameterMapping("name:exact", "fullName", Operator.EQ, Person.class);
+        testParameterMapping("name", "name", Operator.SW, Person.class);
+        testParameterMapping("_id", "id", Operator.SW, Person.class);
     }
 
     private void testParameterMapping(
             String expected,
             String propertyPath,
             Operator operator,
-            Class<? extends IDomainType> domainClass) {
+            Class<? extends Identifiable> domainClass) {
         Assert.assertEquals(expected, ParameterMappings.getParameterName(propertyPath, operator, domainClass));
     }
 

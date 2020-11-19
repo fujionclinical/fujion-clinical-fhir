@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.plugin.familyhistory.r5;
 
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
-import org.fujionclinical.fhir.api.r5.common.FhirUtilR5;
 import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.hl7.fhir.r5.model.Bundle;
 import org.hl7.fhir.r5.model.FamilyMemberHistory;
@@ -62,15 +62,15 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
 
                 switch (i) {
                     case 0:
-                        value = FhirUtilR5.getDisplayValue(condition.getCode());
+                        value = R5Utils.getDisplayValue(condition.getCode());
                         break;
 
                     case 1:
-                        value = FhirUtilR5.getDisplayValue(condition.getOutcome());
+                        value = R5Utils.getDisplayValue(condition.getOutcome());
                         break;
 
                     case 2:
-                        value = FhirUtilR5.getDisplayValueForTypes(condition.getNote(), "\n\n");
+                        value = R5Utils.getDisplayValueForTypes(condition.getNote(), "\n\n");
                         break;
                 }
 
