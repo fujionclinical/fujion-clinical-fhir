@@ -19,6 +19,9 @@
                         <treepane label="Scenario Builder">
                             <fcfScenarioBuilder/>
                         </treepane>
+                        <treepane label="Lung Cancer Screening">
+                            <smart_dpp/>
+                        </treepane>
                         <treepane label="Encounters">
                             <fcfEncounters/>
                         </treepane>

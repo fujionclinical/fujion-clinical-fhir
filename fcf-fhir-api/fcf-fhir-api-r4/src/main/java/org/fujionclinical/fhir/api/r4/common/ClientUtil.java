@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.r4.common;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.r4.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Reference;
@@ -37,10 +37,10 @@ import org.hl7.fhir.r4.model.Reference;
  */
 public class ClientUtil {
 
-    private static volatile BaseFhirService fhirService;
+    private static volatile FhirDataSource fhirService;
 
-    public static BaseFhirService getFhirService() {
-        return SpringUtil.getBean("fhirService", BaseFhirService.class, () -> fhirService, value -> fhirService = value);
+    public static FhirDataSource getFhirService() {
+        return SpringUtil.getBean("fhirService", FhirDataSource.class, () -> fhirService, value -> fhirService = value);
     }
 
     public static IGenericClient getFhirClient() {

@@ -32,6 +32,7 @@ import ca.uhn.fhir.model.primitive.DateTimeDt;
 import ca.uhn.fhir.parser.IParser;
 import edu.utah.kmm.model.cool.clinical.encounter.Encounter;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -39,7 +40,6 @@ import org.fujion.common.DateUtil;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.model.encounter.EncounterContext;
-import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.model.patient.PatientContext;
 import org.fujionclinical.patientlist.*;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -90,7 +90,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private LIST scenarioResources;
 
     protected ScenarioBase(ScenarioFactory<?> scenarioFactory) {
-        this.fhirContext = scenarioFactory.fhirService.getClient().getFhirContext();
+        this.fhirContext = scenarioFactory.data.getClient().getFhirContext();
         this.scenarioName = scenarioFactory.scenarioName;
         this.scenarioTag = scenarioFactory.scenarioTag;
         this.scenarioId = scenarioFactory.scenarioId;

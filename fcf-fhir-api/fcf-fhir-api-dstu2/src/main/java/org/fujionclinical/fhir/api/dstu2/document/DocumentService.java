@@ -25,24 +25,23 @@
  */
 package org.fujionclinical.fhir.api.dstu2.document;
 
-import ca.uhn.fhir.model.dstu2.composite.AttachmentDt;
-import ca.uhn.fhir.model.dstu2.resource.Binary;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.DocumentReference;
 import ca.uhn.fhir.model.dstu2.resource.ValueSet;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.BaseFhirService;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
 import java.util.*;
 
 /**
  * This is the documents api implementation.
  */
-public class DocumentService extends BaseFhirService {
+public class DocumentService {
+
+    private final FhirDataSource dataSource;
 
     private static DocumentService instance;
 
@@ -50,9 +49,9 @@ public class DocumentService extends BaseFhirService {
         return instance;
     }
 
-    public DocumentService(IGenericClient client) {
-        super(client);
+    public DocumentService(FhirDataSource dataSource) {
         instance = this;
+        this.dataSource = dataSource;
     }
 
     /**
@@ -71,7 +70,7 @@ public class DocumentService extends BaseFhirService {
             String type) {
         ReferenceClientParam subject = new ReferenceClientParam(DocumentReference.SP_SUBJECT + ":Patient");
 
-        IQuery<?> query = getClient().search().forResource(DocumentReference.class)
+        IQuery<?> query = dataSource.getClient().search().forResource(DocumentReference.class)
                 .where(subject.hasId(patientId));
         //.forResource("Patient/" + patient.getId().getIdPart() + "/DocumentReference");
 
@@ -103,7 +102,7 @@ public class DocumentService extends BaseFhirService {
         TreeSet<String> results = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
         try {
-            Bundle bundle = getClient().search().forResource(ValueSet.class)
+            Bundle bundle = dataSource.getClient().search().forResource(ValueSet.class)
                     .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
             for (ValueSet vs : Dstu2Utils.getEntries(bundle, ValueSet.class)) {

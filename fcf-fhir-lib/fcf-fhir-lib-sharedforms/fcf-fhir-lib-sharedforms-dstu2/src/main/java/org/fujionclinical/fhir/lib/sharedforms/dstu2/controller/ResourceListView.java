@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.lib.sharedforms.dstu2.controller;
 
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.BaseFhirService;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 import org.fujionclinical.fhir.lib.sharedforms.common.BaseResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
@@ -39,7 +39,7 @@ import java.util.List;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<BaseFhirService, Bundle, R, M> {
+public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<FhirDataSource, Bundle, R, M> {
 
     @Override
     protected String transformData(Object data) {

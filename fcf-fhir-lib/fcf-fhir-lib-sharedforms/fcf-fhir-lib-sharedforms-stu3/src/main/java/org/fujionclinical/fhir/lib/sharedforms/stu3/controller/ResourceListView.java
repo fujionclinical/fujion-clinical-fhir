@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms.stu3.controller;
 
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
 import org.fujionclinical.fhir.lib.sharedforms.common.BaseResourceListView;
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -39,7 +39,7 @@ import java.util.List;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<BaseFhirService, Bundle, R, M> {
+public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<FhirDataSource, Bundle, R, M> {
 
     @Override
     protected String transformData(Object data) {

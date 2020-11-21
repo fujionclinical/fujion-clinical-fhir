@@ -25,7 +25,8 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms.common;
 
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirService;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,7 +39,6 @@ import org.fujion.page.PageUtil;
 import org.fujion.thread.ICancellable;
 import org.fujion.thread.ThreadedTask;
 import org.fujionclinical.api.event.IEventSubscriber;
-import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.model.patient.PatientContext;
 import org.fujionclinical.fhir.api.common.core.NarrativeService;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
@@ -64,7 +64,7 @@ import java.util.Map;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class BaseResourceListView<S extends AbstractFhirService, B extends IBaseBundle, R extends IBaseResource, M> extends ListFormController<M> {
+public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B extends IBaseBundle, R extends IBaseResource, M> extends ListFormController<M> {
 
     private static final Log log = LogFactory.getLog(BaseResourceListView.class);
 

@@ -25,21 +25,20 @@
  */
 package org.fujionclinical.fhir.api.r5.medication;
 
-import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import org.hl7.fhir.r5.model.*;
-import org.hl7.fhir.r5.model.Bundle.BundleEntryComponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MedicationService extends BaseFhirService {
+public class MedicationService {
 
-    public MedicationService(IGenericClient client) {
-        super(client);
+    private final FhirDataSource dataSource;
+
+    public MedicationService(FhirDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public List<MedicationAdministration> searchMedAdminByIdentifier(
@@ -52,11 +51,11 @@ public class MedicationService extends BaseFhirService {
     public List<MedicationAdministration> searchMedAdminByIdentifier(Identifier identifier) {
         List<MedicationAdministration> meds = new ArrayList<>();
 
-        Bundle patientBundle = getClient()
+        Bundle patientBundle = dataSource.getClient()
                 .search().forResource(MedicationAdministration.class).where(MedicationAdministration.IDENTIFIER.exactly()
                         .systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .returnBundle(Bundle.class).execute();
-        for (BundleEntryComponent entry : patientBundle.getEntry()) {
+        for (Bundle.BundleEntryComponent entry : patientBundle.getEntry()) {
             MedicationAdministration medication = (MedicationAdministration) entry.getResource();
             if (medication != null) {
                 meds.add(medication);
@@ -69,45 +68,17 @@ public class MedicationService extends BaseFhirService {
             String system,
             String code) {
         Identifier identifier = R5Utils.createIdentifier(system, code);
-        return searchResourcesByIdentifier(identifier, MedicationRequest.class);
-    }
-
-    public void updateMedicationAdministration(MedicationAdministration medAdmin) {
-        updateResource(medAdmin);
-    }
-
-    public void updateMedicationOrder(MedicationRequest medOrder) {
-        updateResource(medOrder);
-    }
-
-    public MedicationAdministration createMedicationAdministration(MedicationAdministration medAdmin) {
-        return createResource(medAdmin);
-    }
-
-    public MedicationRequest createMedicationOrder(MedicationRequest medOrder) {
-        return createResource(medOrder);
-    }
-
-    public MethodOutcome createMedicationAdministrationIfNotExist(
-            MedicationAdministration medAdmin,
-            Identifier identifier) {
-        return createResourceIfNotExist(medAdmin, identifier);
-    }
-
-    public MethodOutcome createMedicationOrderIfNotExist(
-            MedicationRequest medOrder,
-            Identifier identifier) {
-        return createResourceIfNotExist(medOrder, identifier);
+        return dataSource.searchResourcesByIdentifier(identifier, MedicationRequest.class);
     }
 
     public List<MedicationAdministration> searchMedicationAdministrationsForPatient(Patient patient) {
-        List<MedicationAdministration> results = searchResourcesForPatient(patient, MedicationAdministration.class);
+        List<MedicationAdministration> results = dataSource.searchResourcesForPatient(patient, MedicationAdministration.class);
         Collections.sort(results, Comparators.MED_ADMIN_EFFECTIVE_TIME);
         return results;
     }
 
-    public List<MedicationRequest> searchMedicationOrdersForPatient(Patient patient) {
-        List<MedicationRequest> results = searchResourcesForPatient(patient, MedicationRequest.class);
+    public List<MedicationRequest> searchMedicationRequestsForPatient(Patient patient) {
+        List<MedicationRequest> results = dataSource.searchResourcesForPatient(patient, MedicationRequest.class);
         Collections.sort(results, Comparators.MED_ORDER_DATE_WRITTEN);
         return results;
     }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <beans profile="root">
+
+        <!-- Data Source Configuration -->
+        
+        <bean id="r5ContextConfigurator"
+              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator">
+            <constructor-arg value="FHIR_R5" />
+        </bean>
+
+        <bean id="r5Context"
+              class="org.fujionclinical.fhir.api.common.client.FhirContext">
+            <constructor-arg ref="r5ContextConfigurator"/>
+        </bean>
+
+        <bean id="r5ClientFactory"
+              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
+            <constructor-arg ref="r5Context"/>
+        </bean>
+
+        <bean id="r5Client" factory-bean="r5ClientFactory" factory-method="createClient">
+            <constructor-arg>
+                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator">
+                    <constructor-arg value="FHIR_R5" />
+                </bean>
+            </constructor-arg>
+        </bean>
+
+        <bean id="r5DataSource"
+              class="edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource">
+            <constructor-arg value ="FHIR_R5"/>
+            <constructor-arg ref="r5Client"/>
+        </bean>
+
+        <bean id="r5ConditionService"
+              class="org.fujionclinical.fhir.api.r5.condition.ConditionService">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <bean id="r5MedicationService"
+              class="org.fujionclinical.fhir.api.r5.medication.MedicationService">
+        </bean>
+
+        <bean id="r5DocumentService"
+              class="org.fujionclinical.fhir.api.r5.document.DocumentService">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <bean id="r5DocumentTypeEnumerator"
+              class="org.fujionclinical.fhir.api.r5.document.DocumentTypeEnumerator">
+            <constructor-arg ref="r5DocumentService"/>
+        </bean>
+
+        <!-- Resource DAOs  -->
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.patient.PatientDAO">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.encounter.EncounterDAO">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.practitioner.PractitionerDAO">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.condition.ConditionDAO">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.document.DocumentDAO">
+            <constructor-arg ref="r5DataSource"/>
+        </bean>
+
+        <!-- Model transforms -->
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.AnnotationTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.AttachmentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ConceptCodeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ConceptTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ContactPointTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.IdentifierTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.PeriodTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.PersonNameTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.AddressTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.PrimitiveTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.QuantityTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.RangeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.RatioTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.SimpleQuantityTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.condition.ConditionTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.document.DocumentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.encounter.EncounterTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.location.LocationTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.observation.ObservationComponentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.observation.ReferenceRangeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.patient.PatientTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.practitioner.PractitionerTransform" factory-method="getInstance"/>
+
+    </beans>
+
+</beans>

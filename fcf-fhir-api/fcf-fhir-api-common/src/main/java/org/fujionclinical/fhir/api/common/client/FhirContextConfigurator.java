@@ -58,10 +58,6 @@ public class FhirContextConfigurator extends SimplePropertyAwareConfigurator imp
     @Param(property = "server.validation.mode", defaultValue = "ONCE")
     private ServerValidationModeEnum serverValidationMode;
 
-    public FhirContextConfigurator() {
-        this(null);
-    }
-
     public FhirContextConfigurator(String qualifier) {
         super("fhir.context", qualifier);
     }

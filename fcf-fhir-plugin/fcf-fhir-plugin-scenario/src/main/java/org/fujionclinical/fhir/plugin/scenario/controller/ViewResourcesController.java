@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.plugin.scenario.controller;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.EventHandler;
@@ -58,7 +58,7 @@ public class ViewResourcesController extends FrameworkController {
         return row;
     };
 
-    private final AbstractFhirService fhirService;
+    private final AbstractFhirDataSource data;
 
     private final ListModel<IBaseResource> model = new ListModel<>();
 
@@ -107,9 +107,9 @@ public class ViewResourcesController extends FrameworkController {
         });
     }
 
-    public ViewResourcesController(AbstractFhirService fhirService) {
+    public ViewResourcesController(AbstractFhirDataSource data) {
         super();
-        this.fhirService = fhirService;
+        this.data = data;
     }
 
     @Override
@@ -144,7 +144,7 @@ public class ViewResourcesController extends FrameworkController {
         DialogUtil.confirm("Delete " + FhirUtils.getResourceIdPath(resource, true) + "?", "Delete Resource", (confirm) -> {
             if (confirm) {
                 try {
-                    fhirService.deleteResource(resource);
+                    data.deleteResource(resource);
                     model.remove(resource);
                     root.setAttribute("modified", true);
                     updateCaption();
@@ -173,7 +173,7 @@ public class ViewResourcesController extends FrameworkController {
             txtResource.setValue(null);
             btnDelete.setDisabled(true);
         } else {
-            FhirContext ctx = fhirService.getClient().getFhirContext();
+            FhirContext ctx = data.getClient().getFhirContext();
             IParser parser = rbJSON.isChecked() ? ctx.newJsonParser() : ctx.newXmlParser();
             parser.setPrettyPrint(true);
             txtResource.setValue(parser.encodeResourceToString(resource));

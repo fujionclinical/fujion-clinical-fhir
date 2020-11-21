@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import ca.uhn.fhir.model.primitive.IdDt;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
@@ -55,7 +55,7 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
 
     public final IIdType scenarioId;
 
-    public final AbstractFhirService fhirService;
+    public final AbstractFhirDataSource data;
 
     public final Resource scenarioYaml;
 
@@ -64,10 +64,10 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
     public ScenarioFactory(
             Class<SCENARIO> scenarioClass,
             Resource scenarioYaml,
-            AbstractFhirService fhirService) {
+            AbstractFhirDataSource data) {
         this.scenarioClass = scenarioClass;
         this.scenarioYaml = scenarioYaml;
-        this.fhirService = fhirService;
+        this.data = data;
 
         try (InputStream in = scenarioYaml.getInputStream()) {
             Map<String, ?> config = new Yaml().load(in);

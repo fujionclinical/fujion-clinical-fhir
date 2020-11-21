@@ -62,11 +62,6 @@ public class FhirClientConfigurator extends SimplePropertyAwareConfigurator impl
 
     private IAuthInterceptor authInterceptor;
 
-    public FhirClientConfigurator() {
-        this(null);
-
-    }
-
     public FhirClientConfigurator(String qualifier) {
         super("fhir.client", qualifier);
     }

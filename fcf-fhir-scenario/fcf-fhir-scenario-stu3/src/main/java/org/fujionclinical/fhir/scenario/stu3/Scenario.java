@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.scenario.stu3;
 
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.encounter.EncounterTransform;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.patient.PatientTransform;
@@ -43,11 +43,11 @@ import java.util.function.Consumer;
 
 public class Scenario extends ScenarioBase<ListResource> {
 
-    private final BaseFhirService fhirService;
+    private final FhirDataSource fhirService;
 
     public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
         super(scenarioFactory);
-        this.fhirService = (BaseFhirService) scenarioFactory.fhirService;
+        this.fhirService = (FhirDataSource) scenarioFactory.data;
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected Person _toPatient(IBaseResource resource) {
-        return resource instanceof Patient ? PatientTransform.getInstance().toLogicalModel((Patient) resource) : null;
+        return resource instanceof Patient ? PatientTransform.getInstance().toLogicalModel((Patient) resource).getActor() : null;
     }
 
 }

@@ -25,22 +25,24 @@
  */
 package org.fujionclinical.fhir.api.stu3.document;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.BaseFhirService;
-import org.hl7.fhir.dstu3.model.*;
-import org.hl7.fhir.dstu3.model.CodeSystem.ConceptDefinitionComponent;
-import org.hl7.fhir.dstu3.model.DocumentReference.DocumentReferenceContentComponent;
+import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.dstu3.model.CodeSystem;
+import org.hl7.fhir.dstu3.model.DocumentReference;
+import org.hl7.fhir.dstu3.model.ValueSet;
 
 import java.util.*;
 
 /**
  * This is the documents api implementation.
  */
-public class DocumentService extends BaseFhirService {
+public class DocumentService {
+
+    private final FhirDataSource dataSource;
 
     private static DocumentService instance;
 
@@ -48,13 +50,13 @@ public class DocumentService extends BaseFhirService {
         return instance;
     }
 
-    public DocumentService(IGenericClient client) {
-        super(client);
+    public DocumentService(FhirDataSource dataSource) {
         instance = this;
+        this.dataSource = dataSource;
     }
 
     /**
-     * Retrieves documents for a given patient.
+     * Retrieves document references for a given patient.
      *
      * @param patientId The patient id.
      * @param startDate Start date for retrieval.
@@ -69,7 +71,7 @@ public class DocumentService extends BaseFhirService {
             String type) {
         ReferenceClientParam subject = new ReferenceClientParam(DocumentReference.SP_SUBJECT + ":Patient");
 
-        IQuery<?> query = getClient().search().forResource(DocumentReference.class)
+        IQuery<?> query = dataSource.getClient().search().forResource(DocumentReference.class)
                 .where(subject.hasId(patientId));
         //.forResource("Patient/" + patient.getId().getIdPart() + "/DocumentReference");
 
@@ -101,11 +103,11 @@ public class DocumentService extends BaseFhirService {
         TreeSet<String> results = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
         try {
-            Bundle bundle = getClient().search().forResource(CodeSystem.class)
-                    .where(CodeSystem.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
+            Bundle bundle = dataSource.getClient().search().forResource(ValueSet.class)
+                    .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
             for (CodeSystem cs : Stu3Utils.getEntries(bundle, CodeSystem.class)) {
-                for (ConceptDefinitionComponent concept : cs.getConcept()) {
+                for (CodeSystem.ConceptDefinitionComponent concept : cs.getConcept()) {
                     results.add(concept.getDisplay());
                 }
             }

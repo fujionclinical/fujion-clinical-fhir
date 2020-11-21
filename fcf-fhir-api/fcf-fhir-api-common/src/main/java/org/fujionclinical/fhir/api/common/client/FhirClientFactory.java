@@ -52,14 +52,14 @@ public class FhirClientFactory {
         this.fhirContext = fhirContext;
     }
 
-    public IGenericClient getClient(String category) {
-        return getClient(category, false);
+    public IGenericClient getClient(String qualifier) {
+        return getClient(qualifier, false);
     }
 
     public IGenericClient getClient(
-            String category,
+            String qualifier,
             boolean acceptDefault) {
-        IGenericClient client = registry.get(category);
+        IGenericClient client = registry.get(qualifier);
         return acceptDefault && client == null ? registry.get("") : client;
     }
 

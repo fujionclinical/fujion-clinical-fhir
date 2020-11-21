@@ -25,38 +25,23 @@
  */
 package org.fujionclinical.fhir.api.r5.condition;
 
-import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
 import org.hl7.fhir.r5.model.Condition;
-import org.hl7.fhir.r5.model.Identifier;
 import org.hl7.fhir.r5.model.Patient;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ConditionService extends BaseFhirService {
+public class ConditionService {
 
-    public ConditionService(IGenericClient client) {
-        super(client);
-    }
+    private final FhirDataSource dataSource;
 
-    public void updateCondition(Condition condition) {
-        updateResource(condition);
-    }
-
-    public Condition createCondition(Condition condition) {
-        return createResource(condition);
-    }
-
-    public MethodOutcome createConditionIfNotExist(
-            Condition condition,
-            Identifier identifier) {
-        return createResourceIfNotExist(condition, identifier);
+    public ConditionService(FhirDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public List<Condition> searchConditionsForPatient(Patient patient) {
-        List<Condition> conditions = searchResourcesForPatient(patient, Condition.class);
+        List<Condition> conditions = dataSource.searchResourcesForPatient(patient, Condition.class);
         Collections.sort(conditions, ConditionComparators.CONDITION_DATE_RECORDED);
         return conditions;
     }

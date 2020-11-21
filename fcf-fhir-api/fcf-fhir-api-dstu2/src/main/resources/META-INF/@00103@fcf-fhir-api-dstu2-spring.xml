@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <beans profile="root">
+
+        <!-- Data Source Configuration -->
+        
+        <bean id="dstu2ContextConfigurator"
+              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator">
+            <constructor-arg value="FHIR_DSTU2" />
+        </bean>
+
+        <bean id="dstu2Context"
+              class="org.fujionclinical.fhir.api.common.client.FhirContext">
+            <constructor-arg ref="dstu2ContextConfigurator"/>
+        </bean>
+
+        <bean id="dstu2ClientFactory"
+              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
+            <constructor-arg ref="dstu2Context"/>
+        </bean>
+
+        <bean id="dstu2Client" factory-bean="dstu2ClientFactory" factory-method="createClient">
+            <constructor-arg>
+                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator">
+                    <constructor-arg value="FHIR_DSTU2" />
+                </bean>
+            </constructor-arg>
+        </bean>
+
+        <bean id="dstu2DataSource"
+              class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource">
+            <constructor-arg value ="FHIR_DSTU2"/>
+            <constructor-arg ref="dstu2Client"/>
+        </bean>
+
+        <bean id="dstu2ConditionService"
+              class="org.fujionclinical.fhir.api.dstu2.condition.ConditionService">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <bean id="dstu2MedicationService"
+              class="org.fujionclinical.fhir.api.dstu2.medication.MedicationService">
+        </bean>
+
+        <bean id="dstu2DocumentService"
+              class="org.fujionclinical.fhir.api.dstu2.document.DocumentService">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <bean id="dstu2DocumentTypeEnumerator"
+              class="org.fujionclinical.fhir.api.dstu2.document.DocumentTypeEnumerator">
+            <constructor-arg ref="dstu2DocumentService"/>
+        </bean>
+
+        <!-- Resource DAOs  -->
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientDAO">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterDAO">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.practitioner.PractitionerDAO">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.condition.ConditionDAO">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.document.DocumentDAO">
+            <constructor-arg ref="dstu2DataSource"/>
+        </bean>
+
+        <!-- Model transforms -->
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.AnnotationTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.AttachmentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.ConceptCodeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.ConceptTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.ContactPointTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.IdentifierTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.PeriodTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.PersonNameTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.AddressTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.PrimitiveTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.QuantityTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.RangeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.RatioTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.SimpleQuantityTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.condition.ConditionTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.document.DocumentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.location.LocationTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.observation.ObservationComponentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.observation.ReferenceRangeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.practitioner.PractitionerTransform" factory-method="getInstance"/>
+
+    </beans>
+
+</beans>

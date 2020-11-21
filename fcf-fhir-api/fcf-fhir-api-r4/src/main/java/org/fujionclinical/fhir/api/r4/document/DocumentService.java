@@ -25,22 +25,24 @@
  */
 package org.fujionclinical.fhir.api.r4.document;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
-import edu.utah.kmm.model.cool.mediator.fhir.r4.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4Utils;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeSystem;
 import org.hl7.fhir.r4.model.DocumentReference;
+import org.hl7.fhir.r4.model.ValueSet;
 
 import java.util.*;
 
 /**
  * This is the documents api implementation.
  */
-public class DocumentService extends BaseFhirService {
+public class DocumentService {
+
+    private final FhirDataSource dataSource;
 
     private static DocumentService instance;
 
@@ -48,13 +50,13 @@ public class DocumentService extends BaseFhirService {
         return instance;
     }
 
-    public DocumentService(IGenericClient client) {
-        super(client);
+    public DocumentService(FhirDataSource dataSource) {
         instance = this;
+        this.dataSource = dataSource;
     }
 
     /**
-     * Retrieves documents for a given patient.
+     * Retrieves document references for a given patient.
      *
      * @param patientId The patient id.
      * @param startDate Start date for retrieval.
@@ -69,7 +71,7 @@ public class DocumentService extends BaseFhirService {
             String type) {
         ReferenceClientParam subject = new ReferenceClientParam(DocumentReference.SP_SUBJECT + ":Patient");
 
-        IQuery<?> query = getClient().search().forResource(DocumentReference.class)
+        IQuery<?> query = dataSource.getClient().search().forResource(DocumentReference.class)
                 .where(subject.hasId(patientId));
         //.forResource("Patient/" + patient.getId().getIdPart() + "/DocumentReference");
 
@@ -101,8 +103,8 @@ public class DocumentService extends BaseFhirService {
         TreeSet<String> results = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
         try {
-            Bundle bundle = getClient().search().forResource(CodeSystem.class)
-                    .where(CodeSystem.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
+            Bundle bundle = dataSource.getClient().search().forResource(ValueSet.class)
+                    .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
             for (CodeSystem cs : R4Utils.getEntries(bundle, CodeSystem.class)) {
                 for (CodeSystem.ConceptDefinitionComponent concept : cs.getConcept()) {

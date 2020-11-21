@@ -30,19 +30,19 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.BaseFhirService;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MedicationService extends BaseFhirService {
+public class MedicationService {
 
-    public MedicationService(IGenericClient client) {
-        super(client);
+    private final FhirDataSource dataSource;
+
+    public MedicationService(FhirDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public List<MedicationAdministration> searchMedAdminByIdentifier(
@@ -55,7 +55,7 @@ public class MedicationService extends BaseFhirService {
     public List<MedicationAdministration> searchMedAdminByIdentifier(IdentifierDt identifier) {
         List<MedicationAdministration> meds = new ArrayList<>();
 
-        Bundle patientBundle = getClient()
+        Bundle patientBundle = dataSource.getClient()
                 .search().forResource(MedicationAdministration.class).where(MedicationAdministration.IDENTIFIER.exactly()
                         .systemAndIdentifier(identifier.getSystem(), identifier.getValue()))
                 .returnBundle(Bundle.class).execute();
@@ -72,45 +72,17 @@ public class MedicationService extends BaseFhirService {
             String system,
             String code) {
         IdentifierDt identifier = Dstu2Utils.createIdentifier(system, code);
-        return searchResourcesByIdentifier(identifier, MedicationOrder.class);
-    }
-
-    public void updateMedicationAdministration(MedicationAdministration medAdmin) {
-        updateResource(medAdmin);
-    }
-
-    public void updateMedicationOrder(MedicationOrder medOrder) {
-        updateResource(medOrder);
-    }
-
-    public MedicationAdministration createMedicationAdministration(MedicationAdministration medAdmin) {
-        return createResource(medAdmin);
-    }
-
-    public MedicationOrder createMedicationOrder(MedicationOrder medOrder) {
-        return createResource(medOrder);
-    }
-
-    public MethodOutcome createMedicationAdministrationIfNotExist(
-            MedicationAdministration medAdmin,
-            IdentifierDt identifier) {
-        return createResourceIfNotExist(medAdmin, identifier);
-    }
-
-    public MethodOutcome createMedicationOrderIfNotExist(
-            MedicationOrder medOrder,
-            IdentifierDt identifier) {
-        return createResourceIfNotExist(medOrder, identifier);
+        return dataSource.searchResourcesByIdentifier(identifier, MedicationOrder.class);
     }
 
     public List<MedicationAdministration> searchMedicationAdministrationsForPatient(Patient patient) {
-        List<MedicationAdministration> results = searchResourcesForPatient(patient, MedicationAdministration.class);
+        List<MedicationAdministration> results = dataSource.searchResourcesForPatient(patient, MedicationAdministration.class);
         Collections.sort(results, Comparators.MED_ADMIN_EFFECTIVE_TIME);
         return results;
     }
 
     public List<MedicationOrder> searchMedicationOrdersForPatient(Patient patient) {
-        List<MedicationOrder> results = searchResourcesForPatient(patient, MedicationOrder.class);
+        List<MedicationOrder> results = dataSource.searchResourcesForPatient(patient, MedicationOrder.class);
         Collections.sort(results, Comparators.MED_ORDER_DATE_WRITTEN);
         return results;
     }

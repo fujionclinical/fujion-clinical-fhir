@@ -26,17 +26,18 @@
 package org.fujionclinical.fhir.api.common.core;
 
 import edu.utah.kmm.model.cool.core.datatype.Identifier;
-import edu.utah.kmm.model.cool.mediator.expression.ExpressionTuple;
-import edu.utah.kmm.model.cool.mediator.expression.Operator;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.datatype.PersonName;
+import edu.utah.kmm.model.cool.mediator.expression.ExpressionTuple;
+import edu.utah.kmm.model.cool.mediator.expression.Operator;
 import edu.utah.kmm.model.cool.terminology.ConceptReference;
 import org.fujion.common.DateTimeWrapper;
 import org.fujion.common.DateUtil;
 import org.fujion.common.MiscUtil;
-import org.fujionclinical.api.core.CoreUtil;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -124,8 +125,23 @@ public class QueryBuilder {
     }
 
     private boolean allowPartialMatch(PropertyDescriptor propertyDescriptor) {
-        Class<?> propertyType = CoreUtil.getPropertyType(propertyDescriptor);
+        Class<?> propertyType = getPropertyType(propertyDescriptor);
         return MiscUtil.firstAssignable(propertyType, PersonName.class) != null;
     }
 
+    private Class<?> getPropertyType(PropertyDescriptor propertyDescriptor) {
+        Class<?> propertyType = propertyDescriptor.getPropertyType();
+
+        if (propertyType.isArray()) {
+            propertyType = propertyType.getComponentType();
+        }
+
+        if (Collection.class.isAssignableFrom(propertyType)) {
+            Method method = propertyDescriptor.getReadMethod();
+            ParameterizedType type = (ParameterizedType) method.getGenericReturnType();
+            propertyType = (Class<?>) type.getActualTypeArguments()[0];
+        }
+
+        return propertyType;
+    }
 }
