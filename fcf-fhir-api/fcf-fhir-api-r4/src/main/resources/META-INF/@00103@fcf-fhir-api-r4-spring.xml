@@ -12,7 +12,7 @@
               class="org.fujionclinical.fhir.api.r4.common.FhirDataSourceFactory"/>
 
         <bean id="r4DataSource" factory-bean="r4DataSourceFactory" factory-method="create">
-            <constructor-arg value="R4_FHIR"/>
+            <constructor-arg value="FHIR_R4"/>
         </bean>
 
         <bean id="r4ConditionService"

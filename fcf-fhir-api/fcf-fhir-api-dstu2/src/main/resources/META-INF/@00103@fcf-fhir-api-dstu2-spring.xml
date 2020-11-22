@@ -12,7 +12,7 @@
               class="org.fujionclinical.fhir.api.dstu2.common.FhirDataSourceFactory"/>
 
         <bean id="dstu2DataSource" factory-bean="dstu2DataSourceFactory" factory-method="create">
-            <constructor-arg value="DSTU2_FHIR"/>
+            <constructor-arg value="FHIR_DSTU2"/>
         </bean>
 
         <bean id="dstu2ConditionService"
