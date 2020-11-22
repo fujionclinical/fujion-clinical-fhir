@@ -25,13 +25,27 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 
-public interface ISubscriptionFactory {
+public abstract class BaseSubscriptionFactory {
 
-    BaseSubscriptionWrapper create(
-            IGenericClient client,
+    private final String dataSourceId;
+
+    public BaseSubscriptionFactory(String dataSourceId) {
+        this.dataSourceId = dataSourceId;
+    }
+
+    protected String getDataSourceId() {
+        return dataSourceId;
+    }
+
+    protected AbstractFhirDataSource getDataSource() {
+        return (AbstractFhirDataSource) DataSources.get(dataSourceId);
+    }
+
+    protected abstract BaseSubscriptionWrapper create(
             String paramIndex,
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,

@@ -29,27 +29,33 @@ import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.resource.Subscription;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionChannelTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionStatusEnum;
-import ca.uhn.fhir.rest.api.PreferReturnEnum;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
+import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
-import org.fujionclinical.fhir.subscription.common.ISubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
 
 import java.util.Collections;
 
-public class SubscriptionFactory implements ISubscriptionFactory {
+public class SubscriptionFactory extends BaseSubscriptionFactory {
+
+    public SubscriptionFactory() {
+        this(Dstu2Utils.FHIR_DSTU2.getId());
+    }
+
+    public SubscriptionFactory(String dataSourceId) {
+        super(dataSourceId);
+    }
 
     @Override
     public BaseSubscriptionWrapper create(
-            IGenericClient client,
             String paramIndex,
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,
             String criteria,
             ConceptReferenceImpl tag) {
         Subscription subscription = new Subscription();
-        SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex);
+        SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex, getDataSource());
         Subscription.Channel channel = new Subscription.Channel();
         channel.setType(SubscriptionChannelTypeEnum.REST_HOOK);
         channel.setEndpoint(callbackUrl + wrapper.getSubscriptionId());
@@ -59,9 +65,7 @@ public class SubscriptionFactory implements ISubscriptionFactory {
         subscription.setChannel(channel);
         subscription.setStatus(SubscriptionStatusEnum.REQUESTED);
         subscription.setTag(Collections.singletonList(new CodingDt(tag.getSystemAsString(), tag.getCode())));
-        subscription = (Subscription) client.create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION)
-                .execute().getResource();
-        return wrapper;
+        return wrapper.initialize();
     }
 
 }

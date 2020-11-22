@@ -25,7 +25,12 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
+import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.rest.api.PreferReturnEnum;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.springframework.util.Assert;
 
 import java.util.UUID;
 
@@ -40,7 +45,11 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
 
     private final String subscriptionId;
 
-    private final T subscription;
+    private final AbstractFhirDataSource dataSource;
+
+    private T subscription;
+
+    private boolean initialized;
 
     private int refCount;
 
@@ -58,9 +67,11 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
      */
     protected BaseSubscriptionWrapper(
             T subscription,
-            String paramIndex) {
+            String paramIndex,
+            AbstractFhirDataSource dataSource) {
         this.subscription = subscription;
         this.paramIndex = paramIndex;
+        this.dataSource = dataSource;
         this.subscriptionId = UUID.randomUUID().toString();
     }
 
@@ -116,8 +127,52 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
         return ++refCount;
     }
 
+    public AbstractFhirDataSource getDataSource() {
+        return dataSource;
+    }
+
+    public BaseSubscriptionWrapper initialize() {
+        if (!initialized) {
+            initialized = true;
+            subscription = (T) dataSource.getClient().create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION).execute().getResource();
+        }
+
+        return this;
+    }
+
+    /**
+     * Parses a resource from the raw payload.
+     *
+     * @param payload Serialized form of the resource (may be null).
+     * @return The parsed resource (may be null).
+     */
+    public IBaseResource parseResource(String payload) {
+        IBaseResource resource = null;
+        payload = StringUtils.trimToNull(payload);
+
+        if (payload != null) {
+            IParser parser = payload.startsWith("{") ? dataSource.getClient().getFhirContext().newJsonParser()
+                    : dataSource.getClient().getFhirContext().newXmlParser();
+
+            try {
+                resource = parser.parseResource(payload);
+            } catch (Exception e) {
+                throw new RuntimeException("Unable to parse payload in subscription request", e);
+            }
+        }
+
+        return resource;
+    }
+
     public T getWrapped() {
+        Assert.notNull(subscription, "Subscription has been deleted.");
+        Assert.isTrue(initialized, "Subscription has not been initialized.");
         return subscription;
+    }
+
+    public void delete() {
+        dataSource.getClient().delete().resource(subscription).execute();
+        subscription = null;
     }
 
 }

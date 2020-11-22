@@ -31,8 +31,8 @@ import ca.uhn.fhir.model.dstu2.resource.ValueSet;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
 import java.util.*;
 
@@ -41,7 +41,7 @@ import java.util.*;
  */
 public class DocumentService {
 
-    private final FhirDataSource dataSource;
+    private final AbstractFhirDataSource dataSource;
 
     private static DocumentService instance;
 
@@ -49,7 +49,7 @@ public class DocumentService {
         return instance;
     }
 
-    public DocumentService(FhirDataSource dataSource) {
+    public DocumentService(AbstractFhirDataSource dataSource) {
         instance = this;
         this.dataSource = dataSource;
     }

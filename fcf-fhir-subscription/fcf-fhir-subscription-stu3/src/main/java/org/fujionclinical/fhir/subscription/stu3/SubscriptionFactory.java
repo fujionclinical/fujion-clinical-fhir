@@ -25,26 +25,32 @@
  */
 package org.fujionclinical.fhir.subscription.stu3;
 
-import ca.uhn.fhir.rest.api.PreferReturnEnum;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
+import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
-import org.fujionclinical.fhir.subscription.common.ISubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
 import org.hl7.fhir.dstu3.model.Subscription;
 
-public class SubscriptionFactory implements ISubscriptionFactory {
+public class SubscriptionFactory extends BaseSubscriptionFactory {
+
+    public SubscriptionFactory() {
+        this(Stu3Utils.FHIR_STU3.getId());
+    }
+
+    public SubscriptionFactory(String dataSourceId) {
+        super(dataSourceId);
+    }
 
     @Override
     public BaseSubscriptionWrapper create(
-            IGenericClient client,
             String paramIndex,
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,
             String criteria,
             ConceptReferenceImpl tag) {
         Subscription subscription = new Subscription();
-        SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex);
+        SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex, getDataSource());
         Subscription.SubscriptionChannelComponent channel = new Subscription.SubscriptionChannelComponent();
         channel.setType(Subscription.SubscriptionChannelType.RESTHOOK);
         channel.setEndpoint(callbackUrl + wrapper.getSubscriptionId());
@@ -54,9 +60,7 @@ public class SubscriptionFactory implements ISubscriptionFactory {
         subscription.setChannel(channel);
         subscription.setStatus(Subscription.SubscriptionStatus.REQUESTED);
         subscription.getMeta().addTag(tag.getSystemAsString(), tag.getCode(), tag.getPreferredName());
-        subscription = (Subscription) client.create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION)
-                .execute().getResource();
-        return wrapper;
+        return wrapper.initialize();
     }
 
 }

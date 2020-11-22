@@ -109,7 +109,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
         columns.add(order.getDateWritten());
 
         if (!order.getMedication().isEmpty()) {
-            Medication medication = getFhirService().getResource((ResourceReferenceDt) order.getMedication(), Medication.class);
+            Medication medication = getDataSource().getResource((ResourceReferenceDt) order.getMedication(), Medication.class);
             columns.add(medication.getCode());
         } else {
             columns.add(order.getMedication());

@@ -7,34 +7,12 @@
     <beans profile="root">
 
         <!-- Data Source Configuration -->
-        
-        <bean id="stu3ContextConfigurator"
-              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator">
-            <constructor-arg value="FHIR_STU3" />
-        </bean>
 
-        <bean id="stu3Context"
-              class="org.fujionclinical.fhir.api.common.client.FhirContext">
-            <constructor-arg ref="stu3ContextConfigurator"/>
-        </bean>
+        <bean id="stu3DataSourceFactory"
+              class="org.fujionclinical.fhir.api.stu3.common.FhirDataSourceFactory"/>
 
-        <bean id="stu3ClientFactory"
-              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
-            <constructor-arg ref="stu3Context"/>
-        </bean>
-
-        <bean id="stu3Client" factory-bean="stu3ClientFactory" factory-method="createClient">
-            <constructor-arg>
-                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator">
-                    <constructor-arg value="FHIR_STU3" />
-                </bean>
-            </constructor-arg>
-        </bean>
-
-        <bean id="stu3DataSource"
-              class="edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource">
-            <constructor-arg value ="FHIR_STU3"/>
-            <constructor-arg ref="stu3Client"/>
+        <bean id="stu3DataSource" factory-bean="stu3DataSourceFactory" factory-method="create">
+            <constructor-arg value="DSTU2_FHIR"/>
         </bean>
 
         <bean id="stu3ConditionService"

@@ -32,9 +32,9 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Medication;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder.DosageInstruction;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.api.dstu2.common.ClientUtil;
 import org.fujionclinical.fhir.api.dstu2.medication.MedicationService;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
@@ -74,7 +74,7 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
         }
 
         if (StringUtils.isEmpty(med)) {
-            Medication medication = ClientUtil.getResource((ResourceReferenceDt) script.getMedication(), Medication.class);
+            Medication medication = Dstu2Utils.getDataSource().getResource((ResourceReferenceDt) script.getMedication(), Medication.class);
             med = medication.getCode().getCodingFirstRep().getDisplay();
         }
 

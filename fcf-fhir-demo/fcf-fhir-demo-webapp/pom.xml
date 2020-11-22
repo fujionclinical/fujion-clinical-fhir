@@ -61,6 +61,7 @@
             <id>fhir-dstu2</id>
             <properties>
                 <fhir-spec>dstu2</fhir-spec>
+                <cool-datasource>FHIR_DSTU2</cool-datasource>
             </properties>
             <dependencies>
                 <dependency>
@@ -74,6 +75,7 @@
             <id>fhir-stu3</id>
             <properties>
                 <fhir-spec>stu3</fhir-spec>
+                <cool-datasource>FHIR_STU3</cool-datasource>
             </properties>
             <dependencies>
                 <dependency>
@@ -87,6 +89,7 @@
             <id>fhir-r4</id>
             <properties>
                 <fhir-spec>r4</fhir-spec>
+                <cool-datasource>FHIR_R4</cool-datasource>
             </properties>
             <dependencies>
                 <dependency>
@@ -100,6 +103,7 @@
             <id>fhir-r5</id>
             <properties>
                 <fhir-spec>r5</fhir-spec>
+                <cool-datasource>FHIR_R5</cool-datasource>
             </properties>
             <dependencies>
                 <dependency>

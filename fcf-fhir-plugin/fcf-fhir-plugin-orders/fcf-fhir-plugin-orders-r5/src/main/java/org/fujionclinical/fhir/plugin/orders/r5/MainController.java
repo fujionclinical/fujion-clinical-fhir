@@ -106,7 +106,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
         columns.add(order.getAuthoredOn());
 
         if (order.hasMedication()) {
-            Medication medication = getFhirService().getResource(order.getMedication().getReference(), Medication.class);
+            Medication medication = getDataSource().getResource(order.getMedication().getReference(), Medication.class);
             columns.add(medication.getCode());
         } else {
             columns.add(order.getMedication());

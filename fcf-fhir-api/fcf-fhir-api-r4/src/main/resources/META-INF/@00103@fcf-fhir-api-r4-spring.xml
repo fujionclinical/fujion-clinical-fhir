@@ -7,34 +7,12 @@
     <beans profile="root">
 
         <!-- Data Source Configuration -->
-        
-        <bean id="r4ContextConfigurator"
-              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator">
-            <constructor-arg value="FHIR_R4" />
-        </bean>
 
-        <bean id="r4Context"
-              class="org.fujionclinical.fhir.api.common.client.FhirContext">
-            <constructor-arg ref="r4ContextConfigurator"/>
-        </bean>
+        <bean id="r4DataSourceFactory"
+              class="org.fujionclinical.fhir.api.r4.common.FhirDataSourceFactory"/>
 
-        <bean id="r4ClientFactory"
-              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
-            <constructor-arg ref="r4Context"/>
-        </bean>
-
-        <bean id="r4Client" factory-bean="r4ClientFactory" factory-method="createClient">
-            <constructor-arg>
-                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator">
-                    <constructor-arg value="FHIR_R4" />
-                </bean>
-            </constructor-arg>
-        </bean>
-
-        <bean id="r4DataSource"
-              class="edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource">
-            <constructor-arg value ="FHIR_R4"/>
-            <constructor-arg ref="r4Client"/>
+        <bean id="r4DataSource" factory-bean="r4DataSourceFactory" factory-method="create">
+            <constructor-arg value="R4_FHIR"/>
         </bean>
 
         <bean id="r4ConditionService"

@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.subscription.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Subscription;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 
 /**
@@ -40,8 +41,9 @@ public class SubscriptionWrapper extends BaseSubscriptionWrapper<Subscription> {
      */
     /*package*/ SubscriptionWrapper(
             Subscription subscription,
-            String paramIndex) {
-        super(subscription, paramIndex);
+            String paramIndex,
+            AbstractFhirDataSource dataSource) {
+        super(subscription, paramIndex, dataSource);
     }
 
     /**

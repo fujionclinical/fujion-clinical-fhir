@@ -25,10 +25,9 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
-import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -38,6 +37,9 @@ import org.fujionclinical.api.event.EventUtil;
 import org.fujionclinical.api.messaging.Message;
 import org.fujionclinical.api.messaging.ProducerService;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,14 +47,14 @@ import java.util.Map;
 
 /**
  * Service for managing FHIR resource subscriptions. It provides a bridge between FHIR's
- * subscription framework and CWF's event framework. Each registered FHIR subscription is indexed by
+ * subscription framework and FCF's event framework. Each registered FHIR subscription is indexed by
  * a unique key and by its associated criteria. Each subscription is associated with a unique event
  * name. When the application receives a subscription notification from the FHIR server via one of
  * the supported mechanisms (preferably via a REST callback), this service may be invoked to deliver
- * the notification to each of the CWF subscribers by means of the associated event name. The
+ * the notification to each of the FCF subscribers by means of the associated event name. The
  * service also manages the lifecycle of the subscriptions, creating and revoking them as required.
  */
-public class ResourceSubscriptionService {
+public class ResourceSubscriptionService implements BeanPostProcessor {
 
     public enum PayloadType {
         NONE(null), XML("application/fhir+xml"), JSON("application/fhir+json");
@@ -73,15 +75,13 @@ public class ResourceSubscriptionService {
 
     private final Log log = LogFactory.getLog(ResourceSubscriptionService.class);
 
-    private final IGenericClient client;
-
     private final ProducerService producer;
 
     private final boolean disabled;
 
     private final String callbackUrl;
 
-    private final ISubscriptionFactory factory;
+    private final Map<String, BaseSubscriptionFactory> factories = new HashMap<>();
 
     private final ConceptReferenceImpl subscriptionTag;
 
@@ -92,20 +92,14 @@ public class ResourceSubscriptionService {
     /**
      * Create the resource subscription service.
      *
-     * @param client      The FHIR client for managing subscription requests.
      * @param producer    The message producer for delivering events to subscribers.
      * @param callbackUrl The callback URL to be associated with new subscriptions. If no callback
      *                    URL is specified, this service will be disabled.
-     * @param factory     The subscription factory.
      */
     public ResourceSubscriptionService(
-            IGenericClient client,
             ProducerService producer,
-            String callbackUrl,
-            ISubscriptionFactory factory) {
-        this.client = client;
+            String callbackUrl) {
         this.producer = producer;
-        this.factory = factory;
         disabled = StringUtils.isEmpty(callbackUrl);
         this.callbackUrl = disabled ? null : callbackUrl.endsWith("/") ? callbackUrl : callbackUrl + "/";
         subscriptionTag = new ConceptReferenceImpl(callbackUrl, "ResourceSubscription", null);
@@ -118,12 +112,15 @@ public class ResourceSubscriptionService {
      */
     public void destroy() {
         if (!disabled) {
-            try {
-                ICriterion<?> criterion = TAG.exactly().systemAndCode(subscriptionTag.getSystemAsString(),
-                        subscriptionTag.getCode());
-                client.delete().resourceConditionalByType("Subscription").where(criterion).execute();
-            } catch (Exception e) {
-                log.error("Error attempting to delete old subscription resources", e);
+            ICriterion<?> criterion = TAG.exactly().systemAndCode(subscriptionTag.getSystemAsString(),
+                    subscriptionTag.getCode());
+
+            for (BaseSubscriptionFactory factory : factories.values()) {
+                try {
+                    factory.getDataSource().getClient().delete().resourceConditionalByType("Subscription").where(criterion).execute();
+                } catch (Exception e) {
+                    log.error("Error attempting to delete old subscription resources for data source " + factory.getDataSource().getId(), e);
+                }
             }
         }
     }
@@ -138,18 +135,20 @@ public class ResourceSubscriptionService {
     }
 
     /**
-     * Associate a CWF event with a FHIR subscription (creating a new FHIR subscription as
+     * Associate a FCF event with a FHIR subscription (creating a new FHIR subscription as
      * necessary).
      *
      * @param criteria The subscription criteria (see FHIR specification).
      * @return The subscription wrapper.
      */
-    public synchronized BaseSubscriptionWrapper subscribe(String criteria) {
-        return subscribe(criteria, null);
+    public synchronized BaseSubscriptionWrapper subscribe(
+            String criteria,
+            AbstractFhirDataSource dataSource) {
+        return subscribe(criteria, null, dataSource);
     }
 
     /**
-     * Associate a CWF event with a FHIR subscription (creating a new FHIR subscription as
+     * Associate a FCF event with a FHIR subscription (creating a new FHIR subscription as
      * necessary).
      *
      * @param criteria    The subscription criteria (see FHIR specification).
@@ -158,8 +157,9 @@ public class ResourceSubscriptionService {
      */
     public synchronized BaseSubscriptionWrapper subscribe(
             String criteria,
-            PayloadType payloadType) {
-        return disabled ? null : getOrCreateSubscription(criteria, payloadType == null ? PayloadType.NONE : payloadType);
+            PayloadType payloadType,
+            AbstractFhirDataSource dataSource) {
+        return disabled ? null : getOrCreateSubscription(criteria, payloadType == null ? PayloadType.NONE : payloadType, dataSource);
     }
 
     /**
@@ -204,37 +204,13 @@ public class ResourceSubscriptionService {
         boolean found = wrapper != null;
 
         if (found) {
-            IBaseResource resource = parseResource(payload);
+            IBaseResource resource = wrapper.parseResource(payload);
             String eventName = wrapper.getEventName();
             Message message = new EventMessage(eventName, resource);
             producer.publish(EventUtil.getChannelName(eventName), message);
         }
 
         return found;
-    }
-
-    /**
-     * Parses a resource from the raw payload.
-     *
-     * @param payload Serialized form of the resource (may be null).
-     * @return The parsed resource (may be null).
-     */
-    private IBaseResource parseResource(String payload) {
-        IBaseResource resource = null;
-        payload = StringUtils.trimToNull(payload);
-
-        if (payload != null) {
-            IParser parser = payload.startsWith("{") ? client.getFhirContext().newJsonParser()
-                    : client.getFhirContext().newXmlParser();
-
-            try {
-                resource = parser.parseResource(payload);
-            } catch (Exception e) {
-                log.error("Unable to parse payload in subscription request", e);
-            }
-        }
-
-        return resource;
     }
 
     /**
@@ -247,12 +223,15 @@ public class ResourceSubscriptionService {
      */
     private BaseSubscriptionWrapper getOrCreateSubscription(
             String criteria,
-            PayloadType payloadType) {
+            PayloadType payloadType,
+            AbstractFhirDataSource dataSource) {
         String paramIndex = payloadType + "|" + criteria;
         BaseSubscriptionWrapper wrapper = subscriptionsByParams.get(paramIndex);
 
         if (wrapper == null) {
-            wrapper = factory.create(client, paramIndex, callbackUrl, payloadType, criteria, subscriptionTag);
+            BaseSubscriptionFactory factory = factories.get(dataSource.getId());
+            Assert.notNull(factory, () -> "No subscription factory is registered to data source " + dataSource.getId());
+            wrapper = factory.create(paramIndex, callbackUrl, payloadType, criteria, subscriptionTag);
             subscriptionsByParams.put(paramIndex, wrapper);
             subscriptionsById.put(wrapper.getSubscriptionId(), wrapper);
         }
@@ -269,7 +248,19 @@ public class ResourceSubscriptionService {
     private void deleteSubscription(BaseSubscriptionWrapper wrapper) {
         subscriptionsByParams.remove(wrapper.getParamIndex());
         subscriptionsById.remove(wrapper.getSubscriptionId());
-        client.delete().resource(wrapper.getWrapped()).execute();
+        wrapper.delete();
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(
+            Object bean,
+            String beanName) throws BeansException {
+        if (bean instanceof BaseSubscriptionFactory) {
+            BaseSubscriptionFactory factory = (BaseSubscriptionFactory) bean;
+            factories.put(factory.getDataSourceId(), factory);
+        }
+
+        return bean;
     }
 
 }

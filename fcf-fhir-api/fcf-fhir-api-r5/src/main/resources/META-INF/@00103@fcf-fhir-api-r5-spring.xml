@@ -7,34 +7,12 @@
     <beans profile="root">
 
         <!-- Data Source Configuration -->
-        
-        <bean id="r5ContextConfigurator"
-              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator">
-            <constructor-arg value="FHIR_R5" />
-        </bean>
 
-        <bean id="r5Context"
-              class="org.fujionclinical.fhir.api.common.client.FhirContext">
-            <constructor-arg ref="r5ContextConfigurator"/>
-        </bean>
+        <bean id="r5DataSourceFactory"
+              class="org.fujionclinical.fhir.api.r5.common.FhirDataSourceFactory"/>
 
-        <bean id="r5ClientFactory"
-              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
-            <constructor-arg ref="r5Context"/>
-        </bean>
-
-        <bean id="r5Client" factory-bean="r5ClientFactory" factory-method="createClient">
-            <constructor-arg>
-                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator">
-                    <constructor-arg value="FHIR_R5" />
-                </bean>
-            </constructor-arg>
-        </bean>
-
-        <bean id="r5DataSource"
-              class="edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource">
-            <constructor-arg value ="FHIR_R5"/>
-            <constructor-arg ref="r5Client"/>
+        <bean id="r5DataSource" factory-bean="r5DataSourceFactory" factory-method="create">
+            <constructor-arg value="R5_FHIR"/>
         </bean>
 
         <bean id="r5ConditionService"

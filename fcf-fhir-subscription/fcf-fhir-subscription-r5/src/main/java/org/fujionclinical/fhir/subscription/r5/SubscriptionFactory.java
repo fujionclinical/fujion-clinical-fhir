@@ -25,25 +25,32 @@
  */
 package org.fujionclinical.fhir.subscription.r5;
 
-import ca.uhn.fhir.rest.client.api.IGenericClient;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
+import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
-import org.fujionclinical.fhir.subscription.common.ISubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
 import org.hl7.fhir.r5.model.Subscription;
 
-public class SubscriptionFactory implements ISubscriptionFactory {
+public class SubscriptionFactory extends BaseSubscriptionFactory {
+
+    public SubscriptionFactory() {
+        this(R5Utils.FHIR_R5.getId());
+    }
+
+    public SubscriptionFactory(String dataSourceId) {
+        super(dataSourceId);
+    }
 
     @Override
     public BaseSubscriptionWrapper create(
-            IGenericClient client,
             String paramIndex,
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,
             String criteria,
             ConceptReferenceImpl tag) {
         Subscription subscription = new Subscription();
-        SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex);
+        SubscriptionWrapper wrapper = new SubscriptionWrapper(subscription, paramIndex, getDataSource());
         /* TODO:
         Subscription.SubscriptionChannelComponent channel = new Subscription.SubscriptionChannelComponent();
         channel.setType(Subscription.SubscriptionChannelType.RESTHOOK);
@@ -57,7 +64,7 @@ public class SubscriptionFactory implements ISubscriptionFactory {
         subscription = (Subscription) client.create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION)
                 .execute().getResource();
          */
-        return wrapper;
+        return wrapper.initialize();
     }
 
 }

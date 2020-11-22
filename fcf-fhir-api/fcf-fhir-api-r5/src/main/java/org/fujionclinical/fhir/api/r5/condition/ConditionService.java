@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r5.condition;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.hl7.fhir.r5.model.Condition;
 import org.hl7.fhir.r5.model.Patient;
 
@@ -34,9 +34,9 @@ import java.util.List;
 
 public class ConditionService {
 
-    private final FhirDataSource dataSource;
+    private final AbstractFhirDataSource dataSource;
 
-    public ConditionService(FhirDataSource dataSource) {
+    public ConditionService(AbstractFhirDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

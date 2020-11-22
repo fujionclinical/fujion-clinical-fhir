@@ -83,7 +83,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
 
     private String detailTitle;
 
-    private S fhirService;
+    private S dataSource;
 
     private NarrativeService narrativeService;
 
@@ -120,7 +120,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
         String resourceName = clazz.getSimpleName();
         String id = patient.getDefaultId().getId();
         String criteria = resourceName + "?subject=" + id;
-        BaseSubscriptionWrapper wrapper = subscriptionManager.subscribe(criteria, subscriptionListener);
+        BaseSubscriptionWrapper wrapper = subscriptionManager.subscribe(criteria, subscriptionListener, dataSource);
 
         if (wrapper != null) {
             subscriptions.add(wrapper);
@@ -161,7 +161,7 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
         final String url = resourcePath.replace("#", patient.getDefaultId().getId());
 
         startBackgroundThread(map -> {
-            B bundle = fhirService.getClient().search().byUrl(url).returnBundle(bundleClass).execute();
+            B bundle = dataSource.getClient().search().byUrl(url).returnBundle(bundleClass).execute();
             map.put("bundle", bundle);
         });
     }
@@ -274,12 +274,12 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
         }
     }
 
-    public S getFhirService() {
-        return fhirService;
+    public S getDataSource() {
+        return dataSource;
     }
 
-    public void setFhirService(S fhirService) {
-        this.fhirService = fhirService;
+    public void setDataSource(S dataSource) {
+        this.dataSource = dataSource;
     }
 
     public NarrativeService getNarrativeService() {

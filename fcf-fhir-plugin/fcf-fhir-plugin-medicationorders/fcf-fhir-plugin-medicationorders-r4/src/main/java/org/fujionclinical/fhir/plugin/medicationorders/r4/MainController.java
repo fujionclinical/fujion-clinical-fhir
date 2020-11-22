@@ -59,7 +59,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
             med = script.getMedication();
         } else if (script.hasMedicationReference()) {
             Medication medObject;
-            medObject = getFhirService().getResource((Reference) script.getMedication(), Medication.class);
+            medObject = getDataSource().getResource((Reference) script.getMedication(), Medication.class);
             med = medObject.getCode();
         }
 

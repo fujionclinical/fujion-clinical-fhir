@@ -8,33 +8,11 @@
 
         <!-- Data Source Configuration -->
         
-        <bean id="dstu2ContextConfigurator"
-              class="org.fujionclinical.fhir.api.common.client.FhirContextConfigurator">
-            <constructor-arg value="FHIR_DSTU2" />
-        </bean>
+        <bean id="dstu2DataSourceFactory"
+              class="org.fujionclinical.fhir.api.dstu2.common.FhirDataSourceFactory"/>
 
-        <bean id="dstu2Context"
-              class="org.fujionclinical.fhir.api.common.client.FhirContext">
-            <constructor-arg ref="dstu2ContextConfigurator"/>
-        </bean>
-
-        <bean id="dstu2ClientFactory"
-              class="org.fujionclinical.fhir.api.common.client.FhirClientFactory">
-            <constructor-arg ref="dstu2Context"/>
-        </bean>
-
-        <bean id="dstu2Client" factory-bean="dstu2ClientFactory" factory-method="createClient">
-            <constructor-arg>
-                <bean class="org.fujionclinical.fhir.api.common.client.FhirClientConfigurator">
-                    <constructor-arg value="FHIR_DSTU2" />
-                </bean>
-            </constructor-arg>
-        </bean>
-
-        <bean id="dstu2DataSource"
-              class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource">
-            <constructor-arg value ="FHIR_DSTU2"/>
-            <constructor-arg ref="dstu2Client"/>
+        <bean id="dstu2DataSource" factory-bean="dstu2DataSourceFactory" factory-method="create">
+            <constructor-arg value="DSTU2_FHIR"/>
         </bean>
 
         <bean id="dstu2ConditionService"
@@ -44,6 +22,7 @@
 
         <bean id="dstu2MedicationService"
               class="org.fujionclinical.fhir.api.dstu2.medication.MedicationService">
+            <constructor-arg ref="dstu2DataSource"/>
         </bean>
 
         <bean id="dstu2DocumentService"

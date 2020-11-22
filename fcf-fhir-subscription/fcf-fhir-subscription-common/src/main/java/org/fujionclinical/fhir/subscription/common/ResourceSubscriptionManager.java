@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
+import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.fujionclinical.api.event.IEventManager;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService.PayloadType;
 
@@ -52,15 +53,17 @@ public class ResourceSubscriptionManager {
 
     public BaseSubscriptionWrapper subscribe(
             String criteria,
-            ISubscriptionCallback callback) {
-        return subscribe(criteria, null, callback);
+            ISubscriptionCallback callback,
+            AbstractFhirDataSource dataSource) {
+        return subscribe(criteria, null, callback, dataSource);
     }
 
     public BaseSubscriptionWrapper subscribe(
             String criteria,
             PayloadType payloadType,
-            ISubscriptionCallback callback) {
-        BaseSubscriptionWrapper subscription = service.subscribe(criteria, payloadType);
+            ISubscriptionCallback callback,
+            AbstractFhirDataSource dataSource) {
+        BaseSubscriptionWrapper subscription = service.subscribe(criteria, payloadType, dataSource);
 
         if (subscription != null) {
             eventManager.subscribe(subscription.getEventName(), callback);
