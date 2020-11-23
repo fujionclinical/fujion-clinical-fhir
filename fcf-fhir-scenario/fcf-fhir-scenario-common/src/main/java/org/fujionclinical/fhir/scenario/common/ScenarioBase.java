@@ -90,7 +90,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private LIST scenarioResources;
 
     protected ScenarioBase(ScenarioFactory<?> scenarioFactory) {
-        this.fhirContext = scenarioFactory.data.getClient().getFhirContext();
+        this.fhirContext = scenarioFactory.dataSource.getClient().getFhirContext();
         this.scenarioName = scenarioFactory.scenarioName;
         this.scenarioTag = scenarioFactory.scenarioTag;
         this.scenarioId = scenarioFactory.scenarioId;

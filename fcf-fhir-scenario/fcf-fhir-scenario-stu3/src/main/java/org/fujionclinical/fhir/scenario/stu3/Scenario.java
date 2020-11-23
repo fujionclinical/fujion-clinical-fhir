@@ -43,11 +43,11 @@ import java.util.function.Consumer;
 
 public class Scenario extends ScenarioBase<ListResource> {
 
-    private final FhirDataSource fhirService;
+    private final FhirDataSource dataSource;
 
     public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
         super(scenarioFactory);
-        this.fhirService = (FhirDataSource) scenarioFactory.data;
+        this.dataSource = (FhirDataSource) scenarioFactory.dataSource;
     }
 
     @Override
@@ -66,11 +66,11 @@ public class Scenario extends ScenarioBase<ListResource> {
         ListResource list = null;
 
         try {
-            list = (ListResource) fhirService.getResource(getId());
+            list = (ListResource) dataSource.getResource(getId());
 
             for (ListResource.ListEntryComponent entry : list.getEntry()) {
                 try {
-                    IBaseResource resource = fhirService.getResource(entry.getItem());
+                    IBaseResource resource = dataSource.getResource(entry.getItem());
                     resources.accept(resource);
                 } catch (Exception e) {
                     // NOP
@@ -86,7 +86,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected void _deleteResource(IBaseResource resource) {
-        fhirService.deleteResource(resource);
+        dataSource.deleteResource(resource);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected List<IBaseResource> _relatedResources(IBaseResource resource) {
-        return fhirService.everything(resource);
+        return dataSource.everything(resource);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Scenario extends ScenarioBase<ListResource> {
 
     @Override
     protected IBaseResource _createOrUpdateResource(IBaseResource resource) {
-        return fhirService.createOrUpdateResource(resource);
+        return dataSource.createOrUpdateResource(resource);
     }
 
     @Override

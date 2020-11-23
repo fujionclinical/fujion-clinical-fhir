@@ -26,6 +26,7 @@
 package org.fujionclinical.fhir.lib.sharedforms.common;
 
 import edu.utah.kmm.model.cool.foundation.entity.Person;
+import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
 import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -278,8 +279,8 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
         return dataSource;
     }
 
-    public void setDataSource(S dataSource) {
-        this.dataSource = dataSource;
+    public void setDataSource(String dataSourceId) {
+        this.dataSource = (S) DataSources.get(dataSourceId);
     }
 
     public NarrativeService getNarrativeService() {

@@ -55,7 +55,7 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
 
     public final IIdType scenarioId;
 
-    public final AbstractFhirDataSource data;
+    public final AbstractFhirDataSource dataSource;
 
     public final Resource scenarioYaml;
 
@@ -64,10 +64,10 @@ public class ScenarioFactory<SCENARIO extends ScenarioBase> {
     public ScenarioFactory(
             Class<SCENARIO> scenarioClass,
             Resource scenarioYaml,
-            AbstractFhirDataSource data) {
+            AbstractFhirDataSource dataSource) {
         this.scenarioClass = scenarioClass;
         this.scenarioYaml = scenarioYaml;
-        this.data = data;
+        this.dataSource = dataSource;
 
         try (InputStream in = scenarioYaml.getInputStream()) {
             Map<String, ?> config = new Yaml().load(in);
