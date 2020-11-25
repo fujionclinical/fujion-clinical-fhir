@@ -9,9 +9,9 @@
 
         <bean id="scenarioFinder"
               class="org.fujionclinical.fhir.scenario.common.ScenarioFinder">
-            <constructor-arg value="org.fujionclinical.fhir.scenario.${fhir.context.version}.Scenario"/>
-            <constructor-arg value="classpath*:scenarios/${fhir.context.version}/**"/>
-            <constructor-arg ref="dataSource"/>
+            <constructor-arg value="org.fujionclinical.fhir.scenario.${fhir.version}.Scenario"/>
+            <constructor-arg value="classpath*:scenarios/${fhir.version}/**"/>
+            <constructor-arg value="${fhir.datasource}"/>
         </bean>
 
     </beans>

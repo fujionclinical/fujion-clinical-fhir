@@ -27,11 +27,11 @@ package org.fujionclinical.fhir.api.common.core;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.narrative.CustomThymeleafNarrativeGenerator;
+import ca.uhn.fhir.narrative.INarrativeGenerator;
 import org.apache.commons.io.IOUtils;
 import org.fujion.common.Logger;
 import org.hl7.fhir.instance.model.api.IDomainResource;
 import org.hl7.fhir.instance.model.api.INarrative;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
@@ -45,42 +45,83 @@ public class NarrativeService implements ApplicationContextAware {
 
     private static final Logger log = Logger.create(NarrativeService.class);
 
-    private final CustomThymeleafNarrativeGenerator generator;
+    private ApplicationContext applicationContext;
 
-    private final FhirContext fhirContext;
-
-    public NarrativeService(FhirContext fhirContext) {
-        this.fhirContext = fhirContext;
-        generator = new CustomThymeleafNarrativeGenerator();
-        fhirContext.setNarrativeGenerator(generator);
+    public NarrativeService() {
     }
 
     /**
      * Generate a narrative for the resource.
      *
-     * @param resource Resource for which to generate a narrative.
+     * @param resource    Resource for which to generate a narrative.
+     * @param fhirContext The FHIR context.
      * @return The generated narrative, or null if narrative generation is not supported for this
      *         resource.
      */
-    public boolean generateNarrative(IDomainResource resource) {
+    public boolean generateNarrative(
+            IDomainResource resource,
+            FhirContext fhirContext) {
+
+        INarrativeGenerator generator = fhirContext.getNarrativeGenerator();
+
+        if (generator == null) {
+            generator = createNarrativeGenerator(fhirContext);
+        }
+
         return generator.populateResourceNarrative(fhirContext, resource);
+    }
+
+    private INarrativeGenerator createNarrativeGenerator(FhirContext fhirContext) {
+        synchronized (fhirContext) {
+            if (fhirContext.getNarrativeGenerator() != null) {
+                return fhirContext.getNarrativeGenerator();
+            }
+
+            CustomThymeleafNarrativeGenerator generator = new CustomThymeleafNarrativeGenerator();
+            fhirContext.setNarrativeGenerator(generator);
+
+            try {
+                File file = File.createTempFile("fcf", ".properties");
+                file.deleteOnExit();
+                String fhirVersion = fhirContext.getVersion().getVersion().toString().toLowerCase().replace("dstu3", "stu3");
+                String propFile = "fhir-narratives-" + fhirVersion + ".properties";
+                boolean found = false;
+
+                try (FileOutputStream out = new FileOutputStream(file)) {
+                    found |= findPropertyFiles(applicationContext, "classpath*:META-INF/" + propFile, out);
+                    found |= findPropertyFiles(applicationContext, "classpath*:WEB-INF/" + propFile, out);
+                }
+
+                generator.setPropertyFile("file:" + file.getAbsolutePath());
+
+                if (!found) {
+                    log.warn("No FHIR narrative templates found.");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+
+            return generator;
+        }
     }
 
     /**
      * Returns a narrative from the resource, if one is available, or constructs one if not.
      *
-     * @param resource   Resource whose narrative is sought.
-     * @param autoCreate If true, and a narrative does not exist on the resource, generate one if
-     *                   possible.
+     * @param resource    Resource whose narrative is sought.
+     * @param fhirContext The FHIR context.
+     * @param autoCreate  If true, and a narrative does not exist on the resource, generate one if
+     *                    possible.
      * @return The narrative, or null if one is not available.
      */
     public INarrative extractNarrative(
+            FhirContext fhirContext,
             IDomainResource resource,
             boolean autoCreate) {
         INarrative narrative = extractNarrative(resource);
 
         if (autoCreate && isNarrativeEmpty(narrative)) {
-            narrative = generateNarrative(resource) ? extractNarrative(resource) : null;
+            narrative = generateNarrative(resource, fhirContext) ? extractNarrative(resource) : null;
         }
 
         return isNarrativeEmpty(narrative) ? null : narrative;
@@ -100,34 +141,9 @@ public class NarrativeService implements ApplicationContextAware {
         return narrative == null || narrative.isEmpty();
     }
 
-    /**
-     * Discovers all narrative property files, copying them into a single temporary file which is
-     * then passed to the narrative generator.
-     *
-     * @see ApplicationContextAware#setApplicationContext(ApplicationContext)
-     */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        try {
-            File file = File.createTempFile("fcf", ".properties");
-            file.deleteOnExit();
-            String fhirVersion = fhirContext.getVersion().getVersion().toString().toLowerCase().replace("dstu3", "stu3");
-            String propFile = "fhir-narratives-" + fhirVersion + ".properties";
-            boolean found = false;
-
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                found |= findPropertyFiles(applicationContext, "classpath*:META-INF/" + propFile, out);
-                found |= findPropertyFiles(applicationContext, "classpath*:WEB-INF/" + propFile, out);
-            }
-
-            generator.setPropertyFile("file:" + file.getAbsolutePath());
-
-            if (!found) {
-                log.warn("No FHIR narrative templates found.");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     private boolean findPropertyFiles(

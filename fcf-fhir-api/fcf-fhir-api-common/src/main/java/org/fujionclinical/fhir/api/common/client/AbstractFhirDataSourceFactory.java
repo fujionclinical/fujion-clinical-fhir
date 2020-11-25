@@ -17,26 +17,24 @@ public abstract class AbstractFhirDataSourceFactory implements ApplicationContex
             IGenericClient client);
 
     public AbstractFhirDataSource create(String dataSourceId) {
-        FhirContextConfigurator contextConfigurator = new FhirContextConfigurator(dataSourceId);
-        contextConfigurator.setApplicationContext(applicationContext);
-        FhirClientConfigurator clientConfigurator = new FhirClientConfigurator(dataSourceId);
-        clientConfigurator.setApplicationContext(applicationContext);
-        FhirContext fhirContext = new FhirContext(contextConfigurator);
-        IGenericClient client = fhirContext.newRestfulGenericClient(clientConfigurator.getServerBase());
+        FhirConfigurator config = new FhirConfigurator(dataSourceId);
+        config.setApplicationContext(applicationContext);
+        FhirContext fhirContext = new FhirContext(config);
+        IGenericClient client = fhirContext.newRestfulGenericClient(config.getServerBase());
 
         if (client instanceof GenericClient) {
-            ((GenericClient) client).setDontValidateConformance(!clientConfigurator.isValidateConformance());
+            ((GenericClient) client).setDontValidateConformance(!config.isValidateConformance());
         }
 
-        IAuthInterceptor authInterceptor = clientConfigurator.getAuthInterceptor();
+        IAuthInterceptor authInterceptor = config.getAuthInterceptor();
 
         if (authInterceptor != null) {
             client.registerInterceptor(authInterceptor);
         }
 
-        client.setPrettyPrint(clientConfigurator.isPrettyPrint());
-        client.setEncoding(clientConfigurator.getEncoding());
-        client.setSummary(clientConfigurator.getSummary());
+        client.setPrettyPrint(config.isPrettyPrint());
+        client.setEncoding(config.getEncoding());
+        client.setSummary(config.getSummary());
         return create(dataSourceId, client);
     }
 

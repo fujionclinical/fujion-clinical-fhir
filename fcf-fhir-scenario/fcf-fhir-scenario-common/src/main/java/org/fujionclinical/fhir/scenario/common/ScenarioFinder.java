@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.scenario.common;
 
+import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
 import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
@@ -48,17 +49,17 @@ public class ScenarioFinder<SCENARIO extends ScenarioBase>
 
     private final Class<SCENARIO> scenarioClass;
 
-    private final AbstractFhirDataSource dataSource;
+    private final String dataSourceId;
 
     private final Map<String, ScenarioFactory<SCENARIO>> scenarioFactories = new HashMap<>();
 
     public ScenarioFinder(
             Class<SCENARIO> scenarioClass,
             String scenarioBase,
-            AbstractFhirDataSource dataSource) {
+            String dataSourceId) {
         this.scenarioClass = scenarioClass;
         this.scenarioBase = scenarioBase;
-        this.dataSource = dataSource;
+        this.dataSourceId = dataSourceId;
     }
 
     public ScenarioFactory<SCENARIO> getScenarioFactory(String name) {
@@ -68,6 +69,8 @@ public class ScenarioFinder<SCENARIO extends ScenarioBase>
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         try {
+            AbstractFhirDataSource dataSource = (AbstractFhirDataSource) DataSources.get(dataSourceId);
+
             for (Resource yaml : applicationContext.getResources(scenarioBase + "/*.yaml")) {
                 ScenarioFactory<SCENARIO> factory = new ScenarioFactory(scenarioClass, yaml, dataSource);
                 scenarioFactories.put(factory.getName(), factory);

@@ -39,7 +39,7 @@ import java.util.List;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<FhirDataSource, Bundle, R, M> {
+public abstract class ResourceListView<R extends IBaseResource, M> extends BaseResourceListView<R, M, FhirDataSource, Bundle> {
 
     @Override
     protected String transformData(Object data) {
@@ -53,9 +53,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends BaseR
      * @return List of extracted resources.
      */
     protected List<R> processBundle(Bundle bundle) {
-        return Dstu2Utils.getEntries(bundle, resourceClass);
+        return Dstu2Utils.getEntries(bundle, getResourceClass());
     }
-
-    protected abstract void initModel(List<R> entries);
 
 }

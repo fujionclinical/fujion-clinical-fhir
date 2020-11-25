@@ -50,8 +50,8 @@
     <beans profile="child">
 
         <bean id="fcfMedicationOrdersController" parent="resourceListViewBase" scope="prototype"
-              class="org.fujionclinical.fhir.plugin.medicationorders.${fhir.context.version}.MainController">
-            <constructor-arg ref="fhirMedicationService"/>
+              class="org.fujionclinical.fhir.plugin.medicationorders.${fhir.version}.MainController">
+            <constructor-arg ref="${fhir.version}MedicationService"/>
         </bean>
 
     </beans>

@@ -50,7 +50,7 @@
     <beans profile="child">
 
         <bean id="fcfProceduresController" parent="resourceListViewBase"
-              class="org.fujionclinical.fhir.plugin.procedures.${fhir.context.version}.MainController" scope="prototype"/>
+              class="org.fujionclinical.fhir.plugin.procedures.${fhir.version}.MainController" scope="prototype"/>
 
     </beans>
 

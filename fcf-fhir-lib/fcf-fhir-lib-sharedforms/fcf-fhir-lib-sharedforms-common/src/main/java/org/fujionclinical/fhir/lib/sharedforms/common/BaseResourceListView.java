@@ -26,38 +26,22 @@
 package org.fujionclinical.fhir.lib.sharedforms.common;
 
 import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
 import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.fujion.annotation.WiredComponent;
-import org.fujion.component.BaseComponent;
-import org.fujion.component.Html;
-import org.fujion.component.Row;
-import org.fujion.component.Window;
-import org.fujion.page.PageUtil;
-import org.fujion.thread.ICancellable;
 import org.fujion.thread.ThreadedTask;
-import org.fujionclinical.api.event.IEventSubscriber;
-import org.fujionclinical.api.model.patient.PatientContext;
 import org.fujionclinical.fhir.api.common.core.NarrativeService;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionCallback;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionManager;
-import org.fujionclinical.sharedforms.controller.ListFormController;
-import org.fujionclinical.shell.elements.ElementPlugin;
-import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.ui.util.FCFUtil;
+import org.fujionclinical.sharedforms.controller.AbstractResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IDomainResource;
 import org.hl7.fhir.instance.model.api.INarrative;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Controller for displaying FHIR resources in a columnar format.
@@ -65,52 +49,31 @@ import java.util.Map;
  * @param <R> Type of resource object.
  * @param <M> Type of model object.
  */
-public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B extends IBaseBundle, R extends IBaseResource, M> extends ListFormController<M> {
+@SuppressWarnings("rawtypes")
+public abstract class BaseResourceListView<R extends IBaseResource, M, S extends AbstractFhirDataSource, B extends IBaseBundle> extends AbstractResourceListView<R, M, S> {
 
     private static final Log log = LogFactory.getLog(BaseResourceListView.class);
-
-    private static final String DETAIL_POPUP = FCFUtil.getResourcePath(BaseResourceListView.class) + "resourceListDetailPopup.fsp";
 
     private final List<BaseSubscriptionWrapper> subscriptions = new ArrayList<>();
 
     private final ISubscriptionCallback subscriptionListener = (eventName, resource) -> refresh();
 
-    @WiredComponent
-    protected Html detailView;
-
-    protected Person patient;
-
-    protected Class<R> resourceClass;
-
-    private String detailTitle;
-
-    private S dataSource;
-
     private NarrativeService narrativeService;
 
     private ResourceSubscriptionManager subscriptionManager;
 
-    private final IEventSubscriber<Person> patientChangeListener = (eventName, patient) -> setPatient(patient);
-
-    private String resourcePath;
-
     private Class<B> bundleClass;
-
-    protected abstract void setup();
 
     protected void setup(
             Class<R> resourceClass,
             Class<B> bundleClass,
             String title,
             String detailTitle,
-            String resourcePath,
+            String queryString,
             int sortBy,
             String... headers) {
-        this.detailTitle = detailTitle;
-        this.resourcePath = resourcePath;
-        this.resourceClass = resourceClass;
+        super.setup(resourceClass, title, detailTitle, queryString, sortBy, headers);
         this.bundleClass = bundleClass;
-        super.setup(title, sortBy, headers);
     }
 
     protected void createSubscriptions(Class<? extends IBaseResource> clazz) {
@@ -119,9 +82,9 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
 
     protected void createSubscription(Class<? extends IBaseResource> clazz) {
         String resourceName = clazz.getSimpleName();
-        String id = patient.getDefaultId().getId();
+        String id = getPatient().getDefaultId().getId();
         String criteria = resourceName + "?subject=" + id;
-        BaseSubscriptionWrapper wrapper = subscriptionManager.subscribe(criteria, subscriptionListener, dataSource);
+        BaseSubscriptionWrapper wrapper = subscriptionManager.subscribe(criteria, subscriptionListener, getDataSource());
 
         if (wrapper != null) {
             subscriptions.add(wrapper);
@@ -141,46 +104,20 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
         subscriptions.clear();
     }
 
-    /**
-     * Override load list to clear display if no patient in context.
-     */
-    @Override
-    protected void loadData() {
-        if (patient == null) {
-            asyncAbort();
-            reset();
-            status("No patient selected.");
-        } else {
-            super.loadData();
-        }
-
-        detailView.setContent(null);
-    }
-
     @Override
     protected void requestData() {
-        final String url = resourcePath.replace("#", patient.getDefaultId().getId());
+        final String url = getQueryString().replace("#", getPatient().getDefaultId().getId());
 
         startBackgroundThread(map -> {
-            B bundle = dataSource.getClient().search().byUrl(url).returnBundle(bundleClass).execute();
-            map.put("bundle", bundle);
+            B bundle = getDataSource().getClient().search().byUrl(url).returnBundle(bundleClass).execute();
+            map.put("results", bundle);
         });
     }
 
     @Override
-    protected void threadFinished(ICancellable thread) {
-        ThreadedTask task = (ThreadedTask) thread;
-
-        try {
-            task.rethrow();
-        } catch (Throwable e) {
-            status("An unexpected error was encountered:  " + FCFUtil.formatExceptionForDisplay(e));
-            return;
-        }
-
-        model.clear();
-        initModel(processBundle((B) task.getAttribute("bundle")));
-        renderData();
+    @SuppressWarnings("unchecked")
+    protected void initModel(ThreadedTask task) {
+        initModel(processBundle((B) task.getAttribute("results")));
     }
 
     /**
@@ -191,46 +128,11 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
      */
     protected abstract List<R> processBundle(B bundle);
 
-    protected abstract void initModel(List<R> entries);
-
-    @Override
-    protected void asyncAbort() {
-        abortBackgroundThreads();
-    }
-
-    /**
-     * Show detail for specified component.
-     *
-     * @param item The component containing the model object.
-     */
-    protected void showDetail(BaseComponent item) {
-        @SuppressWarnings("unchecked")
-        M modelObject = item == null ? null : (M) item.getData();
-        String detail = modelObject == null ? null : getDetail(modelObject);
-
-        if (!StringUtils.isEmpty(detail)) {
-            if (getShowDetailPane()) {
-                detailView.setContent(detail);
-            } else {
-                Map<String, Object> map = new HashMap<>();
-                map.put("title", detailTitle);
-                map.put("content", detail);
-                map.put("allowPrint", getAllowPrint());
-                try {
-                    Window window = (Window) PageUtil
-                            .createPage(DETAIL_POPUP, null, map).get(0);
-                    window.modal(null);
-                } catch (Exception e) {
-                    DialogUtil.showError(e);
-                }
-            }
-        }
-    }
-
     protected String getDetail(M modelObject) {
         try {
             if (modelObject instanceof IDomainResource) {
-                INarrative narrative = narrativeService.extractNarrative((IDomainResource) modelObject, true);
+                INarrative narrative = narrativeService
+                        .extractNarrative(getDataSource().getClient().getFhirContext(), (IDomainResource) modelObject, true);
                 return narrative == null ? null : narrative.getDivAsString();
             }
         } catch (Exception e) {
@@ -240,47 +142,13 @@ public abstract class BaseResourceListView<S extends AbstractFhirDataSource, B e
         return null;
     }
 
-    /**
-     * Display detail when row is selected.
-     */
     @Override
-    protected void rowSelected(Row row) {
-        showDetail(row);
-    }
+    protected void afterPatientChange(Person patient) {
+        removeSubscriptions();
 
-    @Override
-    public void onLoad(ElementPlugin plugin) {
-        super.onLoad(plugin);
-        setup();
-        PatientContext.getPatientContext().addListener(patientChangeListener);
-        setPatient(PatientContext.getActivePatient());
-    }
-
-    @Override
-    public void onUnload() {
-        PatientContext.getPatientContext().removeListener(patientChangeListener);
-    }
-
-    private void setPatient(Person patient) {
-        this.patient = patient;
-
-        try {
-            removeSubscriptions();
-
-            if (patient != null) {
-                createSubscriptions(resourceClass);
-            }
-        } finally {
-            refresh();
+        if (patient != null) {
+            createSubscriptions(getResourceClass());
         }
-    }
-
-    public S getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(String dataSourceId) {
-        this.dataSource = (S) DataSources.get(dataSourceId);
     }
 
     public NarrativeService getNarrativeService() {

@@ -8,7 +8,7 @@
 
         <bean id="resourceListViewBase" abstract="true" parent="sharedFormListViewController"
               scope="prototype">
-            <property name="dataSource" value="${fhir.context.version}"/>
+            <property name="dataSource" value="${fhir.datasource}"/>
             <property name="narrativeService" ref="fhirNarrativeService"/>
             <property name="resourceSubscriptionManager" ref="fhirSubManager"/>
         </bean>

@@ -34,27 +34,21 @@
             <constructor-arg ref="r4DocumentService"/>
         </bean>
 
-        <!-- Resource DAOs  -->
+        <!-- Resource DAO Factories  -->
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.patient.PatientDAO">
-            <constructor-arg ref="r4DataSource"/>
-        </bean>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.condition.ConditionDAOFactory"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.encounter.EncounterDAO">
-            <constructor-arg ref="r4DataSource"/>
-        </bean>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.document.DocumentDAOFactory"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.practitioner.PractitionerDAO">
-            <constructor-arg ref="r4DataSource"/>
-        </bean>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.encounter.EncounterDAOFactory"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.condition.ConditionDAO">
-            <constructor-arg ref="r4DataSource"/>
-        </bean>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.location.LocationDAOFactory"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.document.DocumentDAO">
-            <constructor-arg ref="r4DataSource"/>
-        </bean>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.observation.ObservationDAOFactory"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.patient.PatientDAOFactory"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.practitioner.PractitionerDAOFactory"/>
 
         <!-- Model transforms -->
 

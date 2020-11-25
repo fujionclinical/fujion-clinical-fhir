@@ -16,9 +16,11 @@
             <tabview orientation="top">
                 <tabpane label="Patient Chart">
                     <treeview>
+                        <!--
                         <treepane label="Scenario Builder">
                             <fcfScenarioBuilder/>
                         </treepane>
+                        -->
                         <treepane label="Encounters">
                             <fcfEncounters/>
                         </treepane>
@@ -31,9 +33,11 @@
                         <treepane label="Conditions">
                             <fcfConditions/>
                         </treepane>
+                        <!--
                         <treepane label="Documents">
                             <fcfFhirDocuments/>
                         </treepane>
+                        -->
                         <treepane label="Diagnostic Reports">
                             <fcfFhirDiagnosticReports/>
                         </treepane>

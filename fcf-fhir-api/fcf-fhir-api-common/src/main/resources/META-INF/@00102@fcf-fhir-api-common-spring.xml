@@ -34,7 +34,7 @@
             </property>
         </bean>
 
-        <!-- Model transforms -->
+        <bean id="fhirNarrativeService" class="org.fujionclinical.fhir.api.common.core.NarrativeService"/>
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.transform.TagTransform" factory-method="getInstance"/>
 
