@@ -89,7 +89,7 @@ public class HttpClientProxy implements HttpClient, Closeable {
                 try {
                     ((Closeable) client).close();
                 } catch (IOException e) {
-                    if (exception != null) {
+                    if (exception == null) {
                         exception = e;
                     } else {
                         exception.addSuppressed(e);

@@ -38,7 +38,6 @@ import java.util.List;
  */
 public interface IResourceQueryEx<R extends IBaseResource, C> extends IResourceQuery<R, C> {
 
-
     /**
      * Alternative method for performing a search that allows for external configuration of the
      * query object.

@@ -42,6 +42,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * <code>fhir.client.terminology_service.server.base</code>. For the default (i.e., null or empty)
  * qualifier it would be <code>fhir.client.server.base</code>.
  */
+@SuppressWarnings("UnusedDeclaration")
 public class FhirConfigurator extends SimplePropertyAwareConfigurator
         implements IFhirClientConfigurator, IFhirContextConfigurator, ApplicationListener<ContextRefreshedEvent> {
 

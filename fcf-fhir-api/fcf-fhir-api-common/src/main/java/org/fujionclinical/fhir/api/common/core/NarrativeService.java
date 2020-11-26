@@ -47,9 +47,6 @@ public class NarrativeService implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    public NarrativeService() {
-    }
-
     /**
      * Generate a narrative for the resource.
      *

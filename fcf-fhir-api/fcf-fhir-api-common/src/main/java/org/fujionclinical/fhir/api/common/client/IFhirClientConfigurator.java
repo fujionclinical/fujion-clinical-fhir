@@ -32,13 +32,6 @@ import org.fujionclinical.fhir.security.common.IAuthInterceptor;
 public interface IFhirClientConfigurator {
 
     /**
-     * Returns the qualifier for the configurator, if any.
-     *
-     * @return The qualifier for the configurator, if any.
-     */
-    String getQualifier();
-
-    /**
      * Returns the base URL of the FHIR server.
      *
      * @return The base URL of the FHIR server.

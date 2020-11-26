@@ -31,13 +31,6 @@ import ca.uhn.fhir.rest.client.api.ServerValidationModeEnum;
 public interface IFhirContextConfigurator {
 
     /**
-     * Returns the qualifier for the configurator, if any.
-     *
-     * @return The qualifier for the configurator, if any.
-     */
-    String getQualifier();
-
-    /**
      * @return The connection request timeout, in milliseconds.
      * @see ca.uhn.fhir.rest.client.api.IRestfulClientFactory#getConnectionRequestTimeout()
      */

@@ -38,14 +38,6 @@ public class FhirContext extends ca.uhn.fhir.context.FhirContext {
 
     private RestfulClientFactory myRestfulClientFactory;
 
-    /**
-     * @deprecated Use configurator-based constructor.
-     */
-    @Deprecated
-    public FhirContext() {
-        this((FhirVersionEnum) null);
-    }
-
     public FhirContext(IFhirContextConfigurator config) {
         super(config.getVersion());
         this.config = config;

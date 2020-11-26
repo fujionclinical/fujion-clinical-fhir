@@ -8,15 +8,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+/**
+ * Base class for all FHIR data sources.  FHIR connection settings are taken from a configurator using the
+ * data source ID as the qualifier for property names.
+ */
 public abstract class AbstractFhirDataSourceFactory implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    abstract protected AbstractFhirDataSource create(
+    abstract protected AbstractFhirDataSource<?, ?, ?> create(
             String dataSourceId,
             IGenericClient client);
 
-    public AbstractFhirDataSource create(String dataSourceId) {
+    public AbstractFhirDataSource<?, ?, ?> create(String dataSourceId) {
         FhirConfigurator config = new FhirConfigurator(dataSourceId);
         config.setApplicationContext(applicationContext);
         FhirContext fhirContext = new FhirContext(config);

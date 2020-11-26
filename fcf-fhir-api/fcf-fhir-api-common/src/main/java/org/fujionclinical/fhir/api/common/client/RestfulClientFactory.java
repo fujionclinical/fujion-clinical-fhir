@@ -33,8 +33,7 @@ import ca.uhn.fhir.rest.client.apache.ApacheRestfulClientFactory;
  */
 public class RestfulClientFactory extends ApacheRestfulClientFactory {
 
-
-    private HttpClientProxy myClient;
+    private volatile HttpClientProxy myClient;
 
     public RestfulClientFactory(FhirContext fhirContext) {
         super(fhirContext);
@@ -42,11 +41,7 @@ public class RestfulClientFactory extends ApacheRestfulClientFactory {
 
     @Override
     public synchronized HttpClientProxy getNativeHttpClient() {
-        if (myClient == null) {
-            myClient = new HttpClientProxy(super.getNativeHttpClient());
-        }
-
-        return myClient;
+        return myClient == null ? myClient = new HttpClientProxy(super.getNativeHttpClient()) : myClient;
     }
 
 }
