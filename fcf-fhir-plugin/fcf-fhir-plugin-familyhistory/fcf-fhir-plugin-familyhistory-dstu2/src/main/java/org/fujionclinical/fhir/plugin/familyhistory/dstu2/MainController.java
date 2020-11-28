@@ -25,23 +25,23 @@
  */
 package org.fujionclinical.fhir.plugin.familyhistory.dstu2;
 
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.FamilyMemberHistory;
+import edu.utah.kmm.model.cool.mediator.common.Formatters;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
-import org.fujionclinical.fhir.api.dstu2.common.Formatting;
-import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 
 import java.util.List;
 
 /**
  * Controller for family history display.
  */
-public class MainController extends ResourceListView<FamilyMemberHistory, FamilyMemberHistory> {
+public class MainController extends BaseResourceListView<FamilyMemberHistory, FamilyMemberHistory, FhirDataSource> {
 
     @Override
     protected void setup() {
-        setup(FamilyMemberHistory.class, Bundle.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
+        setup(FamilyMemberHistory.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
                 "Relation", "Condition", "Outcome", "Notes");
     }
 
@@ -61,11 +61,11 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
 
                 switch (i) {
                     case 0:
-                        value = Formatting.format(condition.getCode());
+                        value = Formatters.format(condition.getCode());
                         break;
 
                     case 1:
-                        value = Formatting.format(condition.getOutcome());
+                        value = Formatters.format(condition.getOutcome());
                         break;
 
                     case 2:

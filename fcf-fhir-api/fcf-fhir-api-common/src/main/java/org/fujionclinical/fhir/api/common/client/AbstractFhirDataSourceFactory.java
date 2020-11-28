@@ -16,11 +16,11 @@ public abstract class AbstractFhirDataSourceFactory implements ApplicationContex
 
     private ApplicationContext applicationContext;
 
-    abstract protected AbstractFhirDataSource<?, ?, ?> create(
+    abstract protected AbstractFhirDataSource<?, ?> create(
             String dataSourceId,
             IGenericClient client);
 
-    public AbstractFhirDataSource<?, ?, ?> create(String dataSourceId) {
+    public AbstractFhirDataSource<?, ?> create(String dataSourceId) {
         FhirConfigurator config = new FhirConfigurator(dataSourceId);
         config.setApplicationContext(applicationContext);
         FhirContext fhirContext = new FhirContext(config);

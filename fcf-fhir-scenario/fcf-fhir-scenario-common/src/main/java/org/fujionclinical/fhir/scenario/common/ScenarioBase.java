@@ -140,7 +140,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param resource The reference resource.
      * @return All resources related to the reference resource.
      */
-    protected abstract List<IBaseResource> _relatedResources(IBaseResource resource);
+    protected abstract <T extends IBaseResource> List<T> _relatedResources(T resource);
 
     /**
      * Extracts entries from a bundle resource.
@@ -148,7 +148,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param bundle The bundle resource.
      * @return List of resources extracted from the bundle resource.
      */
-    protected abstract List<IBaseResource> _getEntries(IBaseBundle bundle);
+    protected abstract <T extends IBaseResource> List<T> _getEntries(IBaseBundle bundle);
 
     /**
      * Creates or updates the given resource.
@@ -365,8 +365,8 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * @param resource The reference resource.
      * @return A list of all resources related to the reference resource.
      */
-    private List<IBaseResource> relatedResources(IBaseResource resource) {
-        List<IBaseResource> resources;
+    private <T extends IBaseResource> List<T> relatedResources(T resource) {
+        List<T> resources;
 
         try {
             resources = _relatedResources(resource);
@@ -386,7 +386,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      */
     private IBaseResource createOrUpdateResource(IBaseResource resource) {
         if (resource instanceof IBaseBundle) {
-            List<IBaseResource> resources = _getEntries((IBaseBundle) resource);
+            List<? extends IBaseResource> resources = _getEntries((IBaseBundle) resource);
 
             for (IBaseResource res : resources) {
                 createOrUpdateResource(res);

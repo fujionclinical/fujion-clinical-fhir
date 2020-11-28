@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-lib-sharedforms-stu3</artifactId>
+            <artifactId>fcf-fhir-api-stu3</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

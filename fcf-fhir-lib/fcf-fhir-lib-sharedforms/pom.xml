@@ -11,14 +11,27 @@
 
     <artifactId>fcf-fhir-lib-sharedforms</artifactId>
     <version>2.0.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
     <name>FHIR Shared Forms Aggregator</name>
 
-    <modules>
-        <module>fcf-fhir-lib-sharedforms-common</module>
-        <module>fcf-fhir-lib-sharedforms-dstu2</module>
-        <module>fcf-fhir-lib-sharedforms-stu3</module>
-        <module>fcf-fhir-lib-sharedforms-r4</module>
-        <module>fcf-fhir-lib-sharedforms-r5</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-sharedforms</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-subscription-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.utah.kmm</groupId>
+            <artifactId>cool-mediator-fhir-common</artifactId>
+            <version>${cool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
 </project>

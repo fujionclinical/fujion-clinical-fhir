@@ -25,17 +25,21 @@
  */
 package org.fujionclinical.fhir.plugin.medicationorders.stu3;
 
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.stu3.medication.MedicationService;
-import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
-import org.hl7.fhir.dstu3.model.*;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
+import org.hl7.fhir.dstu3.model.Dosage;
+import org.hl7.fhir.dstu3.model.Medication;
+import org.hl7.fhir.dstu3.model.MedicationRequest;
+import org.hl7.fhir.dstu3.model.Reference;
 
 import java.util.List;
 
 /**
  * Controller for patient conditions display.
  */
-public class MainController extends ResourceListView<MedicationRequest, MedicationRequest> {
+public class MainController extends BaseResourceListView<MedicationRequest, MedicationRequest, FhirDataSource> {
 
     private final MedicationService service;
 
@@ -45,7 +49,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
 
     @Override
     protected void setup() {
-        setup(MedicationRequest.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
+        setup(MedicationRequest.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
                 "Date", "Status", "Sig");
     }
 

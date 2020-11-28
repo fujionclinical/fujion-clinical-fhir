@@ -28,8 +28,7 @@ package org.fujionclinical.fhir.api.r4.document;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
-import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.CodeSystem;
 import org.hl7.fhir.r4.model.DocumentReference;
@@ -42,7 +41,7 @@ import java.util.*;
  */
 public class DocumentService {
 
-    private final AbstractFhirDataSource dataSource;
+    private final FhirDataSource dataSource;
 
     private static DocumentService instance;
 
@@ -50,7 +49,7 @@ public class DocumentService {
         return instance;
     }
 
-    public DocumentService(AbstractFhirDataSource dataSource) {
+    public DocumentService(FhirDataSource dataSource) {
         instance = this;
         this.dataSource = dataSource;
     }
@@ -89,7 +88,7 @@ public class DocumentService {
         }
 
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        List<DocumentReference> list = R4Utils.getEntries(bundle, DocumentReference.class);
+        List<DocumentReference> list = dataSource.getEntries(bundle, DocumentReference.class);
         List<Document> results = new ArrayList<>(list.size());
 
         for (DocumentReference ref : list) {
@@ -106,7 +105,7 @@ public class DocumentService {
             Bundle bundle = dataSource.getClient().search().forResource(ValueSet.class)
                     .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
-            for (CodeSystem cs : R4Utils.getEntries(bundle, CodeSystem.class)) {
+            for (CodeSystem cs : dataSource.getEntries(bundle, CodeSystem.class)) {
                 for (CodeSystem.ConceptDefinitionComponent concept : cs.getConcept()) {
                     results.add(concept.getDisplay());
                 }

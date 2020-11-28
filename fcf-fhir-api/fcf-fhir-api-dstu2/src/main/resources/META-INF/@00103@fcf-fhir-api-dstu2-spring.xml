@@ -97,6 +97,10 @@
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.dstu2.practitioner.PractitionerTransform" factory-method="getInstance"/>
 
+        <!-- Other -->
+
+        <bean class="org.fujionclinical.fhir.api.dstu2.common.Dstu2Formatters" factory-method="getInstance"/>
+
     </beans>
 
 </beans>

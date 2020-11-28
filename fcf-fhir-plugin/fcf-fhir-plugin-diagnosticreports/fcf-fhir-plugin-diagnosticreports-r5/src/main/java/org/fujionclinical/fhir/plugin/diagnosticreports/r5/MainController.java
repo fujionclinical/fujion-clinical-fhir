@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.plugin.diagnosticreports.r5;
 
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
-import org.hl7.fhir.r5.model.Bundle;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.r5.model.DiagnosticReport;
 
 import java.util.List;
@@ -34,11 +34,11 @@ import java.util.List;
 /**
  * Controller for patient diagnostic reports display.
  */
-public class MainController extends ResourceListView<DiagnosticReport, DiagnosticReport> {
+public class MainController extends BaseResourceListView<DiagnosticReport, DiagnosticReport, FhirDataSource> {
 
     @Override
     protected void setup() {
-        setup(DiagnosticReport.class, Bundle.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
+        setup(DiagnosticReport.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
                 "Performed By", "Conclusion");
     }
 

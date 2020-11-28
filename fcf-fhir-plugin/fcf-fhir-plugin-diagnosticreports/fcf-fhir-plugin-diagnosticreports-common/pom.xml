@@ -13,4 +13,12 @@
 
     <description>Patient-associated diagnostic reports.</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-fhir-lib-sharedforms</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

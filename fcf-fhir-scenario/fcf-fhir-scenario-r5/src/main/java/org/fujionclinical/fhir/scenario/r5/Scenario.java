@@ -28,14 +28,16 @@ package org.fujionclinical.fhir.scenario.r5;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import edu.utah.kmm.model.cool.mediator.fhir.r5.encounter.EncounterTransform;
 import edu.utah.kmm.model.cool.mediator.fhir.r5.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.hl7.fhir.r5.model.*;
+import org.hl7.fhir.r5.model.Encounter;
+import org.hl7.fhir.r5.model.ListResource;
+import org.hl7.fhir.r5.model.Patient;
+import org.hl7.fhir.r5.model.Reference;
 
 import java.util.Collection;
 import java.util.List;
@@ -102,13 +104,13 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected List<IBaseResource> _relatedResources(IBaseResource resource) {
+    protected List<? extends IBaseResource> _relatedResources(IBaseResource resource) {
         return dataSource.everything(resource);
     }
 
     @Override
-    protected List<IBaseResource> _getEntries(IBaseBundle bundle) {
-        return R5Utils.getEntries((Bundle) bundle, IBaseResource.class);
+    protected List<? extends IBaseResource> _getEntries(IBaseBundle bundle) {
+        return dataSource.getEntries(bundle);
     }
 
     @Override

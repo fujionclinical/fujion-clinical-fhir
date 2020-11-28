@@ -1,6 +1,6 @@
 import org.fujion.common.CollectionUtil;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.fhir.api.r4.common.Formatting;
+import org.fujionclinical.fhir.api.r4.common.R4Formatters;
 import org.fujionclinical.fhir.api.r4.common.R4Util;
 import org.hl7.fhir.r4.model.*;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class R4Test {
         assertEquals("first middle", humanName.getGivenAsSingleString());
         assertEquals("first", humanName.getGiven().get(0).getValue());
         assertEquals("middle", humanName.getGiven().get(1).getValue());
-        assertEquals("last, first middle", Formatting.formatName(humanName));
+        assertEquals("last, first middle", R4Formatters.formatName(humanName));
     }
 
 }

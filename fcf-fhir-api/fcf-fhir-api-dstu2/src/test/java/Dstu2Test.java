@@ -5,8 +5,8 @@ import ca.uhn.fhir.model.dstu2.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu2.valueset.UnitsOfTimeEnum;
 import org.fujion.common.CollectionUtil;
 import org.fujion.common.DateUtil;
+import org.fujionclinical.fhir.api.dstu2.common.Dstu2Formatters;
 import org.fujionclinical.fhir.api.dstu2.common.Dstu2Util;
-import org.fujionclinical.fhir.api.dstu2.common.Formatting;
 import org.junit.Test;
 
 import java.util.Date;
@@ -61,7 +61,7 @@ public class Dstu2Test {
         assertEquals("first middle", humanName.getGivenAsSingleString());
         assertEquals("first", humanName.getGiven().get(0).getValue());
         assertEquals("middle", humanName.getGiven().get(1).getValue());
-        assertEquals("last, first middle", Formatting.formatName(humanName));
+        assertEquals("last, first middle", Dstu2Formatters.formatName(humanName));
     }
 
 }

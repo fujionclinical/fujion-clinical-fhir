@@ -25,11 +25,11 @@
  */
 package org.fujionclinical.fhir.plugin.adversereactions.r5;
 
-import org.fujionclinical.fhir.api.r5.common.Formatting;
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
+import edu.utah.kmm.model.cool.mediator.common.Formatters;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.r5.model.AllergyIntolerance;
 import org.hl7.fhir.r5.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
-import org.hl7.fhir.r5.model.Bundle;
 
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 /**
  * Controller for patient adverse reaction display.
  */
-public class MainController extends ResourceListView<AllergyIntolerance, AllergyIntolerance> {
+public class MainController extends BaseResourceListView<AllergyIntolerance, AllergyIntolerance, FhirDataSource> {
 
     private static final Set<String> exclusions = new HashSet<>();
 
@@ -50,7 +50,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Allergy
 
     @Override
     protected void setup() {
-        setup(AllergyIntolerance.class, Bundle.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
+        setup(AllergyIntolerance.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
                 "Date^^min", "Agent", "Reaction");
     }
 
@@ -68,7 +68,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Allergy
 
         for (AllergyIntoleranceReactionComponent reaction : reactions) {
             String severity = reaction.hasSeverity() ? " (" + reaction.getSeverity().getDisplay() + ")" : "";
-            String manifestation = reaction.hasManifestation() ? Formatting.format(reaction.getManifestation().get(0))
+            String manifestation = reaction.hasManifestation() ? Formatters.format(reaction.getManifestation().get(0))
                     : "";
             sb.append(sb.length() == 0 ? "" : ", ");
             sb.append(manifestation).append(severity);

@@ -25,20 +25,20 @@
  */
 package org.fujionclinical.fhir.plugin.diagnosticreports.dstu2;
 
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.DiagnosticReport;
-import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 
 import java.util.List;
 
 /**
  * Controller for patient diagnostic reports display.
  */
-public class MainController extends ResourceListView<DiagnosticReport, DiagnosticReport> {
+public class MainController extends BaseResourceListView<DiagnosticReport, DiagnosticReport, FhirDataSource> {
 
     @Override
     protected void setup() {
-        setup(DiagnosticReport.class, Bundle.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
+        setup(DiagnosticReport.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
                 "Performed By", "Conclusion");
     }
 

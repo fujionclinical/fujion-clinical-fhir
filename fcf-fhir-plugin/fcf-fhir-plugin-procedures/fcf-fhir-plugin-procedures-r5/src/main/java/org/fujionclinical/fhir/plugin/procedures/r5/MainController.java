@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.plugin.procedures.r5;
 
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
-import org.hl7.fhir.r5.model.Bundle;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.r5.model.Procedure;
 
 import java.util.List;
@@ -34,11 +34,11 @@ import java.util.List;
 /**
  * Controller for patient procedures display.
  */
-public class MainController extends ResourceListView<Procedure, Procedure> {
+public class MainController extends BaseResourceListView<Procedure, Procedure, FhirDataSource> {
 
     @Override
     protected void setup() {
-        setup(Procedure.class, Bundle.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
+        setup(Procedure.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
                 "Notes");
     }
 

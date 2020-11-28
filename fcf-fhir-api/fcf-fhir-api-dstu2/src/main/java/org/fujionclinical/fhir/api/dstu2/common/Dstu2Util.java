@@ -22,6 +22,10 @@ import static org.fujionclinical.fhir.api.common.core.FhirUtil.getListProperty;
 
 public class Dstu2Util {
 
+    private Class<Dstu2Formatters> loadFormatters() {
+        return Dstu2Formatters.class;
+    }
+
     /**
      * Performs an equality check on two references using their id's.
      *

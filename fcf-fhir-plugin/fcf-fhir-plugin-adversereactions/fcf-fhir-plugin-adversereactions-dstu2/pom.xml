@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-lib-sharedforms-dstu2</artifactId>
+            <artifactId>fcf-fhir-api-dstu2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

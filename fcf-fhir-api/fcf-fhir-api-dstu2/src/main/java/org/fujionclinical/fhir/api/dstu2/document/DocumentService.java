@@ -31,8 +31,7 @@ import ca.uhn.fhir.model.dstu2.resource.ValueSet;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
 import java.util.*;
 
@@ -41,7 +40,7 @@ import java.util.*;
  */
 public class DocumentService {
 
-    private final AbstractFhirDataSource dataSource;
+    private final FhirDataSource dataSource;
 
     private static DocumentService instance;
 
@@ -49,7 +48,7 @@ public class DocumentService {
         return instance;
     }
 
-    public DocumentService(AbstractFhirDataSource dataSource) {
+    public DocumentService(FhirDataSource dataSource) {
         instance = this;
         this.dataSource = dataSource;
     }
@@ -88,7 +87,7 @@ public class DocumentService {
         }
 
         Bundle bundle = query.returnBundle(Bundle.class).execute();
-        List<DocumentReference> list = Dstu2Utils.getEntries(bundle, DocumentReference.class);
+        List<DocumentReference> list = dataSource.getEntries(bundle, DocumentReference.class);
         List<Document> results = new ArrayList<>(list.size());
 
         for (DocumentReference ref : list) {
@@ -105,7 +104,7 @@ public class DocumentService {
             Bundle bundle = dataSource.getClient().search().forResource(ValueSet.class)
                     .where(ValueSet.NAME.matchesExactly().value("DocumentType")).returnBundle(Bundle.class).execute();
 
-            for (ValueSet vs : Dstu2Utils.getEntries(bundle, ValueSet.class)) {
+            for (ValueSet vs : dataSource.getEntries(bundle, ValueSet.class)) {
                 for (ValueSet.CodeSystemConcept concept : vs.getCodeSystem().getConcept()) {
                     results.add(concept.getDisplay());
                 }

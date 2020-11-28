@@ -28,22 +28,21 @@ package org.fujionclinical.fhir.plugin.medicationorders.dstu2;
 import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Medication;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder.DosageInstruction;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.dstu2.medication.MedicationService;
-import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 
 import java.util.List;
 
 /**
  * Controller for patient conditions display.
  */
-public class MainController extends ResourceListView<MedicationOrder, MedicationOrder> {
+public class MainController extends BaseResourceListView<MedicationOrder, MedicationOrder, FhirDataSource> {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final MedicationService service;
@@ -54,7 +53,7 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
 
     @Override
     protected void setup() {
-        setup(MedicationOrder.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationOrder?patient=#", 1, "Medication",
+        setup(MedicationOrder.class, "Medication Orders", "Order Detail", "MedicationOrder?patient=#", 1, "Medication",
                 "Date", "Status", "Sig");
     }
 
@@ -74,7 +73,7 @@ public class MainController extends ResourceListView<MedicationOrder, Medication
         }
 
         if (StringUtils.isEmpty(med)) {
-            Medication medication = Dstu2Utils.getDataSource().getResource((ResourceReferenceDt) script.getMedication(), Medication.class);
+            Medication medication = getDataSource().getResource((ResourceReferenceDt) script.getMedication(), Medication.class);
             med = medication.getCode().getCodingFirstRep().getDisplay();
         }
 

@@ -1,6 +1,6 @@
 import org.fujion.common.CollectionUtil;
 import org.fujion.common.DateUtil;
-import org.fujionclinical.fhir.api.stu3.common.Formatting;
+import org.fujionclinical.fhir.api.stu3.common.Stu3Formatters;
 import org.fujionclinical.fhir.api.stu3.common.Stu3Util;
 import org.hl7.fhir.dstu3.model.*;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class Stu3Test {
         assertEquals("first middle", humanName.getGivenAsSingleString());
         assertEquals("first", humanName.getGiven().get(0).getValue());
         assertEquals("middle", humanName.getGiven().get(1).getValue());
-        assertEquals("last, first middle", Formatting.format(humanName));
+        assertEquals("last, first middle", Stu3Formatters.formatName(humanName));
     }
 
 }

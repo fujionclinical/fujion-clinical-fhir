@@ -25,21 +25,20 @@
  */
 package org.fujionclinical.fhir.plugin.orders.r5;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
+import edu.utah.kmm.model.cool.mediator.common.Formatters;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.api.r5.common.Formatting;
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.*;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Controller for patient orders display.
  */
-public class MainController extends ResourceListView<IBaseResource, IBaseResource> {
+public class MainController extends BaseResourceListView<IBaseResource, IBaseResource, FhirDataSource> {
 
     // @formatter:off
     private static final String QUERY = "Patient?_id=#"
@@ -51,7 +50,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
 
     @Override
     protected void setup() {
-        setup(IBaseResource.class, Bundle.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
+        setup(IBaseResource.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
     }
 
     @Override
@@ -60,11 +59,6 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
         createSubscription(ServiceRequest.class);
         createSubscription(NutritionOrder.class);
         createSubscription(DeviceRequest.class);
-    }
-
-    @Override
-    protected List<IBaseResource> processBundle(Bundle bundle) {
-        return R5Utils.getEntries(bundle, null, Collections.singletonList(Patient.class));
     }
 
     @Override
@@ -152,7 +146,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
             StringBuilder sb,
             IBaseDatatype value,
             String delimiter) {
-        append(sb, Formatting.format(value), delimiter);
+        append(sb, Formatters.format(value), delimiter);
     }
 
     private void append(

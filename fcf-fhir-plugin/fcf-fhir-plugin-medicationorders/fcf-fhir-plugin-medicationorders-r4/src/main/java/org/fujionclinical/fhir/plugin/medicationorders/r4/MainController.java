@@ -25,17 +25,21 @@
  */
 package org.fujionclinical.fhir.plugin.medicationorders.r4;
 
+import edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.r4.medication.MedicationService;
-import org.fujionclinical.fhir.lib.sharedforms.r4.controller.ResourceListView;
-import org.hl7.fhir.r4.model.*;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
+import org.hl7.fhir.r4.model.Dosage;
+import org.hl7.fhir.r4.model.Medication;
+import org.hl7.fhir.r4.model.MedicationRequest;
+import org.hl7.fhir.r4.model.Reference;
 
 import java.util.List;
 
 /**
  * Controller for patient conditions display.
  */
-public class MainController extends ResourceListView<MedicationRequest, MedicationRequest> {
+public class MainController extends BaseResourceListView<MedicationRequest, MedicationRequest, FhirDataSource> {
 
     private final MedicationService service;
 
@@ -45,7 +49,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
 
     @Override
     protected void setup() {
-        setup(MedicationRequest.class, Bundle.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
+        setup(MedicationRequest.class, "Medication Orders", "Order Detail", "MedicationRequest?patient=#", 1, "Medication",
                 "Date", "Status", "Sig");
     }
 
@@ -58,8 +62,7 @@ public class MainController extends ResourceListView<MedicationRequest, Medicati
         if (script.hasMedicationCodeableConcept()) {
             med = script.getMedication();
         } else if (script.hasMedicationReference()) {
-            Medication medObject;
-            medObject = getDataSource().getResource((Reference) script.getMedication(), Medication.class);
+            Medication medObject = getDataSource().getResource((Reference) script.getMedication(), Medication.class);
             med = medObject.getCode();
         }
 

@@ -26,13 +26,11 @@
 package org.fujionclinical.fhir.scenario.dstu2;
 
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Encounter;
 import ca.uhn.fhir.model.dstu2.resource.ListResource;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterTransform;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientTransform;
@@ -106,13 +104,13 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected List<IBaseResource> _relatedResources(IBaseResource resource) {
+    protected List<? extends IBaseResource> _relatedResources(IBaseResource resource) {
         return dataSource.everything(resource);
     }
 
     @Override
-    protected List<IBaseResource> _getEntries(IBaseBundle bundle) {
-        return Dstu2Utils.getEntries((Bundle) bundle, IBaseResource.class);
+    protected List<? extends IBaseResource> _getEntries(IBaseBundle bundle) {
+        return dataSource.getEntries(bundle);
     }
 
     @Override

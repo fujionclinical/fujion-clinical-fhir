@@ -25,16 +25,20 @@
  */
 package org.fujionclinical.fhir.plugin.observations.r5;
 
-import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
-import org.hl7.fhir.r5.model.*;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
+import org.hl7.fhir.r5.model.CodeableConcept;
+import org.hl7.fhir.r5.model.DataType;
+import org.hl7.fhir.r5.model.DateTimeType;
 import org.hl7.fhir.r5.model.Enumerations.ObservationStatus;
+import org.hl7.fhir.r5.model.Observation;
 
 import java.util.List;
 
 /**
  * Controller for patient observations display.
  */
-public class MainController extends ResourceListView<Observation, MainController.ObservationResult> {
+public class MainController extends BaseResourceListView<Observation, MainController.ObservationResult, FhirDataSource> {
 
     public static class ObservationResult {
 
@@ -70,7 +74,7 @@ public class MainController extends ResourceListView<Observation, MainController
 
     @Override
     protected void setup() {
-        setup(Observation.class, Bundle.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
+        setup(Observation.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
                 "Status", "Result", "Ref Range");
     }
 

@@ -96,6 +96,10 @@
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.practitioner.PractitionerTransform" factory-method="getInstance"/>
 
+        <!-- Other -->
+
+        <bean class="org.fujionclinical.fhir.api.r4.common.R4Formatters" factory-method="getInstance"/>
+
     </beans>
 
 </beans>

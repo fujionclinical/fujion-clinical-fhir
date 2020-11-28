@@ -29,20 +29,19 @@ import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.primitive.BooleanDt;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
+import edu.utah.kmm.model.cool.mediator.common.Formatters;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 import org.fujion.common.StrUtil;
-import org.fujionclinical.fhir.api.dstu2.common.Formatting;
-import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
+import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Controller for patient orders display.
  */
-public class MainController extends ResourceListView<IBaseResource, IBaseResource> {
+public class MainController extends BaseResourceListView<IBaseResource, IBaseResource, FhirDataSource> {
 
     // @formatter:off
     private static final String QUERY = "Patient?_id=#"
@@ -54,7 +53,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
 
     @Override
     protected void setup() {
-        setup(IBaseResource.class, Bundle.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
+        setup(IBaseResource.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
     }
 
     @Override
@@ -63,11 +62,6 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
         createSubscription(ProcedureRequest.class);
         createSubscription(NutritionOrder.class);
         createSubscription(DeviceUseRequest.class);
-    }
-
-    @Override
-    protected List<IBaseResource> processBundle(Bundle bundle) {
-        return Dstu2Utils.getEntries(bundle, null, Collections.singletonList(Patient.class));
     }
 
     @Override
@@ -154,7 +148,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
             StringBuilder sb,
             IBaseDatatype value,
             String delimiter) {
-        append(sb, Formatting.format(value), delimiter);
+        append(sb, Formatters.format(value), delimiter);
     }
 
     private void append(
