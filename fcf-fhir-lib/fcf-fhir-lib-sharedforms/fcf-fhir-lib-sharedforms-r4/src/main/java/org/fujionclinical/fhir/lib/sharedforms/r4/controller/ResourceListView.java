@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.lib.sharedforms.r4.controller;
 
 import edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4Utils;
+import org.fujionclinical.fhir.api.r4.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.common.BaseResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r4.model.Bundle;
@@ -43,7 +44,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends BaseR
 
     @Override
     protected String transformData(Object data) {
-        return R4Utils.getDisplayValueForType(data);
+        return Formatting.format(data);
     }
 
     /**

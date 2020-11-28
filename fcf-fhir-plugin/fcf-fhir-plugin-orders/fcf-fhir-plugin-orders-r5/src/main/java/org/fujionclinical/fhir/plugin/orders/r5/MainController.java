@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.plugin.orders.r5;
 
 import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
 import org.fujion.common.StrUtil;
+import org.fujionclinical.fhir.api.r5.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -151,7 +152,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
             StringBuilder sb,
             IBaseDatatype value,
             String delimiter) {
-        append(sb, R5Utils.getDisplayValueForType(value), delimiter);
+        append(sb, Formatting.format(value), delimiter);
     }
 
     private void append(

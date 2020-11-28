@@ -31,6 +31,7 @@ import ca.uhn.fhir.model.dstu2.resource.*;
 import ca.uhn.fhir.model.primitive.BooleanDt;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import org.fujion.common.StrUtil;
+import org.fujionclinical.fhir.api.dstu2.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -153,7 +154,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
             StringBuilder sb,
             IBaseDatatype value,
             String delimiter) {
-        append(sb, Dstu2Utils.getDisplayValueForType(value), delimiter);
+        append(sb, Formatting.format(value), delimiter);
     }
 
     private void append(

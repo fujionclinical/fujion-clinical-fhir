@@ -26,9 +26,9 @@
 package org.fujionclinical.fhir.api.stu3.document;
 
 import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.mediator.query.QueryContext;
 import org.fujion.common.DateRange;
-import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.query.core.QueryUtil;
 import org.fujionclinical.api.query.service.AbstractQueryServiceEx;
 import org.fujionclinical.api.query.service.IQueryResult;

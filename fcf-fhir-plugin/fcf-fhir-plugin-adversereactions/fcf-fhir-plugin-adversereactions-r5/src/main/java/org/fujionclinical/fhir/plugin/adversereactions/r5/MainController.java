@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.adversereactions.r5;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5Utils;
+import org.fujionclinical.fhir.api.r5.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.r5.controller.ResourceListView;
 import org.hl7.fhir.r5.model.AllergyIntolerance;
 import org.hl7.fhir.r5.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
@@ -68,7 +68,7 @@ public class MainController extends ResourceListView<AllergyIntolerance, Allergy
 
         for (AllergyIntoleranceReactionComponent reaction : reactions) {
             String severity = reaction.hasSeverity() ? " (" + reaction.getSeverity().getDisplay() + ")" : "";
-            String manifestation = reaction.hasManifestation() ? R5Utils.getDisplayValue(reaction.getManifestation().get(0))
+            String manifestation = reaction.hasManifestation() ? Formatting.format(reaction.getManifestation().get(0))
                     : "";
             sb.append(sb.length() == 0 ? "" : ", ");
             sb.append(manifestation).append(severity);

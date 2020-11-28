@@ -27,9 +27,9 @@ package org.fujionclinical.fhir.plugin.familyhistory.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.FamilyMemberHistory;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
+import org.fujionclinical.fhir.api.dstu2.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.dstu2.controller.ResourceListView;
 
 import java.util.List;
@@ -61,11 +61,11 @@ public class MainController extends ResourceListView<FamilyMemberHistory, Family
 
                 switch (i) {
                     case 0:
-                        value = Dstu2Utils.getDisplayValue(condition.getCode());
+                        value = Formatting.format(condition.getCode());
                         break;
 
                     case 1:
-                        value = Dstu2Utils.getDisplayValue(condition.getOutcome());
+                        value = Formatting.format(condition.getOutcome());
                         break;
 
                     case 2:

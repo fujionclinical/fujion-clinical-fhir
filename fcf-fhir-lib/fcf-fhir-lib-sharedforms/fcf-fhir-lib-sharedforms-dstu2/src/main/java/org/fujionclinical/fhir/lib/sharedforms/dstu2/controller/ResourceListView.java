@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.lib.sharedforms.dstu2.controller;
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import org.fujionclinical.fhir.api.dstu2.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.common.BaseResourceListView;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
@@ -43,7 +44,7 @@ public abstract class ResourceListView<R extends IBaseResource, M> extends BaseR
 
     @Override
     protected String transformData(Object data) {
-        return Dstu2Utils.getDisplayValueForType(data);
+        return Formatting.format(data);
     }
 
     /**

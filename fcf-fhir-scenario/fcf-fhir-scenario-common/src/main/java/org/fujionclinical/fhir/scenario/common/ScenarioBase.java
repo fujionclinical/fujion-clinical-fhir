@@ -41,6 +41,7 @@ import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.api.model.encounter.EncounterContext;
 import org.fujionclinical.api.model.patient.PatientContext;
+import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.fujionclinical.patientlist.*;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -204,13 +205,13 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      */
     private void addTags(IBaseResource resource) {
         ScenarioUtil.addTag(resource);
-        FhirUtils.addTag(scenarioTag, resource);
+        FhirUtil.addTag(scenarioTag, resource);
     }
 
     private IBaseResource getNamedResource(String name) {
         IBaseCoding tag = name == null ? null : ScenarioUtil.createNamedResourceTag(name);
         return tag == null ? null : resources.stream()
-                .filter(resource -> FhirUtils.hasTag(tag, resource))
+                .filter(resource -> FhirUtil.hasTag(tag, resource))
                 .findFirst()
                 .orElse(null);
     }
@@ -274,7 +275,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
     private void initialize(
             String name,
             IBaseResource resource) {
-        FhirUtils.addTag(ScenarioUtil.createNamedResourceTag(name), resource);
+        FhirUtil.addTag(ScenarioUtil.createNamedResourceTag(name), resource);
         resource = createOrUpdateResource(resource);
         logAction(resource, "Created");
     }

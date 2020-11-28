@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.plugin.orders.stu3;
 
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
 import org.fujion.common.StrUtil;
+import org.fujionclinical.fhir.api.stu3.common.Formatting;
 import org.fujionclinical.fhir.lib.sharedforms.stu3.controller.ResourceListView;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseDatatype;
@@ -150,7 +151,7 @@ public class MainController extends ResourceListView<IBaseResource, IBaseResourc
             StringBuilder sb,
             IBaseDatatype value,
             String delimiter) {
-        append(sb, Stu3Utils.getDisplayValueForType(value), delimiter);
+        append(sb, Formatting.format(value), delimiter);
     }
 
     private void append(
