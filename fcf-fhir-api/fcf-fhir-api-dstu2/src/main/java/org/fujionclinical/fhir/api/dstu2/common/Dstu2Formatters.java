@@ -4,7 +4,6 @@ import ca.uhn.fhir.model.dstu2.composite.*;
 import ca.uhn.fhir.model.dstu2.resource.Location;
 import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
-import ca.uhn.fhir.util.DateUtils;
 import edu.utah.kmm.model.cool.common.MiscUtils;
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.PersonNameTransform;
@@ -71,7 +70,7 @@ public class Dstu2Formatters {
      * @return The displayable value (possibly null).
      */
     public static String formatDateTime(DateTimeDt value) {
-        return DateUtils.formatDate(value.getValue());
+        return format(value.getValue());
     }
 
     /**
@@ -81,7 +80,7 @@ public class Dstu2Formatters {
      * @return The displayable value (possibly null).
      */
     public static String formatDate(DateDt value) {
-        return DateUtils.formatDate(value.getValue());
+        return format(value.getValue());
     }
 
     /**
@@ -96,7 +95,7 @@ public class Dstu2Formatters {
         String result = "";
 
         if (start != null) {
-            result = DateUtils.formatDate(start);
+            result = format(start);
 
             if (start.equals(end)) {
                 end = null;
@@ -104,7 +103,7 @@ public class Dstu2Formatters {
         }
 
         if (end != null) {
-            result += (result.isEmpty() ? "" : " - ") + DateUtils.formatDate(end);
+            result += (result.isEmpty() ? "" : " - ") + format(end);
         }
 
         return result;

@@ -1,6 +1,5 @@
 package org.fujionclinical.fhir.api.r5.common;
 
-import ca.uhn.fhir.util.DateUtils;
 import edu.utah.kmm.model.cool.common.MiscUtils;
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
 import edu.utah.kmm.model.cool.mediator.fhir.r5.transform.PersonNameTransform;
@@ -68,7 +67,7 @@ public class R5Formatters {
      * @return The displayable value (possibly null).
      */
     public static String formatDateTime(DateTimeType value) {
-        return DateUtils.formatDate(value.getValue());
+        return format(value.getValue());
     }
 
     /**
@@ -78,7 +77,7 @@ public class R5Formatters {
      * @return The displayable value (possibly null).
      */
     public static String formatDate(DateType value) {
-        return DateUtils.formatDate(value.getValue());
+        return format(value.getValue());
     }
 
     /**
@@ -93,7 +92,7 @@ public class R5Formatters {
         String result = "";
 
         if (start != null) {
-            result = DateUtils.formatDate(start);
+            result = format(start);
 
             if (start.equals(end)) {
                 end = null;
@@ -101,7 +100,7 @@ public class R5Formatters {
         }
 
         if (end != null) {
-            result += (result.isEmpty() ? "" : " - ") + DateUtils.formatDate(end);
+            result += (result.isEmpty() ? "" : " - ") + format(end);
         }
 
         return result;
