@@ -22,6 +22,7 @@
 
         <bean id="r4MedicationService"
               class="org.fujionclinical.fhir.api.r4.medication.MedicationService">
+            <constructor-arg ref="r4DataSource"/>
         </bean>
 
         <bean id="r4DocumentService"
@@ -98,7 +99,9 @@
 
         <!-- Other -->
 
-        <bean class="org.fujionclinical.fhir.api.r4.common.R4Formatters" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">
+            <constructor-arg value="org.fujionclinical.fhir.api.r4.common.R4Formatters"/>
+        </bean>
 
     </beans>
 

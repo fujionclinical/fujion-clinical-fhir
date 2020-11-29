@@ -27,22 +27,21 @@ package org.fujionclinical.fhir.api.dstu2.condition;
 
 import ca.uhn.fhir.model.dstu2.resource.Condition;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ConditionService {
 
-    private final AbstractFhirDataSource dataSource;
+    private final FhirDataSource dataSource;
 
-    public ConditionService(AbstractFhirDataSource dataSource) {
+    public ConditionService(FhirDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     public List<Condition> searchConditionsForPatient(Patient patient) {
         List<Condition> conditions = dataSource.searchResourcesForPatient(patient, Condition.class);
-        Collections.sort(conditions, ConditionComparators.CONDITION_DATE_RECORDED);
+        conditions.sort(ConditionComparators.CONDITION_DATE_RECORDED);
         return conditions;
     }
 

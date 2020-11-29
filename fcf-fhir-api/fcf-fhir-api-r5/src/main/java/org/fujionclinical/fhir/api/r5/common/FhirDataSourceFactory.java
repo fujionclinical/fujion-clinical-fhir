@@ -7,7 +7,12 @@ import org.fujionclinical.fhir.api.common.client.AbstractFhirDataSourceFactory;
 /**
  * Factory for R5 data source.
  */
-public class FhirDataSourceFactory extends AbstractFhirDataSourceFactory {
+public class FhirDataSourceFactory extends AbstractFhirDataSourceFactory<FhirDataSource> {
+
+    @Override
+    public FhirDataSource create(String dataSourceId) {
+        return super.create(dataSourceId);
+    }
 
     @Override
     protected FhirDataSource create(

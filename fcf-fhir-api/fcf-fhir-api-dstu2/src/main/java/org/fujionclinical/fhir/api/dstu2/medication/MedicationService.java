@@ -30,18 +30,17 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MedicationService {
 
-    private final AbstractFhirDataSource dataSource;
+    private final FhirDataSource dataSource;
 
-    public MedicationService(AbstractFhirDataSource dataSource) {
+    public MedicationService(FhirDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -77,13 +76,13 @@ public class MedicationService {
 
     public List<MedicationAdministration> searchMedicationAdministrationsForPatient(Patient patient) {
         List<MedicationAdministration> results = dataSource.searchResourcesForPatient(patient, MedicationAdministration.class);
-        Collections.sort(results, Comparators.MED_ADMIN_EFFECTIVE_TIME);
+        results.sort(Comparators.MED_ADMIN_EFFECTIVE_TIME);
         return results;
     }
 
     public List<MedicationOrder> searchMedicationOrdersForPatient(Patient patient) {
         List<MedicationOrder> results = dataSource.searchResourcesForPatient(patient, MedicationOrder.class);
-        Collections.sort(results, Comparators.MED_ORDER_DATE_WRITTEN);
+        results.sort(Comparators.MED_ORDER_DATE_WRITTEN);
         return results;
     }
 

@@ -38,7 +38,7 @@ public class MainController extends BaseResourceListView<DiagnosticReport, Diagn
 
     @Override
     protected void setup() {
-        setup(DiagnosticReport.class, "Diagnostic Reports", "Report Detail", "DiagnosticReport?patient=#", 1, "Date", "Type",
+        setup(DiagnosticReport.class, "Diagnostic Reports", "Report Detail", "patient=#", 1, "Date", "Type",
                 "Performed By", "Conclusion");
     }
 

@@ -21,8 +21,6 @@ import static edu.utah.kmm.model.cool.mediator.common.Formatters.format;
  */
 public class Dstu2Formatters {
 
-    private static final Dstu2Formatters instance = new Dstu2Formatters();
-
     static {
         Formatters.register(AnnotationDt.class, Dstu2Formatters::formatAnnotation);
         Formatters.register(HumanNameDt.class, Dstu2Formatters::formatName);
@@ -37,10 +35,6 @@ public class Dstu2Formatters {
         Formatters.register(AgeDt.class, Dstu2Formatters::formatAge);
         Formatters.register(Location.class, Dstu2Formatters::formatLocation);
         Formatters.register(IdentifierDt.class, Dstu2Formatters::formatIdentifier);
-    }
-
-    private static Dstu2Formatters getInstance() {
-        return instance;
     }
 
     /**

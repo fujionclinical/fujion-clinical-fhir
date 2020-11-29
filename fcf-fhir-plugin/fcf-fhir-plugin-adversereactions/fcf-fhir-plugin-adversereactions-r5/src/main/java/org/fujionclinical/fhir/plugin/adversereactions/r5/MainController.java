@@ -50,7 +50,7 @@ public class MainController extends BaseResourceListView<AllergyIntolerance, All
 
     @Override
     protected void setup() {
-        setup(AllergyIntolerance.class, "Adverse Reactions", "Adverse Reaction Detail", "AllergyIntolerance?patient=#", 1,
+        setup(AllergyIntolerance.class, "Adverse Reactions", "Adverse Reaction Detail", "patient=#", 1,
                 "Date^^min", "Agent", "Reaction");
     }
 

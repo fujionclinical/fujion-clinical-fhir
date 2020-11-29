@@ -53,7 +53,7 @@ public class MainController extends BaseResourceListView<MedicationOrder, Medica
 
     @Override
     protected void setup() {
-        setup(MedicationOrder.class, "Medication Orders", "Order Detail", "MedicationOrder?patient=#", 1, "Medication",
+        setup(MedicationOrder.class, "Medication Orders", "Order Detail", "patient=#", 1, "Medication",
                 "Date", "Status", "Sig");
     }
 

@@ -41,7 +41,7 @@ public class MainController extends BaseResourceListView<FamilyMemberHistory, Fa
 
     @Override
     protected void setup() {
-        setup(FamilyMemberHistory.class, "Family History", "Family History Detail", "FamilyMemberHistory?patient=#", 1,
+        setup(FamilyMemberHistory.class, "Family History", "Family History Detail", "patient=#", 1,
                 "Relation", "Condition", "Outcome", "Notes");
     }
 

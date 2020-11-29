@@ -99,7 +99,9 @@
 
         <!-- Other -->
 
-        <bean class="org.fujionclinical.fhir.api.dstu2.common.Dstu2Formatters" factory-method="getInstance"/>
+        <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">
+            <constructor-arg value="org.fujionclinical.fhir.api.dstu2.common.Dstu2Formatters"/>
+        </bean>
 
     </beans>
 

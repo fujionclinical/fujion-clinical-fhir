@@ -74,7 +74,7 @@ public class MainController extends BaseResourceListView<Observation, MainContro
 
     @Override
     protected void setup() {
-        setup(Observation.class, "Observations", "Observation Detail", "Observation?patient=#", 1, "Observation", "Date",
+        setup(Observation.class, "Observations", "Observation Detail", "patient=#", 1, "Observation", "Date",
                 "Status", "Result", "Ref Range");
     }
 

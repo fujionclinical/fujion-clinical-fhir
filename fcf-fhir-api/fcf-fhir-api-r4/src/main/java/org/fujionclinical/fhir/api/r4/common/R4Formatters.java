@@ -18,12 +18,6 @@ import static edu.utah.kmm.model.cool.mediator.common.Formatters.format;
  */
 public class R4Formatters {
 
-    private static final R4Formatters instance = new R4Formatters();
-
-    private static R4Formatters getInstance() {
-        return instance;
-    }
-
     static {
         Formatters.register(Annotation.class, R4Formatters::formatAnnotation);
         Formatters.register(HumanName.class, R4Formatters::formatName);

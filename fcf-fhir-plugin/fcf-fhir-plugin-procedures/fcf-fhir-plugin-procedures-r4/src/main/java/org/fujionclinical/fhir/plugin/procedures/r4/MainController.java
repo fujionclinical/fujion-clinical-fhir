@@ -38,7 +38,7 @@ public class MainController extends BaseResourceListView<Procedure, Procedure, F
 
     @Override
     protected void setup() {
-        setup(Procedure.class, "Procedures", "Procedure Detail", "Procedure?patient=#", 1, "Procedure", "Date", "Status",
+        setup(Procedure.class, "Procedures", "Procedure Detail", "patient=#", 1, "Procedure", "Date", "Status",
                 "Notes");
     }
 

@@ -18,8 +18,6 @@ import static edu.utah.kmm.model.cool.mediator.common.Formatters.format;
  */
 public class R5Formatters {
 
-    private static final R5Formatters instance = new R5Formatters();
-
     static {
         Formatters.register(Annotation.class, R5Formatters::formatAnnotation);
         Formatters.register(HumanName.class, R5Formatters::formatName);
@@ -34,10 +32,6 @@ public class R5Formatters {
         Formatters.register(Age.class, R5Formatters::formatAge);
         Formatters.register(Location.class, R5Formatters::formatLocation);
         Formatters.register(Identifier.class, R5Formatters::formatIdentifier);
-    }
-
-    private static R5Formatters getInstance() {
-        return instance;
     }
 
     /**
