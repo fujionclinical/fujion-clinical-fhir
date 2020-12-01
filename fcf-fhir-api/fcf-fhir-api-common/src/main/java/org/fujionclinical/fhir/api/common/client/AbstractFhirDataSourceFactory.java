@@ -2,7 +2,7 @@ package org.fujionclinical.fhir.api.common.client;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujionclinical.fhir.security.common.IAuthInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

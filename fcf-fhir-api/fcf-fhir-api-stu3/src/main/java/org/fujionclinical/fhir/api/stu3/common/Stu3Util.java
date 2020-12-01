@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 import java.util.Date;
 import java.util.List;
 
-import static edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils.stripVersion;
+import static edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils.stripVersion;
 import static edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils.getMRN;
 import static edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils.getResourceType;
 import static org.fujionclinical.fhir.api.common.core.FhirUtil.getListProperty;

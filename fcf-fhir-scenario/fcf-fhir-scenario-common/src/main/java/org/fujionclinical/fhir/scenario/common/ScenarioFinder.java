@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujion.common.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

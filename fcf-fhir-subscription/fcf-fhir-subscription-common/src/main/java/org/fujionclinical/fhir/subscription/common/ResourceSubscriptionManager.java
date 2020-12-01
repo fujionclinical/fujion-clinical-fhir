@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujionclinical.api.event.IEventManager;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService.PayloadType;
 

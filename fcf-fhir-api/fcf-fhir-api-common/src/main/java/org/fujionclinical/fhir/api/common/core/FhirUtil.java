@@ -1,6 +1,6 @@
 package org.fujionclinical.fhir.api.common.core;
 
-import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
+import edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils.stripVersion;
+import static edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils.stripVersion;
 
 public class FhirUtil {
 

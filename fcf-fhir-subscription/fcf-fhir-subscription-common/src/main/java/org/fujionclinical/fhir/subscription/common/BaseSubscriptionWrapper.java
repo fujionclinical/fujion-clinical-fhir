@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.subscription.common;
 
 import ca.uhn.fhir.parser.IParser;
 import ca.uhn.fhir.rest.api.PreferReturnEnum;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.util.Assert;

@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.subscription.common;
 
 import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 
 public abstract class BaseSubscriptionFactory {

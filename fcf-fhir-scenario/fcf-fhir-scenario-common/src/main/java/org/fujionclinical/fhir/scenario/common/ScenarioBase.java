@@ -33,7 +33,7 @@ import ca.uhn.fhir.parser.IParser;
 import edu.utah.kmm.model.cool.clinical.encounter.Encounter;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.core.FhirUtils;
+import edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.fujion.common.DateUtil;

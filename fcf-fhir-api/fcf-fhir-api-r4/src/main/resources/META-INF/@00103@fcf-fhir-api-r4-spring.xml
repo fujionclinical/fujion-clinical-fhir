@@ -53,6 +53,24 @@
 
         <!-- Model transforms -->
 
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.condition.ConditionTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.document.DocumentTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.encounter.EncounterTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.location.LocationTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.observation.ObservationTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.observation.ReferenceRangeTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.patient.PatientTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.practitioner.PractitionerTransform" factory-method="getInstance"/>
+
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.AddressTransform" factory-method="getInstance"/>
+
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.AnnotationTransform" factory-method="getInstance"/>
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.AttachmentTransform" factory-method="getInstance"/>
@@ -69,8 +87,6 @@
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.PersonNameTransform" factory-method="getInstance"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.AddressTransform" factory-method="getInstance"/>
-
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.PrimitiveTransform" factory-method="getInstance"/>
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.QuantityTransform" factory-method="getInstance"/>
@@ -80,22 +96,6 @@
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.RatioTransform" factory-method="getInstance"/>
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.transform.SimpleQuantityTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.condition.ConditionTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.document.DocumentTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.encounter.EncounterTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.location.LocationTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.observation.ObservationComponentTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.observation.ReferenceRangeTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.patient.PatientTransform" factory-method="getInstance"/>
-
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r4.practitioner.PractitionerTransform" factory-method="getInstance"/>
 
         <!-- Other -->
 

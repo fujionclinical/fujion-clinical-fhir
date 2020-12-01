@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.subscription.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Subscription;
-import edu.utah.kmm.model.cool.mediator.fhir.core.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 
 /**

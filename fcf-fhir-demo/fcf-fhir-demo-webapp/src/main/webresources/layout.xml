@@ -48,7 +48,7 @@
                             <fcfFhirMedicationOrders/>
                         </treepane>
                         <treepane label="Observation Results">
-                            <fcfFhirObservations/>
+                            <fcfObservations/>
                         </treepane>
                         <treepane label="Procedures">
                             <fcfFhirProcedures/>
