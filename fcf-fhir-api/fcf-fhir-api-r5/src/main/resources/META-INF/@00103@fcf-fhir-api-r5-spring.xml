@@ -57,6 +57,8 @@
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.document.DocumentTransform" factory-method="getInstance"/>
 
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.EffectiveTransform" factory-method="getInstance"/>
+
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.encounter.EncounterTransform" factory-method="getInstance"/>
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.location.LocationTransform" factory-method="getInstance"/>
@@ -75,9 +77,9 @@
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.AttachmentTransform" factory-method="getInstance"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ConceptCodeTransform" factory-method="getInstance"/>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ConceptReferenceSetTransform" factory-method="getInstance"/>
 
-        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ConceptTransform" factory-method="getInstance"/>
+        <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ConceptReferenceTransform" factory-method="getInstance"/>
 
         <bean class="edu.utah.kmm.model.cool.mediator.fhir.r5.transform.ContactPointTransform" factory-method="getInstance"/>
 

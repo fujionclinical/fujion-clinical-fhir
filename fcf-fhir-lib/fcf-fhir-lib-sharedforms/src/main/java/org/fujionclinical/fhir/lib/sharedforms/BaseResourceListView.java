@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.lib.sharedforms;
 
 import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
+import edu.utah.kmm.model.cool.util.CoolUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fujionclinical.fhir.api.common.core.NarrativeService;
@@ -66,7 +67,7 @@ public abstract class BaseResourceListView<R extends IBaseResource, M, S extends
 
     protected void createSubscription(Class<? extends IBaseResource> clazz) {
         String resourceName = clazz.getSimpleName();
-        String id = getPatient().getDefaultId().getId();
+        String id = CoolUtils.getId(getPatient());
         String criteria = resourceName + "?subject=" + id;
         BaseSubscriptionWrapper wrapper = subscriptionManager.subscribe(criteria, subscriptionListener, getDataSource());
 
@@ -90,12 +91,7 @@ public abstract class BaseResourceListView<R extends IBaseResource, M, S extends
 
     @Override
     protected void requestData() {
-        final String url = getQueryString().replace("#", getPatient().getDefaultId().getId());
-
-        startBackgroundThread(map -> {
-            List<R> results = getDataSource().searchResources(getResourceClass(), url);
-            map.put("results", results);
-        });
+        startBackgroundThread(map -> map.put("results", getDataSource().searchResources(getResourceClass(), getQueryString())));
     }
 
     protected String getDetail(M modelObject) {

@@ -34,6 +34,7 @@ import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService.P
  * delegates resource subscription requests to the subscription service and callback registrations
  * to the event manager for the application instance.
  */
+@SuppressWarnings("rawtypes")
 public class ResourceSubscriptionManager {
 
     private final IEventManager eventManager;

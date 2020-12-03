@@ -34,6 +34,7 @@ import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.r5.model.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller for patient orders display.
@@ -51,6 +52,11 @@ public class MainController extends BaseResourceListView<IBaseResource, IBaseRes
     @Override
     protected void setup() {
         setup(IBaseResource.class, "Orders", "Order Detail", QUERY, 1, "Type^^min", "Date^^min", "Order^^1", "Notes^^1");
+    }
+
+    @Override
+    protected void requestData() {
+        startBackgroundThread(map -> map.put("results", getDataSource().searchResources(getQueryString())));
     }
 
     @Override
@@ -158,7 +164,7 @@ public class MainController extends BaseResourceListView<IBaseResource, IBaseRes
 
     @Override
     protected void initModel(List<IBaseResource> orders) {
-        model.addAll(orders);
+        model.addAll(orders.stream().filter(r -> !(r instanceof Patient)).collect(Collectors.toList()));
     }
 
 }
