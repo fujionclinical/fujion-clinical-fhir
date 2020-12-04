@@ -41,10 +41,10 @@
             <constructor-arg value="org.fujionclinical.fhir.api.dstu2.common.Dstu2Formatters"/>
         </bean>
 
-        <!-- Load transforms and factories -->
+        <!-- Initialize model -->
 
         <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">
-            <constructor-arg value="edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Loader"/>
+            <constructor-arg value="edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils"/>
         </bean>
 
     </beans>

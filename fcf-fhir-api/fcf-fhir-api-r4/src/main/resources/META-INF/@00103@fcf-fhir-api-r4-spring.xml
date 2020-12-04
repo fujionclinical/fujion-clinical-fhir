@@ -41,10 +41,10 @@
             <constructor-arg value="org.fujionclinical.fhir.api.r4.common.R4Formatters"/>
         </bean>
 
-        <!-- Load transforms and factories -->
+        <!-- Initialize model -->
 
         <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">
-            <constructor-arg value="edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4Loader"/>
+            <constructor-arg value="edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4Utils"/>
         </bean>
 
     </beans>
