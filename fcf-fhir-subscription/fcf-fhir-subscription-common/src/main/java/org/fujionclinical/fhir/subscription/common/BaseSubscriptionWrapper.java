@@ -45,7 +45,7 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
 
     private final String subscriptionId;
 
-    private final AbstractFhirDataSource dataSource;
+    private final AbstractFhirDataSource<?, ?> dataSource;
 
     private T subscription;
 
@@ -64,11 +64,12 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
      *
      * @param subscription The subscription to wrap.
      * @param paramIndex   The index for looking up by criteria/payload type.
+     * @param dataSource The data source.
      */
     protected BaseSubscriptionWrapper(
             T subscription,
             String paramIndex,
-            AbstractFhirDataSource dataSource) {
+            AbstractFhirDataSource<?, ?> dataSource) {
         this.subscription = subscription;
         this.paramIndex = paramIndex;
         this.dataSource = dataSource;
@@ -127,11 +128,12 @@ public abstract class BaseSubscriptionWrapper<T extends IBaseResource> {
         return ++refCount;
     }
 
-    public AbstractFhirDataSource getDataSource() {
+    public AbstractFhirDataSource<?, ?> getDataSource() {
         return dataSource;
     }
 
-    public BaseSubscriptionWrapper initialize() {
+    @SuppressWarnings("unchecked")
+    public BaseSubscriptionWrapper<?> initialize() {
         if (!initialized) {
             initialized = true;
             subscription = (T) dataSource.getClient().create().resource(subscription).prefer(PreferReturnEnum.REPRESENTATION).execute().getResource();

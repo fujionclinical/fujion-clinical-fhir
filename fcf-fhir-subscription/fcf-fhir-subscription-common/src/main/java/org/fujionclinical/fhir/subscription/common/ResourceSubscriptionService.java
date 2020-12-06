@@ -85,9 +85,9 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
 
     private final ConceptReferenceImpl subscriptionTag;
 
-    private final Map<String, BaseSubscriptionWrapper> subscriptionsByParams = new HashMap<>();
+    private final Map<String, BaseSubscriptionWrapper<?>> subscriptionsByParams = new HashMap<>();
 
-    private final Map<String, BaseSubscriptionWrapper> subscriptionsById = new HashMap<>();
+    private final Map<String, BaseSubscriptionWrapper<?>> subscriptionsById = new HashMap<>();
 
     /**
      * Create the resource subscription service.
@@ -139,11 +139,12 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      * necessary).
      *
      * @param criteria The subscription criteria (see FHIR specification).
+     * @param dataSource The data source.
      * @return The subscription wrapper.
      */
-    public synchronized BaseSubscriptionWrapper subscribe(
+    public synchronized BaseSubscriptionWrapper<?> subscribe(
             String criteria,
-            AbstractFhirDataSource dataSource) {
+            AbstractFhirDataSource<?, ?> dataSource) {
         return subscribe(criteria, null, dataSource);
     }
 
@@ -153,12 +154,13 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      *
      * @param criteria    The subscription criteria (see FHIR specification).
      * @param payloadType The expected type of the payload.
+     * @param dataSource The data source.
      * @return The subscription wrapper.
      */
-    public synchronized BaseSubscriptionWrapper subscribe(
+    public synchronized BaseSubscriptionWrapper<?> subscribe(
             String criteria,
             PayloadType payloadType,
-            AbstractFhirDataSource dataSource) {
+            AbstractFhirDataSource<?, ?> dataSource) {
         return disabled ? null : getOrCreateSubscription(criteria, payloadType == null ? PayloadType.NONE : payloadType, dataSource);
     }
 
@@ -169,7 +171,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      * @param wrapper The subscription wrapper.
      * @return The subscription wrapper.
      */
-    public synchronized BaseSubscriptionWrapper unsubscribe(BaseSubscriptionWrapper wrapper) {
+    public synchronized BaseSubscriptionWrapper<?> unsubscribe(BaseSubscriptionWrapper<?> wrapper) {
         if (wrapper != null && wrapper.decRefCount() == 0) {
             deleteSubscription(wrapper);
         }
@@ -182,9 +184,9 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      *
      * @param wrappers Collection of subscription wrappers.
      */
-    public synchronized void unsubscribe(Collection<BaseSubscriptionWrapper> wrappers) {
+    public synchronized void unsubscribe(Collection<BaseSubscriptionWrapper<?>> wrappers) {
         if (wrappers != null) {
-            for (BaseSubscriptionWrapper wrapper : wrappers) {
+            for (BaseSubscriptionWrapper<?> wrapper : wrappers) {
                 unsubscribe(wrapper);
             }
         }
@@ -200,7 +202,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
     protected synchronized boolean notifySubscribers(
             String id,
             String payload) {
-        BaseSubscriptionWrapper wrapper = subscriptionsById.get(id);
+        BaseSubscriptionWrapper<?> wrapper = subscriptionsById.get(id);
         boolean found = wrapper != null;
 
         if (found) {
@@ -219,14 +221,15 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      *
      * @param criteria    The subscription criteria.
      * @param payloadType The expected type of the payload.
+     * @param dataSource The data source.
      * @return The subscription wrapper (never null).
      */
-    private BaseSubscriptionWrapper getOrCreateSubscription(
+    private BaseSubscriptionWrapper<?> getOrCreateSubscription(
             String criteria,
             PayloadType payloadType,
-            AbstractFhirDataSource dataSource) {
+            AbstractFhirDataSource<?, ?> dataSource) {
         String paramIndex = payloadType + "|" + criteria;
-        BaseSubscriptionWrapper wrapper = subscriptionsByParams.get(paramIndex);
+        BaseSubscriptionWrapper<?> wrapper = subscriptionsByParams.get(paramIndex);
 
         if (wrapper == null) {
             BaseSubscriptionFactory factory = factories.get(dataSource.getId());
@@ -245,7 +248,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      *
      * @param wrapper The subscription wrapper.
      */
-    private void deleteSubscription(BaseSubscriptionWrapper wrapper) {
+    private void deleteSubscription(BaseSubscriptionWrapper<?> wrapper) {
         subscriptionsByParams.remove(wrapper.getParamIndex());
         subscriptionsById.remove(wrapper.getSubscriptionId());
         wrapper.delete();

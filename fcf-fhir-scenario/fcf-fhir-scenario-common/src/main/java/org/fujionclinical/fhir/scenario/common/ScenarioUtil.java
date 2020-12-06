@@ -141,7 +141,7 @@ public class ScenarioUtil {
      * @param scenarios A map of registered scenarios.
      * @return The associated scenario, or null if none.
      */
-    public static <SCENARIO extends ScenarioBase> SCENARIO getScenario(
+    public static <SCENARIO extends ScenarioBase<?>> SCENARIO getScenario(
             IBaseResource resource,
             Map<String, SCENARIO> scenarios) {
         SCENARIO scenario = null;

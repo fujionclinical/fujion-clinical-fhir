@@ -134,7 +134,7 @@
             <dependencies>
                 <dependency>
                     <groupId>org.fujionclinical</groupId>
-                    <artifactId>fcf-cdshooks</artifactId>
+                    <artifactId>fcf-fhir-cdshooks</artifactId>
                     <version>${fcf.core.version}</version>
                 </dependency>
             </dependencies>
