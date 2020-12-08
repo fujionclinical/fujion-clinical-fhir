@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance;
 import ca.uhn.fhir.model.dstu2.resource.AllergyIntolerance.Reaction;
 import ca.uhn.fhir.model.dstu2.valueset.AllergyIntoleranceStatusEnum;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 
@@ -40,7 +40,7 @@ import java.util.Set;
 /**
  * Controller for patient adverse reaction display.
  */
-public class MainController extends BaseResourceListView<AllergyIntolerance, Reaction, FhirDataSource> {
+public class MainController extends BaseResourceListView<AllergyIntolerance, Reaction, Dstu2DataSource> {
 
     private static final Set<AllergyIntoleranceStatusEnum> exclusions = new HashSet<>();
 

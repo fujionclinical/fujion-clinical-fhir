@@ -25,19 +25,18 @@
  */
 package org.fujionclinical.fhir.api.stu3.medication;
 
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3DataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
 import org.hl7.fhir.dstu3.model.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MedicationService {
 
-    private final FhirDataSource dataSource;
+    private final Stu3DataSource dataSource;
 
-    public MedicationService(FhirDataSource dataSource) {
+    public MedicationService(Stu3DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -73,13 +72,13 @@ public class MedicationService {
 
     public List<MedicationAdministration> searchMedicationAdministrationsForPatient(Patient patient) {
         List<MedicationAdministration> results = dataSource.searchResourcesForPatient(patient, MedicationAdministration.class);
-        Collections.sort(results, Comparators.MED_ADMIN_EFFECTIVE_TIME);
+        results.sort(Comparators.MED_ADMIN_EFFECTIVE_TIME);
         return results;
     }
 
     public List<MedicationRequest> searchMedicationRequestsForPatient(Patient patient) {
         List<MedicationRequest> results = dataSource.searchResourcesForPatient(patient, MedicationRequest.class);
-        Collections.sort(results, Comparators.MED_ORDER_DATE_WRITTEN);
+        results.sort(Comparators.MED_ORDER_DATE_WRITTEN);
         return results;
     }
 

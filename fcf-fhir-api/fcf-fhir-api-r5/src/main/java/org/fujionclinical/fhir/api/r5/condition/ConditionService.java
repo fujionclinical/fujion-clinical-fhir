@@ -25,24 +25,23 @@
  */
 package org.fujionclinical.fhir.api.r5.condition;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5DataSource;
 import org.hl7.fhir.r5.model.Condition;
 import org.hl7.fhir.r5.model.Patient;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ConditionService {
 
-    private final FhirDataSource dataSource;
+    private final R5DataSource dataSource;
 
-    public ConditionService(FhirDataSource dataSource) {
+    public ConditionService(R5DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     public List<Condition> searchConditionsForPatient(Patient patient) {
         List<Condition> conditions = dataSource.searchResourcesForPatient(patient, Condition.class);
-        Collections.sort(conditions, ConditionComparators.CONDITION_DATE_RECORDED);
+        conditions.sort(ConditionComparators.CONDITION_DATE_RECORDED);
         return conditions;
     }
 

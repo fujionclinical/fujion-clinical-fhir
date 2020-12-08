@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.r4.medication;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r4.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4DataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4Utils;
 import org.hl7.fhir.r4.model.*;
 
@@ -35,9 +35,9 @@ import java.util.List;
 
 public class MedicationService {
 
-    private final FhirDataSource dataSource;
+    private final R4DataSource dataSource;
 
-    public MedicationService(FhirDataSource dataSource) {
+    public MedicationService(R4DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

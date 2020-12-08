@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.familyhistory.r5;
 
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5DataSource;
 import org.fujion.component.Div;
 import org.fujion.component.Label;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Controller for family history display.
  */
-public class MainController extends BaseResourceListView<FamilyMemberHistory, FamilyMemberHistory, FhirDataSource> {
+public class MainController extends BaseResourceListView<FamilyMemberHistory, FamilyMemberHistory, R5DataSource> {
 
     @Override
     protected void setup() {

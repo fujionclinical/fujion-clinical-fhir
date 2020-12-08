@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.stu3.condition;
 
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3DataSource;
 import org.hl7.fhir.dstu3.model.Condition;
 import org.hl7.fhir.dstu3.model.Patient;
 
@@ -33,9 +33,9 @@ import java.util.List;
 
 public class ConditionService {
 
-    private final FhirDataSource dataSource;
+    private final Stu3DataSource dataSource;
 
-    public ConditionService(FhirDataSource dataSource) {
+    public ConditionService(Stu3DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

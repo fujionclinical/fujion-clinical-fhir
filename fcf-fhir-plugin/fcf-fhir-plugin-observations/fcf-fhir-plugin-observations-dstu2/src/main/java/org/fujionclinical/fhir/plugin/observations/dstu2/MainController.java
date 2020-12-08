@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.plugin.observations.dstu2;
 import ca.uhn.fhir.model.api.IDatatype;
 import ca.uhn.fhir.model.dstu2.composite.CodeableConceptDt;
 import ca.uhn.fhir.model.dstu2.resource.Observation;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 
 import java.util.List;
@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Controller for patient observations display.
  */
-public class MainController extends BaseResourceListView<Observation, MainController.ObservationResult, FhirDataSource> {
+public class MainController extends BaseResourceListView<Observation, MainController.ObservationResult, Dstu2DataSource> {
 
     public static class ObservationResult {
 

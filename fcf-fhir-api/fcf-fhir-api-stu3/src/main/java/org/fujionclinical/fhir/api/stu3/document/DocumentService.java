@@ -28,7 +28,7 @@ package org.fujionclinical.fhir.api.stu3.document;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3DataSource;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.CodeSystem;
 import org.hl7.fhir.dstu3.model.DocumentReference;
@@ -41,7 +41,7 @@ import java.util.*;
  */
 public class DocumentService {
 
-    private final FhirDataSource dataSource;
+    private final Stu3DataSource dataSource;
 
     private static DocumentService instance;
 
@@ -49,7 +49,7 @@ public class DocumentService {
         return instance;
     }
 
-    public DocumentService(FhirDataSource dataSource) {
+    public DocumentService(Stu3DataSource dataSource) {
         instance = this;
         this.dataSource = dataSource;
     }

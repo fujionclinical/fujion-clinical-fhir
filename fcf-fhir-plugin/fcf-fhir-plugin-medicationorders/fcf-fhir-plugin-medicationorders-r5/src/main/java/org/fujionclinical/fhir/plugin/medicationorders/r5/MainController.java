@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.medicationorders.r5;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5DataSource;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.r5.medication.MedicationService;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Controller for patient conditions display.
  */
-public class MainController extends BaseResourceListView<MedicationRequest, MedicationRequest, FhirDataSource> {
+public class MainController extends BaseResourceListView<MedicationRequest, MedicationRequest, R5DataSource> {
 
     private final MedicationService service;
 

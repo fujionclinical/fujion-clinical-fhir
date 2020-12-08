@@ -31,7 +31,7 @@ import ca.uhn.fhir.model.dstu2.resource.ListResource;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterTransform;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
@@ -45,11 +45,11 @@ import java.util.function.Consumer;
 
 public class Scenario extends ScenarioBase<ListResource> {
 
-    private final FhirDataSource dataSource;
+    private final Dstu2DataSource dataSource;
 
     public Scenario(ScenarioFactory<Scenario> scenarioFactory) {
         super(scenarioFactory);
-        this.dataSource = (FhirDataSource) scenarioFactory.dataSource;
+        this.dataSource = (Dstu2DataSource) scenarioFactory.dataSource;
     }
 
     @Override

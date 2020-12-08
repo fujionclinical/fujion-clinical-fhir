@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.adversereactions.r5;
 
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5DataSource;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.r5.model.AllergyIntolerance;
 import org.hl7.fhir.r5.model.AllergyIntolerance.AllergyIntoleranceReactionComponent;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 /**
  * Controller for patient adverse reaction display.
  */
-public class MainController extends BaseResourceListView<AllergyIntolerance, AllergyIntolerance, FhirDataSource> {
+public class MainController extends BaseResourceListView<AllergyIntolerance, AllergyIntolerance, R5DataSource> {
 
     private static final Set<String> exclusions = new HashSet<>();
 

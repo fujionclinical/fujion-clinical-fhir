@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.orders.stu3;
 
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3DataSource;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.dstu3.model.*;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 /**
  * Controller for patient orders display.
  */
-public class MainController extends BaseResourceListView<IBaseResource, IBaseResource, FhirDataSource> {
+public class MainController extends BaseResourceListView<IBaseResource, IBaseResource, Stu3DataSource> {
 
     // @formatter:off
     private static final String QUERY = "Patient?_id=#"

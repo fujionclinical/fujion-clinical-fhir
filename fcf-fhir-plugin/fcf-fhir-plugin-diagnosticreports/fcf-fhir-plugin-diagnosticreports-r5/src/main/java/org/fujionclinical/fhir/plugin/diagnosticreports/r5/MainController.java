@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.plugin.diagnosticreports.r5;
 
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5DataSource;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 import org.hl7.fhir.r5.model.DiagnosticReport;
 
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Controller for patient diagnostic reports display.
  */
-public class MainController extends BaseResourceListView<DiagnosticReport, DiagnosticReport, FhirDataSource> {
+public class MainController extends BaseResourceListView<DiagnosticReport, DiagnosticReport, R5DataSource> {
 
     @Override
     protected void setup() {

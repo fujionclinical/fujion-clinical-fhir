@@ -23,27 +23,27 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.r5.common;
+package org.fujionclinical.fhir.api.stu3.common;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3DataSource;
 import org.fujionclinical.fhir.api.common.client.AbstractFhirDataSourceFactory;
 
 /**
- * Factory for R5 data source.
+ * Factory for STU3 data source.
  */
-public class FhirDataSourceFactory extends AbstractFhirDataSourceFactory<FhirDataSource> {
+public class Stu3DataSourceFactory extends AbstractFhirDataSourceFactory<Stu3DataSource> {
 
     @Override
-    public FhirDataSource create(String dataSourceId) {
+    public Stu3DataSource create(String dataSourceId) {
         return super.create(dataSourceId);
     }
 
     @Override
-    protected FhirDataSource create(
+    protected Stu3DataSource create(
             String dataSourceId,
             IGenericClient client) {
-        return new FhirDataSource(dataSourceId, client);
+        return new Stu3DataSource(dataSourceId, client);
     }
 
 }

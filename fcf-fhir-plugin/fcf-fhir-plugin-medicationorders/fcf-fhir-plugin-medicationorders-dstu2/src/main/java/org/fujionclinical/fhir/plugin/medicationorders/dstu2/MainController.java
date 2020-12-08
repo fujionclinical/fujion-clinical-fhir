@@ -31,7 +31,7 @@ import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
 import ca.uhn.fhir.model.dstu2.resource.Medication;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder.DosageInstruction;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.common.StrUtil;
 import org.fujionclinical.fhir.api.dstu2.medication.MedicationService;
@@ -42,7 +42,7 @@ import java.util.List;
 /**
  * Controller for patient conditions display.
  */
-public class MainController extends BaseResourceListView<MedicationOrder, MedicationOrder, FhirDataSource> {
+public class MainController extends BaseResourceListView<MedicationOrder, MedicationOrder, Dstu2DataSource> {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final MedicationService service;

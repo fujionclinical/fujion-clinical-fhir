@@ -23,27 +23,27 @@
  *
  * #L%
  */
-package org.fujionclinical.fhir.api.dstu2.common;
+package org.fujionclinical.fhir.api.r4.common;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4DataSource;
 import org.fujionclinical.fhir.api.common.client.AbstractFhirDataSourceFactory;
 
 /**
- * Factory for DSTU2 data source.
+ * Factory for R4 data source.
  */
-public class FhirDataSourceFactory extends AbstractFhirDataSourceFactory<FhirDataSource> {
+public class R4DataSourceFactory extends AbstractFhirDataSourceFactory<R4DataSource> {
 
     @Override
-    public FhirDataSource create(String dataSourceId) {
+    public R4DataSource create(String dataSourceId) {
         return super.create(dataSourceId);
     }
 
     @Override
-    protected FhirDataSource create(
+    protected R4DataSource create(
             String dataSourceId,
             IGenericClient client) {
-        return new FhirDataSource(dataSourceId, client);
+        return new R4DataSource(dataSourceId, client);
     }
 
 }

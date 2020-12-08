@@ -21,7 +21,7 @@
     </scm>
 
     <properties>
-        <hapi.fhir.version>5.0.0</hapi.fhir.version>
+        <hapi-fhir.version>5.2.0</hapi-fhir.version>
         <fcf.core.version>2.0.0-SNAPSHOT</fcf.core.version>
     </properties>
 

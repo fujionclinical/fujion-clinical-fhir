@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.plugin.procedures.dstu2;
 
 import ca.uhn.fhir.model.dstu2.resource.Procedure;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
 import org.fujionclinical.fhir.lib.sharedforms.BaseResourceListView;
 
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Controller for patient procedures display.
  */
-public class MainController extends BaseResourceListView<Procedure, Procedure, FhirDataSource> {
+public class MainController extends BaseResourceListView<Procedure, Procedure, Dstu2DataSource> {
 
     @Override
     protected void setup() {

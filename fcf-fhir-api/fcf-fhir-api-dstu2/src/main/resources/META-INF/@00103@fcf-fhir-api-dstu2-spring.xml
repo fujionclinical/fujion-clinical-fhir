@@ -9,7 +9,7 @@
         <!-- Data Source Configuration -->
         
         <bean id="dstu2DataSourceFactory"
-              class="org.fujionclinical.fhir.api.dstu2.common.FhirDataSourceFactory"/>
+              class="org.fujionclinical.fhir.api.dstu2.common.Dstu2DataSourceFactory"/>
 
         <bean id="dstu2DataSource" factory-bean="dstu2DataSourceFactory" factory-method="create">
             <constructor-arg value="FHIR_DSTU2"/>

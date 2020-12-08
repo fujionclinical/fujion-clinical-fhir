@@ -30,17 +30,17 @@ import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.MedicationAdministration;
 import ca.uhn.fhir.model.dstu2.resource.MedicationOrder;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.FhirDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationService {
 
-    private final FhirDataSource dataSource;
+    private final Dstu2DataSource dataSource;
 
-    public MedicationService(FhirDataSource dataSource) {
+    public MedicationService(Dstu2DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
