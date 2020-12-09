@@ -36,11 +36,10 @@ import java.util.List;
 /**
  * Data service wrapper for retrieving document contents.
  */
-public class DocumentDisplayDataService extends AbstractQueryServiceEx<DocumentService, Document> {
-
+public class DocumentDisplayDataService extends AbstractQueryServiceEx<Document> {
 
     public DocumentDisplayDataService(DocumentService service) {
-        super(service);
+        super(service.getDataSource());
     }
 
     @Override

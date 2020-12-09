@@ -26,7 +26,6 @@
 package org.fujionclinical.fhir.api.r4.common;
 
 import edu.utah.kmm.model.cool.common.MiscUtils;
-import edu.utah.kmm.model.cool.mediator.common.MimeContent;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -343,24 +342,6 @@ public class R4Util {
      */
     public static List<HumanName> getNames(IBaseResource resource) {
         return getListProperty(resource, "name");
-    }
-
-    /**
-     * Returns the MimeContent of an attachment.
-     *
-     * @param attachment An attachment.
-     * @return The MimeContent of the attachment.
-     */
-    public static MimeContent getContent(Attachment attachment) {
-        String contentType = attachment.getContentType();
-
-        if (!attachment.getDataElement().isEmpty()) {
-            return new MimeContent(contentType, attachment.getData());
-        } else if (!attachment.getUrlElement().isEmpty()) {
-            return new MimeContent(contentType, attachment.getUrl());
-        } else {
-            return null;
-        }
     }
 
     /**

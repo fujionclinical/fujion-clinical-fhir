@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.api.stu3.document;
 import ca.uhn.fhir.rest.gclient.IQuery;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import edu.utah.kmm.model.cool.clinical.finding.Document;
+import edu.utah.kmm.model.cool.mediator.datasource.DataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3DataSource;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.CodeSystem;
@@ -118,4 +119,7 @@ public class DocumentService {
         return results;
     }
 
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 }

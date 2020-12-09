@@ -38,10 +38,13 @@ import java.util.Date;
 /**
  * Data service wrapper for documents service.
  */
-public class DocumentListDataService extends AbstractQueryServiceEx<DocumentService, Document> {
+public class DocumentListDataService extends AbstractQueryServiceEx<Document> {
+
+    private final DocumentService service;
 
     public DocumentListDataService(DocumentService service) {
-        super(service);
+        super(service.getDataSource());
+        this.service = service;
     }
 
     @Override
