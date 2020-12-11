@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.smart.common;
 
 import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.util.CoolUtils;
-import org.fujionclinical.api.model.patient.PatientContext;
+import org.fujionclinical.api.cool.patient.PatientContext;
 
 /**
  * Implements SMART patient context.

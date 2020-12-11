@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.smart.common;
 
 import edu.utah.kmm.model.cool.clinical.encounter.Encounter;
 import edu.utah.kmm.model.cool.util.CoolUtils;
-import org.fujionclinical.api.model.encounter.EncounterContext;
+import org.fujionclinical.api.cool.encounter.EncounterContext;
 
 /**
  * Implements SMART encounter context.

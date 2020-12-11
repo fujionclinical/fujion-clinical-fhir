@@ -27,8 +27,8 @@ package org.fujionclinical.fhir.lib.sharedforms;
 
 import edu.utah.kmm.model.cool.foundation.entity.Person;
 import org.fujionclinical.api.context.ISurveyResponse;
+import org.fujionclinical.api.cool.patient.PatientContext;
 import org.fujionclinical.api.core.FrameworkUtil;
-import org.fujionclinical.api.model.patient.PatientContext;
 import org.fujionclinical.sharedforms.controller.AbstractServiceController;
 
 /**

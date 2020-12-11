@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-api-model</artifactId>
+            <artifactId>fcf-api-cool</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
