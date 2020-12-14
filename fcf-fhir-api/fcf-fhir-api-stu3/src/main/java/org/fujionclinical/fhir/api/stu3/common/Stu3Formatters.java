@@ -27,7 +27,7 @@ package org.fujionclinical.fhir.api.stu3.common;
 
 import edu.utah.kmm.model.cool.common.MiscUtils;
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
-import edu.utah.kmm.model.cool.mediator.fhir.stu3.transform.PersonNameTransform;
+import edu.utah.kmm.model.cool.mediator.fhir.stu3.person.PersonNameTransform;
 import edu.utah.kmm.model.cool.util.PersonNameParsers;
 import org.apache.commons.lang3.StringUtils;
 import org.hl7.fhir.dstu3.model.*;

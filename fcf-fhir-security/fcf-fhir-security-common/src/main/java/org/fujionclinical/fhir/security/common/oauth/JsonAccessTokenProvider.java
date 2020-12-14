@@ -42,6 +42,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.fujion.common.Assert;
 import org.fujion.common.MiscUtil;
 import org.fujionclinical.fhir.security.common.ICredentialProvider;
 
@@ -75,7 +76,7 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
     @Override
     public JsonAccessToken getAccessToken(
             String tokenEndpointUrl,
-            IAccessTokenRequest request) {
+            IAccessTokenRequest<?> request) {
         String clientId = request.getClientId();
         ICredentialProvider<?> clientSecretCredentials = request.getCredentials();
 
@@ -89,7 +90,7 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
         }
 
         JsonObject rootResponse = post(tokenEndpointUrl, clientId, clientSecretCredentials, paramPairs);
-        JsonAccessToken jsonAccessToken = buildAccessToken(rootResponse, null);
+        JsonAccessToken jsonAccessToken = buildAccessToken(rootResponse);
 
         String idToken = jsonAccessToken.getIdTokenStr();
 
@@ -109,14 +110,14 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
     @Override
     public JsonAccessToken refreshAccessToken(
             String tokenEndpointUrl,
-            IAccessTokenRequest request,
+            IAccessTokenRequest<?> request,
             IAccessToken accessToken) {
         String clientId = request.getClientId();
         ICredentialProvider<?> clientSecretCredentials = request.getCredentials();
 
         JsonObject rootResponse = post(tokenEndpointUrl, clientId, clientSecretCredentials,
                 accessToken.asNameValuePairList());
-        return buildAccessToken(rootResponse, new String[]{});
+        return buildAccessToken(rootResponse);
     }
 
     @Override
@@ -130,9 +131,7 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
         return buildUserInfo(jsonObject);
     }
 
-    protected JsonAccessToken buildAccessToken(
-            JsonObject rootResponse,
-            String[] params) {
+    protected JsonAccessToken buildAccessToken(JsonObject rootResponse) {
         return new JsonAccessToken(rootResponse, getResponseElement(IAccessToken.ACCESS_TOKEN, rootResponse),
                 getResponseElement(IAccessToken.TOKEN_TYPE, rootResponse),
                 getResponseElement(IAccessToken.EXPIRES_IN, rootResponse),
@@ -156,29 +155,22 @@ public class JsonAccessTokenProvider implements IAccessTokenProvider<JsonAccessT
     protected JsonObject post(
             String serviceUrl,
             String clientId,
-            ICredentialProvider clientCredentials,
+            ICredentialProvider<?> clientCredentials,
             List<NameValuePair> transferParams) {
         HttpPost postRequest = new HttpPost(serviceUrl);
         postRequest.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
         if (clientCredentials instanceof ClientSecretCredentials) {
             Object credentialsObj = clientCredentials.getCredentials();
-
-            if (credentialsObj instanceof String) {
-                String credentialsStr = (String) credentialsObj;
-
-                if (StringUtils.isNotBlank(clientId) && StringUtils.isNotBlank(credentialsStr)) {
-                    setAuthorizationHeader(postRequest, clientId, credentialsStr);
-                } else {
-                    throw new RuntimeException("Confidential client authorization requires clientId and client secret.");
-                }
-            } else {
-                throw new IllegalArgumentException("ICredentialProvider not supported");
-            }
+            Assert.isTrue(credentialsObj instanceof String, "Client credentials are not the correct type");
+            String credentialsStr = credentialsObj.toString();
+            Assert.isTrue(StringUtils.isNotBlank(clientId) && StringUtils.isNotBlank(credentialsStr),
+                    "Confidential client authorization requires client ID and client secret");
+            setAuthorizationHeader(postRequest, clientId, credentialsStr);
         } else if (clientCredentials instanceof JWTCredentials) {
             ((JWTCredentials) clientCredentials).setAudience(serviceUrl);
         } else {
-            throw new IllegalArgumentException("ICredentialProvider type not supported");
+            return Assert.fail("ICredentialProvider type not supported");
         }
 
         try {

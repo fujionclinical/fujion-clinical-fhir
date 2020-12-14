@@ -31,7 +31,7 @@ import ca.uhn.fhir.model.primitive.DateDt;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import edu.utah.kmm.model.cool.common.MiscUtils;
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.transform.PersonNameTransform;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.person.PersonNameTransform;
 import edu.utah.kmm.model.cool.util.PersonNameParsers;
 import org.apache.commons.lang3.StringUtils;
 

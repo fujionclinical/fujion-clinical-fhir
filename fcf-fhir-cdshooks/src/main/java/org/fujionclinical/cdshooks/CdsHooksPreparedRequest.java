@@ -27,6 +27,7 @@ package org.fujionclinical.cdshooks;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.util.UrlUtil;
+import org.fujion.common.Assert;
 import org.fujionclinical.cdshooks.CdsHooksPlaceholderResolvers.ICdsHooksPlaceholderResolver;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.opencds.hooks.lib.json.JsonUtil;
@@ -34,7 +35,6 @@ import org.opencds.hooks.model.context.WritableHookContext;
 import org.opencds.hooks.model.discovery.Service;
 import org.opencds.hooks.model.request.CdsRequest;
 import org.opencds.hooks.model.request.WritableCdsRequest;
-import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;

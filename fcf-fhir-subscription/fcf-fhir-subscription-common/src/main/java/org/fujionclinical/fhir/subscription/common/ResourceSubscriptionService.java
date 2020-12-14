@@ -32,6 +32,7 @@ import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fujion.common.Assert;
 import org.fujionclinical.api.event.EventMessage;
 import org.fujionclinical.api.event.EventUtil;
 import org.fujionclinical.api.messaging.Message;
@@ -39,7 +40,6 @@ import org.fujionclinical.api.messaging.ProducerService;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.HashMap;

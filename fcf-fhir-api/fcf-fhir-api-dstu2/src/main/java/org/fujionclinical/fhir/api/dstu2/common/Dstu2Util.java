@@ -30,11 +30,11 @@ import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.model.dstu2.valueset.AddressUseEnum;
 import ca.uhn.fhir.model.dstu2.valueset.NameUseEnum;
 import ca.uhn.fhir.model.dstu2.valueset.UnitsOfTimeEnum;
-import edu.utah.kmm.model.cool.common.MiscUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.fujion.common.Assert;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.List;
@@ -158,7 +158,7 @@ public class Dstu2Util {
      * @return The corresponding enumeration value.
      */
     public static UnitsOfTimeEnum convertTimeUnitToEnum(String timeUnit) {
-        UnitsOfTimeEnum value = MiscUtils.stringToEnum(timeUnit, UnitsOfTimeEnum.class);
+        UnitsOfTimeEnum value = EnumUtils.getEnumIgnoreCase(UnitsOfTimeEnum.class, timeUnit);
         Assert.notNull(value, () -> "Unknown time unit " + timeUnit);
         return value;
     }

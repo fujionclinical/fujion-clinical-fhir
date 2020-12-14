@@ -26,10 +26,10 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import ca.uhn.fhir.model.api.Tag;
+import org.fujion.common.Assert;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.Map;

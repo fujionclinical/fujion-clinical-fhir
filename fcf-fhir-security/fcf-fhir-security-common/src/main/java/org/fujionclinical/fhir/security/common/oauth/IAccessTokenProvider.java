@@ -29,11 +29,11 @@ public interface IAccessTokenProvider<T extends IAccessToken> {
 
     T getAccessToken(
             String tokenEndpointUrl,
-            IAccessTokenRequest request);
+            IAccessTokenRequest<?> request);
 
     T refreshAccessToken(
             String tokenEndpointUrl,
-            IAccessTokenRequest request,
+            IAccessTokenRequest<?> request,
             IAccessToken accessToken);
 
     IUserInfo getUserInfo(

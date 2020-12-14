@@ -27,12 +27,12 @@ package org.fujionclinical.fhir.smart.common;
 
 import org.apache.commons.lang3.StringUtils;
 import org.fujion.annotation.Component;
+import org.fujion.common.Assert;
 import org.fujion.component.BaseUIComponent;
 import org.fujion.component.Page;
 import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 
 import java.util.*;
 

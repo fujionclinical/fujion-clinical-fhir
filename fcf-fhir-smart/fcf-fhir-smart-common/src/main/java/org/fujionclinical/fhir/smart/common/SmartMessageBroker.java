@@ -25,6 +25,7 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
+import org.fujion.common.Assert;
 import org.fujion.component.BaseComponent;
 import org.fujion.event.Event;
 import org.fujion.event.IEventListener;
@@ -33,7 +34,6 @@ import org.fujionclinical.api.event.IEventManager;
 import org.fujionclinical.api.event.IEventSubscriber;
 import org.fujionclinical.api.spring.SpringUtil;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.Assert;
 
 import java.util.*;
 

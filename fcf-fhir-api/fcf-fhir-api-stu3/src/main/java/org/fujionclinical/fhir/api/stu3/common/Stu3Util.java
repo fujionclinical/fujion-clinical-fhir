@@ -25,12 +25,12 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
-import edu.utah.kmm.model.cool.common.MiscUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.fujion.common.Assert;
 import org.fujionclinical.fhir.api.common.core.FhirUtil;
 import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseResource;
-import org.springframework.util.Assert;
 
 import java.util.Date;
 import java.util.List;
@@ -150,7 +150,7 @@ public class Stu3Util {
      * @return The corresponding enumeration value.
      */
     public static Timing.UnitsOfTime convertTimeUnitToEnum(String timeUnit) {
-        Timing.UnitsOfTime value = MiscUtils.stringToEnum(timeUnit, Timing.UnitsOfTime.class);
+        Timing.UnitsOfTime value = EnumUtils.getEnumIgnoreCase(Timing.UnitsOfTime.class, timeUnit);
         Assert.notNull(value, () -> "Unknown time unit " + timeUnit);
         return value;
     }

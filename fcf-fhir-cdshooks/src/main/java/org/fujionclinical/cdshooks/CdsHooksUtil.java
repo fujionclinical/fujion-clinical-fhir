@@ -29,6 +29,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import com.google.gson.*;
+import org.fujion.common.Assert;
 import org.opencds.hooks.lib.json.JsonUtil;
 import org.opencds.hooks.model.dstu2.util.Dstu2JsonUtil;
 import org.opencds.hooks.model.r4.util.R4JsonUtil;
@@ -92,7 +93,7 @@ public class CdsHooksUtil {
                 return JSON_R5;
 
             default:
-                throw new IllegalArgumentException("Unsupported FHIR version: " + version.getFhirVersionString());
+                return Assert.fail("Unsupported FHIR version: %s", version.getFhirVersionString());
         }
     }
 

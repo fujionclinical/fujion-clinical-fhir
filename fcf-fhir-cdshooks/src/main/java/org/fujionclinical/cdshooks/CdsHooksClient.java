@@ -31,6 +31,7 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.TrustStrategy;
+import org.fujion.common.Assert;
 import org.fujion.common.Logger;
 import org.fujion.thread.ThreadUtil;
 import org.fujionclinical.cdshooks.CdsHooksPreparedRequest.CdsHooksContext;
@@ -42,7 +43,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
@@ -307,7 +307,7 @@ public class CdsHooksClient {
      */
     public Service getService(String id) {
         Service service = catalog.getService(id);
-        Assert.notNull(service, () -> "No service with id '" + id + "' found");
+        Assert.notNull(service, "No service with id '%s' found", id);
         return service;
     }
     

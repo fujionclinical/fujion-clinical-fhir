@@ -53,7 +53,6 @@ public class SmartContextRegistry implements DestructionAwareBeanPostProcessor {
      *
      * @param contextName The name of the SMART context.
      * @return The context implementation.
-     * @throws IllegalArgumentException If the context name is not known.
      */
     public List<ISmartContext> get(String contextName) {
         List<ISmartContext> contexts = registry.get(contextName);
