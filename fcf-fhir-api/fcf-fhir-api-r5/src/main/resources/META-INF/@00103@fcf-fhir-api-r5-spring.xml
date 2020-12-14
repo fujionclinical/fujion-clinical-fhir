@@ -15,24 +15,9 @@
             <constructor-arg value="FHIR_R5"/>
         </bean>
 
-        <bean id="r5ConditionService"
-              class="org.fujionclinical.fhir.api.r5.condition.ConditionService">
-            <constructor-arg ref="r5DataSource"/>
-        </bean>
-
         <bean id="r5MedicationService"
               class="org.fujionclinical.fhir.api.r5.medication.MedicationService">
             <constructor-arg ref="r5DataSource"/>
-        </bean>
-
-        <bean id="r5DocumentService"
-              class="org.fujionclinical.fhir.api.r5.document.DocumentService">
-            <constructor-arg ref="r5DataSource"/>
-        </bean>
-
-        <bean id="r5DocumentTypeEnumerator"
-              class="org.fujionclinical.fhir.api.r5.document.DocumentTypeEnumerator">
-            <constructor-arg ref="r5DocumentService"/>
         </bean>
 
         <!-- Load formatters -->

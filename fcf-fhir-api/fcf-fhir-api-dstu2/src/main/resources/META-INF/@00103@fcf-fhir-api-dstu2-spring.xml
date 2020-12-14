@@ -15,24 +15,9 @@
             <constructor-arg value="FHIR_DSTU2"/>
         </bean>
 
-        <bean id="dstu2ConditionService"
-              class="org.fujionclinical.fhir.api.dstu2.condition.ConditionService">
-            <constructor-arg ref="dstu2DataSource"/>
-        </bean>
-
         <bean id="dstu2MedicationService"
               class="org.fujionclinical.fhir.api.dstu2.medication.MedicationService">
             <constructor-arg ref="dstu2DataSource"/>
-        </bean>
-
-        <bean id="dstu2DocumentService"
-              class="org.fujionclinical.fhir.api.dstu2.document.DocumentService">
-            <constructor-arg ref="dstu2DataSource"/>
-        </bean>
-
-        <bean id="dstu2DocumentTypeEnumerator"
-              class="org.fujionclinical.fhir.api.dstu2.document.DocumentTypeEnumerator">
-            <constructor-arg ref="dstu2DocumentService"/>
         </bean>
 
         <!-- Load formatters -->
