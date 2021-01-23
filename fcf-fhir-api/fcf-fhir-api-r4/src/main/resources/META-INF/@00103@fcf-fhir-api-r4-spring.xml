@@ -15,11 +15,6 @@
             <constructor-arg value="FHIR_R4"/>
         </bean>
 
-        <bean id="r4MedicationService"
-              class="org.fujionclinical.fhir.api.r4.medication.MedicationService">
-            <constructor-arg ref="r4DataSource"/>
-        </bean>
-
         <!-- Load formatters -->
 
         <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">

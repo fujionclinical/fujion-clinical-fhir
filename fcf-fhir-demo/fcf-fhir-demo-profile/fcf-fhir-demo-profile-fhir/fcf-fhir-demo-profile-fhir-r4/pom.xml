@@ -20,41 +20,6 @@
         <!-- FHIR-specific Artifacts -->
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-diagnosticreports-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-adversereactions-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-familyhistory-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-medicationorders-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-orders-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-procedures-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-fhir-plugin-observations-r4</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-fhir-scenario-r4</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

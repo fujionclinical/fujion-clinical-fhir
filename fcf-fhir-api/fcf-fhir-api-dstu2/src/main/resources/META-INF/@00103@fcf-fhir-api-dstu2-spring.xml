@@ -15,11 +15,6 @@
             <constructor-arg value="FHIR_DSTU2"/>
         </bean>
 
-        <bean id="dstu2MedicationService"
-              class="org.fujionclinical.fhir.api.dstu2.medication.MedicationService">
-            <constructor-arg ref="dstu2DataSource"/>
-        </bean>
-
         <!-- Load formatters -->
 
         <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">

@@ -25,10 +25,10 @@
                             <fcfEncounters/>
                         </treepane>
                         <treepane label="Family History">
-                            <fcfFhirFamilyHistory/>
+                            <fcfFamilyHistory/>
                         </treepane>
                         <treepane label="Adverse Reactions">
-                            <fcfFhirAdverseReactions/>
+                            <fcfAdverseReactions/>
                         </treepane>
                         <treepane label="Conditions">
                             <fcfConditions/>
@@ -39,19 +39,19 @@
                         </treepane>
                         -->
                         <treepane label="Diagnostic Reports">
-                            <fcfFhirDiagnosticReports/>
+                            <fcfDiagnosticReports/>
                         </treepane>
                         <treepane label="All Orders">
-                            <fcfFhirOrders/>
+                            <fcfOrders/>
                         </treepane>
                         <treepane label="Medication Orders">
-                            <fcfFhirMedicationOrders/>
+                            <fcfMedicationRequests/>
                         </treepane>
                         <treepane label="Observation Results">
                             <fcfObservations/>
                         </treepane>
                         <treepane label="Procedures">
-                            <fcfFhirProcedures/>
+                            <fcfServiceRequests/>
                         </treepane>
                     </treeview>
                 </tabpane>

@@ -15,13 +15,6 @@
     <name>FHIR Plugin Aggregator</name>
 
     <modules>
-        <module>fcf-fhir-plugin-adversereactions</module>
-        <module>fcf-fhir-plugin-diagnosticreports</module>
-        <module>fcf-fhir-plugin-familyhistory</module>
-        <module>fcf-fhir-plugin-medicationorders</module>
-        <module>fcf-fhir-plugin-observations</module>
-        <module>fcf-fhir-plugin-orders</module>
-        <module>fcf-fhir-plugin-procedures</module>
         <module>fcf-fhir-plugin-scenario</module>
     </modules>
 </project>
