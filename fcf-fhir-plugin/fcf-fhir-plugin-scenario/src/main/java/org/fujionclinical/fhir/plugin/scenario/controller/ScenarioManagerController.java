@@ -43,12 +43,12 @@ import org.fujionclinical.shell.plugins.PluginController;
 import org.fujionclinical.ui.dialog.DialogUtil;
 import org.fujionclinical.ui.util.FCFUtil;
 
-import java.util.Collections;
 import java.util.Comparator;
 
 /**
  * This controller is only intended to be used for demo purposes in order to stage and unstage data.
  */
+@SuppressWarnings("rawtypes")
 public class ScenarioManagerController extends PluginController implements ScenarioContext.IScenarioContextSubscriber {
 
     private enum Action {
@@ -126,13 +126,14 @@ public class ScenarioManagerController extends PluginController implements Scena
         refreshScenarios();
     }
 
+    @SuppressWarnings("unchecked")
     private void refreshScenarios() {
         cboScenarios.setSelectedItem(null);
         model.clear();
         model.addAll(scenarioRegistry.getAll());
         cboScenarios.setPlaceholder(
                 StrUtil.getLabel(model.isEmpty() ? "fcf.scenario.cbox.placeholder.none" : "fcf.scenario.cbox.placeholder"));
-        Collections.sort(model, scenarioComparator);
+        model.sort(scenarioComparator);
         disableButtons(true, false);
     }
 
@@ -171,20 +172,28 @@ public class ScenarioManagerController extends PluginController implements Scena
 
     @EventHandler(value = "click", target = "btnDelete")
     private void onClick$btnDelete() {
-        DialogUtil.confirm("Delete all resources for this scenario?", getSelectedScenario().getName(), (confirm) -> {
-            if (confirm) {
-                doAction(Action.DELETE);
-            }
-        });
+        ScenarioBase scenario = getSelectedScenario();
+
+        if (scenario != null) {
+            DialogUtil.confirm("Delete all resources for this scenario?", scenario.getName(), (confirm) -> {
+                if (confirm) {
+                    doAction(Action.DELETE);
+                }
+            });
+        }
     }
 
     @EventHandler(value = "click", target = "btnReset")
     private void onClick$btnReset() {
-        DialogUtil.confirm("Reset this scenario to its baseline state?", getSelectedScenario().getName(), (confirm) -> {
-            if (confirm) {
-                doAction(Action.RESET);
-            }
-        });
+        ScenarioBase scenario = getSelectedScenario();
+
+        if (scenario != null) {
+            DialogUtil.confirm("Reset this scenario to its baseline state?", scenario.getName(), (confirm) -> {
+                if (confirm) {
+                    doAction(Action.RESET);
+                }
+            });
+        }
     }
 
     @EventHandler(value = "click", target = "btnDeleteAll")

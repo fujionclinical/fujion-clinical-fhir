@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-patientselection-v1</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
@@ -41,7 +41,17 @@
         <!-- FCF Plugins -->
         <dependency>
             <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-adversereactions</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-plugin-chat</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-conditions</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
@@ -51,12 +61,32 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-diagnosticreports</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-documents</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-plugin-encounters</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-observations</artifactId>
+            <artifactId>fcf-plugin-eventtesting</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-familyhistory</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-filetailer</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
@@ -66,12 +96,27 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-sandbox</artifactId>
+            <artifactId>fcf-plugin-medicationrequests</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-patientphoto</artifactId>
+            <artifactId>fcf-plugin-messagetesting</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-mockup</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-observations</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-orders</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
@@ -81,7 +126,27 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-patientphoto</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-sandbox</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-servicerequests</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-plugin-sessiontracker</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-settings</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
         <dependency>
@@ -99,33 +164,6 @@
             <artifactId>fcf-fhir-plugin-scenario</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-conditions</artifactId>
-            <version>${fcf.core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-adversereactions</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-diagnosticreports</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-familyhistory</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>org.fujionclinical</groupId>
-            <artifactId>fcf-plugin-documents</artifactId>
-            <version>${fcf.core.version}</version>
-        </dependency>
-        -->
         <!-- Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>

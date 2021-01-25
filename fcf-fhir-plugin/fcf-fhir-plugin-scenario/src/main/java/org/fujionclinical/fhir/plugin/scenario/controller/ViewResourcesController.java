@@ -47,6 +47,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public class ViewResourcesController extends FrameworkController {
 
     private static final Comparator<IBaseResource> resourceComparator = (r1, r2) -> r1.getIdElement().getValue().compareToIgnoreCase(r2.getIdElement().getValue());
@@ -66,6 +67,7 @@ public class ViewResourcesController extends FrameworkController {
     private Grid grdResources;
 
     @WiredComponent
+    @SuppressWarnings("unused")
     private Rows rowsResources;
 
     @WiredComponent
@@ -113,6 +115,7 @@ public class ViewResourcesController extends FrameworkController {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void afterInitialized(BaseComponent comp) {
         super.afterInitialized(comp);
         window = (Window) comp;
@@ -140,6 +143,10 @@ public class ViewResourcesController extends FrameworkController {
     @EventHandler(value = "click", target = "@btnDelete")
     private void onClick$btnDelete() {
         IBaseResource resource = getSelectedResource();
+
+        if (resource == null) {
+            return;
+        }
 
         DialogUtil.confirm("Delete " + FhirUtils.getResourceIdPath(resource, true) + "?", "Delete Resource", (confirm) -> {
             if (confirm) {
