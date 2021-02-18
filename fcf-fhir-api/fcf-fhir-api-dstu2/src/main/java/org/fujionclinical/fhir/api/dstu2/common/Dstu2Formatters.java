@@ -25,15 +25,12 @@
  */
 package org.fujionclinical.fhir.api.dstu2.common;
 
-import ca.uhn.fhir.model.dstu2.composite.*;
-import ca.uhn.fhir.model.dstu2.resource.Location;
-import ca.uhn.fhir.model.primitive.DateDt;
-import ca.uhn.fhir.model.primitive.DateTimeDt;
 import edu.utah.kmm.model.cool.common.MiscUtils;
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.person.PersonNameTransform;
 import edu.utah.kmm.model.cool.util.PersonNameParsers;
 import org.apache.commons.lang3.StringUtils;
+import org.hl7.fhir.dstu2.model.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -46,19 +43,19 @@ import static edu.utah.kmm.model.cool.mediator.common.Formatters.format;
 public class Dstu2Formatters {
 
     static {
-        Formatters.register(AnnotationDt.class, Dstu2Formatters::formatAnnotation);
-        Formatters.register(HumanNameDt.class, Dstu2Formatters::formatName);
-        Formatters.register(CodeableConceptDt.class, Dstu2Formatters::formatCodeableConcept);
-        Formatters.register(DateTimeDt.class, Dstu2Formatters::formatDateTime);
-        Formatters.register(DateDt.class, Dstu2Formatters::formatDate);
-        Formatters.register(PeriodDt.class, Dstu2Formatters::formatPeriod);
-        Formatters.register(QuantityDt.class, Dstu2Formatters::formatQuantity);
-        Formatters.register(ResourceReferenceDt.class, Dstu2Formatters::formatReference);
-        Formatters.register(SimpleQuantityDt.class, Dstu2Formatters::formatSimpleQuantity);
-        Formatters.register(TimingDt.class, Dstu2Formatters::formatTiming);
-        Formatters.register(AgeDt.class, Dstu2Formatters::formatAge);
+        Formatters.register(Annotation.class, Dstu2Formatters::formatAnnotation);
+        Formatters.register(HumanName.class, Dstu2Formatters::formatName);
+        Formatters.register(CodeableConcept.class, Dstu2Formatters::formatCodeableConcept);
+        Formatters.register(DateTimeType.class, Dstu2Formatters::formatDateTime);
+        Formatters.register(DateType.class, Dstu2Formatters::formatDate);
+        Formatters.register(Period.class, Dstu2Formatters::formatPeriod);
+        Formatters.register(Quantity.class, Dstu2Formatters::formatQuantity);
+        Formatters.register(Reference.class, Dstu2Formatters::formatReference);
+        Formatters.register(SimpleQuantity.class, Dstu2Formatters::formatSimpleQuantity);
+        Formatters.register(Timing.class, Dstu2Formatters::formatTiming);
+        Formatters.register(Age.class, Dstu2Formatters::formatAge);
         Formatters.register(Location.class, Dstu2Formatters::formatLocation);
-        Formatters.register(IdentifierDt.class, Dstu2Formatters::formatIdentifier);
+        Formatters.register(Identifier.class, Dstu2Formatters::formatIdentifier);
     }
 
     /**
@@ -67,7 +64,7 @@ public class Dstu2Formatters {
      * @param value The annotation value.
      * @return The displayable value (possibly null).
      */
-    public static String formatAnnotation(AnnotationDt value) {
+    public static String formatAnnotation(Annotation value) {
         return value.getText();
     }
 
@@ -77,14 +74,14 @@ public class Dstu2Formatters {
      * @param value Codeable concept.
      * @return Displayable value.
      */
-    public static String formatCodeableConcept(CodeableConceptDt value) {
+    public static String formatCodeableConcept(CodeableConcept value) {
         String text = value.getText();
 
         if (!StringUtils.isEmpty(text)) {
             return text;
         }
 
-        CodingDt coding = MiscUtils.getFirst(value.getCoding());
+        Coding coding = MiscUtils.getFirst(value.getCoding());
         return coding == null ? null : !coding.getDisplayElement().isEmpty() ? coding.getDisplay() : coding.getCode();
     }
 
@@ -94,7 +91,7 @@ public class Dstu2Formatters {
      * @param value The timestamp.
      * @return The displayable value (possibly null).
      */
-    public static String formatDateTime(DateTimeDt value) {
+    public static String formatDateTime(DateTimeType value) {
         return format(value.getValue());
     }
 
@@ -104,7 +101,7 @@ public class Dstu2Formatters {
      * @param value The date value.
      * @return The displayable value (possibly null).
      */
-    public static String formatDate(DateDt value) {
+    public static String formatDate(DateType value) {
         return format(value.getValue());
     }
 
@@ -114,7 +111,7 @@ public class Dstu2Formatters {
      * @param value The period value.
      * @return The displayable value (possibly null).
      */
-    public static String formatPeriod(PeriodDt value) {
+    public static String formatPeriod(Period value) {
         Date start = value.getStart();
         Date end = value.getEnd();
         String result = "";
@@ -140,7 +137,7 @@ public class Dstu2Formatters {
      * @param value The quantity value.
      * @return The displayable value (possibly null).
      */
-    public static String formatQuantity(QuantityDt value) {
+    public static String formatQuantity(Quantity value) {
         BigDecimal rawValue = value.getValue();
         String val = rawValue == null ? "" : rawValue.toString();
         String units = val.isEmpty() ? null : StringUtils.trimToNull(value.getUnit());
@@ -153,8 +150,8 @@ public class Dstu2Formatters {
      * @param value The reference value.
      * @return The displayable value (possibly null).
      */
-    public static String formatReference(ResourceReferenceDt value) {
-        return value == null ? null : value.getDisplay().isEmpty() ? null : value.getDisplay().getValue();
+    public static String formatReference(Reference value) {
+        return value == null ? null : value.getDisplay().isEmpty() ? null : value.getDisplay();
     }
 
     /**
@@ -163,7 +160,7 @@ public class Dstu2Formatters {
      * @param value The quantity value.
      * @return The displayable value (possibly null).
      */
-    public static String formatSimpleQuantity(SimpleQuantityDt value) {
+    public static String formatSimpleQuantity(SimpleQuantity value) {
         String unit = StringUtils.trimToNull(value.getUnit());
         return value.getValue().toPlainString() + (unit == null ? "" : " " + unit);
     }
@@ -174,7 +171,7 @@ public class Dstu2Formatters {
      * @param value The timing value.
      * @return The displayable value (possibly null).
      */
-    public static String formatTiming(TimingDt value) {
+    public static String formatTiming(Timing value) {
         StringBuilder sb = new StringBuilder();
         String code = format(value.getCode(), null);
 
@@ -182,7 +179,7 @@ public class Dstu2Formatters {
             sb.append(code).append(" ");
         }
 
-        TimingDt.Repeat repeat = !value.getRepeat().isEmpty() ? value.getRepeat() : null;
+        Timing.TimingRepeatComponent repeat = !value.getRepeat().isEmpty() ? value.getRepeat() : null;
 
         if (repeat != null) {
             // TODO: finish
@@ -205,7 +202,7 @@ public class Dstu2Formatters {
      * @param value The age value.
      * @return The displayable value (possibly null).
      */
-    public static String formatAge(AgeDt value) {
+    public static String formatAge(Age value) {
         String unit = value.getUnit().isEmpty() ? "" : " " + value.getUnit();
         BigDecimal age = value.getValue();
         return age == null ? null : age.toString() + unit;
@@ -231,11 +228,11 @@ public class Dstu2Formatters {
      * @param value The identifier.
      * @return The displayable value (possibly null).
      */
-    public static String formatIdentifier(IdentifierDt value) {
+    public static String formatIdentifier(Identifier value) {
         return value == null ? null : value.getValue();
     }
 
-    public static String formatName(HumanNameDt name) {
+    public static String formatName(HumanName name) {
         return PersonNameParsers.get().toString(PersonNameTransform.getInstance().toLogicalModel(name));
     }
 

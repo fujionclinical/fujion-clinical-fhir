@@ -25,10 +25,6 @@
  */
 package org.fujionclinical.fhir.scenario.dstu2;
 
-import ca.uhn.fhir.model.dstu2.composite.ResourceReferenceDt;
-import ca.uhn.fhir.model.dstu2.resource.Encounter;
-import ca.uhn.fhir.model.dstu2.resource.ListResource;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
@@ -36,6 +32,10 @@ import edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterTransform;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
+import org.hl7.fhir.dstu2.model.Encounter;
+import org.hl7.fhir.dstu2.model.List_;
+import org.hl7.fhir.dstu2.model.Patient;
+import org.hl7.fhir.dstu2.model.Reference;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
@@ -43,7 +43,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Scenario extends ScenarioBase<ListResource> {
+public class Scenario extends ScenarioBase<List_> {
 
     private final Dstu2DataSource dataSource;
 
@@ -64,13 +64,13 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected ListResource _loadResources(Consumer<IBaseResource> resources) {
-        ListResource list = null;
+    protected List_ _loadResources(Consumer<IBaseResource> resources) {
+        List_ list = null;
 
         try {
-            list = (ListResource) dataSource.getResource(getId());
+            list = (List_) dataSource.getResource(getId());
 
-            for (ListResource.Entry entry : list.getEntry()) {
+            for (List_.ListEntryComponent entry : list.getEntry()) {
                 try {
                     IBaseResource resource = dataSource.getResource(entry.getItem());
                     resources.accept(resource);
@@ -92,11 +92,11 @@ public class Scenario extends ScenarioBase<ListResource> {
     }
 
     @Override
-    protected ListResource _packageResources(Collection<IBaseResource> resources) {
-        ListResource list = new ListResource();
+    protected List_ _packageResources(Collection<IBaseResource> resources) {
+        List_ list = new List_();
 
         for (IBaseResource resource : resources) {
-            ResourceReferenceDt ref = new ResourceReferenceDt(resource.getIdElement());
+            Reference ref = new Reference(resource.getIdElement().getIdPart());
             list.addEntry().setItem(ref);
         }
 
