@@ -36,7 +36,7 @@
         </dependency>
         <dependency>
             <groupId>edu.utah.kmm</groupId>
-            <artifactId>cool-impl-generated</artifactId>
+            <artifactId>cool-impl</artifactId>
             <version>${cool.version}</version>
         </dependency>
         <dependency>
