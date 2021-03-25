@@ -28,7 +28,6 @@ package org.fujionclinical.fhir.subscription.common;
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
-import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,6 +37,7 @@ import org.fujionclinical.api.event.EventUtil;
 import org.fujionclinical.api.messaging.Message;
 import org.fujionclinical.api.messaging.ProducerService;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.opencds.tools.terminology.api.model.ConceptReferenceImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
@@ -112,7 +112,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      */
     public void destroy() {
         if (!disabled) {
-            ICriterion<?> criterion = TAG.exactly().systemAndCode(subscriptionTag.getSystemAsString(),
+            ICriterion<?> criterion = TAG.exactly().systemAndCode(subscriptionTag.getCodeSystemAsString(),
                     subscriptionTag.getCode());
 
             for (BaseSubscriptionFactory factory : factories.values()) {

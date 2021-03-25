@@ -30,10 +30,10 @@ import ca.uhn.fhir.model.dstu2.resource.Subscription;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionChannelTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionStatusEnum;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
-import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
+import org.opencds.tools.terminology.api.model.ConceptReferenceImpl;
 
 import java.util.Collections;
 
@@ -64,7 +64,7 @@ public class SubscriptionFactory extends BaseSubscriptionFactory {
         subscription.setReason("Fujion Subscriber");
         subscription.setChannel(channel);
         subscription.setStatus(SubscriptionStatusEnum.REQUESTED);
-        subscription.setTag(Collections.singletonList(new CodingDt(tag.getSystemAsString(), tag.getCode())));
+        subscription.setTag(Collections.singletonList(new CodingDt(tag.getCodeSystemAsString(), tag.getCode())));
         return wrapper.initialize();
     }
 

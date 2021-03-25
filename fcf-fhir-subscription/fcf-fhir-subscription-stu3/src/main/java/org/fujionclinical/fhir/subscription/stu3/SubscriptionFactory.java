@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.subscription.stu3;
 
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
-import edu.utah.kmm.model.cool.terminology.ConceptReferenceImpl;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
 import org.hl7.fhir.dstu3.model.Subscription;
+import org.opencds.tools.terminology.api.model.ConceptReferenceImpl;
 
 public class SubscriptionFactory extends BaseSubscriptionFactory {
 
@@ -59,7 +59,7 @@ public class SubscriptionFactory extends BaseSubscriptionFactory {
         subscription.setReason("Fujion Subscriber");
         subscription.setChannel(channel);
         subscription.setStatus(Subscription.SubscriptionStatus.REQUESTED);
-        subscription.getMeta().addTag(tag.getSystemAsString(), tag.getCode(), tag.getPreferredName());
+        subscription.getMeta().addTag(tag.getCodeSystemAsString(), tag.getCode(), tag.getPreferredName());
         return wrapper.initialize();
     }
 
