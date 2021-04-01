@@ -26,11 +26,11 @@
 package org.fujionclinical.fhir.subscription.stu3;
 
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.common.Stu3Utils;
+import edu.utah.kmm.terminology.api.model.ConceptReferenceImpl;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ResourceSubscriptionService;
 import org.hl7.fhir.dstu3.model.Subscription;
-import org.opencds.tools.terminology.api.model.ConceptReferenceImpl;
 
 public class SubscriptionFactory extends BaseSubscriptionFactory {
 

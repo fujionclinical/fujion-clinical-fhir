@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.api.stu3.common;
 
-import edu.utah.kmm.model.cool.common.MiscUtils;
+import edu.utah.kmm.common.utils.CommonUtils;
 import edu.utah.kmm.model.cool.mediator.common.Formatters;
 import edu.utah.kmm.model.cool.mediator.fhir.stu3.person.PersonNameTransform;
 import edu.utah.kmm.model.cool.util.PersonNameParsers;
@@ -81,7 +81,7 @@ public class Stu3Formatters {
             return text;
         }
 
-        Coding coding = MiscUtils.getFirst(value.getCoding());
+        Coding coding = CommonUtils.getFirst(value.getCoding());
         return coding == null ? null : !coding.getDisplayElement().isEmpty() ? coding.getDisplay() : coding.getCode();
     }
 
