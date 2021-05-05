@@ -32,15 +32,15 @@ import edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
+import org.fujion.common.MiscUtil;
 import org.fujion.component.*;
+import org.fujion.dialog.DialogUtil;
 import org.fujion.model.IComponentRenderer;
 import org.fujion.model.IModelAndView;
 import org.fujion.model.ListModel;
 import org.fujion.page.PageUtil;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.ui.controller.FrameworkController;
-import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.ui.util.FCFUtil;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 import java.util.Comparator;
@@ -157,7 +157,7 @@ public class ViewResourcesController extends FrameworkController {
                     updateCaption();
                     displayResource();
                 } catch (Exception e) {
-                    DialogUtil.showError("Error deleting resource:\n\n" + FCFUtil.formatExceptionForDisplay(e));
+                    DialogUtil.showError("Error deleting resource:\n\n" + MiscUtil.formatExceptionForDisplay(e));
                 }
             }
         });

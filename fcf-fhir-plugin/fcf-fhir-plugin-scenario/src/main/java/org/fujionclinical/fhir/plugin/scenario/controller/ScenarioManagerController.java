@@ -27,8 +27,10 @@ package org.fujionclinical.fhir.plugin.scenario.controller;
 
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
+import org.fujion.common.MiscUtil;
 import org.fujion.common.StrUtil;
 import org.fujion.component.*;
+import org.fujion.dialog.DialogUtil;
 import org.fujion.event.ChangeEvent;
 import org.fujion.event.Event;
 import org.fujion.event.EventUtil;
@@ -40,8 +42,6 @@ import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioContext;
 import org.fujionclinical.fhir.scenario.common.ScenarioRegistry;
 import org.fujionclinical.shell.plugins.PluginController;
-import org.fujionclinical.ui.dialog.DialogUtil;
-import org.fujionclinical.ui.util.FCFUtil;
 
 import java.util.Comparator;
 
@@ -279,7 +279,7 @@ public class ScenarioManagerController extends PluginController implements Scena
                         result = "Deleted " + count + " resource(s) across " + model.size() + " scenario(s)";
                 }
             } catch (Exception e) {
-                result = FCFUtil.formatExceptionForDisplay(e);
+                result = MiscUtil.formatExceptionForDisplay(e);
             }
         }
 
