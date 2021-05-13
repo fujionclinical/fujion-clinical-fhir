@@ -44,10 +44,10 @@ public class SmartContextService {
 
     private static final SmartContextService instance = new SmartContextService();
 
-    @Value("${smart.client.server.base:}")
+    @Value("${smart.server.base:}")
     private String smartServiceRoot;
 
-    @Value("${fhir.client.server.base:}")
+    @Value("${fhir.server.base:}")
     private String fhirServiceRoot;
 
     private String serviceRoot;
