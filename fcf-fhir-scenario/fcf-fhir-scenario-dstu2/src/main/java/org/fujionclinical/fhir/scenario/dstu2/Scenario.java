@@ -28,6 +28,7 @@ package org.fujionclinical.fhir.scenario.dstu2;
 import edu.utah.kmm.model.cool.foundation.core.Identifiable;
 import edu.utah.kmm.model.cool.foundation.entity.Person;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
+import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterTransform;
 import edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
@@ -96,7 +97,7 @@ public class Scenario extends ScenarioBase<List_> {
         List_ list = new List_();
 
         for (IBaseResource resource : resources) {
-            Reference ref = new Reference(resource.getIdElement().getIdPart());
+            Reference ref = new Reference(Dstu2Utils.getResourceIdPath(resource));
             list.addEntry().setItem(ref);
         }
 
