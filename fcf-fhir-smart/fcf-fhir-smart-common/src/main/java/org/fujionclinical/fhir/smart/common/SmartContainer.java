@@ -103,7 +103,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
         }
 
         if (about != null) {
-            String aboutPath = UUID.randomUUID().toString() + ".html";
+            String aboutPath = UUID.randomUUID() + ".html";
             Resource resource = new ByteArrayResource(about.getBytes());
             aboutSrc = page.registerResource(aboutPath, resource);
             refresh();
@@ -124,7 +124,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
 
         if (contextStr != null) {
             String[] contextArray = contextStr.replaceAll("\\s", "").split(",");
-            _contexts.addAll(Arrays.asList(contextArray));
+            Collections.addAll(_contexts, contextArray);
         }
 
         subscribeAll(true);
@@ -184,7 +184,7 @@ public class SmartContainer extends BaseUIComponent implements ISmartContextSubs
      * Returns true only if all registered contexts are populated.
      */
     private boolean contextPrepared() {
-        return _contexts.containsAll(_context.keySet());
+        return _context.keySet().containsAll(_contexts);
     }
 
     /**
