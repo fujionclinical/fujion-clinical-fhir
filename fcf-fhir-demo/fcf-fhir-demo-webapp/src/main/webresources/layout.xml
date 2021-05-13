@@ -21,6 +21,9 @@
                             <fcfScenarioBuilder/>
                         </treepane>
                         -->
+                        <treepane label="Flowsheet">
+                            <fcfFlowsheet/>
+                        </treepane>
                         <treepane label="Encounters">
                             <fcfEncounters/>
                         </treepane>

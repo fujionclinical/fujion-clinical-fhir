@@ -86,6 +86,11 @@
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
+            <artifactId>fcf-plugin-flowsheet</artifactId>
+            <version>${fcf.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fujionclinical</groupId>
             <artifactId>fcf-plugin-filetailer</artifactId>
             <version>${fcf.core.version}</version>
         </dependency>

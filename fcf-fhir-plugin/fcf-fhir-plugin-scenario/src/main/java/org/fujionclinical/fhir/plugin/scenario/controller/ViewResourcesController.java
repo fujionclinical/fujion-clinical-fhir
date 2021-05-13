@@ -27,6 +27,7 @@ package org.fujionclinical.fhir.plugin.scenario.controller;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
 import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils;
 import org.fujion.ancillary.IResponseCallback;
@@ -109,9 +110,9 @@ public class ViewResourcesController extends FrameworkController {
         });
     }
 
-    public ViewResourcesController(AbstractFhirDataSource data) {
+    public ViewResourcesController(String dataSourceId) {
         super();
-        this.data = data;
+        this.data = (AbstractFhirDataSource) DataSources.get(dataSourceId);
     }
 
     @Override

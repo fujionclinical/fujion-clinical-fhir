@@ -3,7 +3,7 @@
   "clinicalStatus": {
     "coding": [
       {
-        "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+        "system": "http://hl7.org/fhir/ValueSet/condition-clinical",
         "code": "active"
       }
     ]

@@ -30,7 +30,7 @@
 
         <bean id="scenarioViewResourcesController" scope="prototype"
               class="org.fujionclinical.fhir.plugin.scenario.controller.ViewResourcesController">
-            <constructor-arg ref="fhirService"/>
+            <constructor-arg value="${fhir.datasource}"/>
         </bean>
 
     </beans>
