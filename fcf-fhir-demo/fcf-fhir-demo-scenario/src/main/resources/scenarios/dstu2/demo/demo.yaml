@@ -72,3 +72,19 @@ resources:
 
   questionnaire1:
     source: resource/questionnaire/stopbang.json
+
+  careplan1:
+    source: resource/careplan/careplan1.json
+    patient: patient1
+    lastdate_pneumococcal: datetime/T-2y
+    duedate_pneumococcal: datetime/T+5y
+    status_pneumococcal: value/completed
+    lastdate_influenza: datetime/T-1y
+    duedate_influenza: datetime/T+5d
+    status_influenza: value/scheduled
+    lastdate_lipid: datetime/T-6m
+    duedate_lipid: datetime/T+6m
+    status_lipid: value/scheduled
+    lastdate_dtap: datetime/T-11y
+    duedate_dtap: datetime/T-1y
+    status_dtap: value/scheduled

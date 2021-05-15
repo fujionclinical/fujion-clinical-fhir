@@ -1,0 +1,104 @@
+{
+  "resourceType": "CarePlan",
+  "id": null,
+  "subject": {
+    "reference": "${patient}"
+  },
+  "status": "active",
+  "activity": [
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://epic.com/hmt",
+              "code": "231",
+              "display": "Pneumococcal Immunocompetent 19-64 years"
+            }
+          ],
+          "text": "Pneumococcal Immunocompetent 19-64 years"
+        },
+        "description": "1 of 1 - PPSV23",
+        "quantity": {
+          "value": 1,
+          "unit": "index"
+        },
+        "status": "${status_pneumococcal:scheduled}",
+        "scheduledTiming": {
+          "event": [
+            "${lastdate_pneumococcal}",
+            "${duedate_pneumococcal}"
+          ]
+        }
+      }
+    },
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://epic.com/hmt",
+              "code": "68",
+              "display": "Influenza"
+            }
+          ],
+          "text": "Influenza"
+        },
+        "status": "${status_influenza:scheduled}",
+        "scheduledTiming": {
+          "event": [
+            "${lastdate_influenza}",
+            "${duedate_influenza}"
+          ]
+        }
+      }
+    },
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://epic.com/hmt",
+              "code": "2100200001",
+              "display": "Lipid Disorder Screening"
+            }
+          ],
+          "text": "Lipid Disorder Screening"
+        },
+        "status": "${status_lipid:scheduled}",
+        "scheduledTiming": {
+          "event": [
+            "${lastdate_lipid}",
+            "${duedate_lipid}"
+          ]
+        }
+      }
+    },
+    {
+      "detail": {
+        "code": {
+          "coding": [
+            {
+              "system": "http://epic.com/hmt",
+              "code": "75",
+              "display": "DTAP/TDAP/TD"
+            }
+          ],
+          "text": "DTAP/TDAP/TD"
+        },
+        "description": "2 - Td",
+        "quantity": {
+          "value": 2,
+          "unit": "index"
+        },
+        "status": "${status_dtap:scheduled}",
+        "scheduledTiming": {
+          "event": [
+            "${lastdate_dtap}",
+            "${duedate_dtap}"
+          ]
+        }
+      }
+    }
+  ]
+}
