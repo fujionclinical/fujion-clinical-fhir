@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.util.CoolUtils;
+import org.coolmodel.foundation.entity.Person;
+import org.coolmodel.util.CoolUtils;
 import org.fujionclinical.api.cool.patient.PatientContext;
 
 /**

@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.subscription.common;
 
-import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
-import edu.utah.kmm.terminology.api.model.ConceptReferenceImpl;
+import org.coolmodel.core.terminology.ConceptImpl;
+import org.coolmodel.mediator.datasource.DataSources;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 
 public abstract class BaseSubscriptionFactory {
 
@@ -50,6 +50,6 @@ public abstract class BaseSubscriptionFactory {
             String callbackUrl,
             ResourceSubscriptionService.PayloadType payloadType,
             String criteria,
-            ConceptReferenceImpl tag);
+            ConceptImpl tag);
 
 }

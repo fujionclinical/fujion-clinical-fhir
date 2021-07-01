@@ -25,11 +25,11 @@
  */
 package org.fujionclinical.fhir.lib.sharedforms;
 
-import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
-import edu.utah.kmm.model.cool.util.CoolUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.coolmodel.foundation.entity.Person;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
+import org.coolmodel.util.CoolUtils;
 import org.fujionclinical.fhir.api.common.core.NarrativeService;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.fujionclinical.fhir.subscription.common.ISubscriptionCallback;

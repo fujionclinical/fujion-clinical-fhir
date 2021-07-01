@@ -26,8 +26,8 @@
 package org.fujionclinical.fhir.scenario.common;
 
 import ca.uhn.fhir.model.primitive.IdDt;
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujion.common.Logger;
 import org.fujion.common.MiscUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;

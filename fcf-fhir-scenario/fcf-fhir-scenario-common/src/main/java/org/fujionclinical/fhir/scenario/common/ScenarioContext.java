@@ -35,6 +35,7 @@ import org.fujionclinical.api.context.ManagedContext;
 /**
  * Wrapper for shared scenario context.
  */
+@SuppressWarnings("rawtypes unchecked")
 public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedContext<SCENARIO> {
 
     public interface IScenarioContextSubscriber extends IContextSubscriber {

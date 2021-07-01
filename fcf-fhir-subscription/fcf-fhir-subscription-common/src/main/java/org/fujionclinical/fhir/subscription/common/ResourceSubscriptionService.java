@@ -27,11 +27,11 @@ package org.fujionclinical.fhir.subscription.common;
 
 import ca.uhn.fhir.rest.gclient.ICriterion;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
-import edu.utah.kmm.terminology.api.model.ConceptReferenceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.coolmodel.core.terminology.ConceptImpl;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujion.common.Assert;
 import org.fujionclinical.api.event.EventMessage;
 import org.fujionclinical.api.event.EventUtil;
@@ -83,7 +83,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
 
     private final Map<String, BaseSubscriptionFactory> factories = new HashMap<>();
 
-    private final ConceptReferenceImpl subscriptionTag;
+    private final ConceptImpl subscriptionTag;
 
     private final Map<String, BaseSubscriptionWrapper<?>> subscriptionsByParams = new HashMap<>();
 
@@ -102,7 +102,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
         this.producer = producer;
         disabled = StringUtils.isEmpty(callbackUrl);
         this.callbackUrl = disabled ? null : callbackUrl.endsWith("/") ? callbackUrl : callbackUrl + "/";
-        subscriptionTag = new ConceptReferenceImpl(callbackUrl, "ResourceSubscription", null);
+        subscriptionTag = new ConceptImpl(callbackUrl, "ResourceSubscription", null);
         destroy();
         log.info("FHIR Resource Subscription Service is " + (disabled ? "disabled." : "enabled."));
     }

@@ -26,16 +26,16 @@
 package org.fujionclinical.fhir.api.r5.common;
 
 import edu.utah.kmm.common.utils.CommonUtils;
-import edu.utah.kmm.model.cool.mediator.common.Formatters;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.person.PersonNameTransform;
-import edu.utah.kmm.model.cool.util.PersonNameParsers;
 import org.apache.commons.lang3.StringUtils;
+import org.coolmodel.mediator.common.Formatters;
+import org.coolmodel.mediator.fhir.r5.person.PersonNameTransform;
+import org.coolmodel.util.PersonNameParsers;
 import org.hl7.fhir.r5.model.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import static edu.utah.kmm.model.cool.mediator.common.Formatters.format;
+import static org.coolmodel.mediator.common.Formatters.format;
 
 /**
  * FHIR formatting for display.

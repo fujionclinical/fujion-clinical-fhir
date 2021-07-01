@@ -26,7 +26,7 @@
 package org.fujionclinical.fhir.api.r5.common;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
-import edu.utah.kmm.model.cool.mediator.fhir.r5.common.R5DataSource;
+import org.coolmodel.mediator.fhir.r5.common.R5DataSource;
 import org.fujionclinical.fhir.api.common.client.AbstractFhirDataSourceFactory;
 
 /**

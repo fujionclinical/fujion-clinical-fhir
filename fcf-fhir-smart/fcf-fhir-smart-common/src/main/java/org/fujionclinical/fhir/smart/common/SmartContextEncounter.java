@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.smart.common;
 
-import edu.utah.kmm.model.cool.clinical.encounter.Encounter;
-import edu.utah.kmm.model.cool.util.CoolUtils;
+import org.coolmodel.clinical.encounter.Encounter;
+import org.coolmodel.util.CoolUtils;
 import org.fujionclinical.api.cool.encounter.EncounterContext;
 
 /**

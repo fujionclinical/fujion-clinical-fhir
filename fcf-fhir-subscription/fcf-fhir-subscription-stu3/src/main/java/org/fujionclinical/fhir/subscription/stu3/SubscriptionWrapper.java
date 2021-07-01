@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.stu3;
 
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
 import org.hl7.fhir.dstu3.model.Subscription;
 

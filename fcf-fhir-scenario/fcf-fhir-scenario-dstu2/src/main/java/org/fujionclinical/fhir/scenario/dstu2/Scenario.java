@@ -25,12 +25,12 @@
  */
 package org.fujionclinical.fhir.scenario.dstu2;
 
-import edu.utah.kmm.model.cool.foundation.core.Identifiable;
-import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2DataSource;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.encounter.EncounterTransform;
-import edu.utah.kmm.model.cool.mediator.fhir.dstu2.patient.PatientTransform;
+import org.coolmodel.foundation.core.Identifiable;
+import org.coolmodel.foundation.entity.Person;
+import org.coolmodel.mediator.fhir.dstu2.common.Dstu2DataSource;
+import org.coolmodel.mediator.fhir.dstu2.common.Dstu2Utils;
+import org.coolmodel.mediator.fhir.dstu2.encounter.EncounterTransform;
+import org.coolmodel.mediator.fhir.dstu2.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.dstu2.model.Encounter;

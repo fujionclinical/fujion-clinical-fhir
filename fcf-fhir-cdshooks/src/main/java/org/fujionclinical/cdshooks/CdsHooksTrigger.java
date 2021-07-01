@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.cdshooks;
 
-import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
+import org.coolmodel.mediator.datasource.DataSources;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujion.client.ExecutionContext;
 import org.fujion.common.Logger;
 import org.fujionclinical.api.event.EventManager;

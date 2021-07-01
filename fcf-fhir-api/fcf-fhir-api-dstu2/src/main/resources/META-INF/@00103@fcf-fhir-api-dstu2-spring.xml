@@ -24,7 +24,7 @@
         <!-- Initialize model -->
 
         <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">
-            <constructor-arg value="edu.utah.kmm.model.cool.mediator.fhir.dstu2.common.Dstu2Utils"/>
+            <constructor-arg value="org.coolmodel.mediator.fhir.dstu2.common.Dstu2Utils"/>
         </bean>
 
     </beans>

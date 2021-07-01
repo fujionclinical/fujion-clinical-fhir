@@ -25,11 +25,11 @@
  */
 package org.fujionclinical.fhir.scenario.r4;
 
-import edu.utah.kmm.model.cool.foundation.core.Identifiable;
-import edu.utah.kmm.model.cool.foundation.entity.Person;
-import edu.utah.kmm.model.cool.mediator.fhir.r4.common.R4DataSource;
-import edu.utah.kmm.model.cool.mediator.fhir.r4.encounter.EncounterTransform;
-import edu.utah.kmm.model.cool.mediator.fhir.r4.patient.PatientTransform;
+import org.coolmodel.foundation.core.Identifiable;
+import org.coolmodel.foundation.entity.Person;
+import org.coolmodel.mediator.fhir.r4.common.R4DataSource;
+import org.coolmodel.mediator.fhir.r4.encounter.EncounterTransform;
+import org.coolmodel.mediator.fhir.r4.patient.PatientTransform;
 import org.fujionclinical.fhir.scenario.common.ScenarioBase;
 import org.fujionclinical.fhir.scenario.common.ScenarioFactory;
 import org.hl7.fhir.instance.model.api.IBaseBundle;

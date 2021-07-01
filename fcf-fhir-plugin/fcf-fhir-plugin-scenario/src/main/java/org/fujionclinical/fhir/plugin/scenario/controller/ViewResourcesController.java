@@ -27,9 +27,9 @@ package org.fujionclinical.fhir.plugin.scenario.controller;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
-import edu.utah.kmm.model.cool.mediator.datasource.DataSources;
-import edu.utah.kmm.model.cool.mediator.fhir.common.AbstractFhirDataSource;
-import edu.utah.kmm.model.cool.mediator.fhir.common.FhirUtils;
+import org.coolmodel.mediator.datasource.DataSources;
+import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
+import org.coolmodel.mediator.fhir.common.FhirUtils;
 import org.fujion.ancillary.IResponseCallback;
 import org.fujion.annotation.EventHandler;
 import org.fujion.annotation.WiredComponent;
