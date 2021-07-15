@@ -25,8 +25,8 @@
  */
 package org.fujionclinical.fhir.security.common.oauth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.Validate;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.fujion.common.MiscUtil;
 
 import java.io.Serializable;
