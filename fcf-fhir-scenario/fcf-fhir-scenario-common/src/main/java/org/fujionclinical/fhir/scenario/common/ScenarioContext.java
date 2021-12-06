@@ -51,6 +51,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
     /**
      * Returns the managed scenario context.
      *
+     * @param <SCENARIO> The scenario type.
      * @return Scenario context.
      */
     public static <SCENARIO extends ScenarioBase> ScenarioContext<SCENARIO> getScenarioContext() {
@@ -61,6 +62,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
      * Request a scenario context change.
      *
      * @param scenario New scenario.
+     * @param <SCENARIO> The scenario type.
      */
     public static <SCENARIO extends ScenarioBase> void changeScenario(SCENARIO scenario) {
         try {
@@ -83,6 +85,7 @@ public class ScenarioContext<SCENARIO extends ScenarioBase> extends ManagedConte
     /**
      * Returns the scenario in the current context.
      *
+     * @param <SCENARIO> The scenario type.
      * @return Scenario object (may be null).
      */
     public static <SCENARIO extends ScenarioBase> SCENARIO getActiveScenario() {

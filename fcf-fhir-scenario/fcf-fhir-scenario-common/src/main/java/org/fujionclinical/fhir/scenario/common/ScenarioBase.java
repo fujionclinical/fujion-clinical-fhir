@@ -138,6 +138,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * Returns resources related to the reference resource (using $everything operation).
      *
      * @param resource The reference resource.
+     * @param <T> The resource type.
      * @return All resources related to the reference resource.
      */
     protected abstract <T extends IBaseResource> List<T> _relatedResources(T resource);
@@ -146,6 +147,7 @@ public abstract class ScenarioBase<LIST extends IBaseResource> {
      * Extracts entries from a bundle resource.
      *
      * @param bundle The bundle resource.
+     * @param <T> The type of bundled resource.
      * @return List of resources extracted from the bundle resource.
      */
     protected abstract <T extends IBaseResource> List<T> _getEntries(IBaseBundle bundle);

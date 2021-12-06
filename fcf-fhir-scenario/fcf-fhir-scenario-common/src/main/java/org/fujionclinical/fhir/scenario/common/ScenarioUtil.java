@@ -139,6 +139,7 @@ public class ScenarioUtil {
      *
      * @param resource  The resource to examine.
      * @param scenarios A map of registered scenarios.
+     * @param <SCENARIO> The scenario type.
      * @return The associated scenario, or null if none.
      */
     public static <SCENARIO extends ScenarioBase<?>> SCENARIO getScenario(
