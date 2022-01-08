@@ -14,7 +14,6 @@
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
             <artifactId>hapi-fhir-structures-dstu2</artifactId>
-            <version>${hapi-fhir.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fujionclinical</groupId>
