@@ -34,6 +34,10 @@
             </property>
         </bean>
 
+        <bean id="fhirDataSourceFactory"
+              class="org.fujionclinical.fhir.api.common.client.FhirDataSourceFactory"/>
+
+
         <bean id="fhirNarrativeService" class="org.fujionclinical.fhir.api.common.core.NarrativeService"/>
 
         <bean class="org.coolmodel.mediator.fhir.transform.TagTransform" factory-method="getInstance"/>

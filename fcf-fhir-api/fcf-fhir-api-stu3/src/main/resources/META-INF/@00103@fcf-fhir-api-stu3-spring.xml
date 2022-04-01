@@ -8,10 +8,7 @@
 
         <!-- Data Source Configuration -->
 
-        <bean id="stu3DataSourceFactory"
-              class="org.fujionclinical.fhir.api.stu3.common.Stu3DataSourceFactory"/>
-
-        <bean id="stu3DataSource" factory-bean="stu3DataSourceFactory" factory-method="create">
+        <bean id="stu3DataSource" factory-bean="fhirDataSourceFactory" factory-method="create">
             <constructor-arg value="FHIR_STU3"/>
         </bean>
 

@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.resource.Subscription;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionChannelTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionStatusEnum;
-import org.coolmodel.core.terminology.ConceptImpl;
+import org.clinicalontology.terminology.impl.ConceptImpl;
 import org.coolmodel.mediator.fhir.dstu2.common.Dstu2Utils;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;

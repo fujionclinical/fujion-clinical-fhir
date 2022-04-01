@@ -30,7 +30,7 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.coolmodel.core.terminology.ConceptImpl;
+import org.clinicalontology.terminology.impl.ConceptImpl;
 import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujion.common.Assert;
 import org.fujionclinical.api.event.EventMessage;

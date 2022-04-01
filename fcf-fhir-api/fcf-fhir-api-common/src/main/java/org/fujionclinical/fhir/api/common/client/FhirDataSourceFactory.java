@@ -28,24 +28,21 @@ package org.fujionclinical.fhir.api.common.client;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.client.impl.GenericClient;
 import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
+import org.coolmodel.mediator.fhir.common.FhirUtils;
 import org.fujionclinical.fhir.security.common.IAuthInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
- * Base class for all FHIR data sources.  FHIR connection settings are taken from a configurator using the
+ *  Factory for creating FHIR data sources.  FHIR connection settings are taken from a configurator using the
  * data source ID as the qualifier for property names.
  */
-public abstract class AbstractFhirDataSourceFactory<T extends AbstractFhirDataSource<?, ?>> implements ApplicationContextAware {
+public class FhirDataSourceFactory implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    abstract protected T create(
-            String dataSourceId,
-            IGenericClient client);
-
-    public T create(String dataSourceId) {
+    public AbstractFhirDataSource<?, ?> create(String dataSourceId) {
         FhirConfigurator config = new FhirConfigurator(dataSourceId);
         config.setApplicationContext(applicationContext);
         FhirContext fhirContext = new FhirContext(config);
@@ -64,7 +61,7 @@ public abstract class AbstractFhirDataSourceFactory<T extends AbstractFhirDataSo
         client.setPrettyPrint(config.isPrettyPrint());
         client.setEncoding(config.getEncoding());
         client.setSummary(config.getSummary());
-        return create(dataSourceId, client);
+        return FhirUtils.createDataSource(dataSourceId, client);
     }
 
     @Override

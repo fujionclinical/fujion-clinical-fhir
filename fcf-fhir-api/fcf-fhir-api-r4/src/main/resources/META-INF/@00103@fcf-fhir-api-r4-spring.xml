@@ -8,10 +8,7 @@
 
         <!-- Data Source Configuration -->
 
-        <bean id="r4DataSourceFactory"
-              class="org.fujionclinical.fhir.api.r4.common.R4DataSourceFactory"/>
-
-        <bean id="r4DataSource" factory-bean="r4DataSourceFactory" factory-method="create">
+        <bean id="r4DataSource" factory-bean="fhirDataSourceFactory" factory-method="create">
             <constructor-arg value="FHIR_R4"/>
         </bean>
 

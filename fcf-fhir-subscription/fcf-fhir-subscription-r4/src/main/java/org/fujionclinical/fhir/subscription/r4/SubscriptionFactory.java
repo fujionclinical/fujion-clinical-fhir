@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.r4;
 
-import org.coolmodel.core.terminology.ConceptImpl;
+import org.clinicalontology.terminology.impl.ConceptImpl;
 import org.coolmodel.mediator.fhir.r4.common.R4Utils;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
