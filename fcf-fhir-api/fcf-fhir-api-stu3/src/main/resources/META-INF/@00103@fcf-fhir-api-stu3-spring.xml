@@ -15,7 +15,7 @@
         <!-- Load formatters -->
 
         <bean class="org.fujionclinical.api.spring.SpringUtil" factory-method="loadClass">
-            <constructor-arg value="org.fujionclinical.fhir.api.stu3.common.Stu3Formatters"/>
+            <constructor-arg value="org.coolmodel.mediator.fhir.stu3.common.Stu3Formatters"/>
         </bean>
 
         <!-- Initialize model -->
