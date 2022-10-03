@@ -40,6 +40,7 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/auth")
+@SuppressWarnings("rawtypes")
 public class MockAuthenticationServer {
 
     private static final int INITIAL_EXPIRATION_INTERVAL = 10;
@@ -69,7 +70,7 @@ public class MockAuthenticationServer {
         }
 
         private void setExpirationTime(int expirationInterval) {
-            expirationTime = System.currentTimeMillis() + expirationInterval * 1000;
+            expirationTime = System.currentTimeMillis() + expirationInterval * 1000L;
         }
 
         void resetExpirationTime() {
