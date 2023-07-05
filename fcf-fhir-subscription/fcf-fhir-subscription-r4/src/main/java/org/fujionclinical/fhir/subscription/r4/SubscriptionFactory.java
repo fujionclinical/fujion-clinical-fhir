@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.subscription.r4;
 
-import org.clinicalontology.terminology.impl.ConceptImpl;
+import org.clinicalontology.terminology.impl.model.ConceptImpl;
 import org.coolmodel.mediator.fhir.r4.common.R4Utils;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
@@ -35,7 +35,7 @@ import org.hl7.fhir.r4.model.Subscription;
 public class SubscriptionFactory extends BaseSubscriptionFactory {
 
     public SubscriptionFactory() {
-        this(R4Utils.FHIR_R4.getId());
+        this(R4Utils.getModelDescriptor().getId());
     }
 
     public SubscriptionFactory(String dataSourceId) {

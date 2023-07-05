@@ -29,7 +29,7 @@ import ca.uhn.fhir.model.dstu2.composite.CodingDt;
 import ca.uhn.fhir.model.dstu2.resource.Subscription;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionChannelTypeEnum;
 import ca.uhn.fhir.model.dstu2.valueset.SubscriptionStatusEnum;
-import org.clinicalontology.terminology.impl.ConceptImpl;
+import org.clinicalontology.terminology.impl.model.ConceptImpl;
 import org.coolmodel.mediator.fhir.dstu2.common.Dstu2Utils;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionFactory;
 import org.fujionclinical.fhir.subscription.common.BaseSubscriptionWrapper;
@@ -40,7 +40,7 @@ import java.util.Collections;
 public class SubscriptionFactory extends BaseSubscriptionFactory {
 
     public SubscriptionFactory() {
-        this(Dstu2Utils.FHIR_DSTU2.getId());
+        this(Dstu2Utils.getModelDescriptor().getId());
     }
 
     public SubscriptionFactory(String dataSourceId) {

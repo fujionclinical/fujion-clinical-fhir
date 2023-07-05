@@ -30,7 +30,7 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.clinicalontology.terminology.impl.ConceptImpl;
+import org.clinicalontology.terminology.impl.model.ConceptImpl;
 import org.coolmodel.mediator.fhir.common.AbstractFhirDataSource;
 import org.fujion.common.Assert;
 import org.fujionclinical.api.event.EventMessage;
@@ -138,7 +138,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      * Associate a FCF event with a FHIR subscription (creating a new FHIR subscription as
      * necessary).
      *
-     * @param criteria The subscription criteria (see FHIR specification).
+     * @param criteria   The subscription criteria (see FHIR specification).
      * @param dataSource The data source.
      * @return The subscription wrapper.
      */
@@ -154,7 +154,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      *
      * @param criteria    The subscription criteria (see FHIR specification).
      * @param payloadType The expected type of the payload.
-     * @param dataSource The data source.
+     * @param dataSource  The data source.
      * @return The subscription wrapper.
      */
     public synchronized BaseSubscriptionWrapper<?> subscribe(
@@ -221,7 +221,7 @@ public class ResourceSubscriptionService implements BeanPostProcessor {
      *
      * @param criteria    The subscription criteria.
      * @param payloadType The expected type of the payload.
-     * @param dataSource The data source.
+     * @param dataSource  The data source.
      * @return The subscription wrapper (never null).
      */
     private BaseSubscriptionWrapper<?> getOrCreateSubscription(
