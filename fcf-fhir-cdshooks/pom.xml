@@ -13,7 +13,7 @@
 	<name>FHIR CDS Hooks Service</name>
 
 	<properties>
-		<opencds.version>3.1.0-SNAPSHOT</opencds.version>
+		<opencds.version>3.3.16</opencds.version>
 	</properties>
 
 	<dependencies>
