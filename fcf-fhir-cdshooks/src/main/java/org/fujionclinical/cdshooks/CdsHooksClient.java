@@ -27,10 +27,16 @@ package org.fujionclinical.cdshooks;
 
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.TrustStrategy;
+import org.apache.hc.client5.http.config.TlsConfig;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.http.ssl.TLS;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.ssl.TrustStrategy;
+import org.apache.hc.core5.util.Timeout;
 import org.fujion.common.Assert;
 import org.fujion.common.Logger;
 import org.fujion.thread.ThreadUtil;
@@ -131,7 +137,7 @@ public class CdsHooksClient {
     private static final int RETRY_INTERVAL = 10;
 
     private final RestTemplate restTemplate;
-    
+
     private final String discoveryEndpoint;
 
     private final List<InvocationRequest> pendingRequests = new ArrayList<>();
@@ -147,30 +153,37 @@ public class CdsHooksClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return execution.execute(request, body);
     };
-    
+
     /**
      * Create and initialize a client for the given endpoint.
      *
      * @param discoveryEndpoint The URL of the discovery endpoint.
-     * @exception Exception unspecified exception.
+     * @throws Exception unspecified exception.
      */
     public CdsHooksClient(String discoveryEndpoint) throws Exception {
-            TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
-            SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy)
-                    .build();
-            SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
-            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
-            HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-            requestFactory.setHttpClient(httpClient);
-            restTemplate = new RestTemplate(requestFactory);
-            restTemplate.setInterceptors(Collections.singletonList(contentTypeInterceptor));
+        TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
+        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(acceptingTrustStrategy).build();
+        SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
+        final HttpClientConnectionManager cm = PoolingHttpClientConnectionManagerBuilder.create()
+                .setSSLSocketFactory(csf)
+                .setDefaultTlsConfig(TlsConfig.custom()
+                        .setHandshakeTimeout(Timeout.ofSeconds(30))
+                        .setSupportedProtocols(TLS.V_1_3)
+                        .build())
+                .build();
 
-            if (!discoveryEndpoint.endsWith("/cds-services")) {
-                discoveryEndpoint += "/cds-services";
-            }
+        CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(cm).build();
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+        requestFactory.setHttpClient(httpClient);
+        restTemplate = new RestTemplate(requestFactory);
+        restTemplate.setInterceptors(Collections.singletonList(contentTypeInterceptor));
 
-            this.discoveryEndpoint = StringUtils.trimToNull(discoveryEndpoint);
-            loadCatalog();
+        if (!discoveryEndpoint.endsWith("/cds-services")) {
+            discoveryEndpoint += "/cds-services";
+        }
+
+        this.discoveryEndpoint = StringUtils.trimToNull(discoveryEndpoint);
+        loadCatalog();
     }
 
     /**
@@ -200,19 +213,19 @@ public class CdsHooksClient {
      * Retry attempt to load catalog after retry interval has expired.
      */
     private void retry() {
-        if (catalog == null)      {
+        if (catalog == null) {
             if (--retries < 0) {
                 inactive = true;
                 pendingRequests.clear();
                 log.error("Maximum retries exceeded while attempting to load catalog for endpoint " + discoveryEndpoint
-                    + ".\nThis service will be unavailabe.");
+                        + ".\nThis service will be unavailabe.");
             } else {
                 try {
                     sleep(RETRY_INTERVAL * 1000);
                     _loadCatalog();
                 } catch (InterruptedException e) {
                     log.warn("Thread for loading CDS Hooks catalog for " + discoveryEndpoint + "has been interrupted"
-                        + ".\nThis service will be unavailable.");
+                            + ".\nThis service will be unavailable.");
                 }
             }
         }
@@ -234,7 +247,7 @@ public class CdsHooksClient {
                 }
             } catch (Exception e) {
                 log.warn("Failed to load CDS catalog for " + discoveryEndpoint
-                    + ".\nRetries remaining: " + retries + ".");
+                        + ".\nRetries remaining: " + retries + ".");
             }
 
             retry();
@@ -264,9 +277,9 @@ public class CdsHooksClient {
      * yet been initialized, the request is queued.  Otherwise, it is started in a worker thread.
      *
      * @param fhirClient The FHIR client.
-     * @param hookType The hook type.
-     * @param context The hook context.
-     * @param callback The function to call upon completion.
+     * @param hookType   The hook type.
+     * @param context    The hook context.
+     * @param callback   The function to call upon completion.
      * @return The newly created invocation request.
      */
     public InvocationRequest createInvocationRequest(IGenericClient fhirClient, String hookType, CdsHooksContext context, Consumer<InvocationRequest> callback) {
@@ -303,20 +316,20 @@ public class CdsHooksClient {
      *
      * @param id The service id.
      * @return The service with the specified id.
-     * @exception IllegalArgumentException Thrown if no service with the specified id exists.
+     * @throws IllegalArgumentException Thrown if no service with the specified id exists.
      */
     public Service getService(String id) {
         Service service = catalog.getService(id);
         Assert.notNull(service, "No service with id '%s' found", id);
         return service;
     }
-    
+
     /**
      * Generates a prepared CDS Hooks request.
      *
      * @param fhirClient The FHIR client.
-     * @param service The hook service.
-     * @param context The hook context.
+     * @param service    The hook service.
+     * @param context    The hook context.
      * @return A prepared CDS Hooks request.
      */
     private CdsHooksPreparedRequest prepareRequest(IGenericClient fhirClient, Service service, CdsHooksContext context) {
@@ -349,5 +362,5 @@ public class CdsHooksClient {
 
         return response;
     }
-    
+
 }

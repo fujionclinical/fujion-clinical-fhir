@@ -25,7 +25,7 @@
  */
 package org.fujionclinical.fhir.smart.launch.oidc;
 
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.fujionclinical.fhir.smart.common.ISmartContextBinder;
 import org.fujionclinical.fhir.smart.common.SmartContextBase.ContextMap;
 import org.springframework.beans.factory.annotation.Value;

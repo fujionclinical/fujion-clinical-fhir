@@ -7,15 +7,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This Source Code Form is also subject to the terms of the Health-Related
  * Additional Disclaimer of Warranty and Limitation of Liability available at
  *
@@ -25,9 +25,9 @@
  */
 package org.fujionclinical.fhir.api.common.core;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.IOUtils;
 import org.coolmodel.mediator.fhir.common.FhirUtils;
+import org.fujion.core.BeanUtil;
 import org.hl7.fhir.instance.model.api.IBaseCoding;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -221,14 +221,14 @@ public class FhirUtil {
      * @param object       The object containing the property.
      * @param propertyName The name of the property.
      * @return The value of the property. A null return value may mean the property does not exist
-     *         or the property getter returned null. Will never throw an exception.
+     * or the property getter returned null. Will never throw an exception.
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> getListProperty(
             Object object,
             String propertyName) {
         try {
-            Object value = PropertyUtils.getSimpleProperty(object, propertyName);
+            Object value = BeanUtil.getPropertyValue(object, propertyName);
             return value == null ? null : value instanceof List ? (List<T>) value : Collections.singletonList((T) value);
         } catch (Exception e) {
             return null;
